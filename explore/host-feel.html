@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Host: less empty</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1100px; }
+  h2.row-h { font-size: 17px; margin: 8px 0 4px; } .row-sub { color: #6A6A6A; margin-bottom: 16px; max-width: 1100px; }
+  .wrap { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 48px; }
+  .col { width: 340px; flex: none; }
+  .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; min-height: 90px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 11px; font-weight: 600; vertical-align: 1px; }
+
+  .ph { position: relative; width: 340px; height: 990px; background: #fff; border-radius: 36px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 6px solid #111; }
+  .sb { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 26px; font-size: 13px; font-weight: 600; }
+  .sb.w { color: #fff; }
+  .ic { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .muted { color: #6A6A6A; }
+  .in { padding: 0 20px; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 52px 20px 0; }
+  .mode { font-size: 11px; font-weight: 600; color: #1C522C; }
+  .sw { height: 30px; padding: 0 11px; border-radius: 999px; border: 1px solid #EBEBEB; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; background: #fff; }
+  h3.hi { font-size: 23px; line-height: 28px; font-weight: 700; margin-top: 10px; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 22px 0 10px; } .sh h4 { font-size: 15px; font-weight: 700; } .sh a { font-size: 11px; font-weight: 600; color: #1C522C; }
+  .line { height: 1px; background: #EBEBEB; margin: 18px 20px 0; }
+
+  .photo { border-radius: 22px; background: #a9b9a8 center / cover; }
+  .when { font-size: 11px; color: #6A6A6A; margin-top: 8px; } .ttl { font-size: 14px; font-weight: 600; line-height: 19px; margin-top: 2px; }
+  .meta { display: flex; gap: 12px; font-size: 11px; color: #6A6A6A; margin-top: 4px; } .alert { color: #B42318; }
+  .row { display: flex; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid #EBEBEB; font-size: 12px; } .row:first-of-type { border-top: 0; }
+  .row b { display: block; font-size: 13px; } .row small { display: block; font-size: 11px; color: #6A6A6A; } .row .ic { color: #6A6A6A; }
+  .amt { font-size: 19px; font-weight: 700; } .amt + small { display: block; font-size: 11px; color: #6A6A6A; }
+
+  /* faces */
+  .faces { display: flex; align-items: center; margin-top: 10px; } .faces > span { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; background: #EEE center / cover; display: grid; place-items: center; font-size: 10px; font-weight: 600; color: #3D3D3D; }
+  .faces > span:first-child { margin-left: 0; } .faces em { white-space: nowrap; font-style: normal; font-size: 11px; color: #6A6A6A; margin-left: 8px; }
+
+  /* cover (A) */
+  .cover { position: relative; height: 300px; background: #8aa38c center / cover; color: #fff; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 30%, transparent 50%, rgba(0,0,0,.55)); }
+  .cover > * { position: relative; z-index: 1; } .cover .top { padding-top: 52px; } .cover .mode { color: #fff; } .cover .sw { color: #222; }
+  .cover h3 { position: absolute; left: 20px; bottom: 54px; font-size: 24px; line-height: 29px; }
+  .cover p { position: absolute; left: 20px; bottom: 34px; font-size: 12px; opacity: .9; }
+  .float { position: relative; z-index: 3; margin: -22px 16px 0; padding: 12px 14px; border-radius: 20px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.08); display: flex; gap: 12px; align-items: center; }
+  .float b { display: block; font-size: 13px; } .float small { display: block; font-size: 11px; color: #6A6A6A; } .float .go { margin-left: auto; height: 32px; padding: 0 12px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; }
+
+  /* week strip (B) */
+  .week { display: flex; gap: 8px; overflow: hidden; } .wk { flex: none; width: 66px; padding: 10px 8px; border-radius: 16px; border: 1px solid #EBEBEB; text-align: center; }
+  .wk.on { border-color: #222; } .wk small { display: block; font-size: 10px; color: #6A6A6A; } .wk b { display: block; font-size: 15px; margin: 2px 0 6px; }
+  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; } .bar i { display: block; height: 100%; background: #222; } .wk em { display: block; font-style: normal; font-size: 10px; color: #6A6A6A; margin-top: 4px; }
+
+  /* impact band */
+  .band { position: relative; margin-top: 22px; height: 150px; background: #6f8b74 center / cover; color: #fff; display: flex; align-items: flex-end; padding: 14px 20px; }
+  .band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,.6)); }
+  .band > div { position: relative; display: flex; gap: 22px; } .band b { display: block; font-size: 24px; font-weight: 800; line-height: 28px; } .band small { font-size: 11px; font-weight: 500; }
+
+  .tabs { position: absolute; z-index: 4; left: 12px; right: 12px; bottom: 14px; height: 54px; border-radius: 999px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: space-around; }
+  .tabs span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #6A6A6A; padding: 5px 9px; border-radius: 999px; }
+  .tabs span.on { color: #D7263D; background: #FDECEE; }
+
+  /* menu */
+  .mcover { position: relative; height: 170px; background: #8aa38c center / cover; }
+  .hill { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 30px; fill: #fff; }
+  .me { position: relative; width: 84px; height: 84px; margin: -48px 0 0 20px; z-index: 2; } .me img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 6px 20px rgba(0,0,0,.12); }
+  .me svg { position: absolute; right: 0; bottom: 4px; width: 24px; height: 24px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; } .stats b { display: block; font-size: 17px; } .stats small { font-size: 10px; color: #6A6A6A; }
+  .verdict { max-width: 1100px; background: #fff; border-radius: 16px; padding: 18px 20px; margin-bottom: 40px; }
+  .verdict h2 { font-size: 16px; margin-bottom: 8px; } .verdict li { margin: 4px 0 4px 18px; font-size: 13px; line-height: 19px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="seal" viewBox="0 0 24 24"><path fill="#1D9BF0" d="M12 1.5l2.6 1.9 3.2-.2 1 3 2.7 1.8-1 3 1 3-2.7 1.8-1 3-3.2-.2L12 22.5l-2.6-1.9-3.2.2-1-3-2.7-1.8 1-3-1-3 2.7-1.8 1-3 3.2.2z"/><path d="M8 12.2l2.6 2.6L16.2 9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 256 256"><path d="M176 40l40 40-40 40M216 80H40M80 216l-40-40 40-40M40 176h176"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 256 256"><path d="M32 88a32 32 0 0 0 0 80v32h192v-32a32 32 0 0 1 0-80V56H32z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 256 256"><path d="M128 24l31 66 72 8-54 49 15 71-64-37-64 37 15-71-54-49 72-8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 256 256"><path d="M24 176h208M64 176a64 64 0 0 1 128 0M128 64V40M70 90 54 74M186 90l16-16"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 256 256"><rect x="40" y="48" width="176" height="168" rx="12"/><path d="M40 96h176M88 32v32M168 32v32"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 256 256"><rect x="48" y="48" width="64" height="64" rx="8"/><rect x="144" y="48" width="64" height="64" rx="8"/><rect x="48" y="144" width="64" height="64" rx="8"/><rect x="144" y="144" width="64" height="64" rx="8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 256 256"><path d="M40 64h176M40 128h176M40 192h176"/></symbol>
+  <symbol id="i-money" viewBox="0 0 256 256"><rect x="24" y="64" width="208" height="128" rx="12"/><circle cx="128" cy="128" r="28"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 256 256"><path d="M24 96h208L128 40zM48 96v88M104 96v88M152 96v88M208 96v88M24 208h208"/></symbol>
+</svg>
+
+<h1>Host: why it feels empty, and 3 ways to fill it with something useful</h1>
+<p class="sub">Today is all text rows on white: the only photo is one card, and there are no people in it. Guest Home feels alive because of photos, faces and the impact band. Each idea below adds one of those with a job (MIMS), not decoration. Red outline = recommended.</p>
+
+<h2 class="row-h">1 · Today (host home)</h2>
+<p class="row-sub">Same data in every option: Sat 5 Dec class (6 of 8, 1 peanut allergy), 2 to-dos, RM 408 on Sun 6 Dec, 42 meals given.</p>
+<div class="wrap">
+  <div class="col">
+    <b>Now</b>
+    <p>One photo card, then three text blocks. Correct, but nothing says "people are coming to your garden on Saturday".</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:12px;height:12px"><use href="#i-swap"/></svg>Switch to guest</span></div>
+      <div class="in">
+        <h3 class="hi">Selamat pagi, Aina</h3>
+        <div class="sh"><h4>Next class</h4><a>All bookings</a></div>
+        <div class="photo js-kuih" style="height:150px"></div>
+        <div class="when">In 3 days · Sat, 5 Dec · 9:00 – 11:30 AM</div><div class="ttl">Kuih morning in a PJ community garden</div>
+        <div class="meta"><span>6 of 8 guests</span><span class="alert">1 peanut allergy</span></div>
+        <div class="sh"><h4>To do</h4></div>
+        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult · vegetarian</small></div></div>
+        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div></div>
+        <div class="sh"><h4>Next payout</h4><a>Earnings</a></div>
+        <div class="amt">RM 408.00</div><small class="muted" style="font-size:11px">Sun, 6 Dec · CIMB •• 3307</small>
+      </div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <b>A · Garden cover, like guest Home</b>
+    <p>Her garden as a cover with the greeting on it; the next class floats on its edge like Home's search bar. Warm and on-brand, but the cover itself only decorates (Home's cover leads to search; this one leads nowhere).</p>
+    <div class="ph">
+      <div class="sb w"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="cover js-garden">
+        <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:12px;height:12px"><use href="#i-swap"/></svg>Switch to guest</span></div>
+        <h3>Selamat pagi, Aina</h3><p>Your garden class is in 3 days</p>
+      </div>
+      <div class="float"><div><b>Sat, 5 Dec · 9:00 AM</b><small>6 of 8 guests · <span class="alert">1 peanut allergy</span></small></div><span class="go">Guest list</span></div>
+      <div class="in">
+        <div class="sh"><h4>To do</h4></div>
+        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult · vegetarian</small></div></div>
+        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div></div>
+        <div class="sh"><h4>Next payout</h4><a>Earnings</a></div>
+        <div class="amt">RM 408.00</div><small class="muted" style="font-size:11px">Sun, 6 Dec · CIMB •• 3307</small>
+      </div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+
+  <div class="col rec">
+    <b>B · Faces, the weeks ahead, her impact<span class="tag">Recommended</span></b>
+    <p>Three additions that each answer a host's question: who's coming (guest faces on the class card), how full are the next Saturdays (week strip, taps to Calendar), why I do this (impact band, the same pattern as guest Home). To-dos stay; the payout lives on Earnings (one tap from Menu).</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:12px;height:12px"><use href="#i-swap"/></svg>Switch to guest</span></div>
+      <div class="in">
+        <h3 class="hi">Selamat pagi, Aina</h3>
+        <div class="sh"><h4>Next class · in 3 days</h4><a>Guest list</a></div>
+        <div class="photo js-kuih" style="height:130px"></div>
+        <div class="when">Sat, 5 Dec · 9:00 – 11:30 AM</div>
+        <div class="faces"><span class="js-aisyah"></span><span>PN</span><span>HI</span><em>6 of 8 · <span class="alert">1 peanut allergy</span></em></div>
+        <div class="sh"><h4>Coming Saturdays</h4><a>Calendar</a></div>
+        <div class="week">
+          <div class="wk on"><small>Sat</small><b>5</b><div class="bar"><i style="width:75%"></i></div><em>6 / 8</em></div>
+          <div class="wk"><small>Sat</small><b>12</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
+          <div class="wk"><small>Sun</small><b>20</b><div class="bar"><i style="width:0"></i></div><em>New slot</em></div>
+          <div class="wk" style="opacity:.5"><small>Sat</small><b><s>26</s></b><div class="bar"></div><em>Blocked</em></div>
+        </div>
+        <div class="sh"><h4>To do</h4></div>
+        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult</small></div></div>
+        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div></div>
+      </div>
+      <div class="band js-garden"><div><div><b>42</b><small>meals to the PJ food bank</small></div><div><b>11</b><small>guests hosted</small></div></div></div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="row-h">2 · Menu (her host profile)</h2>
+<p class="row-sub">The guest Account already has a cover photo with the hill edge and her round photo. Host Menu is the same person, so it should look like the same family.</p>
+<div class="wrap">
+  <div class="col">
+    <b>Now</b>
+    <p>Grey initials-style photo, then lists. Reads like a settings page, not a host's profile.</p>
+    <div class="ph" style="height:560px">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="in" style="padding-top:56px">
+        <h3 class="hi" style="margin-top:0">Menu</h3>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:14px"><img class="js-aina-img" style="width:56px;height:56px;border-radius:50%;object-fit:cover" alt=""><div><b>Aina Rahman</b><small class="muted" style="display:block;font-size:11px">Host since Nov 2026 · Petaling Jaya</small></div></div>
+        <div class="stats"><div><b>5.0</b><small>3 reviews</small></div><div><b>11</b><small>guests hosted</small></div><div><b>42</b><small>meals given</small></div></div>
+        <div class="sh"><h4>Money</h4></div>
+        <div class="row"><svg class="ic"><use href="#i-money"/></svg><div><b>Earnings</b><small>RM 408 on Sun, 6 Dec</small></div></div>
+        <div class="row"><svg class="ic"><use href="#i-bank"/></svg><div><b>Bank details</b><small>CIMB •• 3307 · Verified</small></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="col rec">
+    <b>Garden cover + round photo, like Account<span class="tag">Recommended</span></b>
+    <p>Her garden photo with the hill edge, her round photo overlapping it with the verified tick she earned (MIMS: whose is it), then the same numbers and rows. One look for "me" in both modes.</p>
+    <div class="ph" style="height:560px">
+      <div class="sb w"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="mcover js-garden"><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div>
+      <div class="me"><img class="js-aina-img" alt=""><svg><use href="#seal"/></svg></div>
+      <div class="in">
+        <h3 class="hi" style="margin-top:8px">Aina Rahman</h3><small class="muted" style="font-size:11px">Host since Nov 2026 · Petaling Jaya</small>
+        <div class="stats"><div><b>5.0</b><small>3 reviews</small></div><div><b>11</b><small>guests hosted</small></div><div><b>42</b><small>meals given</small></div></div>
+        <div class="sh"><h4>Money</h4></div>
+        <div class="row"><svg class="ic"><use href="#i-money"/></svg><div><b>Earnings</b><small>RM 408 on Sun, 6 Dec</small></div></div>
+        <div class="row"><svg class="ic"><use href="#i-bank"/></svg><div><b>Bank details</b><small>CIMB •• 3307 · Verified</small></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h2>MIMS</h2>
+  <ul>
+    <li><b>Recommend B for Today + the Menu cover.</b> Every addition has a job: faces = who's coming (H11 guest list, at a glance); week strip = capacity per slot (H8, Calendar); impact band = the trust/impact story the brief leads with (Goal 1), the same pattern as guest Home (Q14).</li>
+    <li><b>Not A's cover on Today:</b> a cover with no action is decoration; the faces and the impact photo bring the warmth instead.</li>
+    <li><b>Same pass on the other host screens:</b> Bookings and the guest list get guest photos where we have them (initials otherwise); Listings already leads with her photo.</li>
+    <li><b>Duplicates checked:</b> payout stays on Earnings and Menu (removed from Today in B, since Menu › Earnings shows it); "6 of 8" appears once on Today.</li>
+  </ul>
+</div>
+
+<script>
+  var u = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; };
+  function bg(sel, id, w) { document.querySelectorAll(sel).forEach(function (e) { e.style.backgroundImage = 'url(' + u(id, w) + ')'; }); }
+  bg('.js-kuih', '1679541946014-a47f1ec0dc1a', 700);
+  bg('.js-garden', '1505471768190-275e2ad7b3f9', 800);
+  bg('.js-aisyah', '1613447895817-e617a4093f50', 80);
+  document.querySelectorAll('.js-aina-img').forEach(function (i) { i.src = u('1545266241-3516e2a6e016', 200); });
+</script>
+</body>
+</html>
