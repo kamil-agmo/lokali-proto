@@ -4,24 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Booking details</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
   <style>
 .bk-hero { position: relative; height: 210px; } .bk-hero img { width: 100%; height: 100%; object-fit: cover; }
   </style>
 <style>
   /* MIMS 27 Nov: status as plain text (every booking is confirmed instantly), cancel set apart as a danger action */
   /* MIMS 27 Nov (2): same photo as the Bookings card with the hill edge; open sections, grey row icons, 28/700 title */
-  .bk-hero { position: relative; } .bk-hero .hill { position: absolute; left: 0; right: 0; bottom: -3px; width: 100%; height: 43px; display: block; fill: var(--bg); z-index: 2; pointer-events: none; }
+  .bk-hero { position: relative; height: 240px !important; }
+  /* the white panel used to start 20px up with a flat top and cut through the wave; the wave alone is the edge now */
+  html body.m .bk-hero + .sheet-top { margin-top: 0 !important; border-radius: 0 !important; background: transparent !important; position: relative; z-index: 3; } .bk-hero .hill { position: absolute; left: 0; right: 0; bottom: -3px; width: 100%; height: 43px; display: block; fill: var(--bg); z-index: 2; pointer-events: none; }
   .bd-sec { padding-top: 20px; border-top: 1px solid var(--line); }
   html body.m .sheet-top h1 { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; }
   .bd-h { font-size: 18px; line-height: 24px; font-weight: 700; margin-bottom: 8px; }
@@ -56,8 +58,8 @@
     <div class="grid-2 mt3"><button class="btn btn--primary" data-go="g-chat"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i>Message</button><button class="btn btn--secondary" data-toast="Calling +60 13-347 2251" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i>Call</button></div>
   </section>
 
-  <section aria-labelledby="mp-h">
-    <h2 class="sec-h is-h3" id="mp-h" style="margin-bottom:12px">Meeting point</h2>
+  <section class="bd-sec" aria-labelledby="mp-h">
+    <h2 class="bd-h" id="mp-h" style="margin:0 0 12px">Meeting point</h2>
     <div class="map" style="height:160px"><i class="ph-fill ph-map-pin pin-dot" style="left:48%;top:60%" aria-hidden="true"></i></div>
     <p class="mt3"><b>Jeti Kampung Kuantan</b><br><span class="small muted">Jalan Kuantan, 45000 Kuala Selangor, Selangor</span></p>
     <p class="small muted mt1">Look for the green boat shed next to the surau. Free parking.</p>
@@ -87,9 +89,9 @@
 
   <p class="center small"><a href="#" class="muted" data-toast="Our support team will contact you within 24 hours" data-toast-icon="ph-lifebuoy"><i class="ph ph-lifebuoy" aria-hidden="true"></i> Report a problem with this booking</a></p>
 </div>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-booking', [['Ref', 'LK-24817'], ['Status', 'In 4 days'], ['Free cancellation', 'Until Thu, 3 Dec, 5:00 PM'], ['Address', 'Full address visible after booking']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

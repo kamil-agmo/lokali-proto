@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Earnings</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Host Earnings in Airy (2 Dec): the next payout first (amount, commission, when), then paid history, then where the money goes.
    Open sections split by hairlines, no balance card, no tinted icon tiles, no tabs (2 payouts so far). */
@@ -36,24 +36,57 @@
 .po > .ph:first-child { font-size: 22px; color: var(--ink); }
 .bd .kv { font-size: 15px; } .bd-note { margin-top: 12px; font-size: 13px; line-height: 18px; color: var(--muted); }
 </style>
+<style>
+  .eh { position: relative; padding: calc(var(--sb) + 52px) 24px 22px; background: linear-gradient(160deg, #1C522C, #37664A 60%, #4f8a5f); color: #fff; overflow: hidden; }
+  html body.m .eh .eh-back { position: absolute !important; z-index: 2; top: calc(var(--sb) + 4px); left: 8px; color: #fff !important; background: none !important; box-shadow: none !important; } .eh-back .ph { color: #fff !important; font-size: 22px; }
+  .eh-sp { position: absolute; border-radius: 50%; } .eh-sp1 { width: 140px; height: 140px; right: -40px; top: -30px; background: rgba(255,255,255,.08); } .eh-sp2 { width: 10px; height: 10px; right: 64px; top: calc(var(--sb) + 40px); background: #CFA83E; } .eh-sp3 { width: 6px; height: 6px; right: 112px; top: calc(var(--sb) + 22px); background: #fff; }
+  html body.m .eh-k { font-size: 13px !important; line-height: 18px !important; font-weight: 600 !important; color: #fff; opacity: .9; margin: 0; }
+  /* one big number per screen: the next payout card is the hero; the month total is context (DUPE fix 27 Nov) */
+  .eh-v { font-size: 26px; line-height: 32px; font-weight: 800; letter-spacing: -.01em; margin-top: 2px; } .eh-v sup { font-size: 12px; vertical-align: 11px; margin-right: 2px; }
+  .eh-up { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,.16); font-size: 12px; font-weight: 600; }
+  .eh-bars { display: flex; align-items: flex-end; gap: 10px; height: 70px; margin-top: 18px; } .eh-bars i { flex: 1; border-radius: 6px 6px 2px 2px; background: rgba(255,255,255,.85); } .eh-bars i.next { background: rgba(255,255,255,.35); } .eh-bars i.none { background: rgba(255,255,255,.2); }
+  .eh-bl { display: flex; gap: 10px; margin-top: 6px; font-size: 10px; opacity: .85; } .eh-bl span { flex: 1; text-align: center; }
+  .eh-ms { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; margin-top: 20px; } .eh-ms > div + div { border-left: 1px solid var(--line); }
+  .eh-ms b { display: flex; justify-content: center; align-items: center; gap: 4px; font-size: 22px; line-height: 28px; font-weight: 800; } .eh-ms b .ph-fill { font-size: 16px; color: var(--star); } .eh-ms small { font-size: 12px; color: var(--muted); } .eh-ms .gr b { color: var(--primary-strong); }
+  .eh-np { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 20px; border: 1px solid var(--line); } .eh-np > .ph { font-size: 22px; color: var(--muted); }
+  .eh-np b { display: block; font-size: 15px; font-weight: 600; } .eh-np small { display: block; font-size: 12px; color: var(--muted); } .eh-np .amt { font-size: 17px; font-weight: 800; flex: none; }
+</style>
+<style>
+  .np { position: relative; z-index: 3; display: block; margin: -26px 0 0; padding: 18px 18px 16px; border-radius: 24px; background: #fff; text-align: center; color: var(--ink); box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.12); }
+  .np-k { display: block; font-size: 12px; font-weight: 700; color: var(--primary-strong); }
+  .np-v { display: block; font-size: 40px; line-height: 46px; font-weight: 800; letter-spacing: -.02em; margin-top: 2px; } .np-v sup { font-size: 16px; vertical-align: 18px; margin-right: 2px; }
+  .np-steps { display: flex; align-items: flex-start; margin-top: 14px; font-size: 12px; font-weight: 600; }
+  .np-steps > span { position: relative; flex: none; width: 88px; padding-top: 16px; } .np-steps > span::before { content: ""; position: absolute; top: 0; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #DDDDDD; }
+  .np-steps > span.on::before { background: var(--primary); box-shadow: 0 0 0 4px #E8F0EA; }
+  .np-steps small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); }
+  .np-steps > i { flex: 1; height: 2px; margin-top: 4px; background: #DDDDDD; }
+  .np-calc { display: block; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; line-height: 17px; color: var(--muted); }
+  .eh { padding-bottom: 44px !important; }
+</style>
 </head>
 <body class="m">
-  <header class="appbar appbar--flow">
-    <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <h1 class="appbar__title">Earnings</h1>
-    <span class="spacer"></span>
-  </header>
-
+  <!-- celebration header (27 Nov, explore/host-pass.html #7): what she earned this month, first-month badge, a bar per class -->
+  <div class="eh">
+    <button class="icon-btn eh-back" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <span class="eh-sp eh-sp1"></span><span class="eh-sp eh-sp2"></span><span class="eh-sp eh-sp3"></span>
+    <h1 class="eh-k">Earned in November</h1>
+    <p class="eh-v"><sup>RM</sup>769.25</p>
+    <span class="eh-up"><i class="ph-fill ph-leaf" aria-hidden="true"></i>Your first month hosting</span>
+    <div class="eh-bars" aria-hidden="true"><i style="height:45%"></i><i style="height:75%"></i><i class="next" style="height:64%"></i><i class="none" style="height:6%"></i></div>
+    <div class="eh-bl" aria-hidden="true"><span>21 Nov</span><span>28 Nov</span><span>5 Dec</span><span>12 Dec</span></div>
+  </div>
 <main class="er">
-  <section aria-label="Next payout">
-    <p class="er-lbl">Next payout</p>
-    <p class="er-amt">RM 408.00</p>
-    <p class="er-calc">RM 480 from 6 guests on Sat, 5 Dec, minus RM 72 Lokali commission (15%).</p>
-    <p class="er-when"><i class="ph ph-clock" aria-hidden="true"></i>Scheduled for Sun, 6 Dec, about 24 h after the class</p>
-  </section>
+  <!-- next payout floats over the green header edge (like Today's card): the money that's coming, when, and where it lands -->
+  <a class="np" href="h-bank.html" data-go="h-bank" aria-label="Next payout RM 408.00, arrives Sunday 6 December, in 4 days, to CIMB 3307">
+    <span class="np-k">Next payout · in 4 days</span>
+    <span class="np-v"><sup>RM</sup>408.00</span>
+    <span class="np-steps" aria-hidden="true"><span class="on">Class<small>Sat, 5 Dec</small></span><i></i><span>Paid out<small>Sun, 6 Dec</small></span><i></i><span>CIMB •• 3307<small>your bank</small></span></span>
+    <span class="np-calc">RM 480 from 6 guests, minus RM 72 Lokali commission (15%)</span>
+  </a>
+  <div class="eh-ms" role="list"><div role="listitem"><b>11</b><small>guests</small></div><div role="listitem" class="gr"><b>RM 90</b><small>given back</small></div><div role="listitem" class="gr"><b>42</b><small>trees planted</small></div></div>
 
   <section class="er-sec" aria-labelledby="paid-h">
-    <div class="er-h"><h2 id="paid-h">Paid</h2><span>RM 769.25 in November</span></div>
+    <div class="er-h"><h2 id="paid-h">Paid</h2></div>
     <button class="po" data-open="#bd" data-k="p28"><div class="grow"><b>Sun, 29 Nov</b><small>Sat, 28 Nov class · 7 guests</small></div><div class="amt"><b>RM 480.25</b><small>Paid</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></button>
     <button class="po" data-open="#bd" data-k="p21"><div class="grow"><b>Sun, 22 Nov</b><small>Sat, 21 Nov class · 4 guests</small></div><div class="amt"><b>RM 289.00</b><small>Paid</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></button>
   </section>
@@ -90,9 +123,9 @@
   }, true);
 })();
 </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-earnings', [["Next payout", "RM 408 · Sun 6 Dec (Sat 5 Dec class)"], ["Commission", "15% · RM 72 of RM 480"], ["Paid in November", "RM 769.25 (RM 289 + RM 480.25)"], ["Bank", "CIMB •• 3307"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

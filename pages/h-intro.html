@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Become a host</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
   /* Become a host, Airy (27 Nov): her own photo, one headline, the 4 sign-up steps as open rows, one docked button.
      Replaces the Canopy night-river illustration, the tinted stat tiles and the "Progress saved" line. */
@@ -37,27 +37,63 @@
 </style>
 </head>
 <body class="m">
-<div class="in-top">
-  <img data-img="1505471768190-275e2ad7b3f9" data-w="900" alt="Kuih on banana leaves">
-  <button class="in-close" data-go="g-account" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+<!-- Become a host = the 4 slides from explore/host-onboarding.html, matched 1:1 (27 Nov): 3 general intro slides + "Apply in 4 steps" with Start.
+     First visit starts on slide 1; once seen, it opens on slide 4. Close (×) returns to Account. -->
+<div class="ob" id="ob" role="dialog" aria-label="Become a host">
+  <button class="ob-x" data-go="g-account" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+  <button class="ob-skip" id="obSkip">Skip</button>
+  <div class="ob-track" id="obT">
+    <section class="ob-s"><div class="ob-img" data-bg="1726091983472-a7da2540c492"><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div><div class="ob-tx"><h2>Share what you know</h2><p>Small groups, your place, your pace. A walk, a craft, a meal or a stay: you decide what guests do with you.</p></div></section>
+    <section class="ob-s"><div class="ob-img" data-bg="1534953342533-7711c98712be"><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div><div class="ob-tx"><h2>Get paid within about 24 hours</h2><p>Set your own price. Lokali keeps 15% and sends the rest to your bank about a day after each experience.</p></div></section>
+    <section class="ob-s"><div class="ob-img" data-bg="1625758476104-f2ed6c81248f"><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div><div class="ob-tx"><h2>Do good while you host</h2><p>Part of every ticket goes to a cause you choose, and guests see it on your listing.</p></div></section>
+    <section class="ob-s ob-steps"><h1>Apply in 4 steps</h1><p class="ob-lead">About 10 minutes. Save and come back any time.</p>
+      <ol>
+        <li><span>1</span><div><b>About you</b><small>Filled in from your account</small></div></li>
+        <li><span>2</span><div><b>Your business</b><small>Details and where you'll host</small></div></li>
+        <li><span>3</span><div><b>Documents</b><small>IC, SSM certificate, licences</small></div></li>
+        <li><span>4</span><div><b>Check and submit</b><small>We reply within 2 working days</small></div></li>
+      </ol></section>
+  </div>
+  <div class="ob-ft"><span class="ob-dots" id="obDots"><i class="on"></i><i></i><i></i><i></i></span><button class="ob-next" id="obNext">Next</button></div>
 </div>
-
-<main class="in-main">
-  <h1>Host on Lokali</h1>
-  <p class="in-lead">Share what you know with small groups. Apply in 4 steps, about 10 minutes.</p>
-  <ol class="in-steps">
-    <li><span class="in-n">1</span><div><b>About you</b><small>Name, mobile and email come from your account</small></div></li>
-    <li><span class="in-n">2</span><div><b>Your business</b><small>Business details and where you'll host</small></div></li>
-    <li><span class="in-n">3</span><div><b>Documents</b><small>IC, SSM certificate and any licences</small></div></li>
-    <li><span class="in-n">4</span><div><b>Check and submit</b><small>We reply within 2 working days</small></div></li>
-  </ol>
-  <p class="in-money"><i class="ph ph-hand-coins" aria-hidden="true"></i><span>Lokali keeps 15% of each booking. You're paid about 24 hours after each experience.</span></p>
-</main>
-
-<div class="cta-bar"><button class="btn btn--primary" data-go="h-signup">Start application</button></div>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+<script>
+(function () {
+  var tr = document.getElementById('obT'), dots = document.getElementById('obDots').children, nx = document.getElementById('obNext'), sk = document.getElementById('obSkip'), LAST = 3;
+  document.querySelectorAll('[data-bg]').forEach(function (e) { e.style.backgroundImage = 'url(' + L.img(e.getAttribute('data-bg'), 900) + ')'; });
+  function idx() { return Math.round(tr.scrollLeft / tr.clientWidth); }
+  function go(i, smooth) { tr.scrollTo({ left: i * tr.clientWidth, behavior: smooth ? 'smooth' : 'auto' }); }
+  function paint() { var i = idx(); [].forEach.call(dots, function (d, k) { d.classList.toggle('on', k === i); });
+    var last = i === LAST; nx.textContent = last ? 'Start' : 'Next'; nx.classList.toggle('is-start', last); sk.hidden = last; if (last) L.state.set('hostIntroSeen', true); }
+  tr.addEventListener('scroll', function () { clearTimeout(tr._t); tr._t = setTimeout(paint, 60); }, { passive: true });
+  nx.addEventListener('click', function () { var i = idx(); if (i >= LAST) L.go('h-signup'); else go(i + 1, true); });
+  sk.addEventListener('click', function () { go(LAST, true); });
+  if (L.state.get('hostIntroSeen', false)) requestAnimationFrame(function () { go(LAST, false); paint(); });
+})();
+</script>
+<style>
+  .ob { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; }
+  .ob-track { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; } .ob-track::-webkit-scrollbar { display: none; }
+  .ob-s { flex: none; width: 100%; scroll-snap-align: start; display: flex; flex-direction: column; }
+  .ob-img { position: relative; height: 70%; flex: none; background: #888 center / cover; }
+  .ob-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 30%); }
+  .ob-img .hill { position: absolute; z-index: 2; left: 0; right: 0; bottom: -3px; width: 100%; height: 36px; fill: #fff; }
+  .ob-tx { padding: 10px 24px 0; } html body.m #ob .ob-tx h2 { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em; } .ob-tx p { font-size: 15px; line-height: 22px; color: #3D3D3D; margin-top: 8px; }
+  .ob-steps { padding: calc(var(--sb) + 56px) 24px 0; } html body.m #ob .ob-steps h1 { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em; }
+  .ob-lead { font-size: 15px; line-height: 21px; color: #6A6A6A; margin-top: 6px; }
+  .ob-steps ol { list-style: none; margin: 14px 0 0; padding: 0; } .ob-steps li { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid #EBEBEB; } .ob-steps li:first-child { border-top: 0; }
+  .ob-steps li > span { width: 28px; height: 28px; border-radius: 50%; background: #222; color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; flex: none; }
+  .ob-steps li b { display: block; font-size: 15px; font-weight: 600; } .ob-steps li small { display: block; font-size: 12px; color: #6A6A6A; }
+  .ob-x, .ob-skip { position: absolute; z-index: 3; top: calc(var(--sb) + 8px); border: 0; cursor: pointer; }
+  .ob-x { left: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.92); color: #222; display: grid; place-items: center; font-size: 18px; }
+  .ob-skip { right: 18px; height: 30px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,.92); font: 600 13px/1 var(--font); color: #222; }
+  .ob-ft { display: flex; align-items: center; gap: 12px; padding: 0 24px calc(var(--home, 0px) + 26px); }
+  .ob-dots { display: flex; gap: 6px; } .ob-dots i { width: 7px; height: 7px; border-radius: 4px; background: #DDDDDD; transition: width .2s; } .ob-dots i.on { width: 20px; background: #222; }
+  .ob-next { margin-left: auto; height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid #DDDDDD; background: #fff; font: 600 15px/1 var(--font); color: #222; cursor: pointer; transition: all .2s; }
+  .ob-next.is-start { flex: 1; height: 48px; background: #D7263D; border-color: #D7263D; color: #fff; }
+</style>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-intro', [['Who', 'Aina Rahman (guest account)'], ['Opens from', 'Account › Become a host'], ['Next', 'Sign-up step 1']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

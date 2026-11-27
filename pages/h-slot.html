@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Add time slot</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Add time slot in Airy (2 Dec): pills for Repeats weekly / One date, day pills, time, guests per slot, one docked Save. */
 .hs { padding: 16px 24px calc(var(--home, 0px) + 120px); }
@@ -41,6 +41,17 @@
 .hs-sum b { color: var(--ink); }
 body.m .cta-bar .btn--primary { flex: 1; border-radius: 999px; }
 </style>
+<style>
+  .hs-h { font-size: 18px; line-height: 24px; font-weight: 700; margin-bottom: 12px; }
+  .hs-exp { display: flex; flex-direction: column; gap: 10px; }
+  .hs-x { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 14px 10px 10px; border: 1px solid var(--line); border-radius: 20px; background: #fff; text-align: left; color: var(--ink); font: inherit; cursor: pointer; }
+  .hs-x.on { border: 2px solid var(--ink); padding: 9px 13px 9px 9px; }
+  .hs-x img, .hs-ph { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; flex: none; }
+  .hs-ph { display: grid; place-items: center; background: #F7F7F7; color: var(--muted); font-size: 20px; }
+  .hs-x > span:not(.hs-ph) { flex: 1; min-width: 0; } .hs-x b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .hs-x small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
+  .hs-x .ph-check-circle { font-size: 22px; color: var(--ink); }
+  .hs-x:disabled { opacity: .55; cursor: not-allowed; }
+</style>
 </head>
 <body class="m">
 <header class="appbar bordered">
@@ -50,6 +61,14 @@ body.m .cta-bar .btn--primary { flex: 1; border-radius: 999px; }
 </header>
 
 <main class="hs">
+  <!-- which experience the slots are for (27 Nov): live listings can take slots; a draft can't until it is published -->
+  <section class="hs-sec hs-for" aria-labelledby="for-h">
+    <h2 id="for-h" class="hs-h">For</h2>
+    <div class="hs-exp" role="radiogroup" aria-labelledby="for-h">
+      <button class="hs-x on" role="radio" aria-checked="true"><img data-img="1643188626775-05290d1b6acb" data-w="120" alt=""><span><b>Forest-edge farm walk &amp; kuih morning</b><small>Live · 2.5 hours · up to 8 guests</small></span><i class="ph-fill ph-check-circle" aria-hidden="true"></i></button>
+      <button class="hs-x" role="radio" aria-checked="false" disabled><span class="hs-ph"><i class="ph ph-image" aria-hidden="true"></i></span><span><b>Pandan dye workshop</b><small>Draft · publish it to add slots</small></span></button>
+    </div>
+  </section>
   <section class="hs-sec">
     <div class="hs-pills" data-group id="mode">
       <button class="active" data-panel="#rec" data-value="rec">Repeats weekly</button>
@@ -127,9 +146,9 @@ body.m .cta-bar .btn--primary { flex: 1; border-radius: 999px; }
     sum();
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-slot', [["Type", "Repeats weekly or one date"], ["Duration", "2.5 hours (from listing)"], ["Capacity", "Up to 8 · closes when full"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

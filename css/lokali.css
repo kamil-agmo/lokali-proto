@@ -1038,3 +1038,18 @@ body.m .lt { padding: calc(var(--sb) + 44px) 24px 8px !important; }
 .mode-pill--plain { min-height: 36px; padding: 0 14px; gap: 6px; border: 1px solid var(--line); box-shadow: none; font-size: 13px; }
 .mode-pill--plain .ph { font-size: 16px; }
 .mode-pill::after { content: ""; position: absolute; inset: -4px 0; } /* 44 px tap height */
+
+/* Popups (MIMS 27 Nov): action-sheet rows open (no grey box), neutral Close, ghost buttons in ink */
+.act-list { background: none !important; box-shadow: none !important; border-radius: 0 !important; }
+.act-sheet .story-close { border: 1px solid var(--line) !important; color: var(--ink) !important; }
+body.m .btn--ghost { color: var(--ink); }
+
+/* Airy weights (27 Nov): field labels are labels (500), not titles (600). Home: 400 body, 500 labels, 600 titles / prices, 700 headlines. */
+body.m .field > label, body.m .label { font-weight: 500; }
+
+/* Docked bar with a second, quieter action under the main one (27 Nov): both live together at the bottom */
+body.m .cta-bar.cta-stack { flex-direction: column !important; align-items: stretch !important; gap: 4px !important; }
+body.m .cta-bar.cta-stack .btn--ghost { min-height: 40px; color: var(--ink) !important; background: none !important; border: 0 !important; box-shadow: none !important; }
+body.has-cta:has(.cta-stack) { padding-bottom: calc(130px + var(--home)); }
+/* plain status text instead of a tinted badge */
+.cx-proc { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--ink); } .cx-proc .ph { font-size: 16px; color: var(--muted); }

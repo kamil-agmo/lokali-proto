@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Application status: top of the screen</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 20px; max-width: 980px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  .col { width: 360px; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .ph { width: 360px; height: 560px; background: #fff; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 6px solid #111; }
+  .in { padding: 0 22px; }
+  h2 { font-size: 26px; line-height: 32px; font-weight: 700; letter-spacing: -.02em; } .lead { font-size: 14px; color: #3D3D3D; margin-top: 6px; }
+  .st { display: flex; gap: 12px; padding: 10px 0; } .st i { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #DDDDDD; flex: none; margin-top: 2px; } .st i.done { background: #222; border-color: #222; } .st i.now { border-color: #222; box-shadow: inset 0 0 0 4px #fff; background: #222; } .st b { display: block; font-size: 14px; } .st small { display: block; font-size: 12px; color: #6A6A6A; }
+  .ph h3 { font-size: 17px; margin: 18px 0 4px; }
+  /* A */
+  .big { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; margin: 40px 0 18px; position: relative; }
+  .big svg { width: 44px; height: 44px; }
+  .big.rv { background: #FFF4DC; color: #B7791F; } .big.rv::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px dashed #F3D9A4; animation: spin 8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .states { display: flex; gap: 14px; margin: 0 0 6px; } .states span { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: #6A6A6A; } .states em { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 18px; }
+  /* B */
+  .hero { position: relative; height: 190px; background: #888 center / cover; }
+  .hero svg.hill { position: absolute; left: 0; right: 0; bottom: -3px; width: 100%; height: 34px; fill: #fff; }
+  .chip { position: absolute; left: 22px; bottom: 30px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #fff; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,.15); } .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #E0A100; animation: pulse 1.6s ease-in-out infinite; } @keyframes pulse { 50% { opacity: .3; } }
+  /* C */
+  .ring { position: relative; width: 120px; height: 120px; margin: 36px 0 16px; }
+  .ring svg { width: 120px; height: 120px; transform: rotate(-90deg); } .ring .ic { position: absolute; inset: 0; display: grid; place-items: center; } .ring .ic div { text-align: center; } .ring .ic b { display: block; font-size: 22px; } .ring .ic small { font-size: 11px; color: #6A6A6A; }
+</style>
+</head>
+<body>
+<h1>Application status: a nicer top</h1>
+<p class="sub">Now: a small grey hourglass tile. Three ways to make the top say "we're on it" at a glance. Shown for In review; each also has a Changes and an Approved look.</p>
+<div class="wrap" id="w"></div>
+<script>
+function u(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 700) + '&q=70&auto=format&fit=crop'; }
+var HG = '<svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M72 32h112M72 224h112M80 32c0 56 96 56 96 96s-96 40-96 96M176 32c0 56-96 56-96 96s96 40 96 96"/></svg>';
+var STEPS = '<h3>Progress</h3><div class="st"><i class="done"></i><div><b>Submitted</b><small>Mon, 16 Nov · 10:42 AM</small></div></div><div class="st"><i class="now"></i><div><b>In review</b><small>The Lokali team checks your documents</small></div></div><div class="st"><i></i><div><b>Approved</b><small>Then you build your first listing</small></div></div>';
+var TXT = '<h2>We\'re checking your application</h2><p class="lead">You\'ll hear from us by Wed, 18 Nov, by email and SMS.</p>';
+var A = '<div class="in"><div class="big rv">' + HG + '</div>' + TXT + '<div class="states" style="margin-top:14px"><span><em style="background:#FFF4DC;color:#B7791F">⌛</em>In review</span><span><em style="background:#FDE8EA;color:#D7263D">✎</em>Changes</span><span><em style="background:#E8F0EA;color:#1C522C">✓</em>Approved</span></div>' + STEPS + '</div>';
+var B = '<div class="hero" style="background-image:url(' + u('1534953342533-7711c98712be') + ')"><span class="chip"><span class="dot"></span>In review</span><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div><div class="in" style="padding-top:8px">' + TXT + STEPS + '</div>';
+var C = '<div class="in"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#EBEBEB" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="#222" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="163"/></svg><div class="ic"><div><b>2 of 3</b><small>In review</small></div></div></div>' + TXT + STEPS + '</div>';
+var V = [
+  ['A · Big status icon', 'A 96 px soft-coloured circle per state: amber hourglass with a slowly turning ring (In review), red pencil (Changes), green tick (Approved).', A, false],
+  ['B · Photo + status chip (recommended)', 'The same photo language as the Become a host slides, with the wavy edge and a pulsing "In review" chip. Feels like the same journey; the chip changes colour per state.', B, true],
+  ['C · Progress ring', 'A ring that fills per step with "2 of 3". Clear, but it repeats the Progress list right below (DUPE).', C, false]
+];
+document.getElementById('w').innerHTML = V.map(function (v) { return '<div class="col' + (v[3] ? ' rec' : '') + '"><b>' + v[0] + '</b><p>' + v[1] + '</p><div class="ph">' + v[2] + '</div></div>'; }).join('');
+</script>
+</body>
+</html>

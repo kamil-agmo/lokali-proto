@@ -4,19 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Sign in</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 </head>
-<body class="m">
+<body class="m has-cta">
 <header class="appbar appbar--flow">
   <button class="icon-btn" data-go="g-book" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
   <span class="grow"></span>
@@ -37,7 +37,7 @@
     <div class="field"><label for="em">Email</label><input class="input" id="em" type="email" value="aina.rahman@gmail.com" autocomplete="email"></div>
     <div class="field"><label for="pw">Password</label><div class="input-wrap"><input class="input" id="pw" type="password" value="••••••••••" style="padding-left:16px;padding-right:48px" autocomplete="current-password"><button type="button" class="icon-btn" style="position:absolute;right:4px;top:5px" aria-label="Show password"><i class="ph ph-eye" aria-hidden="true" style="position:static;transform:none"></i></button></div>
       <a href="#" class="small strong" data-toast="Reset link sent to aina.rahman@gmail.com" data-toast-icon="ph-envelope">Forgot password?</a></div>
-    <button class="btn btn--primary btn--block" type="submit" id="sub">Sign in</button>
+    <div class="cta-bar"><button class="btn btn--primary btn--block" type="submit" id="sub">Sign in</button></div>
   </form>
   <p class="center small" id="sw">New to Lokali? <a href="#" id="toggle" class="strong">Create an account</a></p>
   <p class="xs muted center">By continuing you agree to Lokali's Terms and Privacy Notice. We handle your data under Malaysia's Personal Data Protection Act (PDPA).</p>
@@ -56,9 +56,9 @@ document.getElementById('f').addEventListener('submit', function (e) { e.prevent
   })();
   </script>
   <script>L.swapExp();</script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-signin', [['When shown', 'Only at booking, not while browsing'], ['Methods', 'Apple, Google, email']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

@@ -3,79 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lokali · Host Today: floating card ideas</title>
+<title>Lokali · Host Today: payout + calendar strip</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
-  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1280px; }
-  .wrap { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 40px; }
-  .col { width: 402px; flex: none; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; min-height: 72px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1000px; }
+  .wrap { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .col { width: 402px; flex: none; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; min-height: 54px; }
   .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
-  .tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 11px; font-weight: 600; vertical-align: 1px; }
-  .notes { max-width: 1280px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; } .notes li { margin: 5px 0 5px 18px; font-size: 13px; line-height: 19px; }
+  .notes { width: 402px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; }
+  .notes li { margin: 5px 0 5px 18px; font-size: 13px; line-height: 19px; }
 
   .ph { position: relative; width: 402px; background: #fff; border-radius: 40px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 7px solid #111; padding-bottom: 96px; }
   .sb { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; font-size: 15px; font-weight: 600; color: #fff; }
   .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
   .in { padding: 0 24px; }
-  .muted { color: #6A6A6A; } .green { color: #1C522C; }
 
   .cover { position: relative; height: 320px; background: #7f9a82 center / cover; color: #fff; }
-  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.4), transparent 30%, transparent 50%, rgba(0,0,0,.55)); }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.4), transparent 30%, transparent 45%, rgba(0,0,0,.6)); }
   .cover > * { position: relative; z-index: 1; }
   .top { display: flex; justify-content: space-between; align-items: center; padding: 60px 24px 0; }
   .mode { font-size: 13px; font-weight: 600; }
   .sw { height: 36px; padding: 0 14px; border-radius: 999px; background: #fff; color: #222; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
-  .cover h2 { position: absolute; left: 24px; right: 24px; bottom: 56px; font-size: 28px; line-height: 33px; font-weight: 700; letter-spacing: -.02em; }
+  .cover h2 { position: absolute; left: 24px; right: 24px; bottom: 72px; font-size: 28px; line-height: 33px; font-weight: 700; letter-spacing: -.02em; }
+  .cover p { position: absolute; left: 24px; bottom: 50px; font-size: 15px; opacity: .92; }
 
-  .float { position: relative; z-index: 3; margin: -36px 16px 0; border-radius: 24px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.10); }
-  .k { display: block; font-size: 12px; line-height: 16px; font-weight: 500; color: #6A6A6A; }
-  .amt { display: block; font-size: 26px; line-height: 32px; font-weight: 800; letter-spacing: -.02em; color: #222; } .amt sup { font-size: 13px; font-weight: 700; vertical-align: 11px; margin-right: 2px; }
-  .chev { color: #B0B0B0; width: 16px; height: 16px; }
+  /* floating card: shared base (floats over the cover edge, like Home's search bar) */
+  .float { position: relative; z-index: 3; margin: -36px 16px 0; border-radius: 24px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.10); text-align: center; }
+  .float small { display: block; font-size: 12px; line-height: 17px; color: #6A6A6A; }
+  .float b sup { font-size: 13px; vertical-align: 11px; margin-right: 2px; font-weight: 700; }
+  .leaf { color: #37664A; }
 
-  /* F1 split */
-  .f1 { display: grid; grid-template-columns: 1fr 1px 1fr; padding: 16px 0; }
-  .f1 > div { padding: 0 18px; } .f1 .v { background: #EBEBEB; padding: 0; }
-  .f1 small { display: block; font-size: 12px; line-height: 16px; color: #6A6A6A; margin-top: 2px; }
+  /* A: three centred columns, payout in the middle and largest */
+  .fa { display: grid; grid-template-columns: 1fr 1.25fr 1fr; align-items: center; padding: 18px 8px; }
+  .fa > div + div { border-left: 1px solid #EBEBEB; }
+  .fa b { display: block; font-size: 22px; line-height: 28px; font-weight: 800; }
+  .fa .mid b { font-size: 28px; line-height: 34px; } .fa .mid small { color: #222; font-weight: 600; }
 
-  /* F2 payout lead + impact pills */
-  .f2 { padding: 16px 18px; }
-  .f2 .r { display: flex; align-items: center; gap: 12px; } .f2 .r > div { flex: 1; }
-  .f2 .when { font-size: 13px; line-height: 18px; color: #6A6A6A; }
-  .f2 .pills { display: flex; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #EBEBEB; }
-  .pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #F1F5F1; color: #1C522C; font-size: 13px; font-weight: 600; white-space: nowrap; }
-  .pill .ic { width: 15px; height: 15px; }
-  .pill.n { background: #F7F7F7; color: #222; }
+  /* B: payout centred on top, impact as a quiet line below */
+  .fb { padding: 18px 20px 16px; }
+  .fb .k { font-size: 12px; font-weight: 600; color: #6A6A6A; }
+  .fb .big { display: block; font-size: 34px; line-height: 40px; font-weight: 800; margin: 2px 0 2px; }
+  .fb .when { font-size: 13px; color: #3D3D3D; }
+  .fb .imp { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #EBEBEB; font-size: 13px; color: #3D3D3D; }
+  .fb .imp .ic { width: 16px; height: 16px; }
 
-  /* F3 swipe cards */
-  .f3wrap { position: relative; z-index: 3; margin-top: -36px; }
-  .f3 { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px 10px; scrollbar-width: none; } .f3::-webkit-scrollbar { display: none; }
-  .f3 .card { flex: none; width: 300px; scroll-snap-align: start; border-radius: 24px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.10); padding: 16px 18px; }
-  .f3 .card small { display: block; font-size: 13px; color: #6A6A6A; margin-top: 2px; }
-  .dots { display: flex; justify-content: center; gap: 6px; margin-top: 2px; } .dots i { width: 6px; height: 6px; border-radius: 50%; background: #D9D9D9; } .dots i.on { background: #222; }
+  /* C: two halves, payout | impact, centred, with a soft green tint on impact */
+  .fc { display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .fc > div { padding: 18px 10px 16px; } .fc > div + div { background: #F1F6F2; }
+  .fc b { display: block; font-size: 26px; line-height: 32px; font-weight: 800; }
+  .fc .k { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #6A6A6A; margin-bottom: 2px; }
+  .fc .k .ic { width: 14px; height: 14px; }
 
-  .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 36px 0 14px; } .sh h3 { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #1C522C; text-decoration: none; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 36px 0 14px; } .sh h3 { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #1C522C; }
 
-  /* the strip: one expanded tile (details), the rest compact; scrolls sideways */
-  .strip { display: flex; gap: 10px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 6px; scrollbar-width: none; scroll-snap-type: x proximity; } .strip::-webkit-scrollbar { display: none; }
-  .t { flex: none; width: 76px; min-height: 112px; border: 1px solid #EBEBEB; border-radius: 20px; padding: 12px 8px 10px; background: #fff; cursor: pointer; text-align: center; scroll-snap-align: start;
-       transition: width .28s cubic-bezier(.2,.8,.2,1), border-color .2s; overflow: hidden; display: flex; gap: 12px; }
-  .t .d { flex: none; width: 58px; } .t .d small { display: block; font-size: 12px; color: #6A6A6A; } .t .d b { display: block; font-size: 20px; line-height: 26px; margin: 2px 0 8px; }
-  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; } .bar i { display: block; height: 100%; background: #222; }
-  .t .d em { display: block; font-style: normal; font-size: 12px; color: #6A6A6A; margin-top: 6px; }
-  .t .x { flex: 1; min-width: 0; text-align: left; opacity: 0; transition: opacity .2s; display: none; }
-  .t.on { width: 300px; border-color: #222; text-align: left; } .t.on .x { display: block; opacity: 1; }
-  .t.on .d { padding-right: 12px; border-right: 1px solid #EBEBEB; text-align: center; }
-  .x .lb { display: inline-block; font-size: 11px; font-weight: 600; color: #1C522C; margin-bottom: 2px; }
-  .x b { display: block; font-size: 15px; line-height: 20px; } .x small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; }
-  .faces { display: flex; align-items: center; margin-top: 8px; } .faces > span { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; margin-left: -7px; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 9px; font-weight: 600; color: #3D3D3D; }
-  .faces > span:first-child { margin-left: 0; } .faces em { font-style: normal; font-size: 12px; color: #6A6A6A; margin-left: 8px; white-space: nowrap; } .alert { color: #B42318; }
-  .act { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border-radius: 999px; margin-top: 10px; font-size: 13px; font-weight: 600; }
-  .act.p { background: #D7263D; color: #fff; } .act.s { border: 1px solid #DDDDDD; color: #222; }
-  .t.off .d { opacity: .5; }
+  /* calendar strip: horizontal scroll; the open tile is wide and holds that date's details */
+  .week { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 -24px; padding: 2px 24px 6px; scroll-snap-type: x proximity; scroll-padding-inline: 24px; }
+  .week::-webkit-scrollbar { display: none; }
+  .wk { flex: none; width: 76px; min-height: 150px; padding: 12px 8px; border-radius: 20px; border: 1px solid #EBEBEB; background: #fff; text-align: center; cursor: pointer; scroll-snap-align: start; transition: width .3s cubic-bezier(.2,.8,.2,1), border-color .2s; overflow: hidden; display: flex; flex-direction: column; }
+  .wk small { display: block; font-size: 12px; color: #6A6A6A; } .wk .d { display: block; font-size: 18px; line-height: 24px; font-weight: 700; margin: 2px 0 8px; }
+  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; margin: 0 6px; } .bar i { display: block; height: 100%; background: #222; }
+  .wk em { display: block; font-style: normal; font-size: 12px; color: #6A6A6A; margin-top: 6px; }
+  .wk.off { color: #9A9A9A; } .wk.off .d { text-decoration: line-through; }
+  .wk .more { display: none; }
+  .wk.open { width: 262px; border-color: #222; text-align: left; padding: 14px 16px; }
+  .wk.open .mini { display: none; } .wk.open .more { display: flex; flex-direction: column; flex: 1; }
+  .more .when { font-size: 13px; color: #6A6A6A; } .more .t { font-size: 17px; line-height: 22px; font-weight: 700; margin-top: 2px; }
+  .more .cap { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #3D3D3D; } .more .cap .bar { flex: 1; margin: 0; }
+  .faces { display: flex; align-items: center; margin-top: 10px; }
+  .faces > span { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 10px; font-weight: 600; color: #3D3D3D; }
+  .faces > span:first-child { margin-left: 0; } .faces em { font-style: normal; font-size: 12px; color: #6A6A6A; margin-left: 8px; } .alert { color: #B42318; }
+  .more .act { margin-top: auto; padding-top: 12px; }
+  .go { height: 36px; padding: 0 16px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; }
+  .go.ghost { background: #fff; color: #222; border: 1px solid #DDDDDD; }
 
   .row { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-top: 1px solid #EBEBEB; } .row:first-of-type { border-top: 0; padding-top: 0; }
-  .row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .row small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; } .row .ic { color: #6A6A6A; } .row .chev { margin-left: auto; }
+  .row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .row small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; } .row .ic { color: #6A6A6A; }
+  .row .chev { margin-left: auto; color: #B0B0B0; width: 16px; height: 16px; }
 
   .tabs { position: absolute; z-index: 4; left: 14px; right: 14px; bottom: 18px; height: 62px; border-radius: 999px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: space-around; }
   .tabs span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; font-weight: 600; color: #6A6A6A; padding: 6px 10px; border-radius: 999px; position: relative; }
@@ -87,9 +91,9 @@
   <symbol id="i-swap" viewBox="0 0 256 256"><path d="M176 40l40 40-40 40M216 80H40M80 216l-40-40 40-40M40 176h176"/></symbol>
   <symbol id="i-ticket" viewBox="0 0 256 256"><path d="M32 88a32 32 0 0 0 0 80v32h192v-32a32 32 0 0 1 0-80V56H32z"/></symbol>
   <symbol id="i-star" viewBox="0 0 256 256"><path d="M128 24l31 66 72 8-54 49 15 71-64-37-64 37 15-71-54-49 72-8z"/></symbol>
+  <symbol id="i-money" viewBox="0 0 256 256"><rect x="24" y="64" width="208" height="128" rx="12"/><circle cx="128" cy="128" r="28"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 256 256"><path d="M56 200C40 96 120 40 216 40c0 96-56 176-160 160zM56 200l88-88"/></symbol>
   <symbol id="i-chev" viewBox="0 0 256 256"><path d="M96 48l80 80-80 80"/></symbol>
-  <symbol id="i-leaf" viewBox="0 0 256 256"><path d="M56 200C40 120 96 48 216 40c-8 120-80 176-160 160zM56 200l88-88"/></symbol>
-  <symbol id="i-users" viewBox="0 0 256 256"><circle cx="96" cy="96" r="40"/><path d="M24 208c12-36 40-56 72-56s60 20 72 56M168 56a40 40 0 0 1 0 80M184 152c28 6 44 26 52 56"/></symbol>
   <symbol id="i-sun" viewBox="0 0 256 256"><path d="M24 176h208M64 176a64 64 0 0 1 128 0M128 64V40M70 90 54 74M186 90l16-16"/></symbol>
   <symbol id="i-cal" viewBox="0 0 256 256"><rect x="40" y="48" width="176" height="168" rx="12"/><path d="M40 96h176M88 32v32M168 32v32"/></symbol>
   <symbol id="i-grid" viewBox="0 0 256 256"><rect x="48" y="48" width="64" height="64" rx="8"/><rect x="144" y="48" width="64" height="64" rx="8"/><rect x="48" y="144" width="64" height="64" rx="8"/><rect x="144" y="144" width="64" height="64" rx="8"/></symbol>
@@ -97,83 +101,68 @@
   <symbol id="i-list" viewBox="0 0 256 256"><path d="M40 64h176M40 128h176M40 192h176"/></symbol>
 </svg>
 
-<h1>Host Today: 3 ideas for the floating card (payout + impact), with the expanding date strip</h1>
-<p class="sub">Same page in all three: cover → floating card → "Coming up" strip → To do. In the strip the next date is open with its details; tap any other date and it opens while the rest shrink; the strip scrolls sideways. Try it. Red outline = recommended.</p>
-
-<div class="wrap" id="phones"></div>
-
-<div class="notes">
-  <h2>MIMS</h2>
-  <ul>
-    <li><b>Floating card holds payout + impact</b> (your call): payout is the number hosts check most; impact is why Lokali exists. Kept visibly apart, so "what I earn" never reads as "what I gave".</li>
-    <li><b>Recommend F2</b>: one clear lead (RM 408 on the way, opens Earnings), impact as two quiet pills (open her profile). F1 makes two numbers compete at the same size; F3 hides one of them behind a swipe.</li>
-    <li><b>Next experience moved into the strip</b> (no line on the cover any more): the open tile says "Next · in 3 days", its time, guest faces, flags and Guest list. Each date shows its own state: booked (Guest list), empty (0 of 8, View slot), blocked (Unblock).</li>
-    <li><b>Removed as duplicates:</b> the payout row in To do (now in the floating card); "next experience in 3 days" on the cover (now in the strip).</li>
-    <li><b>General wording:</b> experience, guests, given back; works for any category and schedule.</li>
-  </ul>
-</div>
-
-<template id="phone">
-  <div class="ph">
-    <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
-    <div class="cover js-cover">
-      <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:15px;height:15px"><use href="#i-swap"/></svg>Switch to guest</span></div>
-      <h2>Selamat pagi, Aina</h2>
-    </div>
-    <div class="slot-float"></div>
-    <div class="in">
-      <div class="sh"><h3>Coming up</h3><a>Calendar</a></div>
-      <div class="strip"></div>
-      <div class="sh"><h3>To do</h3></div>
-      <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
-      <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>Replies show on your listing</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
-    </div>
-    <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox<i class="bd">1</i></span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
-  </div>
-</template>
+<h1>Host Today: payout in the floating card + calendar strip with the next experience</h1>
+<p class="sub">Three ideas for the floating card (payout centred, impact kept). Below it, the same calendar strip in all three: the next date opens wide with its details; tap any date to open it (the others close); the strip scrolls sideways. Try it.</p>
+<div class="wrap" id="w"></div>
 
 <script>
-  var u = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; };
-  var FLOATS = [
-    { t: 'F1 · Split card', p: 'Payout left, impact right, a hairline between. Clear, but two big numbers compete and RM sits next to RM.',
-      h: '<div class="float f1"><div><span class="k">Next payout</span><span class="amt"><sup>RM</sup>408</span><small>Sun, 6 Dec</small></div><div class="v"></div><div><span class="k">Given back</span><span class="amt green"><sup>RM</sup>90</span><small>11 guests hosted</small></div></div>' },
-    { t: 'F2 · Payout leads, impact as pills', rec: true, p: 'One big number with its date and a chevron to Earnings; under a hairline, two soft green pills for what she gave back and who she hosted. Calm, one focus.',
-      h: '<div class="float f2"><div class="r"><div><span class="k">Next payout</span><span class="amt"><sup>RM</sup>408.00</span><span class="when">Sun, 6 Dec · CIMB •• 3307</span></div><svg class="ic chev"><use href="#i-chev"/></svg></div><div class="pills"><span class="pill"><svg class="ic"><use href="#i-leaf"/></svg>RM 90 given back</span><span class="pill n"><svg class="ic"><use href="#i-users"/></svg>11 guests hosted</span></div></div>' },
-    { t: 'F3 · Swipe between two cards', p: 'Payout and impact as two floating cards you swipe through (dots). Tidy, but the second card is hidden until swiped.',
-      h: '<div class="f3wrap"><div class="f3"><div class="card"><span class="k">Next payout</span><span class="amt"><sup>RM</sup>408.00</span><small>Sun, 6 Dec · CIMB •• 3307</small></div><div class="card"><span class="k">Your impact so far</span><span class="amt green"><sup>RM</sup>90</span><small>given back · 11 guests hosted</small></div></div><div class="dots"><i class="on"></i><i></i></div></div>' }
-  ];
-  var DATES = [
-    { dow: 'Sat', d: 5, n: 6, cap: 8, lbl: 'Next · in 3 days', when: 'Sat, 5 Dec · 9:00 – 11:30 AM', faces: true },
-    { dow: 'Sat', d: 12, n: 0, cap: 8, lbl: 'In 10 days', when: 'Sat, 12 Dec · 9:00 – 11:30 AM' },
-    { dow: 'Sat', d: 19, n: 2, cap: 8, lbl: 'In 17 days', when: 'Sat, 19 Dec · 9:00 – 11:30 AM' },
-    { dow: 'Sun', d: 20, n: 0, cap: 8, lbl: 'One-off date', when: 'Sun, 20 Dec · 9:00 – 11:30 AM' },
-    { dow: 'Sat', d: 26, off: true, lbl: 'Blocked', when: 'Sat, 26 Dec' },
-    { dow: 'Sat', d: 2, n: 0, cap: 8, lbl: 'Next month', when: 'Sat, 2 Jan · 9:00 – 11:30 AM' }
-  ];
-  function tile(x, i) {
-    var pct = x.off ? 0 : Math.round(x.n / x.cap * 100);
-    var det = x.off ? '<span class="lb">' + x.lbl + '</span><b>' + x.when + '</b><small>No bookings on this date</small><span class="act s">Unblock</span>'
-      : '<span class="lb">' + x.lbl + '</span><b>' + x.when + '</b>' +
-        (x.faces ? '<div class="faces"><span class="js-face1" style="background-image:url(' + u('1613447895817-e617a4093f50', 80) + ')"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div><span class="act p">Guest list</span>'
-          : x.n ? '<small>' + x.n + ' of ' + x.cap + ' booked · 1 booking</small><span class="act p">Guest list</span>' : '<small>No bookings yet</small><span class="act s">View date</span>');
-    return '<div class="t' + (i === 0 ? ' on' : '') + (x.off ? ' off' : '') + '" role="button" tabindex="0" aria-expanded="' + (i === 0) + '">' +
-      '<div class="d"><small>' + x.dow + '</small><b>' + (x.off ? '<s>' + x.d + '</s>' : x.d) + '</b><div class="bar"><i style="width:' + pct + '%"></i></div><em>' + (x.off ? 'Blocked' : x.n + ' / ' + x.cap) + '</em></div>' +
-      '<div class="x">' + det + '</div></div>';
-  }
-  var host = document.getElementById('phones'), tpl = document.getElementById('phone');
-  FLOATS.forEach(function (f) {
-    var col = document.createElement('div'); col.className = 'col' + (f.rec ? ' rec' : '');
-    col.innerHTML = '<b>' + f.t + (f.rec ? '<span class="tag">Recommended</span>' : '') + '</b><p>' + f.p + '</p>';
-    var ph = tpl.content.cloneNode(true); col.appendChild(ph); host.appendChild(col);
-    col.querySelector('.slot-float').outerHTML = f.h;
-    var strip = col.querySelector('.strip'); strip.innerHTML = DATES.map(tile).join('');
-    strip.addEventListener('click', function (e) {
-      var t = e.target.closest('.t'); if (!t) return;
-      strip.querySelectorAll('.t').forEach(function (o) { var on = o === t; o.classList.toggle('on', on); o.setAttribute('aria-expanded', on); });
-      setTimeout(function () { strip.scrollTo({ left: t.offsetLeft - 24, behavior: 'smooth' }); }, 60);
-    });
-  });
-  document.querySelectorAll('.js-cover').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1505471768190-275e2ad7b3f9', 900) + ')'; });
+function u(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; }
+var I = function (n, cls) { return '<svg class="ic ' + (cls || '') + '"><use href="#i-' + n + '"/></svg>'; };
+
+var DATES = [
+  { dw: 'Sat', d: 5, when: 'Sat, 5 Dec · in 3 days', t: '9:00 – 11:30 AM', fill: 75, cap: '6 of 8 booked', faces: true, act: '<span class="go">Guest list</span>' },
+  { dw: 'Sat', d: 12, when: 'Sat, 12 Dec', t: '9:00 – 11:30 AM', fill: 25, cap: '2 of 8 booked', faces2: true, act: '<span class="go ghost">Guest list</span>' },
+  { dw: 'Sat', d: 19, when: 'Sat, 19 Dec', t: '9:00 – 11:30 AM', fill: 0, cap: 'No bookings yet', act: '<span class="go ghost">Edit slot</span>' },
+  { dw: 'Sun', d: 20, when: 'Sun, 20 Dec', t: '9:00 – 11:30 AM', fill: 0, cap: 'No bookings yet', act: '<span class="go ghost">Edit slot</span>' },
+  { dw: 'Sat', d: 26, when: 'Sat, 26 Dec', t: 'Blocked', fill: 0, cap: 'Closed for bookings', off: true, act: '<span class="go ghost">Unblock</span>' }
+];
+function strip() {
+  return '<div class="week">' + DATES.map(function (x, i) {
+    var mini = '<div class="mini"><small>' + x.dw + '</small><span class="d">' + x.d + '</span><div class="bar"><i style="width:' + x.fill + '%"></i></div><em>' + (x.off ? 'Blocked' : Math.round(x.fill * 8 / 100) + ' / 8') + '</em></div>';
+    var faces = x.faces ? '<div class="faces"><span class="js-face"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div>'
+      : x.faces2 ? '<div class="faces"><span>DL</span><em>1 booking</em></div>' : '';
+    var more = '<div class="more"><span class="when">' + x.when + '</span><span class="t">' + x.t + '</span>' + (x.off ? '' : '<div class="cap"><div class="bar"><i style="width:' + x.fill + '%"></i></div><span>' + x.cap + '</span></div>') + (x.off ? '<div class="cap">' + x.cap + '</div>' : '') + faces + '<div class="act">' + x.act + '</div></div>';
+    return '<div class="wk' + (i === 0 ? ' open' : '') + (x.off ? ' off' : '') + '" role="button" tabindex="0">' + mini + more + '</div>';
+  }).join('') + '</div>';
+}
+
+var FLOATS = {
+  A: '<div class="float fa"><div><b><sup>RM</sup>90</b><small>given back</small></div><div class="mid"><b><sup>RM</sup>408</b><small>paid Sun, 6 Dec</small></div><div><b>11</b><small>guests hosted</small></div></div>',
+  B: '<div class="float fb"><span class="k">Next payout</span><span class="big"><sup style="font-size:15px;vertical-align:14px">RM</sup>408.00</span><span class="when">Sun, 6 Dec · CIMB •• 3307</span><div class="imp">' + I('leaf', 'leaf') + '<span><b>RM 90</b> given back · <b>11</b> guests hosted</span></div></div>',
+  C: '<div class="float fc"><div><span class="k">' + I('money') + 'Next payout</span><b><sup>RM</sup>408</b><small>Sun, 6 Dec</small></div><div><span class="k leaf">' + I('leaf') + 'Given back</span><b><sup>RM</sup>90</b><small>from 11 guests</small></div></div>'
+};
+var V = [
+  ['A · Three numbers, payout in the centre', 'Given back | payout | guests, centred; the payout is the biggest and has its date.', 'A', false],
+  ['B · Payout first, impact as a line (recommended)', 'One clear number centred (the money she is waiting for), impact kept as a quiet line with a leaf. Easiest to read at a glance.', 'B', true],
+  ['C · Two halves: payout | impact', 'Equal weight, impact on a soft green half so it reads as "eco"; payout on white.', 'C', false]
+];
+function phone(f) {
+  return '<div class="ph"><div class="sb"><span>9:41</span><span>●●● ▮</span></div>' +
+    '<div class="cover js-cover"><div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw">' + I('swap') + 'Switch to guest</span></div><h2>Selamat pagi, Aina</h2><p>Your next experience is in 3 days</p></div>' +
+    FLOATS[f] +
+    '<div class="in"><div class="sh"><h3>Coming up</h3><a>Calendar</a></div>' + strip() + '</div>' +
+    '<div class="in"><div class="sh"><h3>To do</h3></div>' +
+      '<div class="row">' + I('ticket') + '<div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div>' + I('chev', 'chev') + '</div>' +
+      '<div class="row">' + I('star') + '<div><b>Reply to Daniel\'s review</b><small>Replies show on your listing</small></div>' + I('chev', 'chev') + '</div></div>' +
+    '<div class="tabs"><span class="on">' + I('sun') + 'Today</span><span>' + I('cal') + 'Calendar</span><span>' + I('grid') + 'Listings</span><span>' + I('chat') + 'Inbox<i class="bd">1</i></span><span>' + I('list') + 'Menu</span></div></div>';
+}
+document.getElementById('w').innerHTML = V.map(function (v) {
+  return '<div class="col' + (v[3] ? ' rec' : '') + '"><b>' + v[0] + '</b><p>' + v[1] + '</p>' + phone(v[2]) + '</div>';
+}).join('') + '<div class="notes"><h2>MIMS</h2><ul>' +
+  '<li><b>Payout in the floating card:</b> the money on its way is what a host checks first; it moves out of To do (no repeat).</li>' +
+  '<li><b>Impact stays</b> in the card, quieter (B) or as its own half (C): Lokali\'s promise, but not an action.</li>' +
+  '<li><b>Next experience = first date in the strip, opened.</b> One place for dates; Sat 5 Dec shows once. "In 3 days" lives in the opened tile (and the cover line).</li>' +
+  '<li><b>Tap a date to open it</b>, others close; the button changes with the date (Guest list / Edit slot / Unblock).</li>' +
+  '<li><b>Strip scrolls sideways</b>; the open tile is wide enough for time, booked bar, faces, allergy flag and the action.</li>' +
+  '<li><b>Requirements:</b> host sees bookings and guest list with dietary notes (H11), calendar slots and blocked dates (H8), payouts (~24 h after); impact is Lokali\'s trust signal.</li></ul></div>';
+
+document.querySelectorAll('.js-cover').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1505471768190-275e2ad7b3f9', 900) + ')'; });
+document.querySelectorAll('.js-face').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1613447895817-e617a4093f50', 80) + ')'; });
+document.querySelectorAll('.week').forEach(function (wk) {
+  function open(t) { wk.querySelectorAll('.wk').forEach(function (x) { x.classList.toggle('open', x === t); }); setTimeout(function () { var x = t.getBoundingClientRect().left - wk.getBoundingClientRect().left + wk.scrollLeft - 24; wk.scrollTo({ left: Math.max(0, x), behavior: 'smooth' }); }, 320); }
+  wk.addEventListener('click', function (e) { var t = e.target.closest('.wk'); if (t) open(t); });
+  wk.addEventListener('keydown', function (e) { var t = e.target.closest('.wk'); if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(t); } });
+});
 </script>
 </body>
 </html>

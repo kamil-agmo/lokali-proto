@@ -1,5 +1,90 @@
 # Changelog
 
+## 0.46.1 · 2026-11-27
+- Admin on ultrawide screens: the whole portal (sidebar + content) is capped at 1680 px and centred, with a slightly darker page around it; content keeps its 1440 px cap, also when a page is opened on its own.
+
+## 0.46.0 · 2026-11-27
+- Admin portal MIMS (requirements A1–A13 all covered):
+  - Look in Airy: new Lokali wordmark in the sidebar, light neutral page (#F7F7F7, was beige), charts in ink + logo green (no mustard), grey active states and Admin tag, gold only for stars, "17 items" in ink; the "3 reports, 1 dispute" button was white on white (left from the old dark header), now an outline button.
+  - Counts agree: sidebar Approvals 6 / Moderation 4 (3 reports + 1 dispute) / Corporate enquiries 5; Needs attention 17 (6 + 4 + 2 + 5), same as the greeting.
+  - Aina as a host: in Hosts (self-serve, 1 listing, 5.0), Listings (Forest-edge farm walk & kuih morning, live), Payouts (RM 408.00 scheduled Sun 6 Dec; RM 480.25 and RM 289.00 paid) and Bookings (Nur Aisyah, Priya, Hafiz on Sat 5 Dec; Lim Wei Jie cancelled).
+  - Fixed: Booking LK-24817 says Aina has 4 bookings (was 3); Pak Rahim has 2 listings on the Hosts list (was 3, his page says 2); "410 seedlings funded by Lokali guests" (was unlabelled next to the village's 4,200).
+
+## 0.45.2 · 2026-11-27
+- Secondary actions sit with the main one in the docked bar (red button, then a quiet text button under it): Back to bookings (Booking cancelled, Review posted), Back to Explore (Booking confirmed).
+- Booking cancelled: Back goes to My bookings (the booking is gone; flow logic); "Processing" as plain text with a clock (was a blue badge, off-palette).
+
+## 0.45.1 · 2026-11-27
+- Cancel booking: the refund timeline bar is gone (the amount above already decides it; the bar's lengths meant nothing). One line under the amount says the cutoff: "Moderate policy: no refund after Thu, 3 Dec, 5:00 PM." DUPE: cut "Full refunds include the service fee" under the breakdown (the top line says it).
+
+## 0.45.0 · 2026-11-27
+- MIMS: every screen's full-width main action is docked in the bottom bar (like Checkout, Book, Save): View booking (Booking confirmed), Sign in, Explore other experiences (cancelled), Explore experiences (review posted), Fix and resubmit / Switch to hosting (Application status). Secondary links stay in the page. Kept inline on purpose: Message next to Call on Booking details and the Reply pills (actions on one item, not the screen's main action).
+
+## 0.44.5 · 2026-11-27
+- Delete account centred in its own section (red trash + text, one-line consequence) on guest Account, and added to host Menu with its own confirm sheet (one account: it deletes the listing too; upcoming class must be cancelled first).
+
+## 0.44.4 · 2026-11-27
+- Application status (explore/host-status.html A): a 96 px soft-coloured status icon: amber hourglass with a slowly turning dashed ring (In review), red pencil (Changes), green seal (Approved). The ring stays still with reduced motion. Icon, title and lead are centred with 36 px above and 28 px below the icon.
+
+## 0.44.3 · 2026-11-27
+- Become a host slides: titles use the large title (28/700, like Bookings and Inbox); photo 70% of the slide (was 55%), so the empty band above the dots matches the mock.
+- Presenter: a Reset button top-right of the left card, in line with the logo. It clears what the prototype remembered (bookings, read messages, choices, host mode, intro seen) and opens Home again.
+
+## 0.44.2 · 2026-11-27
+- Become a host rebuilt to match explore/host-onboarding.html 1:1: 4 slides in one swipe (3 intro + "Apply in 4 steps"), 26/700 titles, image 55% with the hill edge, Skip top-right (jumps to slide 4), dots, Next becomes a red Start on slide 4; once seen it opens on slide 4. Added a Close (×) top-left back to Account (flow logic). The old separate steps page with its photo and 15% line is gone (15% is on slide 2).
+
+## 0.44.1 · 2026-11-27
+- Become a host: 3 intro slides before the steps (Share what you know · Get paid within about 24 hours · Do good while you host), general words and photos, Skip on every slide, swipe or Next; shown once (first time). The steps page keeps the 15% line (slides can be skipped) and has a general craft photo (was a rice farmer labelled "kuih").
+
+## 0.44.0 · 2026-11-27
+- Host Today, Coming up (explore/host-strip.html C): the next date as the dark tile (in 3 days, time, 6 of 8, guests, allergy), then Sat 12 / 19 (no bookings yet) and Sat 26 (blocked) as rows with fill bars. No sideways strip; Calendar link in the header.
+- Mock explore/host-onboarding.html: 3 general intro slides before Become a host (walk, craft, seedling photos; no host-specific numbers).
+
+## 0.43.2 · 2026-11-27
+- Emails are shown as they look in a mail app ("Mail" header, no Lokali Back) and are reached from the presenter menu only: "View email" removed from Booking confirmed (the line just says it was sent to aina.rahman@gmail.com); the cancelled guest on host Bookings opens Booking & guest list instead of the email.
+
+## 0.43.1 · 2026-11-27
+- Checkout: "Dietary needs & allergies" as its own field (None / Vegetarian / Halal / Allergy pills; Allergy opens "Who and what", e.g. Son · peanuts), shared with the host for the guest list (brief H11). The message to the host is for questions now. Recorded as suggestion Q18 in REQUIREMENTS.md.
+
+## 0.43.0 · 2026-11-27
+- Booking & guest list (explore/host-guests.html A + B): listing photo header with the hill edge; "6 of 8 booked · 2 places left" bar; Plan / Check in pills. Plan: red To prepare block (1 peanut allergy, 1 vegetarian, 1 child), guests with Message, the cancelled booking greyed, You earn, Cancel class set apart. Check in (suggestion, for the class day): Arrived counter, the notes as chips, tap a guest as they arrive (counts people).
+
+## 0.42.0 · 2026-11-27
+- Host screens built from explore/host-pass.html:
+  - Calendar: a fill bar under each bookable date (no coloured dots or legend), selected date in ink, the day's slot as Today's dark tile.
+  - Bookings: each date is a header made of the listing photo with time, listing and a "6 / 8" chip; guests under it. Past dates use a muted photo.
+  - Reviews: host replies hang under the review (curved connector, her photo, green Host reply tag, grey bubble); Reply is a red pill.
+  - Listings: rows with an 88 px photo and Live / Draft status (no big top image).
+  - Meet your guide: preview of her Host profile header and a background-photo picker from her listing photos.
+  - Price & policy: "You earn per adult" leads with an 85 / 15 split bar; each cancellation policy shows a refund timeline strip.
+  - Earnings: green celebration header (RM 769.25 earned in November, first-month badge, a bar per class), then guests / trees / rating, next payout, paid list.
+  - Bank details: her account as a CIMB-red payout card with Verified, the three payout steps, and Change account as one row that opens the form.
+- Today: Sat 12 Dec shows no bookings yet (matches the calendar).
+- Earnings: next payout is a floating card over the green header: RM 408.00 big, "in 4 days", the path Class Sat 5 Dec → Paid out Sun 6 Dec → CIMB •• 3307, and the 15% sum. The row under it is 11 guests · RM 90 given back · 42 trees planted (rating removed: not money, and Menu shows it). Price & policy (option C, explore/price-earn.html): the static 85 / 15 bar is gone; a green "You earn per adult RM 72.25" box sits right under the price field with "After the 15% Lokali commission", updating as she types. Airy weights: every form field label is 500 (was 600), "RM" prefixes 500, Price & policy's "You earn" number 30/800 like Home's impact numbers (was 40/800). Listing video: the brief's one optional video now lives with the photos in the builder's first section (Hook: "5 photos · video optional"); the separate "Intro video" on Meet your guide is gone. Bank details: cut "How you get paid" (the payout timing is on the Earnings card; this page is about which account). One big number only: the month total in the header is now 26 px context; RM 408.00 next payout is the hero.
+
+## 0.41.0 · 2026-11-27
+- Host: listing photo is now banana trees on her farm (her "favourite spot"; was a rice farmer) on Listings, Chat, Email and the listing data.
+- Add time slot: a "For" picker on top (her live listing selected; the draft can't take slots until published).
+- Host Inbox: "your own trips" is an attention notice (soft red block, suitcase with unread count, Open pill) instead of a grey strip.
+- Menu in the Account style: farm photo with the hill edge, round photo overlapping, 28/700 name.
+- Mock explore/host-pass.html: proposals for Calendar, Bookings with photos, review replies, Listings as a list, Meet your guide background, Price & policy, Earnings, Bank details.
+
+## 0.40.0 · 2026-11-27
+- Popups (MIMS on all 14 guest popups):
+  - Get directions: Google Maps / Waze as open rows (no grey box), Close with a neutral outline (was green).
+  - Experience page map sheet: Google Maps / Waze right under the map (were below the fold, behind Close), then How to get here; full map without the cut "Kuala Lumpur" label.
+  - One grab handle on every experience-page sheet (two were drawn); What to bring icons plain grey (no green tiles); every closing button says Close (was Got it on 7).
+  - Removed the unused "Meet your guide" sheet (the Guide row opens Host profile).
+  - Delete account: Keep my account in ink.
+  - Results filters: no Sort (the chips on Results already sort), no green summaries beside titles (the selected pills say it), price as the Search pills (Any / Under RM 150 / RM 150–300 / RM 300+) instead of slider + two fields, Clear all in ink, "Show 18 trips" (same word as the title). Time of day and Duration stay as suggestions (not in the brief).
+  - Search price sheet: no "RM 0 – RM 500+" summary beside the title (the fields show it); Clear in ink.
+
+## 0.39.1 · 2026-11-27
+- Booking details: the wavy edge shows across the whole photo (the white panel started 20 px up with a flat top and cut through it); photo 240 px tall. Meeting point starts 20 px below the host buttons like every other section (was 48 px).
+
+## 0.39.0 · 2026-11-27
+- Host Today rebuilt from explore/host-today-3.html (option 1): farm photo cover with the greeting; floating card centred on the next payout (RM 408.00, Sun 6 Dec) with "RM 90 given back · 11 guests hosted" in logo green; Coming up is a calendar strip that scrolls sideways, the next date open as a dark tile (In 3 days, time, 6 of 8 booked, guests, 1 peanut allergy); tap a date to open it, tap the open date for its page. Cut: the separate Next class card, the Next payout section (now the floating card), "Your next experience is in 3 days" on the cover (the tile says it).
+
 ## 0.38.0 · 2026-11-27
 - No listing or host is set in a city any more; every listing leads with nature (brief: "good for nature and local communities", hosts are kampung / farms / NGOs / operators):
   - Aina hosts "Forest-edge farm walk & kuih morning" on her grandmother's farm, Kampung Sungai Lui, Hulu Langat (was a PJ community garden). Impact: 10% plants native trees on the forest edge (42 so far). Her chats, reviews, sign-up story, builder, address and Menu numbers follow; the farm photo now leads.

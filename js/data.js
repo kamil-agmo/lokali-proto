@@ -58,7 +58,7 @@
   /* Aina's own listing (host mode, 27 Nov): she books Pak Rahim's mangrove trip as a guest and hosts this class as a host.
      Photos reuse food / farm photo IDs already in this file (swap for kuih photos when browsing for photos). */
   L.exp.kuih = { id: 'kuih', title: 'Forest-edge farm walk & kuih morning', promise: 'Walk the forest edge of a kampung farm, pick pandan and banana leaves, then steam kuih from the harvest.', cat: 'farm', place: 'Hulu Langat, Selangor',
-    img: '1505471768190-275e2ad7b3f9', gallery: ['1505471768190-275e2ad7b3f9', '1530507629858-e4977d30e9e0', '1658218615053-955e8af55947', '1778439800378-6f67fd8ec219', '1679541946014-a47f1ec0dc1a'],
+    img: '1643188626775-05290d1b6acb', gallery: ['1643188626775-05290d1b6acb', '1530507629858-e4977d30e9e0', '1658218615053-955e8af55947', '1778439800378-6f67fd8ec219', '1679541946014-a47f1ec0dc1a'],
     price: 85, child: 55, priv: 480, rating: 5.0, reviews: 3, duration: '2.5 hours', group: '2–8', host: 'aina', policy: 'Flexible', type: 'day', impact: '10% plants native trees on the forest edge', lang: 'English, Malay', when: 'Saturdays 9:00 AM' };
   /* Aina as a host: approved Fri 20 Nov 2026; classes Sat 21 Nov (4 guests) and Sat 28 Nov (7 guests); next Sat 5 Dec 9:00–11:30 AM.
      Money: 15% commission; payout ~24 h after each class. */

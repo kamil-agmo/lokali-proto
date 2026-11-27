@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Account</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
   /* Account in the Host profile style (27 Nov): photo from her last trip with the hill edge, round photo overlapping,
      Edit profile pill, 3 numbers, then open sections with hairlines; no boxes, no tinted icon tiles. Airy sizes from Home. */
@@ -53,6 +53,12 @@
   .ac-host .list-row__text small { font-size: 13px !important; line-height: 18px !important; margin-top: 2px; }
   .ac-host .go { flex: none; display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 13px; font-weight: 600; }
   .ac-main .list-row[data-open="#del"] > .ph:first-child { color: var(--danger) !important; }
+
+  /* Delete account: centred, alone, red (27 Nov) */
+  .dz { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center; }
+  .dz-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border: 0; background: none; font: 600 15px/1 var(--font); color: var(--danger); cursor: pointer; }
+  .dz-btn .ph { font-size: 20px; color: var(--danger); }
+  .dz p { font-size: 12px; line-height: 17px; color: var(--muted); margin-top: 2px; }
   /* danger zone: Delete account sits alone, well below the routine rows, with a plain warning line */
   .ac-danger { margin-top: 48px; padding-top: 8px; border-top: 1px solid var(--line); }
   .ac-dnote { font-size: 12px; line-height: 17px; color: var(--muted); margin-top: 2px; padding-left: 34px; }
@@ -130,11 +136,9 @@
     <div class="list-row" data-go="g-home"><i class="ph ph-sign-out" aria-hidden="true"></i><div class="list-row__text">Sign out</div></div>
   </div>
   </section>
-  <section class="ac-danger">
-    <div class="list">
-    <div class="list-row" data-open="#del" style="color:var(--danger)"><i class="ph ph-trash" aria-hidden="true" style="color:var(--danger)"></i><div class="list-row__text">Delete account</div></div>
-    </div>
-    <p class="ac-dnote">Deletes your profile, messages and reviews for good.</p>
+  <section class="dz">
+    <button class="dz-btn" data-open="#del"><i class="ph ph-trash" aria-hidden="true"></i>Delete account</button>
+    <p>Deletes your profile, messages and reviews for good.</p>
   </section>
   <p class="ac-foot">Lokali by The Habitat Group · v1.0</p>
 </main>
@@ -147,9 +151,9 @@
     <button class="btn btn--ghost btn--block" data-close>Keep my account</button></div>
 </div>
 <nav class="tabbar" data-tabs="guest" data-active="g-account"></nav>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-account', [['Signed in', 'Aina Rahman · Google'], ['PDPA', 'Download data · Delete account']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

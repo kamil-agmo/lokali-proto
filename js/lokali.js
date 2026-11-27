@@ -118,14 +118,14 @@
   var ADMIN = [
     ['', 'Overview'],
     ['a-dashboard', 'Dashboard', 'ph-chart-pie-slice'],
-    ['a-approvals', 'Approvals', 'ph-seal-check', 7],
+    ['a-approvals', 'Approvals', 'ph-seal-check', 6],
     ['', 'Operations'],
     ['a-bookings', 'Bookings', 'ph-ticket'],
     ['a-hosts', 'Hosts', 'ph-users-three'],
     ['a-listings', 'Listings', 'ph-squares-four'],
     ['a-payouts', 'Payouts', 'ph-bank'],
-    ['a-moderation', 'Moderation', 'ph-shield-warning', 3],
-    ['a-enquiries', 'Corporate enquiries', 'ph-buildings', 4],
+    ['a-moderation', 'Moderation', 'ph-shield-warning', 4],
+    ['a-enquiries', 'Corporate enquiries', 'ph-buildings', 5],
     ['', 'Site'],
     ['a-content', 'Content', 'ph-layout'],
     ['a-reports', 'Reports', 'ph-chart-line-up'],
@@ -169,6 +169,7 @@
     });
     h += '</nav><div class="a-user"><img class="avatar sm" src="' + L.img('1600481176431-47ad2ab2745d', 120) + '" alt=""><div><b>Nurul Huda</b><small>Operations</small></div><button class="icon-btn" data-go="a-login" aria-label="Sign out"><i class="ph ph-sign-out" aria-hidden="true"></i></button></div>';
     aside.innerHTML = h;
+    if (L.applyWordmark) L.applyWordmark();   /* new Lokali logo in the admin sidebar too */
   }
 
   function closest(el, sel) { while (el && el !== document) { if (el.matches && el.matches(sel)) return el; el = el.parentNode; } return null; }

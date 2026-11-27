@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Bank details</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Host Bank details in Airy (2 Dec): the account payouts go to and its status on top, then the fields to change it.
    No balance-style card, no tinted info boxes; account type cut (no job in the brief). */
@@ -29,6 +29,19 @@
 .bk-note { display: flex; gap: 8px; font-size: 13px; line-height: 18px; color: var(--muted); }
 .bk-note .ph { flex: none; font-size: 16px; margin-top: 1px; }
 </style>
+<style>
+  .bk-card { position: relative; margin-top: 8px; height: 190px; padding: 18px 20px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, #7A0019, #C8102E 55%, #E0465E); box-shadow: 0 12px 28px rgba(200,16,46,.28); display: flex; flex-direction: column; overflow: hidden; }
+  .bk-card { align-items: stretch !important; text-align: left !important; } .bk-card > * { text-align: left; }
+  .bk-card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.08); }
+  .bk-ct { display: flex; align-items: center; } .bk-bn { font-size: 12px; font-weight: 600; opacity: .9; }
+  .bk-ver { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 11px; font-weight: 600; position: relative; z-index: 1; }
+  .bk-num { margin-top: auto; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: .06em; } .bk-nm { font-size: 12px; letter-spacing: .06em; opacity: .85; margin-top: 2px; }
+  .bk-h { font-size: 18px; line-height: 24px; font-weight: 700; margin: 24px 0 12px; }
+  .bk-flow { display: flex; align-items: center; } .bk-flow .dt { width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; } .bk-flow .dt.ok { background: var(--primary); } .bk-flow .ln { flex: 1; height: 2px; background: #DDDDDD; }
+  .bk-flw { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: #3D3D3D; } .bk-flw span { width: 110px; text-align: center; white-space: nowrap; } .bk-flw span:first-child { text-align: left; } .bk-flw span:last-child { text-align: right; }
+  .bk-chg { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 20px; padding: 14px 0; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; color: var(--ink); font: inherit; cursor: pointer; }
+  .bk-chg b { display: block; font-size: 15px; font-weight: 600; } .bk-chg small { display: block; font-size: 12px; color: var(--muted); } .bk-chg .chev { color: var(--faint); font-size: 16px; }
+</style>
 </head>
 <body class="m">
   <header class="appbar appbar--flow">
@@ -37,14 +50,14 @@
     <span class="spacer"></span>
   </header>
 <main class="bk-main">
+  <!-- her payout account as a card (27 Nov, explore/host-pass.html #8); changing it is one row that opens the form -->
   <section aria-label="Payout account">
-    <p class="bk-lbl">Payouts go to</p>
-    <p class="bk-acc" id="accNow">CIMB •• 3307</p>
-    <p class="bk-st" id="st"><i class="ph-fill ph-seal-check" aria-hidden="true"></i><span>Verified on Fri, 20 Nov · about 24 h after each class</span></p>
+    <div class="bk-card"><div class="bk-ct"><span class="bk-bn">Payouts go to</span><span class="bk-ver" id="st"><i class="ph-fill ph-seal-check" aria-hidden="true"></i><span>Verified</span></span></div>
+      <p class="bk-num" id="accNow">CIMB •• 3307</p><p class="bk-nm">AINA RAHMAN</p></div>
+    <button class="bk-chg" id="chg" aria-expanded="false" aria-controls="form"><div class="grow"><b>Change account</b><small>Malaysian bank accounts in MYR</small></div><i class="ph ph-caret-down chev" aria-hidden="true"></i></button>
   </section>
 
-  <section class="bk-form" aria-labelledby="chg-h">
-    <h2 id="chg-h">Change account</h2>
+  <section class="bk-form" id="form" aria-label="Change account" hidden>
     <div class="field"><label for="bank">Bank</label>
       <select class="select" id="bank"><option>Maybank</option><option selected>CIMB Bank</option><option>Public Bank</option><option>RHB Bank</option><option>Hong Leong Bank</option><option>AmBank</option><option>Bank Islam</option><option>Bank Rakyat</option><option>BSN</option><option>Agrobank</option></select>
     </div>
@@ -60,19 +73,22 @@
   (function () {
     var save = document.getElementById('save'), warn = document.getElementById('warn');
     function dirty() { warn.hidden = false; save.disabled = false; }
+    var chg = document.getElementById('chg'), form = document.getElementById('form'), bar = document.querySelector('.cta-bar');
+    bar.hidden = true;
+    chg.addEventListener('click', function () { var open = form.hidden; form.hidden = !open; bar.hidden = !open; chg.setAttribute('aria-expanded', open); chg.querySelector('.chev').className = 'ph ph-caret-' + (open ? 'up' : 'down') + ' chev'; });
     document.querySelectorAll('#bank, #hold, #acc').forEach(function (el) { el.addEventListener('input', dirty); el.addEventListener('change', dirty); });
     save.addEventListener('click', function () {   /* the result shows on this screen: new account on top, waiting for verification */
       var b = document.getElementById('bank').value.replace(' Bank', ''), n = document.getElementById('acc').value.replace(/\s/g, '').slice(-4);
       document.getElementById('accNow').textContent = b + ' •• ' + n;
-      var st = document.getElementById('st'); st.classList.add('is-wait'); st.innerHTML = '<i class="ph-fill ph-hourglass-medium" aria-hidden="true"></i><span>Verifying, about 1 working day. Payouts wait until then.</span>';
+      var st = document.getElementById('st'); st.classList.add('is-wait'); st.innerHTML = '<i class="ph-fill ph-hourglass-medium" aria-hidden="true"></i><span>Verifying · about 1 working day</span>';
       warn.hidden = true; save.disabled = true; window.scrollTo({ top: 0, behavior: 'smooth' });
       L.toast('Saved. Verifying your new account.', 'ph-hourglass-medium');
     });
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bank', [["Account", "CIMB •• 3307 · Aina Rahman"], ["State", "Verified · Fri 20 Nov"], ["Payouts", "About 24 h after each class"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

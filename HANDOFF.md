@@ -1,6 +1,6 @@
 # Handoff — Lokali prototype
 
-State as of 27 Nov 2026, version **0.37.0** (see `CHANGELOG.md` for every change).
+State as of 27 Nov 2026, version **0.38.0** (see `CHANGELOG.md` for every change).
 
 ## How to open and preview
 

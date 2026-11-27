@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Results</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
   <style>
 .res-bar { position: sticky; top: 0; z-index: 20; background: var(--bg); padding: var(--sb) var(--s4) 12px; border-bottom: 1px solid var(--line); }
 .res-pill { display: flex; align-items: center; gap: 12px; }
@@ -120,13 +120,14 @@ document.getElementById('mapbox').addEventListener('click', function (ev) { var 
       <button class="f-pill" role="radio" aria-checked="true"><i class="ph ph-sparkle" aria-hidden="true"></i>Recommended</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-arrow-down" aria-hidden="true"></i>Lowest price</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-star" aria-hidden="true"></i>Highest rated</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-navigation-arrow" aria-hidden="true"></i>Nearest</button></div></section>
   <section class="f-sec"><div class="f-head"><h4>Category</h4><span id="fv-cat"></span></div><div class="f-pills" id="f-cat"></div></section>
   <section class="f-sec"><div class="f-head"><h4>Price per adult</h4><span id="fv-price">RM 0 – RM 500+</span></div>
+    <div class="f-pills" id="f-pp" role="radiogroup" aria-label="Price per adult"><button class="f-pill" role="radio" aria-checked="true" data-lo="0" data-hi="500">Any price</button><button class="f-pill" role="radio" aria-checked="false" data-lo="0" data-hi="150">Under RM 150</button><button class="f-pill" role="radio" aria-checked="false" data-lo="150" data-hi="300">RM 150–300</button><button class="f-pill" role="radio" aria-checked="false" data-lo="300" data-hi="500">RM 300+</button></div>
     <div class="f-dual"><span class="tr"></span><span class="fl" id="f-fl"></span><input type="range" id="f-min" min="0" max="500" step="10" value="0" aria-label="Minimum price"><input type="range" id="f-max" min="0" max="500" step="10" value="500" aria-label="Maximum price"></div>
     <div class="grid-2"><div class="field"><label for="f-pmin">Minimum</label><input class="input" id="f-pmin" inputmode="numeric" value="RM 0"></div><div class="field"><label for="f-pmax">Maximum</label><input class="input" id="f-pmax" inputmode="numeric" value="RM 500+"></div></div></section>
   <section class="f-sec"><div class="f-head"><h4>Time of day</h4><span id="fv-time"></span></div>
     <div class="f-pills" id="f-time"><button class="f-pill" aria-pressed="false"><i class="ph ph-sun-horizon" aria-hidden="true"></i>Morning</button><button class="f-pill" aria-pressed="false"><i class="ph ph-sun" aria-hidden="true"></i>Afternoon</button><button class="f-pill" aria-pressed="false"><i class="ph ph-cloud-sun" aria-hidden="true"></i>Evening</button><button class="f-pill" aria-pressed="false"><i class="ph ph-moon-stars" aria-hidden="true"></i>Night</button></div></section>
   <section class="f-sec"><div class="f-head"><h4>Duration</h4><span id="fv-dur"></span></div>
     <div class="f-pills" id="f-dur"><button class="f-pill" aria-pressed="false">Under 3 h</button><button class="f-pill" aria-pressed="false">Half day</button><button class="f-pill" aria-pressed="false">Full day</button><button class="f-pill" aria-pressed="false">Multi-day</button></div></section>
-  <div class="sheet-foot row-2"><button class="btn btn--ghost" id="f-clr">Clear all</button><button class="btn btn--primary" data-close id="f-show">Show 18 experiences</button></div>
+  <div class="sheet-foot row-2"><button class="btn btn--ghost" id="f-clr">Clear all</button><button class="btn btn--primary" data-close id="f-show">Show 18 trips</button></div>
 </div>
 <script>
 (function () {
@@ -154,7 +155,7 @@ document.getElementById('mapbox').addEventListener('click', function (ev) { var 
     var nc = label('f-cat', 'fv-cat'), nt = label('f-time', 'fv-time'), nd = label('f-dur', 'fv-dur');
     var priced = lo > 0 || hi < 500, sorted = $('f-sort').querySelector('[aria-checked="true"]') !== $('f-sort').firstElementChild;
     var n = Math.max(0, Math.round(89 * (nc ? .25 + nc * .2 : 1) * Math.min(1, (hi - lo) / 300 + .3) * (nt ? .3 + nt * .2 : 1) * (nd ? .3 + nd * .2 : 1) * .45));
-    $('f-show').textContent = n ? 'Show ' + n + ' experience' + (n > 1 ? 's' : '') : 'No matches · widen filters';
+    $('f-show').textContent = n ? 'Show ' + n + ' trip' + (n > 1 ? 's' : '') : 'No matches · widen filters';
     var k = (nc ? 1 : 0) + (priced ? 1 : 0) + (nt ? 1 : 0) + (nd ? 1 : 0) + (sorted ? 1 : 0);
     $('fcount').textContent = k; $('fcount').hidden = !k; $('fbtn').setAttribute('aria-label', 'Filters' + (k ? ', ' + k + ' applied' : ''));
   }
@@ -171,9 +172,23 @@ document.getElementById('mapbox').addEventListener('click', function (ev) { var 
   upd();
 })();
 </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-results', [['Focus', 'Top pick for the dates'], ['Results', '18 experiences'], ['View', 'List, toggle to map'], ['Filters', 'Nature · 3 guests']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
+<style>
+  /* Filters (MIMS 27 Nov): no Sort (the chips on Results do it), no summary next to titles (the selected pills say it),
+     price as the same pills as Search (slider + fields hidden, still drive the count), everything in ink */
+  #sh-f .f-sec:first-of-type, #sh-f .f-head > span, #sh-f .f-dual, #sh-f .f-dual + .grid-2 { display: none !important; }
+  #f-pp .f-pill[aria-checked="true"] { background: var(--ink) !important; border-color: var(--ink) !important; color: #fff !important; }
+</style>
+<script>
+(function () {
+  var pp = document.getElementById('f-pp'), mn = document.getElementById('f-min'), mx = document.getElementById('f-max');
+  function pick(b) { pp.querySelectorAll('.f-pill').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); }); mn.value = b.dataset.lo; mx.value = b.dataset.hi; mx.dispatchEvent(new Event('input')); }
+  pp.addEventListener('click', function (e) { var b = e.target.closest('.f-pill'); if (b) pick(b); });
+  document.getElementById('f-clr').addEventListener('click', function () { pick(pp.firstElementChild); });
+})();
+</script>
 </body>
 </html>

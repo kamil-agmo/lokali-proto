@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Calendar</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Calendar in Airy (2 Dec, Aina's one listing): large title + Add slot pill, plain month grid (ink circle = selected),
    one dot per slot (grey open, ink booked, red full), struck-out blocked days; the chosen day below as open rows. */
@@ -57,6 +57,22 @@
 .hc-none { padding: 12px 0 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
 .hc-none a { color: var(--primary); font-weight: 600; }
 </style>
+<style>
+  /* Calendar (27 Nov, explore/host-pass.html #1): fill bar under each bookable date, selected date in ink, the day's slot as Today's dark tile */
+  .hc-grid button { position: relative; }
+  .hc-grid button .dot { display: none; }
+  .hc-fill { display: block; width: 22px; height: 4px; border-radius: 2px; background: #EBEBEB; margin: 4px auto 0; overflow: hidden; } .hc-fill b { display: block; height: 100%; background: var(--ink); }
+  .hc-grid button.sel { background: var(--ink) !important; color: #fff !important; border-radius: 14px !important; }
+  .hc-grid button.sel .hc-fill { background: rgba(255,255,255,.3); } .hc-grid button.sel .hc-fill b { background: #fff; }
+  .hc-grid button.blocked .n { text-decoration: line-through; color: var(--muted); }
+  .hc-tile { position: relative; display: flex; flex-direction: column; margin-top: 4px; padding: 14px 16px; border-radius: 20px; background: #222; color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.18); cursor: pointer; }
+  .hc-tile + .hc-tile { margin-top: 10px; }
+  .hc-tile .chev { position: absolute; top: 14px; right: 14px; color: #fff; font-size: 16px; }
+  .hc-tile .w { font-size: 13px; color: rgba(255,255,255,.78); } .hc-tile .w b { color: #fff; }
+  .hc-tile .tt { font-size: 17px; line-height: 22px; font-weight: 700; margin-top: 2px; }
+  .hc-tile .cp { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: rgba(255,255,255,.78); } .hc-tile .cp .b { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.22); overflow: hidden; } .hc-tile .cp .b i { display: block; height: 100%; background: #fff; }
+  .hc-tile .al { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,.78); } .hc-tile .al em { font-style: normal; color: #FF9C9C; }
+</style>
 </head>
 <body class="m">
 <div class="lt-bar" aria-hidden="true">Calendar</div>
@@ -72,7 +88,6 @@
     </div>
     <div class="hc-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
     <div class="hc-grid" id="grid"></div>
-    <div class="hc-legend"><span><i class="hc-o"></i>Open</span><span><i class="hc-b"></i>Booked</span><span><i class="hc-f"></i>Full, closed</span><span><s>26</s>Blocked</span></div>
   </section>
 
   <section class="hc-day" aria-labelledby="dayTitle">
@@ -118,19 +133,25 @@
       for (var d = 1; d <= 31; d++) {
         var c = [], s = slotsOf(d);
         if (d < TODAY) c.push('past'); if (d === TODAY) c.push('today'); if (d === sel) c.push('sel'); if (blocked[d]) c.push('blocked');
-        var dots = d < TODAY ? '' : s.map(function (x) { return '<i class="dot ' + (x.b >= CAP ? 'hc-f' : x.b ? 'hc-b' : 'hc-o') + '"></i>'; }).join('');
+        /* 27 Nov: a small fill bar per bookable day (how full it is) instead of coloured dots */
+        var dots = d < TODAY || !s.length ? '' : '<i class="hc-fill"><b style="width:' + Math.round(Math.max.apply(null, s.map(function (x) { return x.b / (x.cap || CAP); })) * 100) + '%"></b></i>';
         h += '<button class="' + c.join(' ') + '" data-d="' + d + '" aria-label="' + DOW[dow(d)] + ' ' + d + ' December' + (blocked[d] ? ', blocked' : s.length ? ', ' + s.length + ' slot' : '') + '"><span class="n">' + d + '</span><span style="display:flex;gap:3px">' + dots + '</span></button>';
       }
       document.getElementById('grid').innerHTML = h;
     }
     function day() {
       var s = slotsOf(sel);
-      document.getElementById('dayTitle').textContent = DOW[dow(sel)] + ', ' + sel + ' Dec' + (sel === TODAY ? ' · today' : '');
+      document.getElementById('dayTitle').textContent = sel === TODAY ? 'Today' : 'Selected day';
       document.getElementById('block').setAttribute('aria-checked', blocked[sel] ? 'true' : 'false');
+      /* 27 Nov: the selected day's slot is the same dark tile as Today */
+      var soon = sel - TODAY;
       document.getElementById('slots').innerHTML = s.length ? s.map(function (x) {
         var cap = x.cap || CAP, full = x.b >= cap;
-        return '<div class="hc-row" data-slot="' + x.t + '"><div><b>' + x.t + ' – ' + end(x.t) + '</b><small>' + x.kind + (full ? ' · closed to new bookings' : x.b ? ' · ' + (cap - x.b) + ' places left' : '') + '</small></div>' +
-          '<span class="cap' + (full ? ' full' : '') + '">' + x.b + ' / ' + cap + '</span>' + (x.b ? '<i class="ph ph-caret-right chev" aria-hidden="true"></i>' : '') + '</div>';
+        return '<div class="hc-tile" role="button" tabindex="0" data-slot="' + x.t + '"><i class="ph ph-caret-right chev" aria-hidden="true"></i>' +
+          '<span class="w">' + (soon > 0 && soon < 8 ? '<b>In ' + soon + ' days</b> · ' : '') + DOW[dow(sel)] + ', ' + sel + ' Dec · ' + x.kind + '</span>' +
+          '<span class="tt">' + x.t + ' – ' + end(x.t) + '</span>' +
+          '<span class="cp"><span class="b"><i style="width:' + Math.round(x.b / cap * 100) + '%"></i></span>' + (full ? 'Full · closed' : x.b ? x.b + ' of ' + cap + ' booked' : 'No bookings yet') + '</span>' +
+          (sel === 5 ? '<span class="al">3 bookings · <em>1 allergy</em></span>' : '') + '</div>';
       }).join('') : blocked[sel] ? '<p class="hc-none">Blocked. Guests can\'t book this day.</p>'
         : sel < TODAY ? '<p class="hc-none">No class.</p>' : '<p class="hc-none">No class. <a href="h-slot.html" data-go="h-slot">Add a slot</a></p>';
     }
@@ -158,9 +179,9 @@ function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar
 addEventListener('scroll', f, { passive: true }); f();
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [["Recurring", "Saturdays 9:00 AM"], ["One-off", "Sun 20 Dec"], ["Blocked", "Sat 26 Dec"], ["Capacity", "8 per class · full slots close"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

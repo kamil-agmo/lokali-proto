@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Bookings</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Bookings in Airy (2 Dec, Aina's one listing): pills like guest Bookings, bookings grouped by class, open rows with hairlines.
    Cancelled bookings stay under their class (greyed) so the place count makes sense; tapping one opens its email. */
@@ -44,6 +44,14 @@
 .hb-row.is-cx b, .hb-row.is-cx .hb-av { color: var(--faint); }
 .hb-row.is-cx b { font-weight: 500; }
 </style>
+<style>
+  /* each date is a header made of the listing's photo (27 Nov, explore/host-pass.html #2): date, time + listing, and a fill chip */
+  .hb-ph { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 120px; margin-bottom: 4px; padding: 12px 14px; border-radius: 20px; overflow: hidden; background: #888 center / cover; color: #fff; }
+  .hb-ph::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 25%, rgba(0,0,0,.66)); }
+  .hb-ph > * { position: relative; } .hb-ph b { font-size: 17px; line-height: 22px; } .hb-ph > span:not(.cnt) { font-size: 12px; line-height: 17px; opacity: .92; }
+  .hb-ph .cnt { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 10px; border-radius: 999px; background: #fff; color: #222; font-size: 12px; font-weight: 700; display: flex; align-items: center; }
+  .hb-ph.is-past { filter: saturate(.55); }
+</style>
 </head>
 <body class="m">
 <header class="appbar bordered">
@@ -58,34 +66,31 @@
 <main class="hb">
   <section id="up">
     <div class="hb-class">
-      <div class="hb-head" data-go="h-booking"><h2>Sat, 5 Dec · in 3 days</h2><span>6 of 8 guests</span></div>
-      <span class="hb-sub">9:00 – 11:30 AM · Kuih morning</span>
+      <a class="hb-ph" href="h-booking.html" data-go="h-booking" data-bg="1643188626775-05290d1b6acb"><span class="cnt">6 / 8</span><b>Sat, 5 Dec · in 3 days</b><span>9:00 – 11:30 AM · Forest-edge farm walk &amp; kuih morning</span></a>
       <div class="hb-row" data-go="h-booking"><img class="hb-av" data-img="1613447895817-e617a4093f50" data-w="80" alt=""><div><b>Nur Aisyah Kamal</b><small>2 adults, 1 child · LK-24852</small><span class="hb-note alert"><i class="ph ph-warning" aria-hidden="true"></i>Peanut allergy (son)</span></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
       <div class="hb-row" data-go="h-booking"><span class="hb-av" aria-hidden="true">PN</span><div><b>Priya Nair</b><small>2 adults · LK-24858</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
       <div class="hb-row" data-go="h-booking"><span class="hb-av" aria-hidden="true">HI</span><div><b>Hafiz Ismail <span class="hb-tag">New</span></b><small>1 adult · LK-24861</small><span class="hb-note"><i class="ph ph-fork-knife" aria-hidden="true"></i>Vegetarian</span></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-      <div class="hb-row is-cx" data-go="h-email" onclick="L.state.set('hEmail', 'cx')"><span class="hb-av" aria-hidden="true">LW</span><div><b>Lim Wei Jie <span class="hb-tag">Cancelled</span></b><small>2 adults · cancelled Tue, 1 Dec · full refund</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+      <div class="hb-row is-cx" data-go="h-booking"><span class="hb-av" aria-hidden="true">LW</span><div><b>Lim Wei Jie <span class="hb-tag">Cancelled</span></b><small>2 adults · cancelled Tue, 1 Dec · full refund</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
     </div>
     <div class="hb-class">
-      <div class="hb-head" data-go="h-calendar"><h2>Sat, 12 Dec</h2><span>0 of 8 guests</span></div>
-      <span class="hb-sub">9:00 – 11:30 AM · no bookings yet</span>
+      <a class="hb-ph" href="h-calendar.html" data-go="h-calendar" data-bg="1643188626775-05290d1b6acb"><span class="cnt">0 / 8</span><b>Sat, 12 Dec</b><span>9:00 – 11:30 AM · no bookings yet</span></a>
     </div>
   </section>
 
   <section id="past" hidden>
     <div class="hb-class">
-      <div class="hb-head" data-go="h-earnings"><h2>Sat, 28 Nov</h2><span>7 guests</span></div>
-      <span class="hb-sub">RM 480.25 paid Sun, 29 Nov</span>
+      <a class="hb-ph is-past" href="h-earnings.html" data-go="h-earnings" data-bg="1643188626775-05290d1b6acb"><span class="cnt">7 guests</span><b>Sat, 28 Nov</b><span>RM 480.25 paid Sun, 29 Nov</span></a>
     </div>
     <div class="hb-class">
-      <div class="hb-head" data-go="h-earnings"><h2>Sat, 21 Nov</h2><span>4 guests</span></div>
-      <span class="hb-sub">RM 289.00 paid Sun, 22 Nov · your first class</span>
+      <a class="hb-ph is-past" href="h-earnings.html" data-go="h-earnings" data-bg="1643188626775-05290d1b6acb"><span class="cnt">4 guests</span><b>Sat, 21 Nov</b><span>RM 289.00 paid Sun, 22 Nov · your first class</span></a>
     </div>
   </section>
 </main>
+<script>document.querySelectorAll('[data-bg]').forEach(function (e) { e.style.backgroundImage = 'url(' + L.img(e.getAttribute('data-bg'), 800) + ')'; });</script>
 
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bookings', [["Next class", "Sat 5 Dec · 6 of 8 guests"], ["New", "Hafiz Ismail · LK-24861"], ["Cancelled", "Lim Wei Jie · full refund"], ["Past", "Sat 28 Nov (7) · Sat 21 Nov (4)"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

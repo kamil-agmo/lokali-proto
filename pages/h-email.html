@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Host email</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
   <style>
 /* Airy (2 Dec): same pattern as the guest emails (g-email): Home-style pills, plain mail card */
 .mailbar { display: flex; gap: 8px; padding: 12px 24px 8px; }
@@ -27,8 +27,9 @@
 </head>
 <body class="m">
 <header class="appbar bordered">
-  <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-  <div class="appbar__title">Inbox</div>
+  <!-- an email as the guest / host sees it in their mail app (27 Nov): reached from the presenter menu, not from inside Lokali -->
+  <span class="icon-btn" aria-hidden="true" style="pointer-events:none"><i class="ph ph-caret-left"></i></span>
+  <div class="appbar__title">Mail</div>
   <span class="spacer"></span>
 </header>
 <div class="mailbar" data-group><button class="active" data-panel="#m1" id="b1">New booking</button><button data-panel="#m2" id="b2">Cancellation</button></div>
@@ -37,7 +38,7 @@
   <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: aina.rahman@gmail.com · Wed, 2 Dec, 9:12 AM<br><b>New booking: Hafiz Ismail, Sat 5 Dec, 9:00 AM</b></div>
   <article class="mail">
     <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24861</span></div>
-    <img class="mail__hero" data-img="1505471768190-275e2ad7b3f9" data-w="800" alt="">
+    <img class="mail__hero" data-img="1643188626775-05290d1b6acb" data-w="800" alt="">
     <div class="mail__body">
       <h2>New booking</h2>
       <table class="mail-table">
@@ -80,9 +81,9 @@
   /* opened from a cancelled booking in Bookings: show the cancellation email */
   (function () { if (L.state.get('hEmail', '') === 'cx') { L.state.set('hEmail', ''); document.getElementById('b2').click(); } })();
   </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-email', [['Emails', 'New booking (Hafiz Ismail, LK-24861) · Cancellation (Lim Wei Jie, LK-24855)'], ['To', 'aina.rahman@gmail.com'], ['Requirement', 'Email per new booking / cancellation (Must)']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

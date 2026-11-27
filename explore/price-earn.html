@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Price & policy: what she earns</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 20px; max-width: 900px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  .col { width: 402px; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .ph { width: 402px; background: #fff; border-radius: 24px; padding: 20px 24px 24px; box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+  label { display: block; font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .inp { position: relative; } .inp input { width: 100%; height: 52px; border: 1px solid #DDDDDD; border-radius: 14px; padding: 0 14px 0 46px; font: 400 17px Inter, sans-serif; color: #222; }
+  .inp span { position: absolute; left: 16px; top: 15px; font-weight: 500; color: #6A6A6A; }
+  .hint { font-size: 13px; color: #6A6A6A; margin-top: 8px; }
+  .earn1 { margin-top: 10px; font-size: 15px; } .earn1 b { color: #1C522C; font-weight: 600; }
+  .rc { margin-top: 14px; border-top: 1px solid #EBEBEB; } .rc div { display: flex; justify-content: space-between; padding: 10px 0; font-size: 15px; } .rc div + div { border-top: 1px solid #EBEBEB; }
+  .rc .m { color: #6A6A6A; } .rc .you { font-weight: 600; color: #1C522C; } .rc .you b { font-size: 17px; }
+  .hero { margin-top: 14px; padding: 16px; border-radius: 20px; background: #F1F6F2; display: flex; align-items: center; gap: 12px; }
+  .hero .k { font-size: 12px; font-weight: 600; color: #1C522C; } .hero .v { font-size: 30px; line-height: 36px; font-weight: 800; color: #1C522C; }
+  .hero .n { margin-left: auto; text-align: right; font-size: 12px; line-height: 17px; color: #3D3D3D; }
+  .try { font-size: 12px; color: #6A6A6A; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h1>Price &amp; policy: what she earns (no static bar)</h1>
+<p class="sub">The 85 / 15 bar never changes (commission is always 15%), so it says nothing new. Three ways to show what matters: what she takes home, live as she types. Type a new price in any phone.</p>
+<div class="wrap" id="w"></div>
+<script>
+var V = [
+  ['A · One live line under the price', 'Simplest: the price field, then "You earn RM 72.25 per adult after the 15% Lokali commission." Updates as she types. No box, no bar.', 'a', false],
+  ['B · Receipt (recommended)', 'Three rows under the price: what the guest pays, Lokali\'s cut, what she earns (green). Answers "where does my RM 85 go?" with real numbers, updates live.', 'b', true],
+  ['C · Earn box next to the field', 'Keeps a highlighted "You earn" number but beside the commission note instead of a bar. Strong, but the price and the result sit in two places.', 'c', false]
+];
+function body(k) {
+  var f = '<label>Price per adult</label><div class="inp"><span>RM</span><input type="number" value="85" inputmode="decimal"></div>';
+  if (k === 'a') return f + '<p class="earn1">You earn <b class="you">RM 72.25</b> per adult after the 15% Lokali commission.</p><p class="hint">Guests pay a 5% service fee on top.</p>';
+  if (k === 'b') return f + '<div class="rc"><div><span class="m">Guest pays</span><span class="gp">RM 89.25</span></div><div><span class="m">Lokali (15% + 5% guest fee)</span><span class="lk">− RM 17.00</span></div><div class="you"><span>You earn</span><b class="you">RM 72.25</b></div></div>';
+  return f + '<div class="hero"><div><div class="k">You earn per adult</div><div class="v you">RM 72.25</div></div><div class="n">After the 15%<br>Lokali commission</div></div><p class="hint">Guests pay a 5% service fee on top.</p>';
+}
+document.getElementById('w').innerHTML = V.map(function (v) { return '<div class="col' + (v[3] ? ' rec' : '') + '"><b>' + v[0] + '</b><p>' + v[1] + '</p><div class="ph" data-k="' + v[2] + '">' + body(v[2]) + '<p class="try">Try it: change the price.</p></div></div>'; }).join('');
+var rm = function (n) { return 'RM ' + n.toFixed(2); };
+document.querySelectorAll('.ph').forEach(function (ph) {
+  ph.querySelector('input').addEventListener('input', function () {
+    var p = parseFloat(this.value) || 0, you = p * .85, gp = p * 1.05;
+    ph.querySelectorAll('.you').forEach(function (e) { if (e.tagName === 'B' || e.classList.contains('v')) e.textContent = rm(you); });
+    var g = ph.querySelector('.gp'); if (g) g.textContent = rm(gp);
+    var l = ph.querySelector('.lk'); if (l) l.textContent = '− ' + rm(gp - you);
+  });
+});
+</script>
+</body>
+</html>

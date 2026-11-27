@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Host screens: proposals</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1000px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  .col { width: 402px; flex: none; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 72px; }
+  .ph { position: relative; width: 402px; background: #fff; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 7px solid #111; padding: 0 0 28px; }
+  .bar0 { height: 48px; display: flex; align-items: center; justify-content: center; position: relative; font-size: 16px; font-weight: 600; border-bottom: 1px solid #EBEBEB; }
+  .bar0 .bk { position: absolute; left: 16px; top: 14px; }
+  .in { padding: 0 24px; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  h3.t { font-size: 18px; line-height: 24px; font-weight: 700; margin: 24px 0 12px; }
+  .big { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02em; }
+  .mut { color: #6A6A6A; } .sm { font-size: 12px; line-height: 17px; } .md { font-size: 13px; line-height: 18px; }
+  .hr { height: 1px; background: #EBEBEB; margin: 20px 0; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid #DDDDDD; font-size: 13px; font-weight: 600; }
+  .pill.dk { background: #222; color: #fff; border-color: #222; } .pill.rd { background: #D7263D; color: #fff; border-color: #D7263D; }
+  .btn { display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 999px; background: #D7263D; color: #fff; font-weight: 600; margin: 24px 24px 0; }
+  .ph-img { background: #ccc center / cover; }
+  .notes { width: 402px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; } .notes li { margin: 6px 0 6px 18px; font-size: 13px; line-height: 19px; }
+
+  /* 1 calendar */
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px 0; text-align: center; }
+  .cal .h { font-size: 11px; font-weight: 600; color: #6A6A6A; padding-bottom: 6px; }
+  .cal .d { height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 6px; font-size: 14px; font-weight: 500; border-radius: 14px; }
+  .cal .d.slot { font-weight: 700; } .cal .d i { display: block; width: 22px; height: 4px; border-radius: 2px; background: #EBEBEB; margin-top: 6px; overflow: hidden; } .cal .d i b { display: block; height: 100%; background: #222; }
+  .cal .d.sel { background: #222; color: #fff; } .cal .d.sel i { background: rgba(255,255,255,.3); } .cal .d.sel i b { background: #fff; }
+  .cal .d.blk { color: #B0B0B0; text-decoration: line-through; } .cal .d.past { color: #C8C8C8; }
+  .dtile { margin-top: 16px; border-radius: 20px; background: #222; color: #fff; padding: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+  .dtile .w { font-size: 13px; color: rgba(255,255,255,.78); } .dtile .tt { font-size: 17px; font-weight: 700; margin-top: 2px; }
+  .dtile .cp { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: rgba(255,255,255,.78); } .dtile .cp span.b { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.22); overflow: hidden; } .dtile .cp span.b i { display: block; height: 100%; width: 75%; background: #fff; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #EBEBEB; } .row b { display: block; font-size: 15px; font-weight: 600; } .row small { display: block; font-size: 12px; color: #6A6A6A; }
+  .sw { margin-left: auto; width: 50px; height: 30px; border-radius: 15px; background: #D9D9D9; position: relative; } .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+
+  /* 2 bookings */
+  .bkd { margin-top: 20px; }
+  .bkd .hd { position: relative; height: 120px; border-radius: 20px; overflow: hidden; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; background: #888 center / cover; }
+  .bkd .hd::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.65)); } .bkd .hd > * { position: relative; }
+  .bkd .hd b { font-size: 17px; } .bkd .hd span { font-size: 12px; opacity: .9; }
+  .bkd .hd .cnt { position: absolute; top: 10px; right: 10px; height: 26px; padding: 0 10px; border-radius: 999px; background: #fff; color: #222; font-size: 12px; font-weight: 700; display: flex; align-items: center; }
+  .g { display: flex; align-items: center; gap: 12px; padding: 12px 0; } .g + .g { border-top: 1px solid #EBEBEB; }
+  .av { width: 40px; height: 40px; border-radius: 50%; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #3D3D3D; flex: none; }
+  .g b { display: block; font-size: 15px; font-weight: 600; } .g small { display: block; font-size: 12px; color: #6A6A6A; } .al { color: #B42318; }
+
+  /* 3 reviews */
+  .rv { padding: 18px 0; border-top: 1px solid #EBEBEB; } .rv:first-of-type { border-top: 0; }
+  .rv .who { display: flex; align-items: center; gap: 10px; } .rv .who b { font-size: 15px; } .stars { color: #C9A21C; font-size: 13px; letter-spacing: 1px; margin-left: auto; }
+  .rv p { font-size: 15px; line-height: 22px; margin-top: 8px; }
+  .reply { position: relative; margin: 14px 0 0 20px; padding-left: 0; }
+  .reply::before { content: ""; position: absolute; left: -14px; top: -6px; width: 12px; height: 24px; border-left: 2px solid #DDDDDD; border-bottom: 2px solid #DDDDDD; border-bottom-left-radius: 10px; }
+  .reply .hb { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; } .reply .hb .av { width: 24px; height: 24px; }
+  .reply .hb .tag { height: 20px; padding: 0 8px; border-radius: 999px; background: #E8F0EA; color: #1C522C; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
+  .reply .bub { margin-top: 6px; background: #F7F7F7; border-radius: 4px 16px 16px 16px; padding: 10px 12px; font-size: 14px; line-height: 20px; color: #3D3D3D; }
+  .noreply { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+
+  /* 4 listings */
+  .lr { display: flex; gap: 14px; align-items: center; padding: 14px 0; } .lr + .lr { border-top: 1px solid #EBEBEB; }
+  .lr .th { width: 88px; height: 88px; border-radius: 20px; flex: none; background: #ddd center / cover; display: grid; place-items: center; color: #9A9A9A; }
+  .lr b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .lr small { display: block; font-size: 12px; line-height: 17px; color: #6A6A6A; margin-top: 2px; }
+  .st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; } .st i { width: 8px; height: 8px; border-radius: 50%; background: #37664A; display: inline-block; } .st.dr i { background: #B0B0B0; }
+  .prog { height: 4px; border-radius: 2px; background: #EBEBEB; margin-top: 8px; overflow: hidden; } .prog b { display: block; height: 100%; width: 72%; background: #222; }
+
+  /* 5 guide */
+  .prev { position: relative; height: 150px; background: #888 center / cover; }
+  .prev svg.hill { position: absolute; left: 0; right: 0; bottom: -3px; width: 100%; height: 34px; fill: #fff; }
+  .prev .me { position: absolute; left: 24px; bottom: -30px; width: 76px; height: 76px; border-radius: 50%; border: 4px solid #fff; background: #ccc center / cover; box-shadow: 0 6px 18px rgba(0,0,0,.14); }
+  .prev .lbl { position: absolute; top: 12px; left: 12px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(255,255,255,.92); font-size: 11px; font-weight: 700; display: flex; align-items: center; }
+  .thumbs { display: flex; gap: 10px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px; scrollbar-width: none; }
+  .thumbs span { position: relative; flex: none; width: 92px; height: 68px; border-radius: 14px; background: #ccc center / cover; }
+  .thumbs span.on { outline: 2px solid #222; outline-offset: 2px; } .thumbs span.on::after { content: "✓"; position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: #222; color: #fff; font-size: 12px; display: grid; place-items: center; }
+  .thumbs span.add { background: #F7F7F7; display: grid; place-items: center; color: #6A6A6A; font-size: 24px; border: 1px dashed #DDDDDD; }
+  .fld { margin-top: 14px; } .fld label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; } .fld div { height: 48px; border: 1px solid #DDDDDD; border-radius: 14px; padding: 0 14px; display: flex; align-items: center; font-size: 15px; }
+
+  /* 6 price */
+  .earn { margin-top: 8px; padding: 20px; border-radius: 24px; background: #F1F6F2; text-align: center; }
+  .earn .k { font-size: 12px; font-weight: 600; color: #1C522C; } .earn .v { font-size: 40px; line-height: 46px; font-weight: 800; color: #1C522C; } .earn .v sup { font-size: 16px; vertical-align: 18px; margin-right: 2px; }
+  .split { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 14px 0 8px; } .split i { display: block; } .split .a { width: 81%; background: #37664A; } .split .b { width: 14%; background: #C9D9CD; } .split .c { width: 5%; background: #E3E3E3; }
+  .leg { display: flex; justify-content: space-between; font-size: 11px; color: #3D3D3D; }
+  .pr { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid #EBEBEB; } .pr b { display: block; font-size: 15px; font-weight: 600; } .pr small { display: block; font-size: 12px; color: #6A6A6A; }
+  .pr .val { margin-left: auto; font-size: 17px; font-weight: 700; }
+  .pol { display: flex; gap: 8px; margin-top: 4px; } .pol span { flex: 1; border: 1px solid #DDDDDD; border-radius: 16px; padding: 10px; } .pol span.on { border: 2px solid #222; padding: 9px; }
+  .pol b { display: block; font-size: 14px; } .pol small { display: block; font-size: 11px; line-height: 15px; color: #6A6A6A; margin-top: 2px; }
+  .pol .tl { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 8px; } .pol .tl i { display: block; } .g1 { background: #37664A; } .g2 { background: #C9A21C; } .g3 { background: #D7263D; }
+
+  /* 7 earnings */
+  .eh { position: relative; padding: 28px 24px 24px; background: linear-gradient(160deg, #1C522C, #37664A 60%, #4f8a5f); color: #fff; overflow: hidden; }
+  .eh .spark { position: absolute; border-radius: 50%; }
+  .eh .k { font-size: 13px; font-weight: 600; opacity: .9; } .eh .v { font-size: 44px; line-height: 50px; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; } .eh .v sup { font-size: 18px; vertical-align: 20px; margin-right: 2px; }
+  .eh .up { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255,255,255,.16); font-size: 12px; font-weight: 600; }
+  .bars { display: flex; align-items: flex-end; gap: 10px; height: 70px; margin-top: 18px; } .bars i { flex: 1; border-radius: 6px 6px 2px 2px; background: rgba(255,255,255,.28); position: relative; } .bars i.on { background: #fff; }
+  .bars + .bl { display: flex; gap: 10px; margin-top: 6px; font-size: 10px; opacity: .85; } .bl span { flex: 1; text-align: center; }
+  .ms { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; margin: 20px 0 0; } .ms div + div { border-left: 1px solid #EBEBEB; } .ms b { display: block; font-size: 22px; font-weight: 800; } .ms small { font-size: 12px; color: #6A6A6A; } .ms .gr b { color: #1C522C; }
+  .np { margin-top: 20px; padding: 14px 16px; border-radius: 20px; border: 1px solid #EBEBEB; display: flex; align-items: center; gap: 12px; }
+  .np b { display: block; font-size: 15px; } .np small { display: block; font-size: 12px; color: #6A6A6A; } .np .amt { margin-left: auto; font-size: 17px; font-weight: 800; }
+
+  /* 8 bank */
+  .card { margin: 20px 24px 0; height: 190px; border-radius: 24px; padding: 18px 20px; color: #fff; background: linear-gradient(135deg, #7A0019, #C8102E 55%, #E0465E); position: relative; overflow: hidden; box-shadow: 0 12px 28px rgba(200,16,46,.28); display: flex; flex-direction: column; }
+  .card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.08); }
+  .card .bn { font-size: 18px; font-weight: 800; letter-spacing: .04em; } .card .ver { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 10px; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 11px; font-weight: 600; }
+  .card .num { margin-top: auto; font-size: 22px; letter-spacing: .12em; font-weight: 600; } .card .nm { font-size: 12px; opacity: .85; margin-top: 4px; letter-spacing: .06em; }
+  .flow { display: flex; align-items: center; margin-top: 8px; } .flow .dot { width: 28px; height: 28px; border-radius: 50%; background: #222; color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex: none; } .flow .dot.g { background: #37664A; } .flow .ln { flex: 1; height: 2px; background: #DDDDDD; }
+  .flw { display: flex; justify-content: space-between; font-size: 11px; color: #3D3D3D; margin-top: 6px; } .flw span { width: 80px; text-align: center; } .flw span:first-child { text-align: left; } .flw span:last-child { text-align: right; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-back" viewBox="0 0 256 256"><path d="M160 208 80 128l80-80"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 256 256"><path d="M96 48l80 80-80 80"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 256 256"><path d="M128 40v176M40 128h176"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-img" viewBox="0 0 256 256"><rect x="32" y="48" width="192" height="160" rx="12"/><circle cx="96" cy="104" r="16"/><path d="M32 176l56-56 64 64 32-32 40 40"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 256 256"><path d="M56 200C40 96 120 40 216 40c0 96-56 176-160 160zM56 200l88-88"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 256 256"><path d="M32 96l96-56 96 56M48 96v96M96 96v96M160 96v96M208 96v96M32 208h192"/></symbol>
+</svg>
+
+<h1>Host screens: proposals (Calendar, Bookings, Reviews, Listings, Meet your guide, Price &amp; policy, Earnings, Bank)</h1>
+<p class="sub">One recommended direction per screen, drawn at phone width with Aina's real numbers. Already done in the app (no mock needed): new listing photo, a "For" picker on Add time slot, a red attention notice for your own trips in host Inbox, and Menu in the Account style. MIMS notes at the end.</p>
+<div class="wrap" id="w"></div>
+
+<script>
+function u(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 600) + '&q=70&auto=format&fit=crop'; }
+var I = function (n, st) { return '<svg class="ic" style="' + (st || '') + '"><use href="#i-' + n + '"/></svg>'; };
+var LIST = '1643188626775-05290d1b6acb', FARM = '1716466205712-16bd54030abd', AINA = '1545266241-3516e2a6e016';
+function bar(t, right) { return '<div class="bar0"><span class="bk">' + I('back') + '</span>' + t + (right ? '<span style="position:absolute;right:16px;top:12px">' + right + '</span>' : '') + '</div>'; }
+
+var S = [];
+/* 1 Calendar */
+(function () {
+  var days = '', dows = ['M','T','W','T','F','S','S'].map(function (d) { return '<span class="h">' + d + '</span>'; }).join('');
+  var fill = { 5: 75, 12: 25, 19: 0, 26: -1 }, n;
+  for (var i = 0; i < 1; i++) days += '<span></span>';
+  for (n = 1; n <= 31; n++) {
+    var f = fill[n], cls = n < 2 ? 'past' : '', fb = '';
+    if (f !== undefined) { cls += f < 0 ? ' blk' : ' slot'; if (f >= 0) fb = '<i><b style="width:' + f + '%"></b></i>'; }
+    if (n === 5) cls += ' sel';
+    days += '<span class="d ' + cls + '">' + n + fb + '</span>';
+  }
+  S.push(['1 · Calendar', 'Every bookable day shows how full it is (a small bar under the date), blocked days are struck through, and the tapped day opens as the same dark tile as Today. One look tells you which Saturdays need guests.',
+    bar('Calendar', '<span class="pill" style="height:30px">' + I('plus', 'width:14px;height:14px') + 'Add slot</span>') +
+    '<div class="in"><div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 12px"><b style="font-size:17px">December 2026</b><span class="mut md">' + I('back') + ' ' + I('chev') + '</span></div>' +
+    '<div class="cal">' + dows + days + '</div>' +
+    '<div class="dtile"><span class="w"><b style="color:#fff">In 3 days</b> · Sat, 5 Dec</span><div class="tt">9:00 – 11:30 AM</div><div class="cp"><span class="b"><i></i></span>6 of 8 booked</div><div class="md" style="margin-top:8px;color:rgba(255,255,255,.78)">3 bookings · <span style="color:#FF9C9C">1 allergy</span></div></div>' +
+    '<div class="row" style="margin-top:12px;border-top:0"><div><b>Block this date</b><small>Guests can\'t book it</small></div><span class="sw"></span></div></div>']);
+})();
+/* 2 Bookings */
+S.push(['2 · Bookings with the experience photo', 'Each date is a photo header (the listing\'s own photo) with the date, time and a "6 / 8" chip; guests sit under it. Same on every bookings list: you see which experience at a glance.',
+  bar('Bookings') + '<div class="in"><div style="display:flex;gap:8px;margin-top:14px"><span class="pill dk">Upcoming</span><span class="pill">Past</span></div>' +
+  '<div class="bkd"><div class="hd" style="background-image:url(' + u(LIST) + ')"><span class="cnt">6 / 8</span><b>Sat, 5 Dec · in 3 days</b><span>9:00 – 11:30 AM · Forest-edge farm walk &amp; kuih morning</span></div>' +
+  '<div class="g"><span class="av" style="background-image:url(' + u('1613447895817-e617a4093f50', 80) + ')"></span><div><b>Nur Aisyah Kamal</b><small>2 adults, 1 child · <span class="al">Son: peanut allergy</span></small></div></div>' +
+  '<div class="g"><span class="av">PN</span><div><b>Priya Nair</b><small>2 adults</small></div></div>' +
+  '<div class="g"><span class="av">HI</span><div><b>Hafiz Ismail</b><small>1 adult · vegetarian · new</small></div></div></div>' +
+  '<div class="bkd"><div class="hd" style="background-image:url(' + u(LIST) + ');filter:saturate(.85)"><span class="cnt">2 / 8</span><b>Sat, 12 Dec</b><span>9:00 – 11:30 AM · Forest-edge farm walk &amp; kuih morning</span></div>' +
+  '<div class="g"><span class="av">DW</span><div><b>Daniel Wong</b><small>2 adults</small></div></div></div></div>']);
+/* 3 Reviews */
+S.push(['3 · Replies that read as replies', 'The reply hangs under the review with a curved connector, her photo and a green "Host reply" tag, in a grey speech bubble. No reply yet: a clear Reply pill.',
+  bar('Reviews') + '<div class="in"><div style="display:flex;align-items:baseline;gap:8px;margin:16px 0 4px"><span class="big">5.0</span><span style="color:#C9A21C">★★★★★</span><span class="mut md">3 reviews</span></div>' +
+  '<div class="rv"><div class="who"><span class="av" style="width:36px;height:36px">DW</span><div><b>Daniel Wong</b><div class="sm mut">Nov 2026</div></div><span class="stars">★★★★★</span></div><p>Walking the forest edge, picking pandan, then eating kuih we steamed ourselves. My kids loved it.</p><div class="noreply"><span class="sm mut">No reply yet</span><span class="pill rd">Reply</span></div></div>' +
+  '<div class="rv"><div class="who"><span class="av" style="width:36px;height:36px">CL</span><div><b>Chloe Lim</b><div class="sm mut">Nov 2026</div></div><span class="stars">★★★★★</span></div><p>Aina explains every step and sends you home with a recipe card. Lovely morning.</p>' +
+  '<div class="reply"><div class="hb"><span class="av" style="background-image:url(' + u(AINA, 80) + ')"></span>Aina<span class="tag">Host reply</span></div><div class="bub">Thank you, Chloe! See you at the next harvest.</div></div></div></div>']);
+/* 4 Listings */
+S.push(['4 · Listings as a list', 'Each listing is a row with an 88 px photo, status dot (Live / Draft), price and next date. No giant hero: with 1–3 listings the page should show them all at once. Draft shows its progress.',
+  '<div class="in" style="padding-top:20px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="big">Listings</span><span class="pill">' + I('plus', 'width:14px;height:14px') + 'New listing</span></div>' +
+  '<div class="lr" style="margin-top:12px"><span class="th" style="background-image:url(' + u(LIST, 300) + ')"></span><div><span class="st"><i></i>Live</span><b>Forest-edge farm walk &amp; kuih morning</b><small>★ 5.0 (3) · RM 85 / adult</small><small>Next: Sat, 5 Dec · 6 of 8</small></div></div>' +
+  '<div class="lr"><span class="th" style="background:#F7F7F7">' + I('img', 'width:26px;height:26px') + '</span><div style="flex:1"><span class="st dr"><i></i>Draft · edited Tue, 1 Dec</span><b>Pandan dye workshop</b><small>8 of 11 sections done</small><div class="prog"><b></b></div></div></div>' +
+  '<div class="md mut" style="margin-top:12px">The Lokali team checks each new listing before it goes live.</div></div>']);
+/* 5 Meet your guide */
+S.push(['5 · Meet your guide with a background photo', 'A live preview of her Host profile header on top. She picks the background from her own photos (or adds one); her round photo sits on it, exactly as guests will see it.',
+  bar('Section 6 of 14') + '<div class="prev" style="background-image:url(' + u(LIST, 800) + ')"><span class="lbl">Preview</span><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg><span class="me" style="background-image:url(' + u(AINA, 200) + ')"></span></div>' +
+  '<div class="in" style="padding-top:44px"><b style="font-size:17px">Background photo</b><div class="sm mut" style="margin:2px 0 10px">From your listing photos</div>' +
+  '<div class="thumbs"><span class="on" style="background-image:url(' + u(LIST, 200) + ')"></span><span style="background-image:url(' + u(FARM, 200) + ')"></span><span style="background-image:url(' + u('1530507629858-e4977d30e9e0', 200) + ')"></span><span class="add">+</span></div>' +
+  '<div class="fld"><label>Name guests see</label><div>Aina</div></div><div class="fld"><label>Hometown</label><div>Hulu Langat, Selangor</div></div></div>']);
+/* 6 Price & policy */
+S.push(['6 · Price & policy that shows what she earns', 'Leads with what she takes home per adult, with the split as one bar (her share, Lokali, payment). Prices as clean rows; policies as three cards with a refund-timeline strip each.',
+  bar('Section 13 of 14') + '<div class="in" style="padding-top:16px"><div class="earn"><div class="k">You earn per adult</div><div class="v"><sup>RM</sup>72.25</div><div class="split"><i class="a"></i><i class="b"></i><i class="c"></i></div><div class="leg"><span>You RM 72.25</span><span>Lokali 15% RM 12.75</span></div></div>' +
+  '<div class="pr" style="margin-top:12px;border-top:0"><div><b>Adult</b><small>13+</small></div><span class="val">RM 85</span></div>' +
+  '<div class="pr"><div><b>Child</b><small>5–12</small></div><span class="val">RM 55</span></div>' +
+  '<div class="pr"><div><b>Private group</b><small>Up to 8 guests</small></div><span class="val">RM 480</span></div>' +
+  '<h3 class="t">Cancellation</h3><div class="pol">' +
+  '<span class="on"><b>Flexible</b><small>Full refund up to 24 h</small><div class="tl"><i class="g1" style="width:85%"></i><i class="g3" style="width:15%"></i></div></span>' +
+  '<span><b>Moderate</b><small>Full refund up to 72 h</small><div class="tl"><i class="g1" style="width:60%"></i><i class="g3" style="width:40%"></i></div></span>' +
+  '<span><b>Firm</b><small>Full 12 d · half 5 d</small><div class="tl"><i class="g1" style="width:35%"></i><i class="g2" style="width:30%"></i><i class="g3" style="width:35%"></i></div></span></div></div>']);
+/* 7 Earnings */
+S.push(['7 · Earnings that celebrate', 'A green celebration header: what she earned this month in big type, a "first month" badge, and a bar per class. Under it: what her hosting did (guests, trees, rating), the next payout, then the paid list.',
+  '<div class="eh"><span class="spark" style="width:120px;height:120px;right:-30px;top:-30px;background:rgba(255,255,255,.08)"></span><span class="spark" style="width:10px;height:10px;right:60px;top:40px;background:#CFA83E"></span><span class="spark" style="width:6px;height:6px;right:110px;top:24px;background:#fff"></span>' +
+  '<div class="k">Earned in November</div><div class="v"><sup>RM</sup>769.25</div><span class="up">' + I('leaf', 'width:14px;height:14px') + 'Your first month hosting</span>' +
+  '<div class="bars"><i style="height:45%"></i><i style="height:75%"></i><i class="on" style="height:85%"></i><i style="height:12%;opacity:.5"></i></div><div class="bl"><span>21 Nov</span><span>28 Nov</span><span>5 Dec</span><span>12 Dec</span></div></div>' +
+  '<div class="in"><div class="ms"><div><b>11</b><small>guests</small></div><div class="gr"><b>42</b><small>trees planted</small></div><div><b>★ 5.0</b><small>rating</small></div></div>' +
+  '<div class="np">' + I('bank') + '<div><b>Next payout</b><small>Sun, 6 Dec · CIMB •• 3307</small></div><span class="amt">RM 408.00</span></div>' +
+  '<h3 class="t">Paid</h3><div class="row" style="border-top:0"><div><b>Sun, 29 Nov</b><small>Sat 28 Nov class · 7 guests</small></div><span style="margin-left:auto;font-weight:700">RM 480.25</span></div>' +
+  '<div class="row"><div><b>Sun, 22 Nov</b><small>Sat 21 Nov class · 4 guests</small></div><span style="margin-left:auto;font-weight:700">RM 289.00</span></div></div>']);
+/* 8 Bank */
+S.push(['8 · Bank details as her payout card', 'Her account as a card in the bank\'s colour (CIMB red), verified badge, then how money reaches her (class → ~24 h → bank). Changing account is one row that opens the form; nobody edits bank details often.',
+  bar('Bank details') + '<div class="card"><div style="display:flex;align-items:center"><span class="bn">CIMB</span><span class="ver">✓ Verified</span></div><div class="num">•••• •••• 3307</div><div class="nm">AINA RAHMAN</div></div>' +
+  '<div class="in"><h3 class="t">How you get paid</h3><div class="flow"><span class="dot">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot g">✓</span></div><div class="flw"><span>Experience ends</span><span>About 24 h</span><span>In your bank</span></div>' +
+  '<div class="row" style="margin-top:20px"><div><b>Change account</b><small>Malaysian bank accounts in MYR</small></div>' + I('chev', 'margin-left:auto;color:#B0B0B0;width:16px;height:16px') + '</div>' +
+  '<div class="md mut" style="margin-top:4px">Lokali never asks for your online banking password.</div></div>']);
+
+document.getElementById('w').innerHTML = S.map(function (x) { return '<div class="col"><b>' + x[0] + '</b><p>' + x[1] + '</p><div class="ph">' + x[2] + '</div></div>'; }).join('') +
+'<div class="notes"><h2>MIMS (requirements first)</h2><ul>' +
+'<li><b>Brief:</b> host calendar with slots, capacity and blocked dates (H8); bookings with guest list and dietary notes (H11); reviews with public host replies; listing builder; earnings and payouts ~24 h after; bank details. All eight stay inside these.</li>' +
+'<li><b>Calendar:</b> the fill bar answers "which dates need guests?" without tapping; the dark tile repeats Today\'s pattern (one way to show a date).</li>' +
+'<li><b>Bookings:</b> the photo identifies the experience (hosts with 2+ listings need it); date, time and fill live on the photo, so the rows only hold guests. Allergy stays red.</li>' +
+'<li><b>Replies:</b> connector + "Host reply" tag + bubble make it unmistakably her answer; one Reply pill per unanswered review.</li>' +
+'<li><b>Listings:</b> rows, not a hero: at 1–3 listings the job is "see all and pick one". Status in words + dot (not colour alone).</li>' +
+'<li><b>Meet your guide:</b> background picked from her own photos (Whose is it?), preview = what guests see.</li>' +
+'<li><b>Price:</b> "you earn RM 72.25" is the number hosts care about; the bar explains the 15% once.</li>' +
+'<li><b>Earnings:</b> celebration in logo green, no confetti noise; impact (trees) next to money, Lokali\'s promise.</li>' +
+'<li><b>Bank:</b> the card shows "this is set up" at a glance; edit is rare, so it moves behind one row. Suggestion: card colour from the bank.</li>' +
+'<li><b>Airy:</b> 24 px margins, 18/700 section titles, pills, red only for actions (Reply, Add slot is outline), hairlines; the green header on Earnings and the bank-red card are the two deliberate colour moments.</li></ul></div>';
+</script>
+</body>
+</html>

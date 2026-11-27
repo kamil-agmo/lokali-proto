@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Listing builder</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Listing builder in Airy (27 Nov): 14 sections in guest-page order as open numbered rows, one progress line, required checks.
    Live listing = manage view (Preview as guest, edits go back to review); draft = Save draft + Submit for review.
@@ -75,7 +75,7 @@ html body.m .cta-bar .btn--primary[disabled] { opacity: .35; }
     <button class="btn btn--primary" id="submit" disabled>Submit for review</button>
   </div>
 
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-builder', [["Listing", "Forest-edge farm walk &amp; kuih morning"], ["State", "Live"], ["Required done", "12 of 12"]]);</script>
   <script>
   (function () {
@@ -88,15 +88,15 @@ html body.m .cta-bar .btn--primary[disabled] { opacity: .35; }
     ];
     var LIST = {
       kuih: { title: 'Forest-edge farm walk &amp; kuih morning', food: true, live: true, sum: [
-        'Title, promise, 5 photos', '2.5 hours · 2–8 guests · English, Malay', '146 / 200 words', '4 steps · 9:00 – 11:30 AM', 'Apron, recipe card, kuih to take home',
+        'Title, promise, 5 photos · video optional', '2.5 hours · 2–8 guests · English, Malay', '146 / 200 words', '4 steps · 9:00 – 11:30 AM', 'Apron, recipe card, kuih to take home',
         'Aina · 3 of 4 prompts', '10% plants native trees on the forest edge', 'Kampung Sungai Lui, Hulu Langat · exact spot after booking', 'Hat, closed shoes, water bottle, a box for kuih',
         'Farm and forest-edge rules · shoes off at the kitchen', 'Halal · peanut-free on request', 'Step-free path · seating', 'RM 85 adult · RM 55 child · Flexible', '4 questions'] },
       pandan: { title: 'Pandan dye workshop', food: false, sum: [
-        'Title, promise, 5 photos', '2 hours · 2–6 guests · English, Malay', '118 / 200 words', '3 steps · 2:00 – 4:00 PM', 'Tote bag to dye and take home',
+        'Title, promise, 5 photos · video optional', '2 hours · 2–6 guests · English, Malay', '118 / 200 words', '3 steps · 2:00 – 4:00 PM', 'Tote bag to dye and take home',
         'Aina · 3 of 4 prompts', null, null, null, null, null, null, null, null] },
       'new': { title: 'New listing', food: false, sum: [null, null, null, null, null, null, null, null, null, null, null, null, null, null] }
     };
-    var MISSING = ['Add a title, promise and at least 5 photos', 'Add length, group size and languages', 'Tell guests what makes it special', 'Add the steps of the day',
+    var MISSING = ['Add a title, promise and at least 5 photos (a short video is optional)', 'Add length, group size and languages', 'Tell guests what makes it special', 'Add the steps of the day',
       "Say what's included and what isn't", 'Answer 3 personal prompts', 'Why it matters, and a price split that adds to 100%', 'Meeting point and how to get there',
       'What guests should bring and wear', 'Optional', 'Halal, allergies, dietary needs', 'Pick what applies and add notes', 'Price per person, group size, cancellation policy', 'Optional'];
     var key = L.state.get('hbuild', 'kuih'); if (!LIST[key]) key = 'kuih';
@@ -142,7 +142,7 @@ html body.m .cta-bar .btn--primary[disabled] { opacity: .35; }
     render();
   })();
   </script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

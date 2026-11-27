@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lokali Admin · Dashboard</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/admin.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/admin.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
   <style>
     .dash-hero { border-radius: 22px; padding: 28px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: end; }
     .dash-hero .display { font-size: 30px; line-height: 36px; }
@@ -22,7 +22,7 @@
     .dash-imp { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
     .dash-imp b { display: block; font: 600 22px/26px var(--font-display); color: #fff; } .dash-imp small { color: rgba(255,255,255,.7); font-size: 12px; }
     .dash-period { background: rgba(255,255,255,.1); } .dash-period button { color: rgba(255,255,255,.75); }
-    .dash-period button.active { background: var(--accent); color: #1d2008; }
+    .dash-period button.active { background: var(--ink); color: #fff; }
     .kpi__label .itile { width: 30px; height: 30px; border-radius: 9px; } .kpi__label .itile .ph { font-size: 16px; }
   </style>
 </head>
@@ -41,11 +41,11 @@
     <main class="a-main">
       <section class="dash-hero hero-deep bg-contour">
         <div class="dash-hero__l">
-          <span class="kicker" style="color:var(--accent)"><i class="ph-fill ph-sun-horizon" aria-hidden="true"></i>Wednesday, 2 December 2026</span>
-          <h1 class="display" style="color:#fff;margin-top:10px">Good morning, Nurul<br><span class="hl">17 items</span> to review today</h1>
+          <span class="kicker" style="color:var(--muted)"><i class="ph-fill ph-sun-horizon" aria-hidden="true"></i>Wednesday, 2 December 2026</span>
+          <h1 class="display" style="color:#fff;margin-top:10px">Good morning, Nurul<br>17 items to review today</h1>
           <div class="row mt4" style="gap:8px;flex-wrap:wrap">
             <button class="btn btn--accent" data-go="a-approvals"><i class="ph ph-seal-check" aria-hidden="true"></i>Review 6 approvals</button>
-            <button class="btn" style="background:rgba(255,255,255,.1);color:#fff" data-go="a-moderation"><i class="ph ph-shield-warning" aria-hidden="true"></i>3 reports, 1 dispute</button>
+            <button class="btn btn--secondary" data-go="a-moderation"><i class="ph ph-shield-warning" aria-hidden="true"></i>3 reports, 1 dispute</button>
           </div>
         </div>
         <div class="dash-hero__r">
@@ -65,12 +65,12 @@
       <div class="a-grid main-side">
         <div class="a-card">
           <div class="a-card__head"><div><h2 class="is-h3">Bookings & revenue</h2><p>Weekly, last 12 weeks</p></div>
-            <div class="row small muted"><span class="row"><i style="width:10px;height:10px;border-radius:3px;background:var(--primary);display:inline-block"></i>Bookings</span><span class="row" style="margin-left:12px"><i style="width:10px;height:10px;border-radius:3px;background:var(--accent);display:inline-block"></i>Revenue (RM k)</span></div></div>
+            <div class="row small muted"><span class="row"><i style="width:10px;height:10px;border-radius:3px;background:var(--ink);display:inline-block"></i>Bookings</span><span class="row" style="margin-left:12px"><i style="width:10px;height:10px;border-radius:3px;background:var(--primary);display:inline-block"></i>Revenue (RM k)</span></div></div>
           <div class="a-card__body"><div class="bars" id="bars"></div></div>
         </div>
 
         <div class="a-card">
-          <div class="a-card__head"><h3>Needs attention</h3><span class="badge badge--danger">14</span></div>
+          <div class="a-card__head"><h3>Needs attention</h3><span class="badge badge--danger">17</span></div>
           <div class="q-item" data-go="a-approvals"><span class="avatar" style="background:var(--accent-tint);color:var(--accent-ink)"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div class="q-item__text"><b>6 waiting for approval</b><small>3 hosts · 3 listings · oldest 2 days</small></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
           <div class="q-item" data-go="a-moderation"><span class="avatar" style="background:var(--danger-tint);color:var(--danger)"><i class="ph ph-shield-warning" aria-hidden="true"></i></span><div class="q-item__text"><b>3 reports & 1 dispute</b><small>2 reviews · 1 message · 1 refund dispute</small></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
           <div class="q-item" data-go="a-payouts"><span class="avatar" style="background:var(--warn-tint);color:var(--warn)"><i class="ph ph-hand-coins" aria-hidden="true"></i></span><div class="q-item__text"><b>2 payouts on hold</b><small>1 bank not verified · 1 dispute</small></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
@@ -113,9 +113,9 @@
     return '<tr data-go="a-payouts"><td><div class="who"><img class="round" src="' + L.img(h.img, 120) + '" alt=""><div><b>' + h.name + '</b></div></div></td><td>' + p[1] + '</td><td class="num">' + L.rm(p[2]) + '</td><td>' + p[3] + '</td></tr>';
   }).join('');
 </script>
-<script src="../js/shared/embed.js?v=0.38.0"></script>
+<script src="../js/shared/embed.js?v=0.46.1"></script>
 <script>if (window.ProtoEmbed) ProtoEmbed.report('a-dashboard', [['Focus', '17 items need action'], ['Role', 'Operations'], ['Period', 'Last 30 days'], ['Needs attention', '17 items']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

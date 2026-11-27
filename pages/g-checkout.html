@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Checkout</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Airy ticket (27 Nov, user request + MIMS): white, hairline outline, side notches at the tear line, scalloped foot; no shadow (it doesn't float), sentence-case labels */
 .tk { position: relative; border: 1px solid var(--line); border-bottom: 0; border-radius: 20px 20px 0 0; background: #fff; }
@@ -58,6 +58,12 @@
   .co-cx h3 { font-size: 16px; line-height: 21px; font-weight: 600; }
   /* selected payment: ink, not Canopy green */
   body.m .radio-card.active .dot, body.m .radio-card[aria-checked="true"] .dot { border-color: var(--ink) !important; background: radial-gradient(circle, var(--ink) 0 45%, #fff 50%) !important; }
+</style>
+<style>
+  .co-diet h3 { font-size: 15px; line-height: 21px; font-weight: 500; margin-bottom: 10px; }
+  .co-dchips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .co-dchips button { height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; }
+  .co-dchips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
 </style>
 </head>
 <body class="m">
@@ -105,11 +111,34 @@
     </div>
   </section>
 
+  <!-- dietary needs as their own field (27 Nov): the host's guest list needs them (brief H11), so they aren't left to free text -->
+  <section class="co-diet" aria-labelledby="dt-h">
+    <h3 id="dt-h">Dietary needs &amp; allergies</h3>
+    <div class="co-dchips" id="dchips" role="group" aria-labelledby="dt-h">
+      <button aria-pressed="false" data-d="none">None</button><button aria-pressed="true" data-d="veg">Vegetarian</button><button aria-pressed="false" data-d="halal">Halal</button><button aria-pressed="false" data-d="allergy">Allergy</button>
+    </div>
+    <div class="field" id="allergyF" hidden style="margin-top:12px"><label for="allergy">Who and what</label><input class="input" id="allergy" placeholder="e.g. Son · peanuts"></div>
+    <span class="hint" style="display:block;margin-top:8px">Shared with the host</span>
+  </section>
+
   <section class="field">
     <label for="msg">Message for Pak Rahim <span class="muted" style="font-weight:400">(optional)</span></label>
-    <textarea class="textarea" id="msg" placeholder="Dietary needs, allergies, questions">One of us is vegetarian. Our son Adam is 7.</textarea>
-    <span class="hint">Shared with the host</span>
+    <textarea class="textarea" id="msg" placeholder="Questions for the host">Our son Adam is 7.</textarea>
   </section>
+  <script>
+  (function () {
+    var g = document.getElementById('dchips'), af = document.getElementById('allergyF');
+    g.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-d]'); if (!b) return;
+      var on = b.getAttribute('aria-pressed') !== 'true';
+      if (b.dataset.d === 'none') g.querySelectorAll('[data-d]').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });   /* None clears the rest */
+      else g.querySelector('[data-d="none"]').setAttribute('aria-pressed', 'false');
+      b.setAttribute('aria-pressed', on);
+      af.hidden = g.querySelector('[data-d="allergy"]').getAttribute('aria-pressed') !== 'true';
+      if (!af.hidden && on && b.dataset.d === 'allergy') document.getElementById('allergy').focus();
+    });
+  })();
+  </script>
 
   <p class="co-line co-safe"><i class="ph ph-shield-check" aria-hidden="true"></i><span>Payment held by Lokali until after the experience · card details not stored</span></p>
 </main>
@@ -117,7 +146,7 @@
 <div class="sheet" id="feesheet" role="dialog" aria-labelledby="fee-h">
   <h3 id="fee-h" class="sheet-title">About the service fee</h3>
   <p class="small muted mt2">The 5% service fee helps run Lokali: secure payments, 7-day support and checking every experience before it goes live. It is refunded with any full refund.</p>
-  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Close</button></div>
 </div>
 
 <div class="cta-bar">
@@ -157,9 +186,9 @@ window.LKB = (function () {
   if (k.deadline) { $('kDl').textContent = k.deadline; }
 })();</script>
   <script>L.swapExp();</script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-checkout', [['Focus', 'Ticket with total + impact'], ['Total', 'RM 404.25 (incl. 5% service fee RM 19.25)'], ['Policy', 'Moderate · free until Thu, 3 Dec, 5:00 PM'], ['Methods', 'Card · FPX · e-wallet'], ['Confirmation', 'Instant after payment']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

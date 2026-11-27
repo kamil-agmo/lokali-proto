@@ -4,24 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Booking confirmed</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/guest.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
   /* MIMS 27 Nov: next-step icons grey, Back to Explore in ink (no Canopy green) */
   body.m .steps-next .n, body.m .steps-next .n .ph { color: var(--muted) !important; }
   body.m .btn--ghost { color: var(--ink) !important; }
 </style>
 </head>
-<body class="m">
+<body class="m has-cta">
 <main class="stack-lg" style="padding-bottom:32px">
   <div class="done-hero">
     <div class="cel" id="cel" aria-hidden="true">
@@ -55,7 +55,7 @@
   <section class="pad">
     <h3 style="margin-bottom:16px" class="sec-h">What happens next</h3>
     <ol class="steps-next">
-      <li><span class="n"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span><div><b>Confirmation email sent</b><div class="muted">To aina.rahman@gmail.com · <a href="g-email.html" data-go="g-email" class="strong">View email</a></div></div></li>
+      <li><span class="n"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span><div><b>Confirmation email sent</b><div class="muted">To aina.rahman@gmail.com</div></div></li>
       <li><span class="n"><i class="ph ph-bell" aria-hidden="true"></i></span><div><b>Reminder on Fri, 4 Dec</b><div class="muted">48 hours before, with what to bring and the weather.</div></div></li>
       <li><span class="n"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i></span><div><b>Messages from Pak Rahim appear in Inbox</b><div class="muted">Dietary note sent</div></div></li>
       <li><span class="n"><i class="ph ph-shield-check" aria-hidden="true"></i></span><div><b>Free cancellation until Thu, 3 Dec, 5:00 PM</b><div class="muted">Moderate policy: full refund 72 hours or more before.</div></div></li>
@@ -63,14 +63,14 @@
   </section>
 
   <section class="pad stack">
-    <button class="btn btn--primary btn--block" data-go="g-booking">View booking</button>
     <div class="grid-2">
       <button class="btn btn--secondary" data-go="g-chat"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i>Message</button>
       <button class="btn btn--secondary" data-toast="Added to your calendar" data-toast-icon="ph-calendar-plus"><i class="ph ph-calendar-plus" aria-hidden="true"></i>Calendar</button>
     </div>
-    <button class="btn btn--ghost" data-go="g-home">Back to Explore</button>
   </section>
 </main>
+<!-- main action docked at the bottom like Checkout and Book (27 Nov) -->
+<div class="cta-bar cta-stack"><button class="btn btn--primary btn--block" data-go="g-booking">View booking</button><button class="btn btn--ghost btn--block" data-go="g-home">Back to Explore</button></div>
   <style>
 .cel { position: relative; width: 220px; height: 154px; cursor: pointer; }
 .cel-svg { width: 100%; height: 100%; overflow: visible; }
@@ -146,9 +146,9 @@ window.LKB = (function () {
 })();
 </script>
   <script>L.swapExp();</script>
-<script src="../js/shared/embed.js?v=0.38.0"></script>
+<script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-confirmed', [['Booking ref', 'LK-24817'], ['Status', 'Confirmed instantly after payment'], ['Paid', 'RM 404.25 · Visa •• 4242']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

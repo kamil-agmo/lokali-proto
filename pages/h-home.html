@@ -4,89 +4,110 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Today</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
-/* Today in Airy (2 Dec, Aina as host): white page, greeting, next class as a Home-style photo card, open to-do rows, next payout. No boxes, no tinted tiles. */
-.td { padding: calc(var(--sb) + 8px) 24px calc(var(--home, 0px) + 120px); }
-.td-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.td-mode { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary-strong); }   /* host mode label (mock option 3): eco green */
-html body.m .td h1 { margin-top: 20px; font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em; }
-.td-sec { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
-.td-sec:first-of-type { border-top: 0; padding-top: 0; }
-.td-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+/* Today (27 Nov, from explore/host-today-3.html, option 1): farm photo cover with greeting; floating card = next payout centred
+   + impact line (floats over the cover edge like Home's search bar); Coming up = calendar strip whose open date is a dark tile
+   (tap a date to open it, tap the open date for its page); To do as open rows. */
+.td-cover { position: relative; height: 300px; background: #5d7a5f center / cover; color: #fff; }
+.td-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.45), transparent 32%, transparent 50%, rgba(0,0,0,.55)); }
+.td-cover > * { position: relative; z-index: 1; }
+.td-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--sb) + 10px) 24px 0; }
+.td-mode { font-size: 13px; line-height: 18px; font-weight: 600; color: #fff; }
+.td-cover .mode-pill { background: #fff !important; color: var(--ink) !important; border: 0 !important; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+html body.m .td-cover h1 { position: absolute; left: 24px; right: 24px; bottom: 56px; color: #fff; font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em; }
+.td-pay { position: relative; z-index: 3; display: block; margin: -36px 16px 0; padding: 18px 20px 16px; border-radius: 24px; background: #fff; text-align: center; color: var(--ink); box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.10); }
+.td-pay .k { display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+.td-pay .amt { display: block; font-size: 34px; line-height: 40px; font-weight: 800; margin: 2px 0; } .td-pay .amt sup { font-size: 15px; vertical-align: 14px; margin-right: 2px; }
+.td-pay .when { display: block; font-size: 13px; color: #3D3D3D; }
+.td-pay .imp { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 13px; color: #3D3D3D; }
+.td-pay .imp .ph-fill { font-size: 16px; color: var(--primary); } .td-pay .imp b { color: var(--primary-strong); font-weight: 800; }
+.td-in { padding: 0 24px calc(var(--home, 0px) + 110px); }
+.td-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 32px 0 14px; }
 .td-head h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
 .td-head a { font-size: 14px; font-weight: 600; color: var(--primary); }
-/* next class: same card language as Home (photo r26, text below) */
-.td-next { display: block; color: var(--ink); cursor: pointer; }
-.td-next img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 26px; background: var(--sand); }
-.td-when { display: block; margin-top: 12px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
-.td-title { margin-top: 4px; font-size: 16px; line-height: 21px; font-weight: 600; }
-.td-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
-.td-meta span { display: inline-flex; align-items: center; gap: 6px; }
-.td-meta .ph { font-size: 16px; }
-.td-meta .td-alert { color: var(--danger); }
-/* open rows, plain grey icons */
+/* to do: open rows, plain grey icons */
 .td-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 0; color: var(--ink); cursor: pointer; }
 .td-row + .td-row { border-top: 1px solid var(--line); }
-.td-row > .ph:first-child { flex: none; font-size: 22px; color: var(--ink); }
-.td-row > div { flex: 1; min-width: 0; }
-.td-row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; }
-.td-row small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
-.td-row .chev { flex: none; color: var(--faint); font-size: 18px; }
-/* next payout */
-.td-pay { display: block; color: var(--ink); cursor: pointer; }
-.td-amt { display: block; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.01em; }
-.td-pay small { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.td-row > .ph:first-child { flex: none; font-size: 22px; color: var(--muted); }
+.td-row > div { flex: 1; min-width: 0; } .td-row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .td-row small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.td-row .chev { color: var(--faint); font-size: 16px; }
+/* Coming up list */
+.cu-next { position: relative; display: flex; flex-direction: column; padding: 14px 16px; border-radius: 20px; background: #222; color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+.cu-next .chev { position: absolute; top: 14px; right: 14px; font-size: 16px; }
+.cu-next .when { font-size: 13px; color: rgba(255,255,255,.78); } .cu-next .when b { color: #fff; }
+.cu-next .t { font-size: 17px; line-height: 22px; font-weight: 700; margin-top: 2px; }
+.cu-next .cap { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: rgba(255,255,255,.78); } .cu-next .cap .bar { flex: 1; background: rgba(255,255,255,.22); } .cu-next .cap .bar i { background: #fff; }
+.cu-next .faces { display: flex; align-items: center; margin-top: 10px; } .cu-next .faces > span { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #222; margin-left: -8px; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 10px; font-weight: 600; color: #3D3D3D; } .cu-next .faces > span:first-child { margin-left: 0; }
+.cu-next .faces em { font-style: normal; font-size: 13px; margin-left: 8px; color: rgba(255,255,255,.78); } .cu-next .alert { color: #FF9C9C; }
+.bar { display: block; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; } .bar i { display: block; height: 100%; background: var(--ink); }
+.cu-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; color: var(--ink); } .cu-row + .cu-row, .cu-next + .cu-row { border-top: 1px solid var(--line); } .cu-next + .cu-row { margin-top: 8px; border-top: 0; }
+.cu-row .d { width: 40px; flex: none; text-align: center; } .cu-row .d small { display: block; font-size: 11px; color: var(--muted); } .cu-row .d b { font-size: 17px; font-weight: 700; }
+.cu-row .x { flex: 1; min-width: 0; } .cu-row .x > span:first-child { display: block; font-size: 14px; font-weight: 600; } .cu-row .x .bar { margin-top: 6px; }
+.cu-row .n { flex: none; font-size: 12px; color: var(--muted); }
+.cu-row.off .d b { text-decoration: line-through; color: var(--muted); }
 </style>
 </head>
 <body class="m">
 <main class="td">
-  <div class="td-top">
-    <span class="td-mode">Hosting · Wed, 2 Dec</span>
-    <button class="mode-pill mode-pill--plain" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i>Switch to guest</button>
+  <div class="td-cover" data-bg="1716466205712-16bd54030abd">
+    <div class="td-top">
+      <span class="td-mode">Hosting · Wed, 2 Dec</span>
+      <button class="mode-pill mode-pill--plain" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i>Switch to guest</button>
+    </div>
+    <h1>Selamat pagi, Aina</h1>
   </div>
-  <h1>Selamat pagi, Aina</h1>
 
-  <section class="td-sec" aria-labelledby="next-h" style="margin-top:24px">
-    <div class="td-head"><h2 id="next-h">Next class</h2><a href="h-bookings.html" data-go="h-bookings">All bookings</a></div>
-    <a class="td-next" href="h-booking.html" data-go="h-booking" aria-label="Next class, Saturday 5 December, guest list">
-      <img data-img="1505471768190-275e2ad7b3f9" data-w="800" alt="">
-      <span class="td-when">In 3 days · Sat, 5 Dec · 9:00 – 11:30 AM</span>
-      <div class="td-title">Forest-edge farm walk &amp; kuih morning</div>
-      <div class="td-meta"><span><i class="ph ph-users" aria-hidden="true"></i>6 of 8 guests</span><span class="td-alert"><i class="ph ph-warning" aria-hidden="true"></i>1 peanut allergy</span></div>
-    </a>
-  </section>
+  <a class="td-pay" href="h-earnings.html" data-go="h-earnings" aria-label="Next payout RM 408.00 on Sunday 6 December. Given back RM 90, 11 guests hosted.">
+    <span class="k">Next payout</span>
+    <span class="amt"><sup>RM</sup>408.00</span>
+    <span class="when">Sun, 6 Dec · CIMB •• 3307</span>
+    <span class="imp"><i class="ph-fill ph-leaf" aria-hidden="true"></i><span><b>RM 90</b> given back · <b>11</b> guests hosted</span></span>
+  </a>
 
-  <section class="td-sec" aria-labelledby="todo-h">
-    <div class="td-head"><h2 id="todo-h">To do</h2></div>
-    <div class="td-row" data-go="h-booking"><i class="ph ph-ticket" aria-hidden="true"></i><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult · vegetarian</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="td-row" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-  </section>
+  <div class="td-in">
+    <section aria-labelledby="up-h">
+      <div class="td-head"><h2 id="up-h">Coming up</h2><a href="h-calendar.html" data-go="h-calendar">Calendar</a></div>
+      <!-- Coming up as a list (27 Nov, explore/host-strip.html C): the next date as the dark tile, the following dates as rows -->
+      <a class="cu-next" href="h-booking.html" data-go="h-booking">
+        <i class="ph ph-caret-right chev" aria-hidden="true"></i>
+        <span class="when"><b>In 3 days</b> · Sat, 5 Dec</span><span class="t">9:00 – 11:30 AM</span>
+        <span class="cap"><span class="bar"><i style="width:75%"></i></span>6 of 8 booked</span>
+        <span class="faces"><span data-bg="1613447895817-e617a4093f50"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></span>
+      </a>
+      <a class="cu-row" href="h-calendar.html" data-go="h-calendar"><span class="d"><small>Sat</small><b>12</b></span><span class="x"><span>9:00 – 11:30 AM</span><span class="bar"><i style="width:0"></i></span></span><span class="n">No bookings yet</span></a>
+      <a class="cu-row" href="h-calendar.html" data-go="h-calendar"><span class="d"><small>Sat</small><b>19</b></span><span class="x"><span>9:00 – 11:30 AM</span><span class="bar"><i style="width:0"></i></span></span><span class="n">No bookings yet</span></a>
+      <a class="cu-row off" href="h-calendar.html" data-go="h-calendar"><span class="d"><small>Sat</small><b>26</b></span><span class="x"><span>Blocked</span></span><span class="n">Closed</span></a>
+    </section>
 
-  <section class="td-sec" aria-labelledby="pay-h">
-    <div class="td-head"><h2 id="pay-h">Next payout</h2><a href="h-earnings.html" data-go="h-earnings">Earnings</a></div>
-    <a class="td-pay" href="h-earnings.html" data-go="h-earnings">
-      <span class="td-amt">RM 408.00</span>
-      <small>Sun, 6 Dec · for the Sat 5 Dec class · CIMB •• 3307</small>
-    </a>
-  </section>
+    <section aria-labelledby="todo-h">
+      <div class="td-head"><h2 id="todo-h">To do</h2></div>
+      <div class="td-row" data-go="h-booking"><i class="ph ph-ticket" aria-hidden="true"></i><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult · vegetarian</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+      <div class="td-row" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    </section>
+  </div>
 </main>
+<script>
+(function () {
+  document.querySelectorAll('[data-bg]').forEach(function (e) { e.style.backgroundImage = 'url(' + L.img(e.getAttribute('data-bg'), e.classList.contains('td-cover') ? 900 : 80) + ')'; });
+})();
+</script>
 
 <nav class="tabbar" data-tabs="host" data-active="h-home"></nav>
 
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-home', [["Host", "Aina Rahman (new host since 20 Nov)"], ["Next class", "Sat 5 Dec · 6 of 8 guests"], ["To do", "2: new booking, review reply"], ["Next payout", "RM 408.00 · Sun 6 Dec"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-home', [["Host", "Aina Rahman (new host since 20 Nov)"], ["Next payout", "RM 408.00 · Sun 6 Dec"], ["Next date", "Sat 5 Dec · 6 of 8"], ["To do", "2: new booking, review reply"]]);</script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

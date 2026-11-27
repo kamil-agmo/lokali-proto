@@ -19,6 +19,7 @@ The user's rules win over any skill. Commands the user types: **THINK**, **MIMS*
 @.claude/rules/photos-as-links.md
 @.claude/rules/admin-later.md
 @.claude/rules/fablepus-skill.md
+@.claude/rules/general-wording.md
 
 ## Where things are
 

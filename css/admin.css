@@ -217,3 +217,21 @@ body.a h2.is-h3, body.a .a-card__head h2 { font-size: 15px; line-height: 20px; }
 /* login: contour texture on the photo panel */
 .a-login__art::before { content: ""; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.09' stroke-width='1.2'%3E%3Cpath d='M-20 60 C40 20 80 90 140 50 S240 40 260 70'/%3E%3Cpath d='M-20 90 C40 50 80 120 140 80 S240 70 260 100'/%3E%3Cpath d='M-20 120 C40 80 80 150 140 110 S240 100 260 130'/%3E%3Cpath d='M-20 150 C40 110 80 180 140 140 S240 130 260 160'/%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
 .a-login__art > * { position: relative; }
+
+/* Admin in Airy (27 Nov): light neutral page, ink + logo green charts (no mustard), grey active states, gold only for stars */
+body.a { background: #F7F7F7 !important; }
+.a-brand__tag { background: #F2F2F2 !important; color: var(--ink) !important; }
+.a-brand .wordmark__img { height: 24px; }
+.a-nav a.active { background: #F2F2F2 !important; color: var(--ink) !important; }
+.bars i { background: var(--ink) !important; } .bars i.alt { background: var(--primary) !important; }
+.hbar .track { background: #F0F0F0 !important; }
+.stars-sm { color: var(--star) !important; }
+.a-focus .kicker, .a-head .kicker { color: var(--muted) !important; }
+.a-focus b .hl, .hl { color: var(--ink) !important; }
+.a-head.hero-deep .ptabs button.active { background: var(--ink) !important; color: #fff !important; }
+.a-head.hero-deep .btn--primary { background: var(--brand) !important; color: #fff !important; }
+/* Ultrawide (27 Nov): the whole admin (sidebar + content) stops at 1680 px and sits centred, so the menu stays next to the
+   content instead of on the far left edge. Content keeps its own 1440 px cap; also applies when a page is opened on its own. */
+body.a .a-app { max-width: 1680px; margin: 0 auto; box-shadow: -1px 0 0 var(--line), 1px 0 0 var(--line); background: #F7F7F7; }
+html:not([style*="--content-max"]) body.a { --content-max: 1440px; }
+@media (min-width: 1681px) { html, body.a { background: #EFEFEF !important; } }

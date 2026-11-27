@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Booking & guest list: proposals</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 20px; max-width: 980px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  .col { width: 402px; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .notes { width: 402px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; } .notes li { margin: 6px 0 6px 18px; font-size: 13px; line-height: 19px; }
+  .ph { position: relative; width: 402px; background: #fff; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 7px solid #111; padding-bottom: 28px; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .in { padding: 0 24px; }
+  .hero { position: relative; height: 200px; background: #888 center / cover; color: #fff; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.45), transparent 35%, transparent 55%, rgba(0,0,0,.4)); }
+  .hero .bk { position: absolute; z-index: 2; top: 16px; left: 14px; }
+  .hero svg.hill { position: absolute; z-index: 2; left: 0; right: 0; bottom: -3px; width: 100%; height: 40px; fill: #fff; }
+  .when { font-size: 13px; font-weight: 600; } .ttl { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px; } .meta { font-size: 13px; color: #6A6A6A; margin-top: 2px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #DDDDDD; font-size: 13px; font-weight: 500; }
+  .chip.al { border-color: #F3C6C6; background: #FDF0F0; color: #B42318; } .chip b { font-weight: 700; }
+  .cap { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; color: #3D3D3D; } .cap span.b { flex: 1; height: 6px; border-radius: 3px; background: #EBEBEB; overflow: hidden; } .cap span.b i { display: block; height: 100%; width: 75%; background: #222; }
+  h3 { font-size: 18px; line-height: 24px; font-weight: 700; margin: 26px 0 10px; display: flex; justify-content: space-between; align-items: baseline; } h3 small { font-size: 13px; font-weight: 500; color: #6A6A6A; }
+  .prep { border-radius: 20px; background: #FDF0F0; padding: 14px 16px; }
+  .prep div { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 20px; } .prep div + div { margin-top: 8px; } .prep .ic { width: 18px; height: 18px; color: #B42318; margin-top: 1px; } .prep b { font-weight: 600; }
+  .g { display: flex; align-items: center; gap: 12px; padding: 12px 0; } .g + .g { border-top: 1px solid #EBEBEB; }
+  .av { width: 44px; height: 44px; border-radius: 50%; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 13px; font-weight: 600; color: #3D3D3D; flex: none; }
+  .g .t { flex: 1; min-width: 0; } .g b { display: block; font-size: 15px; font-weight: 600; } .g small { display: block; font-size: 12px; color: #6A6A6A; } .g .nt { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; margin-top: 2px; } .g .nt.al { color: #B42318; } .g .nt .ic { width: 14px; height: 14px; }
+  .tag { height: 18px; padding: 0 7px; border-radius: 999px; background: #F2F2F2; font-size: 10px; font-weight: 700; color: #3D3D3D; display: inline-flex; align-items: center; margin-left: 6px; vertical-align: 2px; }
+  .msg { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #DDDDDD; display: grid; place-items: center; color: #222; flex: none; }
+  .chk { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #DDDDDD; flex: none; display: grid; place-items: center; color: #fff; } .chk.on { background: #37664A; border-color: #37664A; }
+  .cx { opacity: .55; }
+  .pay { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 20px; border: 1px solid #EBEBEB; } .pay b { display: block; font-size: 15px; } .pay small { display: block; font-size: 12px; color: #6A6A6A; } .pay .amt { margin-left: auto; font-size: 17px; font-weight: 800; }
+  .danger { margin-top: 28px; padding-top: 20px; border-top: 1px solid #EBEBEB; } .danger b { font-size: 18px; } .danger p { font-size: 13px; color: #6A6A6A; margin-top: 2px; }
+  .ghost { display: flex; justify-content: center; align-items: center; gap: 6px; height: 44px; margin-top: 12px; border-radius: 999px; border: 1px solid #D7263D; color: #D7263D; font-weight: 600; }
+  .today { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: #222; color: #fff; font-size: 14px; } .today b { font-size: 15px; } .today small { display: block; font-size: 12px; opacity: .78; } .today .n { margin-left: auto; font-size: 22px; font-weight: 800; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-back" viewBox="0 0 256 256"><path d="M160 208 80 128l80-80"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 256 256"><path d="M128 32 16 224h224zM128 104v56M128 192v4"/></symbol>
+  <symbol id="i-fork" viewBox="0 0 256 256"><path d="M72 32v192M48 32v56a24 24 0 0 0 48 0V32M184 224V32c-24 16-32 48-32 88h32"/></symbol>
+  <symbol id="i-kid" viewBox="0 0 256 256"><circle cx="128" cy="64" r="28"/><path d="M80 224l16-88h64l16 88M96 136l-32-24M160 136l32-24"/></symbol>
+  <symbol id="i-check" viewBox="0 0 256 256"><path d="M56 132l44 44 100-100"/></symbol>
+  <symbol id="i-x" viewBox="0 0 256 256"><circle cx="128" cy="128" r="96"/><path d="M96 96l64 64M160 96l-64 64"/></symbol>
+</svg>
+<h1>Booking &amp; guest list: proposals</h1>
+<p class="sub">The host opens this before the class to prepare, and on the day to welcome people. A: plan ahead (photo header, what to prepare, guests). B: the same page on the day (check guests in as they arrive). Both drawn with Aina's Sat 5 Dec class.</p>
+<div class="wrap" id="w"></div>
+<script>
+function u(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 800) + '&q=70&auto=format&fit=crop'; }
+var I = function (n, st) { return '<svg class="ic" style="' + (st || '') + '"><use href="#i-' + n + '"/></svg>'; };
+var HERO = '<div class="hero" style="background-image:url(' + u('1643188626775-05290d1b6acb') + ')"><span class="bk">' + I('back', 'width:22px;height:22px;color:#fff') + '</span><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div>';
+var TOP = '<div class="in"><div class="when">In 3 days</div><div class="ttl">Sat, 5 Dec</div><div class="meta">9:00 – 11:30 AM · Forest-edge farm walk &amp; kuih morning</div>';
+function guests(check) {
+  function r(av, n, sub, note, cls, on) { return '<div class="g' + (cls ? ' ' + cls : '') + '"><span class="av"' + (av.length > 3 ? ' style="background-image:url(' + u(av, 100) + ')">' : '>' + av) + '</span><div class="t"><b>' + n + '</b><small>' + sub + '</small>' + (note || '') + '</div>' + (check ? '<span class="chk' + (on ? ' on' : '') + '">' + (on ? I('check', 'width:16px;height:16px') : '') + '</span>' : '<span class="msg">' + I('chat', 'width:18px;height:18px') + '</span>') + '</div>'; }
+  return r('1613447895817-e617a4093f50', 'Nur Aisyah Kamal', '2 adults, 1 child · LK-24852', '<span class="nt al">' + I('warn') + 'Son is allergic to peanuts</span>', '', true) +
+    r('PN', 'Priya Nair', '2 adults · LK-24858', '', '', true) +
+    r('HI', 'Hafiz Ismail<span class="tag">New</span>', '1 adult · LK-24861', '<span class="nt">' + I('fork') + 'Vegetarian</span>', '', false) +
+    (check ? '' : r('LW', 'Lim Wei Jie<span class="tag">Cancelled</span>', '2 adults · full refund · Tue, 1 Dec', '', 'cx'));
+}
+var A = HERO + TOP +
+  '<div class="cap"><span class="b"><i></i></span>6 of 8 booked · 2 places left</div>' +
+  '<h3>To prepare</h3><div class="prep"><div>' + I('warn') + '<span><b>1 peanut allergy</b> · Nur Aisyah\'s son. Keep kuih peanut-free.</span></div><div>' + I('fork') + '<span><b>1 vegetarian</b> · Hafiz</span></div><div>' + I('kid', 'color:#3D3D3D') + '<span><b>1 child</b> · age 7</span></div></div>' +
+  '<h3>Guests <small>3 bookings · 6 people</small></h3>' + guests(false) +
+  '<h3>You earn</h3><div class="pay"><div><b>Paid out Sun, 6 Dec</b><small>RM 480 minus 15% · CIMB •• 3307</small></div><span class="amt">RM 408.00</span></div>' +
+  '<div class="danger"><b>Cancel this class</b><p>All 6 guests get a full refund. You won\'t be paid for it.</p><span class="ghost">' + I('x', 'width:18px;height:18px') + 'Cancel class</span></div></div>';
+var B = HERO.replace('1643188626775-05290d1b6acb', '1643188626775-05290d1b6acb') + '<div class="in"><div class="when">Today · now</div><div class="ttl">Sat, 5 Dec</div><div class="meta">9:00 – 11:30 AM · Forest-edge farm walk &amp; kuih morning</div>' +
+  '<div class="today"><div><b>Arrived</b><small>Tap a guest when they arrive</small></div><span class="n">5 / 6</span></div>' +
+  '<div class="chips"><span class="chip al">' + I('warn', 'width:14px;height:14px') + '<b>Peanut allergy</b> · Aisyah\'s son</span><span class="chip">' + I('fork', 'width:14px;height:14px') + 'Vegetarian · Hafiz</span></div>' +
+  '<h3>Guests <small>Message anyone running late</small></h3>' + guests(true) + '</div>';
+document.getElementById('w').innerHTML =
+  '<div class="col rec"><b>A · Before the class (recommended)</b><p>Photo header with the wavy edge (same photo as Bookings), how full it is, a red "To prepare" roll-up of every dietary and child note, guests with Message, what she earns, Cancel set apart.</p><div class="ph">' + A + '</div></div>' +
+  '<div class="col"><b>B · On the day (suggestion)</b><p>Same page switches on the class day: an "Arrived 5 / 6" counter, the two notes as chips she can\'t miss, and a check circle per guest instead of Message. Not in the brief; makes the day easier.</p><div class="ph">' + B + '</div></div>' +
+  '<div class="notes"><h2>MIMS (requirements first)</h2><ul>' +
+  '<li><b>Brief (H11):</b> guest list with names, group size and dietary notes ✓; message guest ✓; cancel as host with refunds ✓; payout ~24 h ✓.</li>' +
+  '<li><b>To prepare:</b> the notes she must act on, gathered in one red block, so she doesn\'t scan every row. Each note still sits on its guest row (who it belongs to).</li>' +
+  '<li><b>Photo header:</b> same listing photo as the Bookings list, so the tap feels continuous.</li>' +
+  '<li><b>DUPE:</b> "6 of 8" once (fill line); "In 3 days" once; booking codes stay (check-in).</li>' +
+  '<li><b>Cancelled</b> stays greyed under the class so 6 of 8 adds up.</li>' +
+  '<li><b>Danger set apart:</b> Cancel class in its own section, red outline, one-line consequence.</li>' +
+  '<li><b>B</b> is a suggestion (check-in isn\'t in the brief); build A first.</li></ul></div>';
+</script>
+</body>
+</html>

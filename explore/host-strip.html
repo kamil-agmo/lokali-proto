@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Host Today: Coming up, 3 ways</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 20px; max-width: 980px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+  .col { width: 402px; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .ph { width: 402px; background: #fff; border-radius: 24px; padding: 20px 24px 22px; box-shadow: 0 10px 30px rgba(0,0,0,.1); overflow: hidden; }
+  .sh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; } .sh b { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #37664A; }
+  .todo { margin-top: 28px; font-size: 18px; font-weight: 700; } .todo + div { margin-top: 10px; font-size: 15px; font-weight: 600; } .todo + div small { display: block; font-size: 13px; font-weight: 400; color: #6A6A6A; }
+  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; } .bar i { display: block; height: 100%; background: #222; }
+  .dk { background: #222; color: #fff; border-radius: 20px; padding: 14px 16px; box-shadow: 0 8px 20px rgba(0,0,0,.18); position: relative; }
+  .dk .w { font-size: 13px; color: rgba(255,255,255,.78); } .dk .w b { color: #fff; } .dk .t { font-size: 17px; font-weight: 700; margin-top: 2px; }
+  .dk .cp { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: rgba(255,255,255,.78); } .dk .cp .bar { flex: 1; background: rgba(255,255,255,.22); } .dk .cp .bar i { background: #fff; }
+  .dk .al { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,.78); } .dk .al em { font-style: normal; color: #FF9C9C; } .dk .chev { position: absolute; top: 14px; right: 14px; }
+
+  /* A: compact strip, shorter tiles, open tile 236 wide so 2 dates peek */
+  .sa { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -24px; padding: 2px 24px 24px; margin-bottom: -18px; }
+  .sa .tl { flex: none; width: 60px; height: 112px; border-radius: 18px; border: 1px solid #EBEBEB; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; transition: width .3s; }
+  .sa .tl small { font-size: 11px; color: #6A6A6A; } .sa .tl b { font-size: 17px; } .sa .tl .bar { width: 26px; } .sa .tl em { font-style: normal; font-size: 11px; color: #6A6A6A; }
+  .sa .tl.off b { text-decoration: line-through; color: #9A9A9A; }
+  .sa .tl.open { width: 236px; height: 112px; align-items: stretch; justify-content: flex-start; border: 0; }
+  .sa .tl .dk { display: none; } .sa .tl.open .dk { display: block; height: 100%; padding: 12px 14px; } .sa .tl.open > :not(.dk) { display: none; }
+  .sa .dk .t { font-size: 16px; } .sa .dk .cp { margin-top: 8px; } .sa .dk .al { margin-top: 6px; }
+
+  /* B: date pills on top, one full-width card below */
+  .sb { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -24px; padding: 0 24px 2px; }
+  .sb .pl { flex: none; width: 56px; padding: 8px 0 10px; border-radius: 16px; border: 1px solid #EBEBEB; text-align: center; cursor: pointer; }
+  .sb .pl small { display: block; font-size: 11px; color: #6A6A6A; } .sb .pl b { display: block; font-size: 17px; line-height: 22px; } .sb .pl .bar { width: 24px; margin: 6px auto 0; }
+  .sb .pl.on { background: #222; border-color: #222; color: #fff; } .sb .pl.on small { color: rgba(255,255,255,.75); } .sb .pl.on .bar { background: rgba(255,255,255,.3); } .sb .pl.on .bar i { background: #fff; }
+  .sb .pl.off b { text-decoration: line-through; color: #9A9A9A; }
+  .card { margin-top: 12px; }
+
+  /* C: list of the next dates, first as the dark card */
+  .lr { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid #EBEBEB; } .lr .d { width: 44px; text-align: center; flex: none; } .lr .d small { display: block; font-size: 11px; color: #6A6A6A; } .lr .d b { font-size: 17px; }
+  .lr .x { flex: 1; } .lr .x div { font-size: 14px; font-weight: 600; } .lr .x .bar { margin-top: 6px; } .lr .n { font-size: 12px; color: #6A6A6A; flex: none; }
+  .lr.off .d b { text-decoration: line-through; color: #9A9A9A; }
+  .more { display: block; text-align: center; margin-top: 10px; font-size: 14px; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Host Today: "Coming up", 3 ways</h1>
+<p class="sub">Now: the open tile is 262 px of 354, so only one other date peeks, and closed dates are 168 px tall with three small lines (empty boxes). Tap the dates to try each.</p>
+<div class="wrap" id="w"></div>
+<script>
+var D = [
+  { dw: 'Sat', d: 5, w: '<b>In 3 days</b> · Sat, 5 Dec', f: 75, c: '6 of 8 booked', al: true },
+  { dw: 'Sat', d: 12, w: 'Sat, 12 Dec', f: 0, c: 'No bookings yet' },
+  { dw: 'Sat', d: 19, w: 'Sat, 19 Dec', f: 0, c: 'No bookings yet' },
+  { dw: 'Sat', d: 26, w: 'Sat, 26 Dec', f: 0, c: 'Blocked', off: true },
+  { dw: 'Sat', d: 2, w: 'Sat, 2 Jan', f: 0, c: 'No bookings yet' }
+];
+function dk(x, chev) { return '<div class="dk">' + (chev ? '<span class="chev">›</span>' : '') + '<div class="w">' + x.w + '</div><div class="t">' + (x.off ? 'Blocked' : '9:00 – 11:30 AM') + '</div>' + (x.off ? '' : '<div class="cp"><span class="bar"><i style="width:' + x.f + '%"></i></span>' + x.c + '</div>') + (x.al ? '<div class="al">3 bookings · <em>1 allergy</em></div>' : '') + '</div>'; }
+var HEAD = '<div class="sh"><b>Coming up</b><a>Calendar</a></div>', TODO = '<div class="todo">To do</div><div>New booking from Hafiz Ismail<small>Sat, 5 Dec · 1 adult · vegetarian</small></div>';
+var A = HEAD + '<div class="sa">' + D.map(function (x, i) { return '<div class="tl' + (i ? '' : ' open') + (x.off ? ' off' : '') + '"><small>' + x.dw + '</small><b>' + x.d + '</b><span class="bar"><i style="width:' + x.f + '%"></i></span><em>' + (x.off ? 'Blocked' : Math.round(x.f * 8 / 100) + ' / 8') + '</em>' + dk(x, true) + '</div>'; }).join('') + '</div>' + TODO;
+var B = HEAD + '<div class="sb">' + D.map(function (x, i) { return '<div class="pl' + (i ? '' : ' on') + (x.off ? ' off' : '') + '" data-i="' + i + '"><small>' + x.dw + '</small><b>' + x.d + '</b><span class="bar"><i style="width:' + x.f + '%"></i></span></div>'; }).join('') + '</div><div class="card">' + dk(D[0], true) + '</div>' + TODO;
+var C = HEAD + '<div class="card" style="margin:0 0 4px">' + dk(D[0], true) + '</div>' + D.slice(1, 4).map(function (x) { return '<div class="lr' + (x.off ? ' off' : '') + '"><div class="d"><small>' + x.dw + '</small><b>' + x.d + '</b></div><div class="x"><div>' + (x.off ? 'Blocked' : '9:00 – 11:30 AM') + '</div>' + (x.off ? '' : '<span class="bar"><i style="width:' + x.f + '%"></i></span>') + '</div><span class="n">' + x.c + '</span></div>'; }).join('') + '<a class="more">See all in Calendar</a>' + TODO;
+var V = [
+  ['A · Same strip, tighter', 'Open tile 236 px and closed dates 60 × 112 px, so two dates peek and nothing looks empty. Still one row that changes width when tapped.', A, false],
+  ['B · Date pills + one card (recommended)', 'A row of small date pills (with a fill line) and one full-width dark card for the selected date underneath. Nothing changes size; the whole month scrolls in the pills.', B, true],
+  ['C · List', 'The next date as the dark card, then the following dates as plain rows with a fill bar, and "See all in Calendar". No sideways scroll at all.', C, false]
+];
+document.getElementById('w').innerHTML = V.map(function (v) { return '<div class="col' + (v[3] ? ' rec' : '') + '"><b>' + v[0] + '</b><p>' + v[1] + '</p><div class="ph">' + v[2] + '</div></div>'; }).join('');
+document.querySelectorAll('.sa').forEach(function (s) { s.addEventListener('click', function (e) { var t = e.target.closest('.tl'); if (!t) return; s.querySelectorAll('.tl').forEach(function (x) { x.classList.toggle('open', x === t); }); }); });
+document.querySelectorAll('.sb').forEach(function (s) { s.addEventListener('click', function (e) { var t = e.target.closest('.pl'); if (!t) return; s.querySelectorAll('.pl').forEach(function (x) { x.classList.toggle('on', x === t); }); s.parentNode.querySelector('.card').innerHTML = dk(D[+t.dataset.i], true); }); });
+</script>
+</body>
+</html>

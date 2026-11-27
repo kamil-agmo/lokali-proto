@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Builder: Price & policy</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Price and policy in Airy (27 Nov): open sections split by hairlines, plain toggle rows, the 3 policies as radio rows.
    Aina's values: RM 85 adult, RM 55 child, private RM 480, 2–8 guests, Flexible. Cut: boxed cards, tinted earn box, header Save, bottom Back. */
@@ -24,9 +24,9 @@
 .sp-sec { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
 .sp-sec > p { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
 .sp-field { margin-top: 20px; }
-.sp-field label, .sp-lbl { display: block; font-size: 15px; line-height: 21px; font-weight: 600; color: var(--ink); }
+.sp-field label, .sp-lbl { display: block; font-size: 15px; line-height: 21px; font-weight: 500; color: var(--ink); }
 .sp-money { position: relative; margin-top: 8px; }
-.sp-money span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-weight: 600; color: var(--muted); }
+.sp-money span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-weight: 500; color: var(--muted); }
 .sp-money .input { padding-left: 48px; font-weight: 600; }
 .sp-earn { margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--muted); } .sp-earn b { color: var(--ink); font-weight: 600; }
 .sp-tog { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
@@ -44,6 +44,18 @@
 .sp-pol li { font-size: 13px; line-height: 19px; color: var(--muted); }
 html body.m .cta-bar .btn { flex: 1; }
 </style>
+<style>
+  .sp-hero { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 16px; border-radius: 20px; background: #F1F6F2; }
+  .sp-hero .k { display: block; font-size: 12px; font-weight: 600; color: var(--primary-strong); }
+  .sp-hero b { display: block; font-size: 30px; line-height: 36px; font-weight: 800; color: var(--primary-strong); letter-spacing: -.02em; }
+  .sp-hero .n { margin-left: auto; text-align: right; font-size: 12px; line-height: 17px; color: #3D3D3D; }
+  /* refund timeline strip on each policy: green = full refund, gold = half, red = none */
+  .sp-tl { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 8px 0 6px; max-width: 220px; } .sp-tl i { display: block; }
+  .sp-tl i:nth-child(1) { background: var(--primary); } .sp-tl i:nth-child(2) { background: #C9A21C; } .sp-tl i:nth-child(3) { background: #D7263D; }
+  .sp-tl--flexible i:nth-child(1) { width: 85%; } .sp-tl--flexible i:nth-child(2) { width: 0; } .sp-tl--flexible i:nth-child(3) { width: 15%; }
+  .sp-tl--moderate i:nth-child(1) { width: 60%; } .sp-tl--moderate i:nth-child(2) { width: 0; } .sp-tl--moderate i:nth-child(3) { width: 40%; }
+  .sp-tl--firm i:nth-child(1) { width: 35%; } .sp-tl--firm i:nth-child(2) { width: 30%; } .sp-tl--firm i:nth-child(3) { width: 35%; }
+</style>
 </head>
 <body class="m">
   <header class="appbar appbar--flow has-prog">
@@ -59,7 +71,9 @@ html body.m .cta-bar .btn { flex: 1; }
     <div class="sp-field">
       <label for="adult">Price per adult</label>
       <div class="sp-money"><span>RM</span><input class="input" id="adult" type="number" value="85" inputmode="decimal"></div>
-      <p class="sp-earn">You get <b id="earn">RM 72.25</b> after the 15% Lokali commission. Guests pay a 5% service fee on top.</p>
+      <!-- option C (explore/price-earn.html): what she earns, right under the price it comes from, live -->
+      <div class="sp-hero"><div><span class="k">You earn per adult</span><b id="earn">RM 72.25</b></div><span class="n">After the 15%<br>Lokali commission</span></div>
+      <p class="sp-earn">Guests pay a 5% service fee on top.</p>
     </div>
 
     <section class="sp-sec" aria-label="Child and private prices">
@@ -86,7 +100,7 @@ html body.m .cta-bar .btn { flex: 1; }
   </main>
   <div class="cta-bar"><button class="btn btn--primary" id="save">Save</button></div>
 
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-price', [["Listing", "Forest-edge farm walk &amp; kuih morning"], ["Prices", "RM 85 adult · RM 55 child · RM 480 private"], ["Group", "2–8 guests"], ["Policy", "Flexible"], ["Commission", "15%"]]);</script>
   <script>
   (function () {
@@ -99,14 +113,14 @@ html body.m .cta-bar .btn { flex: 1; }
     ['Flexible', 'Moderate', 'Firm'].forEach(function (k) {
       var p = P[k], on = k === mine;
       h += '<div' + (on ? ' class="active"' : '') + ' data-value="' + k + '" role="radio" aria-checked="' + on + '" tabindex="0"><span class="dot"></span><div class="grow"><b>' + k + '</b>' + (p.default ? '<span class="rec">Recommended</span>' : '') +
-        '<ul><li>Full refund: ' + p.full + '</li>' + (p.partial ? '<li>' + p.partial + '</li>' : '') + '<li>No refund: ' + p.none.toLowerCase() + '</li></ul></div></div>';
+        '<span class="sp-tl sp-tl--' + k.toLowerCase() + '" aria-hidden="true"><i></i><i></i><i></i></span><ul><li>Full refund: ' + p.full + '</li>' + (p.partial ? '<li>' + p.partial + '</li>' : '') + '<li>No refund: ' + p.none.toLowerCase() + '</li></ul></div></div>';
     });
     document.getElementById('pol').innerHTML = h;
     document.getElementById('pol').addEventListener('pick', function (e) { if (window.ProtoEmbed) ProtoEmbed.report('h-step-price', [['Listing', 'Forest-edge farm walk &amp; kuih morning'], ['Policy', e.detail], ['Commission', '15%']]); });
     document.getElementById('save').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { if (L.navPrev() === 'h-builder') L.back(); else L.go('h-builder'); }, 600); });
   })();
   </script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

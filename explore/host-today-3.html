@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Host Today: making the next date stand out</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1000px; }
+  .wrap { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; }
+  .col { width: 402px; flex: none; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .notes { width: 402px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; }
+  .notes li { margin: 5px 0 5px 18px; font-size: 13px; line-height: 19px; }
+
+  .ph { position: relative; width: 402px; background: #fff; border-radius: 40px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 7px solid #111; padding-bottom: 96px; }
+  .sb { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; font-size: 15px; font-weight: 600; color: #fff; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .in { padding: 0 24px; }
+
+  .cover { position: relative; height: 320px; background: #7f9a82 center / cover; color: #fff; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.4), transparent 30%, transparent 45%, rgba(0,0,0,.6)); }
+  .cover > * { position: relative; z-index: 1; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 60px 24px 0; }
+  .mode { font-size: 13px; font-weight: 600; }
+  .sw { height: 36px; padding: 0 14px; border-radius: 999px; background: #fff; color: #222; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  .cover h2 { position: absolute; left: 24px; right: 24px; bottom: 56px; font-size: 28px; line-height: 33px; font-weight: 700; letter-spacing: -.02em; }
+  .cover p { position: absolute; left: 24px; bottom: 50px; font-size: 15px; opacity: .92; }
+
+  /* floating card: shared base (floats over the cover edge, like Home's search bar) */
+  .float { position: relative; z-index: 3; margin: -36px 16px 0; border-radius: 24px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 10px 28px rgba(0,0,0,.10); text-align: center; }
+  .float small { display: block; font-size: 12px; line-height: 17px; color: #6A6A6A; }
+  .float b sup { font-size: 13px; vertical-align: 11px; margin-right: 2px; font-weight: 700; }
+  .leaf { color: #37664A; }
+
+  /* A: three centred columns, payout in the middle and largest */
+  .fa { display: grid; grid-template-columns: 1fr 1.25fr 1fr; align-items: center; padding: 18px 8px; }
+  .fa > div + div { border-left: 1px solid #EBEBEB; }
+  .fa b { display: block; font-size: 22px; line-height: 28px; font-weight: 800; }
+  .fa .mid b { font-size: 28px; line-height: 34px; } .fa .mid small { color: #222; font-weight: 600; }
+
+  /* B: payout centred on top, impact as a quiet line below */
+  .fb { padding: 18px 20px 16px; }
+  .fb .k { font-size: 12px; font-weight: 600; color: #6A6A6A; }
+  .fb .big { display: block; font-size: 34px; line-height: 40px; font-weight: 800; margin: 2px 0 2px; }
+  .fb .when { font-size: 13px; color: #3D3D3D; }
+  .fb .imp { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #EBEBEB; font-size: 13px; color: #3D3D3D; }
+  .fb .imp .ic { width: 16px; height: 16px; }
+
+  /* C: two halves, payout | impact, centred, with a soft green tint on impact */
+  .fc { display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .fc > div { padding: 18px 10px 16px; } .fc > div + div { background: #F1F6F2; }
+  .fc b { display: block; font-size: 26px; line-height: 32px; font-weight: 800; }
+  .fc .k { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #6A6A6A; margin-bottom: 2px; }
+  .fc .k .ic { width: 14px; height: 14px; }
+
+  .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 36px 0 14px; } .sh h3 { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #1C522C; }
+
+  /* calendar strip: horizontal scroll; the open tile is wide and holds that date's details */
+  .week { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 -24px; padding: 2px 24px 6px; scroll-snap-type: x proximity; scroll-padding-inline: 24px; }
+  .week::-webkit-scrollbar { display: none; }
+  .wk { flex: none; width: 76px; min-height: 150px; padding: 12px 8px; border-radius: 20px; border: 1px solid #EBEBEB; background: #fff; text-align: center; cursor: pointer; scroll-snap-align: start; transition: width .3s cubic-bezier(.2,.8,.2,1), border-color .2s; overflow: hidden; display: flex; flex-direction: column; }
+  .wk small { display: block; font-size: 12px; color: #6A6A6A; } .wk .d { display: block; font-size: 18px; line-height: 24px; font-weight: 700; margin: 2px 0 8px; }
+  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; margin: 0 6px; } .bar i { display: block; height: 100%; background: #222; }
+  .wk em { display: block; font-style: normal; font-size: 12px; color: #6A6A6A; margin-top: 6px; }
+  .wk.off { color: #9A9A9A; } .wk.off .d { text-decoration: line-through; }
+  .wk .more { display: none; }
+  .wk.open { width: 262px; border-color: #222; text-align: left; padding: 14px 16px; }
+  .wk.open .mini { display: none; } .wk.open .more { display: flex; flex-direction: column; flex: 1; }
+  .more .when { font-size: 13px; color: #6A6A6A; } .more .t { font-size: 17px; line-height: 22px; font-weight: 700; margin-top: 2px; }
+  .more .cap { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: #3D3D3D; } .more .cap .bar { flex: 1; margin: 0; }
+  .faces { display: flex; align-items: center; margin-top: 10px; }
+  .faces > span { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 10px; font-weight: 600; color: #3D3D3D; }
+  .faces > span:first-child { margin-left: 0; } .faces em { font-style: normal; font-size: 12px; color: #6A6A6A; margin-left: 8px; } .alert { color: #B42318; }
+  .more .act { margin-top: auto; padding-top: 12px; }
+  .go { height: 36px; padding: 0 16px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; }
+  .go.ghost { background: #fff; color: #222; border: 1px solid #DDDDDD; }
+
+  .row { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-top: 1px solid #EBEBEB; } .row:first-of-type { border-top: 0; padding-top: 0; }
+  .row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .row small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; } .row .ic { color: #6A6A6A; }
+  .row .chev { margin-left: auto; color: #B0B0B0; width: 16px; height: 16px; }
+
+  .tabs { position: absolute; z-index: 4; left: 14px; right: 14px; bottom: 18px; height: 62px; border-radius: 999px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: space-around; }
+  .tabs span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; font-weight: 600; color: #6A6A6A; padding: 6px 10px; border-radius: 999px; position: relative; }
+  .tabs span.on { color: #D7263D; background: #FDECEE; } .tabs .bd { position: absolute; top: 0; right: 4px; min-width: 15px; height: 15px; border-radius: 8px; background: #D7263D; color: #fff; font-size: 9px; line-height: 15px; text-align: center; font-style: normal; }
+
+  /* strip: open tile is the button (chevron), "Next" tag, three emphasis ideas */
+  .wk.open { min-height: 168px; position: relative; }
+  .more { position: relative; } .more .go-chev { position: absolute; top: 0; right: -2px; width: 16px; height: 16px; color: #9A9A9A; }
+  .tag { align-self: flex-start; height: 22px; padding: 0 10px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; margin-bottom: 8px; }
+  /* closed tiles: same height as the open one, content centred (they were stuck to the top) */
+  /* tighter gap from the strip to To do */
+  .week + * {} .in + .in .sh { margin-top: 28px; }
+  /* impact numbers in logo green so they read as important too */
+  .fb .imp b { color: #1C522C; font-weight: 800; }
+  .week { align-items: stretch; padding-bottom: 26px !important; margin-bottom: -20px !important; } /* room for the open tile's shadow (it was clipped into a hard edge) */ .wk:not(.open) { justify-content: center; }
+  .soon { font-weight: 700; color: inherit; }
+  .v1 .wk.open { background: #222; border-color: #222; color: #fff; box-shadow: 0 8px 20px rgba(0,0,0,.18); }
+  .v1 .wk.open .when, .v1 .wk.open .faces em, .v1 .wk.open .cap { color: rgba(255,255,255,.78); } .v1 .wk.open .alert { color: #FF9C9C; }
+  .v1 .wk.open .bar { background: rgba(255,255,255,.22); } .v1 .wk.open .bar i { background: #fff; } .v1 .wk.open .faces > span { border-color: #222; } .v1 .wk.open .go-chev { color: #fff; }
+  .v2 .wk.open { color: #fff; border-color: transparent; background: #555 url(https://images.unsplash.com/photo-1716466205712-16bd54030abd?w=600&q=70&auto=format&fit=crop) center / cover; }
+  .v2 .wk.open::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.72)); }
+  .v2 .wk.open .when, .v2 .wk.open .faces em, .v2 .wk.open .cap { color: rgba(255,255,255,.85); } .v2 .wk.open .alert { color: #FFB3B3; }
+  .v2 .wk.open .bar { background: rgba(255,255,255,.3); } .v2 .wk.open .bar i { background: #fff; } .v2 .wk.open .faces > span { border-color: transparent; } .v2 .wk.open .go-chev { color: #fff; }
+  .v3 .wk.open { background: #F1F6F2; border-color: #37664A; } .v3 .wk.open .bar i { background: #37664A; } .v3 .wk.open .faces > span { border-color: #F1F6F2; } .v3 .wk.open .go-chev { color: #37664A; }
+  .v3 .tag { background: #37664A; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-swap" viewBox="0 0 256 256"><path d="M176 40l40 40-40 40M216 80H40M80 216l-40-40 40-40M40 176h176"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 256 256"><path d="M32 88a32 32 0 0 0 0 80v32h192v-32a32 32 0 0 1 0-80V56H32z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 256 256"><path d="M128 24l31 66 72 8-54 49 15 71-64-37-64 37 15-71-54-49 72-8z"/></symbol>
+  <symbol id="i-money" viewBox="0 0 256 256"><rect x="24" y="64" width="208" height="128" rx="12"/><circle cx="128" cy="128" r="28"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 256 256"><path d="M56 200C40 96 120 40 216 40c0 96-56 176-160 160zM56 200l88-88"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 256 256"><path d="M96 48l80 80-80 80"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 256 256"><path d="M24 176h208M64 176a64 64 0 0 1 128 0M128 64V40M70 90 54 74M186 90l16-16"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 256 256"><rect x="40" y="48" width="176" height="168" rx="12"/><path d="M40 96h176M88 32v32M168 32v32"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 256 256"><rect x="48" y="48" width="64" height="64" rx="8"/><rect x="144" y="48" width="64" height="64" rx="8"/><rect x="48" y="144" width="64" height="64" rx="8"/><rect x="144" y="144" width="64" height="64" rx="8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 256 256"><path d="M40 64h176M40 128h176M40 192h176"/></symbol>
+</svg>
+
+<h1>Host Today: making the next date stand out</h1>
+<p class="sub">Floating card B in all three. Tap a date to open it, tap the open date (›) for its guest list and details. The next date says "In 3 days" in bold instead of a tag. Three ways to make the open date stand out. Try the strip.</p>
+<div class="wrap" id="w"></div>
+
+<script>
+function u(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; }
+var I = function (n, cls) { return '<svg class="ic ' + (cls || '') + '"><use href="#i-' + n + '"/></svg>'; };
+
+var DATES = [
+  { dw: 'Sat', d: 5, when: '<b class="soon">In 3 days</b> · Sat, 5 Dec', t: '9:00 – 11:30 AM', fill: 75, cap: '6 of 8 booked', faces: true, next: true },
+  { dw: 'Sat', d: 12, when: 'Sat, 12 Dec', t: '9:00 – 11:30 AM', fill: 25, cap: '2 of 8 booked', faces2: true },
+  { dw: 'Sat', d: 19, when: 'Sat, 19 Dec', t: '9:00 – 11:30 AM', fill: 0, cap: 'No bookings yet' },
+  { dw: 'Sun', d: 20, when: 'Sun, 20 Dec', t: '9:00 – 11:30 AM', fill: 0, cap: 'No bookings yet' },
+  { dw: 'Sat', d: 26, when: 'Sat, 26 Dec', t: 'Blocked', fill: 0, cap: 'Closed for bookings', off: true }
+];
+function strip() {
+  return '<div class="week">' + DATES.map(function (x, i) {
+    var mini = '<div class="mini"><small>' + x.dw + '</small><span class="d">' + x.d + '</span><div class="bar"><i style="width:' + x.fill + '%"></i></div><em>' + (x.off ? 'Blocked' : Math.round(x.fill * 8 / 100) + ' / 8') + '</em></div>';
+    var faces = x.faces ? '<div class="faces"><span class="js-face"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div>'
+      : x.faces2 ? '<div class="faces"><span>DL</span><em>1 booking</em></div>' : '';
+    var more = '<div class="more">' + I('chev', 'go-chev') + '<span class="when">' + x.when + '</span><span class="t">' + x.t + '</span>' + (x.off ? '' : '<div class="cap"><div class="bar"><i style="width:' + x.fill + '%"></i></div><span>' + x.cap + '</span></div>') + (x.off ? '<div class="cap">' + x.cap + '</div>' : '') + faces + '</div>';
+    return '<div class="wk' + (i === 0 ? ' open' : '') + (x.off ? ' off' : '') + '" role="button" tabindex="0">' + mini + more + '</div>';
+  }).join('') + '</div>';
+}
+
+var FLOATS = {
+  A: '<div class="float fa"><div><b><sup>RM</sup>90</b><small>given back</small></div><div class="mid"><b><sup>RM</sup>408</b><small>paid Sun, 6 Dec</small></div><div><b>11</b><small>guests hosted</small></div></div>',
+  B: '<div class="float fb"><span class="k">Next payout</span><span class="big"><sup style="font-size:15px;vertical-align:14px">RM</sup>408.00</span><span class="when">Sun, 6 Dec · CIMB •• 3307</span><div class="imp">' + I('leaf', 'leaf') + '<span><b>RM 90</b> given back · <b>11</b> guests hosted</span></div></div>',
+  C: '<div class="float fc"><div><span class="k">' + I('money') + 'Next payout</span><b><sup>RM</sup>408</b><small>Sun, 6 Dec</small></div><div><span class="k leaf">' + I('leaf') + 'Given back</span><b><sup>RM</sup>90</b><small>from 11 guests</small></div></div>'
+};
+var V = [
+  ['1 · Dark tile (recommended)', 'The open date turns ink-dark with white text, like Home\'s selected chip: the strongest thing below the card, no new colour.', 'v1', true],
+  ['2 · Photo tile', 'The open date shows the listing photo under a dark fade. Warm and lively, but busier and harder to read.', 'v2', false],
+  ['3 · Green tile', 'Soft logo-green fill and green bar. Calm and on-brand, but quieter than 1.', 'v3', false]
+];
+function phone(f) {
+  return '<div class="ph ' + f + '"><div class="sb"><span>9:41</span><span>●●● ▮</span></div>' +
+    '<div class="cover js-cover"><div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw">' + I('swap') + 'Switch to guest</span></div><h2>Selamat pagi, Aina</h2></div>' +
+    FLOATS.B +
+    '<div class="in"><div class="sh"><h3>Coming up</h3><a>Calendar</a></div>' + strip() + '</div>' +
+    '<div class="in"><div class="sh"><h3>To do</h3></div>' +
+      '<div class="row">' + I('ticket') + '<div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div>' + I('chev', 'chev') + '</div>' +
+      '<div class="row">' + I('star') + '<div><b>Reply to Daniel\'s review</b><small>Replies show on your listing</small></div>' + I('chev', 'chev') + '</div></div>' +
+    '<div class="tabs"><span class="on">' + I('sun') + 'Today</span><span>' + I('cal') + 'Calendar</span><span>' + I('grid') + 'Listings</span><span>' + I('chat') + 'Inbox<i class="bd">1</i></span><span>' + I('list') + 'Menu</span></div></div>';
+}
+document.getElementById('w').innerHTML = V.map(function (v) {
+  return '<div class="col' + (v[3] ? ' rec' : '') + '"><b>' + v[0] + '</b><p>' + v[1] + '</p>' + phone(v[2]) + '</div>';
+}).join('') + '<div class="notes"><h2>MIMS</h2><ul>' +
+  '<li><b>No Guest list button:</b> the open tile is the button (› top right); a second control to the same place was a duplicate. Same for Edit slot / Unblock: they live on the date page.</li>' +
+  '<li><b>DUPE:</b> "Your next experience is in 3 days" on the cover is gone; the open date already says "In 3 days".</li>' +
+  '<li><b>No "Next" tag:</b> a red pill competed with the real actions. "In 3 days" in bold at the start of the date line says the same thing in words, and only on that date.</li>' +
+  '<li><b>Why it needs weight:</b> the next date is the host\'s main job this week; today it looked like the other tiles, just wider.</li>' +
+  '<li><b>Recommend 1 (dark):</b> uses Airy\'s own "selected" colour (ink), highest contrast, no new colour. 2 is the most inviting but busiest; 3 is calm but quiet.</li>' +
+  '<li><b>Requirements:</b> host bookings and guest list with dietary notes (H11), calendar slots and blocked dates (H8).</li></ul></div>';
+
+document.querySelectorAll('.js-cover').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1716466205712-16bd54030abd', 900) + ')'; });
+document.querySelectorAll('.js-face').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1613447895817-e617a4093f50', 80) + ')'; });
+document.querySelectorAll('.week').forEach(function (wk) {
+  function open(t) { wk.querySelectorAll('.wk').forEach(function (x) { x.classList.toggle('open', x === t); }); setTimeout(function () { var x = t.getBoundingClientRect().left - wk.getBoundingClientRect().left + wk.scrollLeft - 24; wk.scrollTo({ left: Math.max(0, x), behavior: 'smooth' }); }, 320); }
+  wk.addEventListener('click', function (e) { var t = e.target.closest('.wk'); if (t) open(t); });
+  wk.addEventListener('keydown', function (e) { var t = e.target.closest('.wk'); if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(t); } });
+});
+</script>
+</body>
+</html>

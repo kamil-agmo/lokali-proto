@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Reviews</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Host Reviews in Airy (2 Dec), same look as the guest All reviews page. 3 reviews: no bars, no tabs (all 5 stars, a handful of rows).
    The one without a reply comes first with a small Reply pill; posted replies sit under their review. */
@@ -30,8 +30,13 @@
 .rvi-head b { display: block; font-size: 15px; line-height: 22px; font-weight: 600; } .rvi-head small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
 .rvi-stars { display: flex; gap: 2px; color: var(--star); font-size: 13px; }
 .rvi p { margin-top: 10px; font-size: 15px; line-height: 22px; color: var(--text); }
-.rvi-reply { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--surface); font-size: 15px; line-height: 20px; }
-.rvi-reply b { display: block; font-size: 13px; line-height: 18px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+/* reply hangs under the review (27 Nov, explore/host-pass.html #3): curved connector, her photo, Host reply tag, grey bubble */
+.rvi-reply { position: relative; margin: 14px 0 0 20px; }
+.rvi-reply::before { content: ""; position: absolute; left: -14px; top: -6px; width: 12px; height: 24px; border-left: 2px solid #DDDDDD; border-bottom: 2px solid #DDDDDD; border-bottom-left-radius: 10px; }
+.rvr-hb { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink); }
+.rvr-hb img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.rvr-tag { height: 20px; padding: 0 8px; border-radius: 999px; background: #E8F0EA; color: var(--primary-strong); font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; }
+.rvr-bub { margin-top: 6px; padding: 10px 12px; border-radius: 4px 16px 16px 16px; background: #F7F7F7; font-size: 14px; line-height: 20px; color: #3D3D3D; }
 .rvi-todo { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; font-size: 13px; line-height: 18px; color: var(--muted); }
 .rvi-todo .btn { flex: none; min-height: 32px !important; padding: 0 14px; font-size: 13px; position: relative; }
 .rvi-todo .btn::after { content: ""; position: absolute; inset: -6px 0; } /* 44 px tap */
@@ -68,8 +73,8 @@
     var p = r.who && L.people[r.who];
     return '<article class="rvi" id="rv' + i + '"><div class="rvi-head">' + (p ? '<img src="' + L.img(p.img, 96) + '" alt="">' : '<span class="ini" aria-hidden="true">' + ini(r.name) + '</span>') +
       '<div><b>' + r.name + '</b><small>' + r.date.replace('Nov', 'November') + '</small></div>' + stars(r.stars) + '</div><p>' + r.text + '</p>' +
-      (r.reply ? '<div class="rvi-reply"><b>Your reply</b>' + r.reply + '</div>'
-               : '<div class="rvi-todo"><span>No reply yet</span><button class="btn btn--secondary btn--sm" data-open="#reply" data-i="' + i + '">Reply</button></div>') + '</article>';
+      (r.reply ? '<div class="rvi-reply">' + '<div class="rvr-hb"><img src="' + L.img('1545266241-3516e2a6e016', 60) + '" alt="">Aina<span class="rvr-tag">Host reply</span></div>' + '<div class="rvr-bub">' + r.reply + '</div></div>'
+               : '<div class="rvi-todo"><span>No reply yet</span><button class="btn btn--primary btn--sm" data-open="#reply" data-i="' + i + '">Reply</button></div>') + '</article>';
   }
   var order = R.map(function (r, i) { return i; }).sort(function (a, b) { return (R[a].reply ? 1 : 0) - (R[b].reply ? 1 : 0); });
   var list = document.getElementById('list');
@@ -79,15 +84,15 @@
   document.getElementById('post').addEventListener('click', function () {
     var t = document.getElementById('replyText').value.trim(); if (!t) return;
     var box = document.querySelector('#rv' + cur + ' .rvi-todo'), r = document.createElement('div');
-    r.className = 'rvi-reply'; r.innerHTML = '<b>Your reply</b>'; r.appendChild(document.createTextNode(t));
+    r.className = 'rvi-reply'; r.innerHTML = '<div class="rvr-hb"><img src="' + L.img('1545266241-3516e2a6e016', 60) + '" alt="">Aina<span class="rvr-tag">Host reply</span></div>' + '<div class="rvr-bub"></div>'; r.querySelector('.rvr-bub').appendChild(document.createTextNode(t));
     if (box) box.replaceWith(r); document.getElementById('rv' + cur).classList.add('is-new');
     L.close(); L.toast('Reply posted');
   });
 })();
 </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-reviews', [["Rating", "5.0 · 3 reviews"], ["Needs a reply", "1 · Daniel Wong"], ["Replied", "Chloe Lim, Suresh Kumar"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

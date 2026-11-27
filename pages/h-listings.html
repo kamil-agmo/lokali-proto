@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · My listings</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Listings in Airy (27 Nov): Aina's live listing as a Home-style photo card, her draft as an open row; one "New listing" pill.
    Cut: the second "Create new listing" button (same as the header pill), the Calendar button (it's a tab) and the boxed cards. */
@@ -45,41 +45,37 @@
 .ls-bar > span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; } .ls-bar > span i { display: block; height: 100%; background: var(--ink); }
 .ls-note { margin-top: 20px; font-size: 12px; line-height: 17px; color: var(--muted); }
 </style>
+<style>
+  .lr { display: flex; align-items: center; gap: 14px; padding: 14px 0; color: var(--ink); cursor: pointer; }
+  .lr + .lr-acts + .lr, .lr-acts + .lr { border-top: 1px solid var(--line); }
+  .lr-th { width: 88px; height: 88px; flex: none; border-radius: 20px; object-fit: cover; background: var(--sand); }
+  .lr-empty { display: grid; place-items: center; background: #F7F7F7; color: var(--muted); font-size: 26px; }
+  .lr .grow { min-width: 0; } .lr b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; margin-top: 2px; }
+  .lr small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); margin-top: 2px; } .lr small .ph-fill { color: var(--star); }
+  .lr-st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink); } .lr-st i { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); } .lr-st.draft i { background: #B0B0B0; }
+  .lr-bar { display: block; height: 4px; border-radius: 2px; background: var(--line); margin-top: 8px; overflow: hidden; } .lr-bar i { display: block; height: 100%; background: var(--ink); }
+  .lr .chev { color: var(--faint); font-size: 16px; }
+  .lr-acts { padding: 0 0 14px 102px; }
+</style>
 </head>
 <body class="m">
 <div class="lt-bar" aria-hidden="true">Listings</div>
 <header class="lt"><div class="lt-row"><h1>Listings</h1><button class="ls-new" data-go="h-builder" onclick="L.state.set('hbuild','new')"><i class="ph ph-plus" aria-hidden="true"></i>New listing</button></div></header>
 
 <main class="ls-main">
-  <!-- live: opens the listing's builder / manage view -->
-  <section aria-label="Live">
-    <a class="ls-card" href="h-builder.html" data-go="h-builder" onclick="L.state.set('hbuild','kuih')">
-      <img data-img="1505471768190-275e2ad7b3f9" data-w="800" alt="">
-      <div class="ls-body">
-        <span class="ls-state"><i aria-hidden="true"></i>Live since Fri, 20 Nov</span>
-        <h2 class="ls-title">Forest-edge farm walk &amp; kuih morning</h2>
-        <div class="ls-meta"><span><i class="ph-fill ph-star" aria-hidden="true"></i> <b>5.0</b> (3 reviews)</span><span aria-hidden="true">·</span><span>RM 85 / adult</span></div>
-        <div class="ls-meta">Next: Sat, 5 Dec · 6 of 8 booked</div>
-      </div>
-    </a>
-    <div class="ls-acts">
-      <a class="ls-pill" href="g-listing.html" data-go="g-listing" onclick="L.state.set('exp','kuih');L.state.set('preview',true)"><i class="ph ph-eye" aria-hidden="true"></i>Preview as guest</a>
-    </div>
-  </section>
-
-  <!-- draft -->
-  <section class="ls-sec" aria-labelledby="dr-h">
-    <h2 id="dr-h">Drafts</h2>
-    <div class="ls-row" role="link" tabindex="0" data-go="h-builder" onclick="L.state.set('hbuild','pandan')">
-      <span class="ls-ph"><i class="ph ph-image" aria-hidden="true"></i></span>
-      <div class="grow">
-        <span class="ls-state draft">Edited Tue, 1 Dec</span>
-        <b>Pandan dye workshop</b>
-        <div class="ls-bar"><span><i style="width:55%"></i></span>6 of 11 required done</div>
-      </div>
-    </div>
-    <p class="ls-note">The Lokali team checks each new listing before it goes live.</p>
-  </section>
+  <!-- Listings as a list (27 Nov, explore/host-pass.html #4): one row per listing, 88 px photo, status in words + dot -->
+  <a class="lr" href="h-builder.html" data-go="h-builder" onclick="L.state.set('hbuild','kuih')">
+    <img class="lr-th" data-img="1643188626775-05290d1b6acb" data-w="240" alt="">
+    <div class="grow"><span class="lr-st"><i aria-hidden="true"></i>Live since Fri, 20 Nov</span><b>Forest-edge farm walk &amp; kuih morning</b><small><i class="ph-fill ph-star" aria-hidden="true"></i> 5.0 (3) · RM 85 / adult</small><small>Next: Sat, 5 Dec · 6 of 8</small></div>
+    <i class="ph ph-caret-right chev" aria-hidden="true"></i>
+  </a>
+  <div class="lr-acts"><a class="ls-pill" href="g-listing.html" data-go="g-listing" onclick="L.state.set('exp','kuih');L.state.set('preview',true)"><i class="ph ph-eye" aria-hidden="true"></i>Preview as guest</a></div>
+  <div class="lr" role="link" tabindex="0" data-go="h-builder" onclick="L.state.set('hbuild','pandan')">
+    <span class="lr-th lr-empty"><i class="ph ph-image" aria-hidden="true"></i></span>
+    <div class="grow"><span class="lr-st draft"><i aria-hidden="true"></i>Draft · edited Tue, 1 Dec</span><b>Pandan dye workshop</b><small>6 of 11 required done</small><span class="lr-bar"><i style="width:55%"></i></span></div>
+    <i class="ph ph-caret-right chev" aria-hidden="true"></i>
+  </div>
+  <p class="ls-note">The Lokali team checks each new listing before it goes live.</p>
 </main>
 <nav class="tabbar" data-tabs="host" data-active="h-listings"></nav>
 
@@ -90,9 +86,9 @@
     addEventListener('scroll', f, { passive: true }); f();
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-listings', [["Live", "Forest-edge farm walk &amp; kuih morning"], ["Draft", "Pandan dye workshop · 6 of 11"], ["Host", "Aina Rahman"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>

@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Application status</title>
-  <script src="../shell.config.js?v=0.38.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
+  <script src="../shell.config.js?v=0.46.1"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
-  <script src="../js/lokali.js?v=0.38.0"></script>
-  <script src="../js/art.js?v=0.38.0"></script>
-  <script src="../js/data.js?v=0.38.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.1">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.1">
+  <script src="../js/lokali.js?v=0.46.1"></script>
+  <script src="../js/art.js?v=0.46.1"></script>
+  <script src="../js/data.js?v=0.46.1"></script>
 <style>
 /* Application status in Airy (27 Nov): one state at a time, title + one line, the admin note as quoted text, a plain timeline.
    Cut: the "Almost there" card (said the same as each state's title) and the coloured icon discs. */
@@ -25,8 +25,17 @@
 .as-demo button::after { content: ""; position: absolute; inset: -6px 0; }
 .as-demo button.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 .as-state { margin-top: 28px; }
-.as-ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--sand); color: var(--ink); font-size: 28px; }
-.as-ic.ok { color: var(--verified); }
+/* big status icon (27 Nov, explore/host-status.html A): 96 px soft circle per state */
+.as-ic { position: relative; width: 96px; height: 96px; margin: 36px auto 28px; border-radius: 50%; display: grid; place-items: center; font-size: 44px; }
+.as-ic .ph, .as-ic .ph-fill { font-size: 44px !important; }
+.as-ic.rv { background: #FFF4DC; color: #B7791F; }
+.as-ic.rv::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px dashed #F3D9A4; animation: asSpin 8s linear infinite; }
+.as-ic.ch { background: #FDE8EA; color: #D7263D; }
+.as-ic.ok { background: #E8F0EA; color: var(--primary-strong); }
+/* the status block (icon, title, lead) is centred; Progress below stays left-aligned */
+.as-state > .as-ic { display: grid; } .as-state > h1, .as-state > .as-lead { text-align: center; }
+@keyframes asSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .as-ic.rv::after { animation: none; } }
 .as-state h1 { margin: 16px 0 0; }
 .as-lead { margin-top: 6px; font-size: 15px; line-height: 22px; color: var(--text); }
 .as-note { margin-top: 24px; padding: 4px 0 4px 16px; border-left: 2px solid var(--ink); }
@@ -47,7 +56,7 @@
 .as-help::after { content: ""; position: absolute; inset: -12px -8px; }
 </style>
 </head>
-<body class="m">
+<body class="m has-cta">
   <header class="appbar appbar--flow">
     <button class="icon-btn" data-go="g-account" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
     <span class="appbar__title">Host application</span>
@@ -63,7 +72,7 @@
 
   <!-- In review -->
   <section id="p-review" class="as-state" hidden>
-    <span class="as-ic"><i class="ph ph-hourglass-medium" aria-hidden="true"></i></span>
+    <span class="as-ic rv"><i class="ph ph-hourglass-medium" aria-hidden="true"></i></span>
     <h1>We're checking your application</h1>
     <p class="as-lead">You'll hear from us by Wed, 18 Nov, by email and SMS.</p>
     <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
@@ -75,11 +84,11 @@
 
   <!-- Changes requested: the admin note back to the host -->
   <section id="p-changes" class="as-state">
-    <span class="as-ic"><i class="ph ph-note-pencil" aria-hidden="true"></i></span>
+    <span class="as-ic ch"><i class="ph ph-note-pencil" aria-hidden="true"></i></span>
     <h1>One thing to fix</h1>
     <p class="as-lead">Fix it and send it back. Everything else is kept.</p>
     <div class="as-note"><small>Nurul, Lokali team · Wed, 18 Nov</small><p>Please upload a clearer photo of your food handling certificate. The expiry date is cut off. Everything else looks good.</p></div>
-    <button class="btn btn--primary as-btn" id="fix">Fix and resubmit</button>
+    <div class="cta-bar"><button class="btn btn--primary btn--block" id="fix">Fix and resubmit</button></div>
     <button class="as-help" data-toast="Calling Lokali host support" data-toast-icon="ph-phone">Call host support</button>
     <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
       <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Mon, 16 Nov 2026 · 10:42 AM</small></div></li>
@@ -93,7 +102,7 @@
     <span class="as-ic ok"><i class="ph-fill ph-seal-check" aria-hidden="true"></i></span>
     <h1>You're a Lokali host</h1>
     <p class="as-lead">Next, build your listing for guests. You can save a draft any time.</p>
-    <button class="btn btn--primary as-btn" data-switch="host" data-switch-to="h-listings">Switch to hosting</button>
+    <div class="cta-bar"><button class="btn btn--primary btn--block" data-switch="host" data-switch-to="h-listings">Switch to hosting</button></div>
     <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
       <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Mon, 16 Nov 2026 · 10:42 AM</small></div></li>
       <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Changes sent</b><small>Thu, 19 Nov · new food handling certificate</small></div></li>
@@ -102,7 +111,7 @@
   </section>
 </main>
 
-  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script src="../js/shared/embed.js?v=0.46.1"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-status', [["Applicant", "Aina Rahman"], ["State", "Changes requested"], ["Admin note", "Clearer food handling certificate"]]);</script>
   <script>
   (function () {
@@ -117,7 +126,7 @@
     report(k);
   })();
   </script>
-  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.1"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.1"></script>
 </body>
 </html>
