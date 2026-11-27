@@ -53,7 +53,7 @@
   .row .chev { margin-left: auto; color: #B0B0B0; width: 16px; height: 16px; }
 
   /* B: impact band, same pattern as guest Home */
-  .band { position: relative; margin-top: 40px; height: 200px; background: #6f8b74 center / cover; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 24px; }
+  .band { position: relative; margin-top: 40px; margin-bottom: 0; height: 200px; background: #6f8b74 center / cover; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 24px; }
   .band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,1) 0, rgba(255,255,255,0) 22%, transparent 40%, rgba(0,0,0,.62)); }
   .band > * { position: relative; } .band .k { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .9; margin-bottom: 6px; }
   .band .nums { display: flex; gap: 28px; } .band b { display: block; font-size: 30px; line-height: 34px; font-weight: 800; } .band b sup { font-size: 14px; vertical-align: 12px; margin-right: 2px; } .band small { font-size: 12px; font-weight: 500; }
@@ -104,14 +104,16 @@
           <div class="wk"><small>Sun</small><b>20</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
           <div class="wk off"><small>Sat</small><b><s>26</s></b><div class="bar"></div><em>Blocked</em></div>
         </div>
-        <div class="sh"><h3>To do</h3></div>
-        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
-        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>Replies show on your listing</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
-        <div class="row"><svg class="ic"><use href="#i-money"/></svg><div><b>RM 408.00 on the way</b><small>Paid Sun, 6 Dec · CIMB •• 3307</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
       </div>
       <div class="band js-band">
         <span class="k">Your impact so far</span>
         <div class="nums"><div><b><sup>RM</sup>90</b><small>given back through your listing</small></div><div><b>11</b><small>guests hosted</small></div></div>
+      </div>
+      <div class="in">
+        <div class="sh"><h3>To do</h3></div>
+        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
+        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>Replies show on your listing</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
+        <div class="row"><svg class="ic"><use href="#i-money"/></svg><div><b>RM 408.00 on the way</b><small>Paid Sun, 6 Dec · CIMB •• 3307</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
       </div>
       <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox<i class="bd">1</i></span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
     </div>
@@ -128,7 +130,7 @@
     <ul>
       <li><b>Guest faces</b> in that card: who's coming; dietary or access flags as a count ("1 allergy"), detail on the guest list.</li>
       <li><b>Coming up</b>: next dates with fill bars, taps to Calendar (capacity per slot, H8). Works for any schedule (weekly, one-off, retreats).</li>
-      <li><b>To do</b>: new bookings, reviews to answer, payout on the way (H14). The payout became a to-do row, so it isn't a separate section.</li>
+      <li><b>To do</b>, after the impact band: new bookings, reviews to answer, payout on the way (H14). Urgent items already reach the host another way (booking email, Inbox badge), so the band can lead.</li>
       <li><b>Impact band</b>, same pattern as guest Home: money given back through the listing + guests hosted. Every listing has an impact share, so it's true for all hosts.</li>
     </ul>
     <h3>General wording</h3>
