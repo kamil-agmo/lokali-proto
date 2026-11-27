@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "by The Habitat Group · Prototype",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.46.2",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.46.3",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/brand/lockup-humanist-green.svg",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: "assets/brand/lockup-humanist-white.svg",           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,

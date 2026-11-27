@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.46.3 · 2026-11-27
+- Fixed: the Experience page opened with "The story" sheet spread across the top (its text and Close button showing over the photo). The sheet's opening tag and title had been lost; restored. Checked every page: no other loose sheet parts, all tags balanced.
+
 ## 0.46.2 · 2026-11-27
 - Presenter (app and admin): the left card shows the Lokali logo, mark + wordmark (assets/brand/lockup-humanist-green.svg; white version for the lock screen), with "by The Habitat Group · Prototype" under it (was only The Habitat Group logo, so testers never saw the product's own brand). Presenter green is now the logo green #37664A / #1C522C (was the old #2F5D3A; handoff item 5).
 
