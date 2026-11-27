@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "Booking platform · Prototype v1",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.35.0",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.35.1",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/habitat-logo.png",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: null,           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
@@ -161,3 +161,6 @@ window.SHELL = {
     { label: 'Admin portal', device: 'desktop', children: ['a-login', 'a-dashboard', 'a-approvals', 'a-review', 'a-bookings', 'a-booking', 'a-hosts', 'a-host', 'a-listings', 'a-listing', 'a-payouts', 'a-moderation', 'a-enquiries', 'a-content', 'a-reports', 'a-fees', 'a-team'] }
   ]
 };
+
+/* Cache busting (27 Nov): every page opens as page.html?v=<version>, so a new deploy shows at once on GitHub Pages (it caches files for 10 minutes) */
+(function (S) { if (!S || !S.version) return; for (var k in S.pages) { var u = S.pages[k].src; if (u.indexOf('v=') < 0) S.pages[k].src = u + (u.indexOf('?') > -1 ? '&' : '?') + 'v=' + S.version; } })(window.SHELL);

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.35.1 · 2026-11-27
+- New versions show at once on GitHub Pages (it caches files for 10 minutes, and ⌘⇧R does not refresh the screen inside the phone): every screen opens as page.html?v=<version>, and every local CSS/JS link carries ?v=<version> (tools/stamp-version.py).
+
 ## 0.35.0 · 2026-11-27
 - Checkout: booking summary and price breakdown as one ticket (user's reference): white with a hairline outline, side notches at a dashed tear line, scalloped foot, grey Date / Time / Guests block, Edit pill with pencil, total 28/700. MIMS: sentence-case labels (Airy, not uppercase), no shadow (it doesn't float), total shown once here and on Pay, impact line kept just below the ticket. Removed the unused Canopy ticket styles.
 

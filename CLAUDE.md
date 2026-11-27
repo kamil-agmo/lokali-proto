@@ -22,7 +22,8 @@ The user's rules win over any skill. Commands the user types: **THINK**, **MIMS*
 
 - `REQUIREMENTS.md` — the brief, traced; Q-numbers are open questions / suggestions. Check it first in every MIMS.
 - `DESIGN.md` — the **Airy** style (Home is the reference): type scale, colours, shapes, shadows. "Canopy" = the teammate's older dark-green style, reference only.
-- `CHANGELOG.md` — every change by version; bump `version` in `shell.config.js` with each entry.
+- `CHANGELOG.md` — every change by version; bump `version` in `shell.config.js` with each entry, then run `python3 tools/stamp-version.py` (cache busting for GitHub Pages).
+- Deploy: push `main` to `kamil-agmo/lokali-proto`; GitHub Pages serves it at https://kamil-agmo.github.io/lokali-proto/ (check the `pages-build-deployment` run).
 - `shell.config.js` — page list, menu tree, and each screen's Summary panel text (`desc`, `parts`): keep it in sync when a screen changes.
 - `pages/` — screens (`g-` guest, `h-` host, `a-` admin). `css/lokali.css` shared styles (Airy overrides at the end), `js/lokali.js` shared behaviour, `js/data.js` experiences and people.
 - `assets/brand/` — logo files (mark + humanist/geometric wordmark); the app uses the humanist wordmark (`L.wordmarkStyle` in `js/lokali.js`).
