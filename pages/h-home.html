@@ -16,86 +16,76 @@
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
 <style>
-.host-hero { padding: calc(var(--sb) + 8px) 16px 56px; border-radius: 0 0 28px 28px; }
-.host-hero .display { color: #fff; }
-.host-stats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-.host-stats div { padding: 12px 12px; border-radius: 16px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
-.host-stats b { display: block; font: 600 15px/22px var(--font-display); color: #fff; } .host-stats small { font-size: 11px; color: rgba(255,255,255,.7); }
-.next-card { box-shadow: 0 14px 34px rgba(10,20,14,.18); }
-  body .host-hero .host-kicker, body .host-hero .host-kicker .ph-fill { color: var(--primary-strong) !important; } /* host mode label (27 Nov) */
+/* Today in Airy (2 Dec, Aina as host): white page, greeting, next class as a Home-style photo card, open to-do rows, next payout. No boxes, no tinted tiles. */
+.td { padding: calc(var(--sb) + 8px) 24px calc(var(--home, 0px) + 120px); }
+.td-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.td-mode { font-size: 13px; line-height: 18px; font-weight: 500; color: var(--muted); }
+html body.m .td h1 { margin-top: 20px; font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em; }
+.td-sec { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.td-sec:first-of-type { border-top: 0; padding-top: 0; }
+.td-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.td-head h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+.td-head a { font-size: 14px; font-weight: 600; color: var(--primary); }
+/* next class: same card language as Home (photo r26, text below) */
+.td-next { display: block; color: var(--ink); cursor: pointer; }
+.td-next img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 26px; background: var(--sand); }
+.td-when { display: block; margin-top: 12px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
+.td-title { margin-top: 4px; font-size: 16px; line-height: 21px; font-weight: 600; }
+.td-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.td-meta span { display: inline-flex; align-items: center; gap: 6px; }
+.td-meta .ph { font-size: 16px; }
+.td-meta .td-alert { color: var(--danger); }
+/* open rows, plain grey icons */
+.td-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 0; color: var(--ink); cursor: pointer; }
+.td-row + .td-row { border-top: 1px solid var(--line); }
+.td-row > .ph:first-child { flex: none; font-size: 22px; color: var(--ink); }
+.td-row > div { flex: 1; min-width: 0; }
+.td-row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; }
+.td-row small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.td-row .chev { flex: none; color: var(--faint); font-size: 18px; }
+/* next payout */
+.td-pay { display: block; color: var(--ink); cursor: pointer; }
+.td-amt { display: block; font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.01em; }
+.td-pay small { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--muted); }
 </style>
 </head>
 <body class="m">
-  <header class="host-hero hero-deep bg-contour">
-    <div class="row-between" style="position:relative;z-index:1">
-      <span class="kicker host-kicker"><i class="ph-fill ph-house-line" aria-hidden="true"></i>Hosting · Wed, 2 Dec</span>
-      <button class="mode-pill mode-pill--plain" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i>Switch to guest</button>
-    </div>
-    <h1 class="display" style="margin-top:16px;font-size: 28px;line-height: 34px">Selamat pagi,<br><span class="hl">Rahim</span></h1>
-    <div class="host-stats">
-      <div><b data-count="2446" data-prefix="RM " data-suffix=".30">RM 2,446.30</b><small>earned in Dec</small></div>
-      <div><b>4.96</b><small>rating · 128</small></div>
-      <div><b data-count="410">410</b><small>seedlings funded</small></div>
-    </div>
-  </header>
+<main class="td">
+  <div class="td-top">
+    <span class="td-mode">Hosting · Wed, 2 Dec</span>
+    <button class="mode-pill mode-pill--plain" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i>Switch to guest</button>
+  </div>
+  <h1>Selamat pagi, Aina</h1>
 
-  <section class="pad sheet-up" style="background:none;margin-top:-32px">
-    <div class="next-card">
-      <div class="next-card__img" id="nextImg"><span class="badge"><i class="ph-fill ph-circle" style="color:var(--success)" aria-hidden="true"></i>Today · starts in 6 h</span></div>
-      <div class="next-card__body">
-        <h2 class="is-h3">Mangrove & fireflies by kampung boat</h2>
-        <div class="meta"><span><i class="ph ph-clock" aria-hidden="true"></i> 5:00 – 8:30 PM</span><span><i class="ph ph-users" aria-hidden="true"></i> 6 of 10 guests</span><span><i class="ph ph-bowl-food" aria-hidden="true"></i> 1 allergy</span></div>
-        <div class="row"><button class="btn btn--light grow" data-go="h-booking">Guest list</button><button class="btn btn--secondary" data-go="h-inbox" aria-label="Messages"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i></button></div>
-      </div>
-    </div>
+  <section class="td-sec" aria-labelledby="next-h" style="margin-top:24px">
+    <div class="td-head"><h2 id="next-h">Next class</h2><a href="h-bookings.html" data-go="h-bookings">All bookings</a></div>
+    <a class="td-next" href="h-booking.html" data-go="h-booking" aria-label="Next class, Saturday 5 December, guest list">
+      <img data-img="1679541946014-a47f1ec0dc1a" data-w="800" alt="">
+      <span class="td-when">In 3 days · Sat, 5 Dec · 9:00 – 11:30 AM</span>
+      <div class="td-title">Kuih morning in a PJ community garden</div>
+      <div class="td-meta"><span><i class="ph ph-users" aria-hidden="true"></i>6 of 8 guests</span><span class="td-alert"><i class="ph ph-warning" aria-hidden="true"></i>1 peanut allergy</span></div>
+    </a>
   </section>
 
-  <section class="section">
-    <div class="section-head"><h2 class="sec-h">To do</h2><span class="badge badge--danger">4</span></div>
-    <div class="list" style="margin:0 var(--s4)">
-      <div class="todo" data-go="h-booking"><span class="ic ic--info"><i class="ph ph-ticket" aria-hidden="true"></i></span><div class="grow"><b>New booking from Aina</b><p class="small muted">Sun 6 Dec · with her 7-year-old son · 10:14 AM</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-      <div class="todo" data-go="h-listings"><span class="ic ic--warn"><i class="ph ph-note-pencil" aria-hidden="true"></i></span><div class="grow"><b>Fix "Mangrove replanting morning"</b><p class="small muted">Lokali asked for 2 changes</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-      <div class="todo" data-go="h-builder"><span class="ic ic--brand"><i class="ph ph-pencil-simple-line" aria-hidden="true"></i></span><div class="grow"><b>Finish "Kelip-kelip photography night"</b><p class="small muted">60% done · 5 sections left</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-      <div class="todo" data-go="h-reviews"><span class="ic ic--accent"><i class="ph ph-star" aria-hidden="true"></i></span><div class="grow"><b>Reply to 2 reviews</b><p class="small muted">Replies are public</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-    </div>
+  <section class="td-sec" aria-labelledby="todo-h">
+    <div class="td-head"><h2 id="todo-h">To do</h2></div>
+    <div class="td-row" data-go="h-booking"><i class="ph ph-ticket" aria-hidden="true"></i><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 adult · vegetarian</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="td-row" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div><b>Reply to Daniel's review</b><small>5 stars · replies are public</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
   </section>
 
-  <section class="section">
-    <div class="section-head"><h2 class="sec-h">Today's guests</h2><span class="small muted">5:00 PM · 3 bookings</span></div>
-    <div class="list" style="margin:0 var(--s4)">
-      <div class="guest"><img class="avatar sm" data-img="1701980889802-55ff39e2e973" data-w="80" alt=""><div class="guest__body"><b>Daniel Wong</b><span class="small muted">2 adults · Ipoh</span></div><span class="small muted">LK-24790</span></div>
-      <div class="guest"><img class="avatar sm" data-img="1613447895817-e617a4093f50" data-w="80" alt=""><div class="guest__body"><b>Nur Aisyah Kamal</b><span class="small muted">2 adults, 1 child · Shah Alam</span><span><span class="diet warn"><i class="ph ph-warning" aria-hidden="true"></i>Shellfish allergy</span></span></div><span class="small muted">LK-24802</span></div>
-      <div class="guest"><span class="avatar sm">MT</span><div class="guest__body"><b>Haziq Azman</b><span class="small muted">1 adult · Seremban</span></div><span class="small muted">LK-24811</span></div>
-    </div>
+  <section class="td-sec" aria-labelledby="pay-h">
+    <div class="td-head"><h2 id="pay-h">Next payout</h2><a href="h-earnings.html" data-go="h-earnings">Earnings</a></div>
+    <a class="td-pay" href="h-earnings.html" data-go="h-earnings">
+      <span class="td-amt">RM 408.00</span>
+      <small>Sun, 6 Dec · for the Sat 5 Dec class · CIMB •• 3307</small>
+    </a>
   </section>
+</main>
 
-  <section class="section">
-    <div class="section-head"><h2 class="sec-h">Upcoming</h2><a href="h-bookings.html" data-go="h-bookings">All bookings</a></div>
-    <div class="list" style="margin:0 var(--s4)">
-      <div class="bk" data-go="h-booking"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><div class="row"><b>Aina Rahman</b><span class="badge badge--accent">New</span></div><p class="small muted">5:00 PM · 2 adults, 1 child</p><span class="flag"><i class="ph ph-leaf" aria-hidden="true"></i>1 vegetarian</span></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-      <div class="bk" data-go="h-bookings"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><b>2 more bookings</b><p class="small muted">5:00 PM · 4 guests · slot 7 of 10</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-      <div class="bk" data-go="h-bookings"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><b>Tan family</b><p class="small muted">7:30 AM · 4 guests · private boat · slot full</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
-    </div>
-  </section>
+<nav class="tabbar" data-tabs="host" data-active="h-home"></nav>
 
-  <section class="section">
-    <div class="section-head"><h2 class="sec-h">Payout on the way</h2><a href="h-earnings.html" data-go="h-earnings">Earnings</a></div>
-    <div class="card" style="margin:0 var(--s4)" data-go="h-earnings">
-      <div class="row-between"><div><p class="small muted">Wan family · Tue, 1 Dec · LK-24781</p><h2 class="mt1">RM 327.25</h2></div><span class="badge badge--info"><i class="ph ph-clock" aria-hidden="true"></i>Today ~8:30 PM</span></div>
-      <p class="small muted mt2">To Maybank •• 4821 · about 24 hours after the experience ended</p>
-    </div>
-  </section>
-
-
-  <nav class="tabbar" data-tabs="host" data-active="h-home"></nav>
-
-  <script>
-  (function () {
-    document.getElementById('nextImg').style.backgroundImage = 'url(' + L.img(L.exp.mangrove.img, 800) + ')';
-  })();
-  </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-home', [["Focus", "Next experience + to-dos"], ["Host", "Pak Rahim Osman"], ["Today's slot", "6 of 10 booked"], ["To do", "4 items"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-home', [["Host", "Aina Rahman (new host since 20 Nov)"], ["Next class", "Sat 5 Dec · 6 of 8 guests"], ["To do", "2: new booking, review reply"], ["Next payout", "RM 408.00 · Sun 6 Dec"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

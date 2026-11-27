@@ -15,79 +15,106 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Class & guest list in Airy (2 Dec): one class (Sat 5 Dec), guest rows with group size and dietary notes (H11),
+   what Aina earns, and cancelling the class set apart as the danger action. Open sections, hairlines, no boxes. */
+.gl { padding: 16px 24px calc(var(--home, 0px) + 40px); }
+.gl-when { display: block; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
+html body.m .gl h1 { margin-top: 4px; font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; }
+.gl-sub { display: block; margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.gl-sec { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.gl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.gl-head h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+.gl-head span { font-size: 13px; color: var(--muted); }
+.gl-cap { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.gl-row { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; }
+.gl-row + .gl-row { border-top: 1px solid var(--line); }
+.gl-row:first-of-type { margin-top: 4px; }
+.gl-av { flex: none; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--sand); display: grid; place-items: center; font-size: 14px; font-weight: 600; color: var(--muted); }
+.gl-row > div { flex: 1; min-width: 0; }
+.gl-row b { display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 21px; font-weight: 600; }
+.gl-row small { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.gl-tag { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--muted); padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; }
+.gl-note { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 14px; line-height: 20px; color: var(--text); }
+.gl-note .ph { flex: none; font-size: 16px; color: var(--muted); }
+.gl-note.alert, .gl-note.alert .ph { color: var(--danger); font-weight: 500; }
+.gl-msg { flex: none; width: 40px; height: 40px; margin-top: 2px; border-radius: 50%; border: 1px solid var(--line); background: #fff; display: grid; place-items: center; color: var(--ink); cursor: pointer; position: relative; }
+.gl-msg::after { content: ""; position: absolute; inset: -2px; } /* 44 px tap */
+.gl-msg .ph { font-size: 18px; }
+.gl-foot { margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.gl .kv { padding: 6px 0; font-size: 15px; }
+.gl .kv.total { margin-top: 8px; padding-top: 12px; }
+.gl-paid { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+/* danger set apart */
+.gl-danger { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); }
+.gl-danger h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+.gl-danger p { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.gl-cancel { margin-top: 16px; min-height: 44px; border-radius: 999px !important; background: #fff !important; color: var(--danger) !important; border: 1px solid var(--danger) !important; font-weight: 600; }
+.gl-cancel .ph { color: var(--danger) !important; }
+#cancel .sheet-title { font-size: 18px; line-height: 24px; font-weight: 700; }
+#cancel .btn { min-height: 44px; border-radius: 999px; }
+#cancel .btn--danger { background: var(--danger) !important; color: #fff !important; }
+#cancel .btn--ghost { color: var(--ink) !important; }
+</style>
 </head>
 <body class="m">
-  <header class="appbar appbar--flow">
-    <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <h1 class="appbar__title">Guest list</h1>
-    <button class="icon-btn" aria-label="Print guest list" data-toast="Guest list sent to your email" data-toast-icon="ph-envelope-simple"><i class="ph ph-printer" aria-hidden="true"></i></button>
-  </header>
-<section class="pad" style="padding-top:8px" aria-label="Summary"><div class="card">
-    <span class="bal-label"><i class="ph-fill ph-calendar-check" aria-hidden="true"></i>Sun, 6 Dec 2026 · 5:00 – 8:30 PM</span>
-    <p class="t2 mt1">Mangrove &amp; fireflies</p>
-    <div class="sum-stats"><div><b>7 / 10</b>guests booked</div><div><b>1</b>vegetarian</div><div><b>RM 327</b>you earn</div></div>
-  </div></section>
-  <section class="reveal pad">
+<header class="appbar">
+  <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <span class="grow"></span>
+</header>
+<main class="gl">
+  <span class="gl-when">In 3 days</span>
+  <h1>Sat, 5 Dec</h1>
+  <span class="gl-sub">9:00 – 11:30 AM · Kuih morning in a PJ community garden</span>
 
-    <div class="card mt4">
-      <div class="row-between"><b>7 of 10 spots booked</b><span class="badge badge--brand">3 left</span></div>
-      <div class="progress mt2"><i style="width:70%"></i></div>
-      <p class="small muted mt2">3 bookings · 6 adults, 1 child · closes automatically at 10</p>
+  <section class="gl-sec" aria-labelledby="g-h">
+    <div class="gl-head"><h2 id="g-h">Guests</h2><span>6 of 8 places</span></div>
+    <p class="gl-cap">5 adults, 1 child · closes to new bookings at 8</p>
+
+    <div class="gl-row">
+      <img class="gl-av" data-img="1613447895817-e617a4093f50" data-w="120" alt="">
+      <div><b>Nur Aisyah Kamal</b><small>2 adults, 1 child · LK-24852</small>
+        <span class="gl-note alert"><i class="ph ph-warning" aria-hidden="true"></i>Son is allergic to peanuts</span></div>
+      <button class="gl-msg" data-go="h-chat" aria-label="Message Nur Aisyah" onclick="try{sessionStorage.setItem('lk-h-thread','aisyah')}catch(e){}"><i class="ph ph-chat-circle" aria-hidden="true"></i></button>
+    </div>
+    <div class="gl-row">
+      <span class="gl-av" aria-hidden="true">PN</span>
+      <div><b>Priya Nair</b><small>2 adults · LK-24858</small></div>
+      <button class="gl-msg" data-go="h-chat" aria-label="Message Priya" onclick="try{sessionStorage.setItem('lk-h-thread','priya')}catch(e){}"><i class="ph ph-chat-circle" aria-hidden="true"></i></button>
+    </div>
+    <div class="gl-row">
+      <span class="gl-av" aria-hidden="true">HI</span>
+      <div><b>Hafiz Ismail <span class="gl-tag">New</span></b><small>1 adult · LK-24861 · booked today</small>
+        <span class="gl-note"><i class="ph ph-fork-knife" aria-hidden="true"></i>Vegetarian</span></div>
+      <button class="gl-msg" data-go="h-chat" aria-label="Message Hafiz" onclick="try{sessionStorage.setItem('lk-h-thread','hafiz')}catch(e){}"><i class="ph ph-chat-circle" aria-hidden="true"></i></button>
     </div>
   </section>
 
-  <section class="reveal section">
-    <div class="section-head"><h2>Guests</h2><span class="small muted">Names, group size, dietary</span></div>
-    <div class="list" style="margin:0 var(--s4)">
-      <div class="guest hl">
-        <img class="avatar" data-img="1545266241-3516e2a6e016" data-w="120" alt="">
-        <div class="guest__body">
-          <div class="row-between"><b>Aina Rahman</b><span class="badge badge--accent">New</span></div>
-          <span class="small muted">LK-24817 · Petaling Jaya · booked Wed 2 Dec, 10:14 AM</span>
-          <span class="small">2 adults (Aina, Iskandar) · 1 child (Adam, 7)</span>
-          <span><span class="diet"><i class="ph ph-leaf" aria-hidden="true"></i>1 vegetarian</span></span>
-          <div class="row mt1"><button class="btn btn--tint btn--sm" data-go="h-chat"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i>Message</button></div>
-        </div>
-      </div>
-      <div class="guest">
-        <span class="avatar">HS</span>
-        <div class="guest__body"><b>Farid Ismail</b><span class="small muted">LK-24799 · Alor Setar</span><span class="small">2 adults</span><span class="small muted">No dietary notes</span></div>
-      </div>
-      <div class="guest">
-        <span class="avatar">PN</span>
-        <div class="guest__body"><b>Priya Nair</b><span class="small muted">LK-24808 · Petaling Jaya</span><span class="small">2 adults</span><span><span class="diet"><i class="ph ph-check" aria-hidden="true"></i>Halal only</span></span></div>
-      </div>
-    </div>
+  <section class="gl-sec" aria-labelledby="e-h">
+    <div class="gl-head"><h2 id="e-h">You earn</h2></div>
+    <div class="kv" style="margin-top:8px"><span>3 bookings</span><span>RM 480.00</span></div>
+    <div class="kv"><span>Lokali commission (15%)</span><span>− RM 72.00</span></div>
+    <div class="kv total"><span>Payout</span><span>RM 408.00</span></div>
+    <p class="gl-paid">Sun, 6 Dec, about 24 hours after the class · <span style="white-space:nowrap">CIMB •• 3307</span></p>
   </section>
 
-  <section class="reveal section">
-    <div class="section-head"><h2 class="sec-h">Earnings</h2><span class="small muted">Aina's booking</span></div>
-    <div class="card" style="margin:0 var(--s4)">
-      <div class="kv"><span>2 adults × RM 145</span><span>RM 290.00</span></div>
-      <div class="kv"><span>1 child × RM 95</span><span>RM 95.00</span></div>
-      <div class="kv"><span>Lokali commission (15%)</span><span>− RM 57.75</span></div>
-      <div class="kv total"><span>You receive</span><span>RM 327.25</span></div>
-      <p class="small muted mt2"><i class="ph ph-clock" aria-hidden="true"></i> Paid Mon, 7 Dec ~8:30 PM, about 24 hours after the experience ends.</p>
-    </div>
+  <section class="gl-danger" aria-labelledby="c-h">
+    <h2 id="c-h">Cancel this class</h2>
+    <p>All 6 guests get a full refund. You won't be paid for it.</p>
+    <button class="btn btn--block gl-cancel" data-open="#cancel"><i class="ph ph-x-circle" aria-hidden="true"></i>Cancel class</button>
   </section>
+</main>
 
-  <section class="reveal section pad" style="padding-bottom:32px">
-    <button class="btn btn--danger btn--block" data-open="#cancel"><i class="ph ph-x-circle" aria-hidden="true"></i>Cancel slot</button>
-    <p class="small muted center mt2">For bad weather or emergencies. Guests get a full refund.</p>
-  </section>
-
-  <div class="sheet" id="cancel" role="dialog" aria-label="Cancel slot">
-    <h2 class="sheet-title">Cancel Sun 6 Dec, 5:00 PM?</h2>
-    <p class="muted mt2">All 3 bookings (7 guests) are cancelled and refunded 100%, including service fees. You won't be paid for this slot.</p>
-    <div class="field mt4"><label for="why">Reason (sent to guests)</label><select class="select" id="why"><option>Bad weather / high tide</option><option>Boat or equipment problem</option><option>Illness or emergency</option><option>Other</option></select></div>
-    <div class="notice notice--warn mt3"><i class="ph ph-warning" aria-hidden="true"></i><span>Frequent host cancellations are reviewed by the Lokali team.</span></div>
-    <div class="sheet-foot"><button class="btn btn--danger btn--block" data-close data-toast="Slot cancelled. Guests notified and refunded.">Cancel and refund</button>
-    <button class="btn btn--ghost btn--block" data-close>Keep slot</button></div>
-  </div>
-
+<div class="sheet" id="cancel" role="dialog" aria-label="Cancel class">
+  <h2 class="sheet-title">Cancel Sat, 5 Dec?</h2>
+  <p class="muted mt2">3 bookings (6 guests) are cancelled and refunded in full, service fee included.</p>
+  <div class="field mt4"><label for="why">Reason (sent to guests)</label><select class="select" id="why"><option>Heavy rain</option><option>Garden not available</option><option>Illness or emergency</option><option>Other</option></select></div>
+  <div class="sheet-foot"><button class="btn btn--danger btn--block" data-close data-toast="Class cancelled · guests refunded">Cancel class</button>
+  <button class="btn btn--ghost btn--block" data-close>Keep class</button></div>
+</div>
 
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-booking', [["Slot", "Sun 6 Dec · 5:00 PM"], ["Booked", "7 / 10"], ["Payout (LK-24817)", "RM 327.25"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-booking', [["Class", "Sat 5 Dec · 9:00 – 11:30 AM"], ["Guests", "6 of 8 · 3 bookings"], ["Dietary", "1 peanut allergy · 1 vegetarian"], ["Payout", "RM 408.00 · Sun 6 Dec"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

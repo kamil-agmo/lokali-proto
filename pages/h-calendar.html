@@ -15,100 +15,136 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Calendar in Airy (2 Dec, Aina's one listing): large title + Add slot pill, plain month grid (ink circle = selected),
+   one dot per slot (grey open, ink booked, red full), struck-out blocked days; the chosen day below as open rows. */
+.hc { padding: 0 24px calc(var(--home, 0px) + 120px); }
+.lt-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hc-add { min-height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--font); color: var(--ink); cursor: pointer; position: relative; }
+.hc-add::after { content: ""; position: absolute; inset: -6px 0; }
+.hc-add .ph { font-size: 16px; }
+.hc-lead { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.hc-month { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+.hc-month h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+.hc-month .icon-btn { width: 44px; height: 44px; }
+.hc-dow, .hc-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+.hc-dow { margin-top: 8px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--muted); }
+.hc-grid { row-gap: 4px; margin-top: 8px; }
+.hc-grid button { position: relative; height: 48px; border: 0; background: none; font: 500 15px/1 var(--font); color: var(--ink); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; padding-top: 4px; }
+.hc-grid .n { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; }
+.hc-grid .past { color: var(--faint); }
+.hc-grid .today .n { box-shadow: inset 0 0 0 1px var(--ink); }
+.hc-grid .sel .n { background: var(--ink); color: #fff; box-shadow: none; }
+.hc-grid .blocked .n { color: var(--faint); text-decoration: line-through; }
+.hc-grid .dot { width: 6px; height: 6px; border-radius: 50%; }
+.hc-o { background: #C4C4C4; } .hc-b { background: var(--ink); } .hc-f { background: var(--danger); }
+.hc-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; font-size: 12px; line-height: 16px; color: var(--muted); }
+.hc-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.hc-legend i { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.hc-legend s { color: var(--faint); }
+.hc-day { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.hc-day h2 { font-size: 18px; line-height: 24px; font-weight: 700; }
+.hc-row { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 0; color: var(--ink); }
+.hc-row + .hc-row { border-top: 1px solid var(--line); }
+.hc-row[data-slot] { cursor: pointer; }
+.hc-row > div { flex: 1; min-width: 0; }
+.hc-row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; }
+.hc-row small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.hc-row .cap { flex: none; font-size: 13px; font-weight: 600; color: var(--ink); }
+.hc-row .cap.full { color: var(--danger); }
+.hc-row .chev { flex: none; color: var(--faint); font-size: 18px; }
+.hc-row .switch { flex: none; }
+.hc-none { padding: 12px 0 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.hc-none a { color: var(--primary); font-weight: 600; }
+</style>
 </head>
 <body class="m">
 <div class="lt-bar" aria-hidden="true">Calendar</div>
-<header class="lt"><div class="lt-row"><h1>Calendar</h1><button class="btn btn--secondary btn--sm" data-go="h-slot"><i class="ph ph-plus" aria-hidden="true"></i>Add slot</button></div><p>December 2026 · 32 open slots · 2 full · 4 days blocked</p></header>
-  <div class="pad" style="margin-top:8px">
-    <button class="chip" style="width:100%;background:var(--surface);box-shadow:var(--shadow-2);justify-content:space-between;min-height:48px;border-radius:var(--r)" data-open="#pick">
-      <span class="row"><img data-img="1773904594755-6c25ab2ef6c9" data-w="80" alt="" style="width:30px;height:30px;border-radius:8px;object-fit:cover">Mangrove & fireflies by kampung boat</span><i class="ph ph-caret-down" aria-hidden="true"></i>
-    </button>
-  </div>
+<header class="lt"><div class="lt-row"><h1>Calendar</h1><button class="hc-add" data-go="h-slot"><i class="ph ph-plus" aria-hidden="true"></i>Add slot</button></div>
+  <p class="hc-lead">Every Saturday, 9:00 AM · 8 guests per class</p></header>
 
-  <section class="reveal cal mt4" aria-label="December 2026">
-    <div class="cal__head">
+<main class="hc">
+  <section aria-label="December 2026">
+    <div class="hc-month">
       <button class="icon-btn" aria-label="Previous month" data-toast="November 2026"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-      <h2 class="is-h3">December 2026</h2>
+      <h2>December 2026</h2>
       <button class="icon-btn" aria-label="Next month" data-toast="January 2027"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
     </div>
-    <div class="cal__dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
-    <div class="cal__grid" id="grid"></div>
-  </section>
-  <div class="legend">
-    <span><i class="d-open"></i>Open</span><span><i class="d-booked"></i>Has bookings</span><span><i class="d-full"></i>Full (closed)</span><span><i class="bl"></i>Blocked</span>
-  </div>
-
-  <section class="reveal section" style="padding-bottom:16px">
-    <div class="section-head"><h2 id="dayTitle" class="sec-h">Sun, 6 Dec</h2><span class="small muted" id="daySub"></span></div>
-    <div class="list" style="margin:0 var(--s4)" id="slots"></div>
-    <div class="card" style="margin:var(--s3) var(--s4) 0">
-      <div class="toggle-row"><div class="grow"><b>Block this date</b><p class="small muted">No new bookings. Existing guests are not affected.</p></div><button class="switch" id="block" role="switch" aria-checked="false" aria-label="Block this date"></button></div>
-    </div>
-    <div class="pad mt3"><button class="btn btn--secondary btn--block" data-go="h-slot"><i class="ph ph-plus" aria-hidden="true"></i>Add one-off slot</button></div>
+    <div class="hc-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+    <div class="hc-grid" id="grid"></div>
+    <div class="hc-legend"><span><i class="hc-o"></i>Open</span><span><i class="hc-b"></i>Booked</span><span><i class="hc-f"></i>Full, closed</span><span><s>26</s>Blocked</span></div>
   </section>
 
-  <div class="sheet" id="pick" role="dialog" aria-label="Choose listing">
-    <h3 class="sheet-title">Show calendar for</h3>
-    <div data-radio class="mt3">
-      <div class="radio-card active" data-close><span class="dot"></span><div><b>Mangrove & fireflies by kampung boat</b><p class="small muted">Live · daily 5:00 PM, weekends 7:30 AM</p></div></div>
-      <div class="radio-card" data-toast="Not live yet: fix the requested changes first" data-toast-icon="ph-info"><span class="dot"></span><div><b>Mangrove replanting morning</b><p class="small muted">Changes requested · no slots</p></div></div>
-      <div class="radio-card" data-toast="Draft: finish the listing to add slots" data-toast-icon="ph-info"><span class="dot"></span><div><b>Kelip-kelip photography night</b><p class="small muted">Draft · no slots</p></div></div>
-    </div>
-  </div>
+  <section class="hc-day" aria-labelledby="dayTitle">
+    <h2 id="dayTitle">Sat, 5 Dec</h2>
+    <div id="slots"></div>
+    <div class="hc-row"><div><b>Block this date</b><small>No new bookings</small></div><button class="switch" id="block" role="switch" aria-checked="false" aria-label="Block this date"></button></div>
+  </section>
+</main>
 
-  <nav class="tabbar" data-tabs="host" data-active="h-calendar"></nav>
+<nav class="tabbar" data-tabs="host" data-active="h-calendar"></nav>
 
   <script>
   (function () {
-    var CAP = 10, TODAY = 2, sel = 6;
-    var blocked = { 15: 1, 16: 1, 17: 1, 25: 1 };
-    var pm = { 1: 3, 2: 6, 3: 4, 4: 2, 5: 5, 6: 7, 7: 5, 8: 0, 9: 1, 10: 2, 11: 0, 12: 6, 13: 10, 14: 8, 18: 1, 19: 4, 20: 9, 21: 5, 22: 0, 23: 2, 24: 6, 26: 7, 27: 8, 28: 3, 29: 0, 30: 1, 31: 4 };
-    var am = { 5: 2, 6: 10, 12: 4, 13: 0, 19: 3, 20: 1, 26: 0, 27: 2 };
+    /* December 2026 (1 Dec is a Tuesday). Recurring: Saturdays 9:00 AM. One-off: Sun 20 Dec. Blocked: Sat 26 Dec. Capacity 8; a slot closes when full. */
+    var CAP = 8, TODAY = 2, sel = 5;
     var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    function dow(d) { return (d % 7 + 7) % 7; } /* 0 Mon … 6 Sun: d=1 → 1 (Tue) */
+    var blocked = { 26: 1 };
+    var booked = { 5: 6 };                 /* Sat 5 Dec: 6 of 8 (L.hosting.next) */
+    var oneOff = { 20: '9:00 AM' };        /* school holidays */
+    var extra = {};                        /* slots added on Add slot, this session */
+    var added = L.state.get('hSlotAdded', null);
+    if (added) {
+      L.state.set('hSlotAdded', null);
+      if (added.type === 'one' && added.d) { extra[added.d] = added.t; sel = added.d; }
+      if (added.type === 'rec' && added.days) { for (var d0 = 1; d0 <= 31; d0++) if (added.days.indexOf(dow(d0)) > -1 && d0 >= TODAY) extra[d0] = added.t; sel = Object.keys(extra).map(Number).sort(function (a, b) { return a - b; })[0] || sel; }
+      setTimeout(function () { L.toast(added.n + (added.n === 1 ? ' slot added' : ' slots added')); }, 300);
+    }
+    function end(t) { /* class is 2.5 hours */
+      var m = t.match(/(\d+):(\d+) (AM|PM)/), h = (+m[1] % 12) + (m[3] === 'PM' ? 12 : 0), mins = h * 60 + +m[2] + 150, eh = Math.floor(mins / 60), em = mins % 60;
+      return ((eh % 12) || 12) + ':' + (em < 10 ? '0' : '') + em + ' ' + (eh >= 12 ? 'PM' : 'AM');
+    }
     function slotsOf(d) {
       if (blocked[d]) return [];
-      var s = [], wk = d % 7 >= 5;
-      if (wk) s.push({ t: '7:30 AM', b: am[d] || 0, note: d === 6 ? 'Private · Tan family' : '' });
-      s.push({ t: '5:00 PM', b: pm[d] || 0 });
+      var s = [];
+      if (dow(d) === 5) s.push({ t: '9:00 AM', b: booked[d] || 0, kind: 'Every Saturday' });
+      if (oneOff[d]) s.push({ t: oneOff[d], b: 0, kind: 'One-off' });
+      if (extra[d] && !(dow(d) === 5 && extra[d] === '9:00 AM') && oneOff[d] !== extra[d]) s.push({ t: extra[d], b: 0, cap: added.cap, kind: (added.type === 'rec' ? 'Every ' + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dow(d)] : 'One-off') + ' · new' });
       return s;
     }
-    function dots(d) {
-      return slotsOf(d).map(function (s) { return '<i class="' + (s.b >= CAP ? 'd-full' : s.b ? 'd-booked' : 'd-open') + '"></i>'; }).join('');
-    }
     function grid() {
-      var h = '<span aria-hidden="true"></span>'; /* 1 Dec 2026 is a Tuesday */
+      var h = '<span aria-hidden="true"></span>';
       for (var d = 1; d <= 31; d++) {
-        var c = [];
+        var c = [], s = slotsOf(d);
         if (d < TODAY) c.push('past'); if (d === TODAY) c.push('today'); if (d === sel) c.push('sel'); if (blocked[d]) c.push('blocked');
-        h += '<button class="' + c.join(' ') + '" data-d="' + d + '" aria-label="' + DOW[d % 7] + ' ' + d + ' December">' + d + '<span class="dots">' + dots(d) + '</span></button>';
+        var dots = d < TODAY ? '' : s.map(function (x) { return '<i class="dot ' + (x.b >= CAP ? 'hc-f' : x.b ? 'hc-b' : 'hc-o') + '"></i>'; }).join('');
+        h += '<button class="' + c.join(' ') + '" data-d="' + d + '" aria-label="' + DOW[dow(d)] + ' ' + d + ' December' + (blocked[d] ? ', blocked' : s.length ? ', ' + s.length + ' slot' : '') + '"><span class="n">' + d + '</span><span style="display:flex;gap:3px">' + dots + '</span></button>';
       }
       document.getElementById('grid').innerHTML = h;
     }
     function day() {
-      var s = slotsOf(sel), total = s.reduce(function (a, x) { return a + x.b; }, 0);
-      document.getElementById('dayTitle').textContent = DOW[sel % 7] + ', ' + sel + ' Dec' + (sel === TODAY ? ' · Today' : '');
-      document.getElementById('daySub').textContent = blocked[sel] ? 'Blocked' : total + ' guests booked';
+      var s = slotsOf(sel);
+      document.getElementById('dayTitle').textContent = DOW[dow(sel)] + ', ' + sel + ' Dec' + (sel === TODAY ? ' · today' : '');
       document.getElementById('block').setAttribute('aria-checked', blocked[sel] ? 'true' : 'false');
       document.getElementById('slots').innerHTML = s.length ? s.map(function (x) {
-        var full = x.b >= CAP, pct = Math.min(100, x.b / CAP * 100);
-        var badge = full ? '<span class="badge badge--danger">Full · closed</span>' : x.b ? '<span class="badge badge--brand">' + (CAP - x.b) + ' spots left</span>' : '<span class="badge">Open</span>';
-        return '<div class="slot" data-slot="' + x.t + '"><div class="grow"><b>' + x.t + '</b><p class="small muted">' + (x.note || (x.t === '5:00 PM' ? '3.5 hours · fireflies' : '3 hours · mangrove paddle')) + '</p></div>' +
-          '<div class="slot__cap"><span class="small strong">' + x.b + ' / ' + CAP + '</span><div class="progress' + (full ? ' full' : '') + '"><i style="width:' + pct + '%"></i></div></div>' + badge + '</div>';
-      }).join('') : '<div class="empty" style="padding:24px"><i class="ph ph-prohibit" aria-hidden="true"></i><b>Blocked</b><p class="small muted">Guests can\'t book this day. Turn off "Block this date" to reopen.</p></div>';
+        var cap = x.cap || CAP, full = x.b >= cap;
+        return '<div class="hc-row" data-slot="' + x.t + '"><div><b>' + x.t + ' – ' + end(x.t) + '</b><small>' + x.kind + (full ? ' · closed to new bookings' : x.b ? ' · ' + (cap - x.b) + ' places left' : '') + '</small></div>' +
+          '<span class="cap' + (full ? ' full' : '') + '">' + x.b + ' / ' + cap + '</span>' + (x.b ? '<i class="ph ph-caret-right chev" aria-hidden="true"></i>' : '') + '</div>';
+      }).join('') : blocked[sel] ? '<p class="hc-none">Blocked. Guests can\'t book this day.</p>'
+        : sel < TODAY ? '<p class="hc-none">No class.</p>' : '<p class="hc-none">No class. <a href="h-slot.html" data-go="h-slot">Add a slot</a></p>';
     }
     document.getElementById('grid').addEventListener('click', function (e) {
       var b = e.target.closest('[data-d]'); if (!b) return; sel = +b.getAttribute('data-d'); grid(); day();
-      if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [['Selected', sel + ' Dec'], ['Capacity', '10 per slot']]);
+      if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [['Selected', DOW[dow(sel)] + ', ' + sel + ' Dec'], ['Capacity', '8 per class']]);
     });
     document.getElementById('slots').addEventListener('click', function (e) {
       var r = e.target.closest('[data-slot]'); if (!r) return;
-      if (sel === 6 && r.getAttribute('data-slot') === '5:00 PM') L.go('h-booking'); else L.toast('Opens the guest list for this slot', 'ph-users');
+      if (sel === 5) L.go('h-booking'); else L.toast('No bookings yet', 'ph-users');
     });
     document.getElementById('block').addEventListener('change', function () {
-      var on = this.getAttribute('aria-checked') === 'true';
-      if (on && slotsOf(sel).some(function (x) { return x.b > 0; })) {
-        this.setAttribute('aria-checked', 'false'); L.toast('This day has bookings. Cancel them first to block it.', 'ph-warning'); return;
-      }
+      var el = this, on = el.getAttribute('aria-checked') === 'true';
+      if (on && slotsOf(sel).some(function (x) { return x.b > 0; })) { el.setAttribute('aria-checked', 'false'); L.toast('This day has bookings. Cancel the class first.', 'ph-warning'); return; }
       if (on) blocked[sel] = 1; else delete blocked[sel];
       grid(); day(); L.toast(on ? 'Date blocked' : 'Date reopened');
     });
@@ -123,7 +159,7 @@ addEventListener('scroll', f, { passive: true }); f();
   })();
   </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [["Selected", "6 Dec"], ["Capacity", "10 per slot"], ["Full slots", "Close automatically"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [["Recurring", "Saturdays 9:00 AM"], ["One-off", "Sun 20 Dec"], ["Blocked", "Sat 26 Dec"], ["Capacity", "8 per class · full slots close"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

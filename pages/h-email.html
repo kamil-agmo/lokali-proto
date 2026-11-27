@@ -16,33 +16,38 @@
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
   <style>
-.mailbar { display: flex; justify-content: center; padding: 12px var(--s4) 8px; }
-.mailbar .segmented { width: 100%; }
-.mail .btn { min-height: 44px; }
+/* Airy (2 Dec): same pattern as the guest emails (g-email): Home-style pills, plain mail card */
+.mailbar { display: flex; gap: 8px; padding: 12px 24px 8px; }
+.mailbar button { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; position: relative; }
+.mailbar button::after { content: ""; position: absolute; inset: -4px 0; }
+.mailbar button.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.mail .btn { min-height: 44px; border-radius: 999px; }
+.mail-table .alert { color: var(--danger); }
   </style>
 </head>
 <body class="m">
 <header class="appbar bordered">
   <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
   <div class="appbar__title">Inbox</div>
-  <button class="icon-btn" aria-label="Archive"><i class="ph ph-archive" aria-hidden="true"></i></button>
+  <span class="spacer"></span>
 </header>
-<div class="mailbar"><div class="segmented" data-group><button class="active" data-panel="#m1">New booking</button><button data-panel="#m2">Cancellation</button></div></div>
+<div class="mailbar" data-group><button class="active" data-panel="#m1" id="b1">New booking</button><button data-panel="#m2" id="b2">Cancellation</button></div>
 
 <section id="m1">
-  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: Pak Rahim Osman · Wed, 2 Dec, 10:14 AM<br><b>New booking: Aina Rahman, Sun 6 Dec, 5:00 PM</b></div>
+  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: aina.rahman@gmail.com · Wed, 2 Dec, 9:12 AM<br><b>New booking: Hafiz Ismail, Sat 5 Dec, 9:00 AM</b></div>
   <article class="mail">
-    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24817</span></div>
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24861</span></div>
+    <img class="mail__hero" data-img="1679541946014-a47f1ec0dc1a" data-w="800" alt="">
     <div class="mail__body">
       <h2>New booking</h2>
       <table class="mail-table">
-        <tr><td>Experience</td><td><b>Mangrove &amp; fireflies by kampung boat</b></td></tr>
-        <tr><td>When</td><td>Sun, 6 Dec 2026, 5:00 – 8:30 PM</td></tr>
-        <tr><td>Guest</td><td>Aina Rahman · Petaling Jaya</td></tr>
-        <tr><td>Group</td><td>2 adults, 1 child (age 7)</td></tr>
-        <tr><td>Dietary note</td><td>One vegetarian</td></tr>
-        <tr><td>Slot</td><td>9 of 10 places taken</td></tr>
-        <tr><td>Your payout</td><td>RM 327.25 · about 24 hours after the experience</td></tr>
+        <tr><td>Experience</td><td><b>Kuih morning in a PJ community garden</b></td></tr>
+        <tr><td>When</td><td>Sat, 5 Dec 2026, 9:00 – 11:30 AM</td></tr>
+        <tr><td>Guest</td><td>Hafiz Ismail</td></tr>
+        <tr><td>Group</td><td>1 adult</td></tr>
+        <tr><td>Dietary note</td><td>Vegetarian</td></tr>
+        <tr><td>Class</td><td>6 of 8 places booked</td></tr>
+        <tr><td>Your payout</td><td>RM 72.25 after 15% commission · Sun, 6 Dec</td></tr>
       </table>
       <a class="btn btn--primary btn--block" href="h-booking.html" data-go="h-booking">View guest list</a>
     </div>
@@ -51,27 +56,32 @@
 </section>
 
 <section id="m2" hidden>
-  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: Pak Rahim Osman · Mon, 30 Nov, 8:02 PM<br><b>Booking cancelled: Lee family, Sat 12 Dec, 5:00 PM</b></div>
+  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: aina.rahman@gmail.com · Tue, 1 Dec, 9:40 PM<br><b>Booking cancelled: Lim Wei Jie, Sat 5 Dec, 9:00 AM</b></div>
   <article class="mail">
-    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24790</span></div>
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24855</span></div>
     <div class="mail__body">
       <h2>Booking cancelled</h2>
       <table class="mail-table">
-        <tr><td>Experience</td><td><b>Mangrove &amp; fireflies by kampung boat</b></td></tr>
-        <tr><td>When</td><td>Sat, 12 Dec 2026, 5:00 PM</td></tr>
-        <tr><td>Guest</td><td>Lee family · 3 adults</td></tr>
-        <tr><td>Cancelled by</td><td>Guest, 12 days before (Moderate policy)</td></tr>
-        <tr><td>Refund to guest</td><td>Full refund</td></tr>
-        <tr><td>Slot</td><td>3 places reopened</td></tr>
+        <tr><td>Experience</td><td><b>Kuih morning in a PJ community garden</b></td></tr>
+        <tr><td>When</td><td>Sat, 5 Dec 2026, 9:00 – 11:30 AM</td></tr>
+        <tr><td>Guest</td><td>Lim Wei Jie · 2 adults</td></tr>
+        <tr><td>Cancelled by</td><td>Guest, 3 days before (Flexible policy)</td></tr>
+        <tr><td>Refund to guest</td><td>RM 178.50, full refund incl. service fee</td></tr>
+        <tr><td>Your payout</td><td>None for this booking</td></tr>
+        <tr><td>Class</td><td>2 places reopened · 5 of 8 booked</td></tr>
       </table>
-      <a class="btn btn--primary btn--block" href="h-calendar.html" data-go="h-calendar">Open calendar</a>
+      <a class="btn btn--primary btn--block" href="h-bookings.html" data-go="h-bookings">View bookings</a>
     </div>
     <div class="mail__foot"><img src="../assets/habitat-logo.png" alt="The Habitat Group"><span>Lokali by The Habitat Group · Kuala Lumpur, Malaysia<br>Sent for every cancellation · Notification settings</span></div>
   </article>
 </section>
 <div style="height:24px"></div>
+  <script>
+  /* opened from a cancelled booking in Bookings: show the cancellation email */
+  (function () { if (L.state.get('hEmail', '') === 'cx') { L.state.set('hEmail', ''); document.getElementById('b2').click(); } })();
+  </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-email', [['Templates', 'New booking · Cancellation'], ['To', 'Host'], ['Requirement', 'Email per new booking / cancellation (Must)']]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-email', [['Emails', 'New booking (Hafiz Ismail, LK-24861) · Cancellation (Lim Wei Jie, LK-24855)'], ['To', 'aina.rahman@gmail.com'], ['Requirement', 'Email per new booking / cancellation (Must)']]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>
