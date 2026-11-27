@@ -4,77 +4,105 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Builder: Meet your guide</title>
-  <script src="../shell.config.js?v=0.36.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.36.0"></script>
+  <script src="../shell.config.js?v=0.37.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.36.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.36.0">
-  <script src="../js/lokali.js?v=0.36.0"></script>
-  <script src="../js/art.js?v=0.36.0"></script>
-  <script src="../js/data.js?v=0.36.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
+  <script src="../js/lokali.js?v=0.37.0"></script>
+  <script src="../js/art.js?v=0.37.0"></script>
+  <script src="../js/data.js?v=0.37.0"></script>
+<style>
+/* Meet your guide in Airy (27 Nov): Aina's photo and name, 4 personal prompts as open fields split by hairlines, an example on each empty one.
+   Cut: boxed prompt cards, the header Save (same as the bottom button) and the bottom Back (same as the header Back). */
+.sg-main { padding: 16px 24px 24px; }
+.sg-main h1 { margin: 0; }
+.sg-lead { margin-top: 6px; font-size: 15px; line-height: 22px; color: var(--text); }
+.sg-me { display: flex; align-items: center; gap: 16px; margin-top: 24px; }
+.sg-me img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; background: var(--sand); flex: none; }
+.sg-me .grow { display: flex; flex-direction: column; gap: 8px; }
+.sg-link { align-self: flex-start; position: relative; padding: 0; border: 0; background: none; font: 600 14px/20px var(--font); color: var(--primary); cursor: pointer; }
+.sg-link::after { content: ""; position: absolute; inset: -12px -8px; }
+.sg-fields { display: flex; flex-direction: column; gap: 20px; margin-top: 24px; }
+.sg-sec { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.sg-sec > p { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.sg-q { margin-top: 20px; }
+.sg-q + .sg-q { padding-top: 20px; border-top: 1px solid var(--line); }
+.sg-q label { display: block; font-size: 15px; line-height: 21px; font-weight: 600; color: var(--ink); }
+.sg-q textarea { margin-top: 8px; min-height: 88px; }
+.sg-q .row-between { margin-top: 6px; min-height: 24px; }
+.sg-q .counter { margin-left: auto; font-size: 12px; color: var(--muted); }
+.sg-ex { position: relative; padding: 0; border: 0; background: none; font: 600 13px/18px var(--font); color: var(--primary); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.sg-ex::after { content: ""; position: absolute; inset: -12px -8px; }
+.sg-vid { display: flex; align-items: center; gap: 14px; margin-top: 12px; padding: 12px 0; cursor: pointer; color: var(--ink); }
+.sg-vid > .ph { flex: none; font-size: 22px; }
+.sg-vid b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .sg-vid small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.sg-pill { flex: none; position: relative; min-height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); display: inline-flex; align-items: center; font: 600 13px/1 var(--font); }
+.sg-pill::after { content: ""; position: absolute; inset: -6px 0; }
+html body.m .cta-bar .btn { flex: 1; }
+</style>
 </head>
 <body class="m">
   <header class="appbar appbar--flow has-prog">
     <button class="icon-btn" data-go="h-builder" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <span class="appbar__title step-label">Section 6 of 16 · Is it worth it?</span>
-    <button class="btn btn--ghost btn--sm" data-toast="Draft saved" data-toast-icon="ph-floppy-disk">Save</button>
-    <div class="flow-prog" role="progressbar" aria-label="Listing progress" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"><i style="width:38%"></i></div>
+    <span class="appbar__title step-label">Section 6 of 14</span>
+    <span class="spacer"></span>
+    <div class="flow-prog" role="progressbar" aria-label="Section 6 of 14" aria-valuenow="6" aria-valuemin="1" aria-valuemax="14"><i style="width:43%"></i></div>
   </header>
-  <section class="reveal pad stack-lg" style="padding-top:16px">
-    <div><h1 class="t2">Meet your guide</h1><p class="sum-note">Guests book people, not tours. This is personal, not a CV.</p></div>
-    
+  <main class="sg-main">
+    <h1>Meet your guide</h1>
+    <p class="sg-lead">Guests book people, not tours. Write it the way you'd say it.</p>
 
-    <div class="row" style="gap:16px">
-      <div class="photo-pick"><img data-img="1763219069500-e4c9b49f308f" data-w="240" alt="Guide photo"><span class="cam"><i class="ph ph-camera" aria-hidden="true"></i></span></div>
-      <div class="grow stack">
-        <div class="field"><label for="gn">Name guests will see <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="gn" value="Pak Rahim"></div>
-      </div>
+    <div class="sg-me">
+      <img data-img="1545266241-3516e2a6e016" data-w="200" alt="Aina Rahman">
+      <div class="grow"><b style="font-size:16px;line-height:21px;font-weight:600">Your photo</b><button class="sg-link" data-sheet="camera">Change photo</button></div>
     </div>
-    <div class="field"><label for="ht">Hometown <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="ht" value="Kampung Kuantan, Kuala Selangor"></div>
-
-    <div><h2 class="is-h3">Answers</h2><p class="small muted mt1">Answer at least 3 of these 4.</p></div>
-    <div class="card">
-      <label class="label" for="p1">Where I grew up</label>
-      <textarea class="textarea mt2" id="p1" placeholder="In a wooden house on stilts by the river. We fished at night by the light of the fireflies." style="min-height:90px">Right here on the Selangor River. My father fished at night, and the fireflies were our lanterns.</textarea>
-      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="In a wooden house on stilts by the river. We fished at night by the light of the fireflies."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">17 / 60 words</span></div>
-    </div><div class="card">
-      <label class="label" for="p2">Why I started this</label>
-      <textarea class="textarea mt2" id="p2" placeholder="When the old trees were cut for a jetty, the fireflies left. I wanted guests to see why we protect them." style="min-height:90px">In 2011 half the berembang trees were cut and the fireflies nearly disappeared. Showing guests is how we pay to replant them.</textarea>
-      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="When the old trees were cut for a jetty, the fireflies left. I wanted guests to see why we protect them."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">22 / 60 words</span></div>
-    </div><div class="card">
-      <label class="label" for="p3">Something guests always ask me</label>
-      <textarea class="textarea mt2" id="p3" placeholder="Why do the fireflies blink together? I tell them it is the males calling, all on the same beat." style="min-height:90px"></textarea>
-      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="Why do the fireflies blink together? I tell them it is the males calling, all on the same beat."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">0 / 60 words</span></div>
-    </div><div class="card">
-      <label class="label" for="p4">My favourite spot</label>
-      <textarea class="textarea mt2" id="p4" placeholder="The bend after the old surau, where the river goes completely quiet." style="min-height:90px"></textarea>
-      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="The bend after the old surau, where the river goes completely quiet."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">0 / 60 words</span></div>
+    <div class="sg-fields">
+      <div class="field"><label for="gn">Name guests see</label><input class="input" id="gn" value="Aina"></div>
+      <div class="field"><label for="ht">Hometown</label><input class="input" id="ht" value="Petaling Jaya, Selangor"></div>
     </div>
 
-    <div class="field"><span class="label">Intro video <span class="badge" style="padding:0 8px">Optional</span></span>
-      <div class="video-tile" data-sheet="video"><i class="ph ph-video-camera" aria-hidden="true"></i><div class="grow"><b>Record a 30-second hello</b><p class="small muted">Listings with a video get more bookings.</p></div><i class="ph ph-plus-circle" style="font-size: 22px" aria-hidden="true"></i></div>
-    </div>
-  </section>
-  <div style="height:24px"></div>
-  <div class="cta-bar"><button class="btn btn--secondary" data-go="h-builder">Back</button><button class="btn btn--primary grow" id="next">Save and next</button></div>
+    <section class="sg-sec" aria-labelledby="pr-h">
+      <h2 id="pr-h">In your words</h2>
+      <p>Answer at least 3 of 4. Up to 60 words each.</p>
+      <div id="prompts"></div>
+    </section>
+
+    <section class="sg-sec" aria-labelledby="vd-h">
+      <h2 id="vd-h">Intro video</h2>
+      <p>Optional. A 30-second hello from the garden.</p>
+      <div class="sg-vid" data-sheet="video" role="button" tabindex="0"><i class="ph ph-video-camera" aria-hidden="true"></i><div class="grow"><b>Record a hello</b><small>Up to 60 seconds</small></div><span class="sg-pill">Add</span></div>
+    </section>
+  </main>
+  <div class="cta-bar"><button class="btn btn--primary" id="save">Save</button></div>
 
   <script>
   (function () {
-    document.querySelectorAll('[data-ex]').forEach(function (b) { b.addEventListener('click', function () {
-      var t = b.closest('.card').querySelector('textarea'); t.value = b.getAttribute('data-ex'); t.dispatchEvent(new Event('input'));
-    }); });
-    document.querySelectorAll('textarea').forEach(function (t) { t.addEventListener('input', function () {
-      var n = t.value.trim() ? t.value.trim().split(/\s+/).length : 0; t.closest('.card').querySelector('.counter').textContent = n + ' / 60 words';
-    }); });
-    document.getElementById('next').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { L.go('h-builder'); }, 600); });
+    /* [prompt, Aina's answer, example shown on an empty prompt] */
+    var P = [
+      ['Where I grew up', 'In SS3, two streets from this garden. My grandmother sold kuih at the Sunday pasar pagi, and I was her helper.', ''],
+      ['Why I started this', 'The garden grows more pandan than we can use. Teaching kuih keeps the old recipes alive, and the leftovers feed families at the food bank.', ''],
+      ['Something guests always ask me', 'Why is my kuih lapis not in neat layers? Patience: one thin layer at a time, and never open the steamer early.', ''],
+      ['My favourite spot', '', 'The bench under the banana trees, where we unwrap the first kuih together.']
+    ];
+    var h = '';
+    P.forEach(function (p, i) {
+      h += '<div class="sg-q"><label for="p' + i + '">' + p[0] + '</label><textarea class="textarea" id="p' + i + '"' + (p[2] ? ' placeholder="' + p[2] + '"' : '') + '>' + p[1] + '</textarea>' +
+        '<div class="row-between">' + (p[1] ? '' : '<button class="sg-ex" data-ex="' + p[2] + '"><i class="ph ph-sparkle" aria-hidden="true"></i>Start from the example</button>') + '<span class="counter"></span></div></div>';
+    });
+    document.getElementById('prompts').innerHTML = h;
+    function count(t) { var n = t.value.trim() ? t.value.trim().split(/\s+/).length : 0; t.closest('.sg-q').querySelector('.counter').textContent = n + ' / 60 words'; }
+    document.querySelectorAll('.sg-q textarea').forEach(function (t) { t.addEventListener('input', function () { count(t); }); count(t); });
+    document.querySelectorAll('[data-ex]').forEach(function (b) { b.addEventListener('click', function () { var t = b.closest('.sg-q').querySelector('textarea'); t.value = b.getAttribute('data-ex'); count(t); b.remove(); t.focus(); }); });
+    document.getElementById('save').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { if (L.navPrev() === 'h-builder') L.back(); else L.go('h-builder'); }, 600); /* lands on the builder without stacking it twice */ });
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-guide', [["Section", "6 · Meet your guide"], ["Prompts", "4 (answer 3+)"], ["Video", "Optional"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.36.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
+  <script src="../js/shared/embed.js?v=0.37.0"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-guide', [["Listing", "Kuih morning in a PJ community garden"], ["Section", "6 of 14 · Meet your guide"], ["Prompts", "3 of 4 answered (3 needed)"], ["Video", "Optional"]]);</script>
+  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
 </body>
 </html>

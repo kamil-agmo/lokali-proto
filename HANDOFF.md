@@ -1,6 +1,6 @@
 # Handoff — Lokali prototype
 
-State as of 27 Nov 2026, version **0.33.4** (see `CHANGELOG.md` for every change).
+State as of 27 Nov 2026, version **0.37.0** (see `CHANGELOG.md` for every change).
 
 ## How to open and preview
 
@@ -10,6 +10,11 @@ State as of 27 Nov 2026, version **0.33.4** (see `CHANGELOG.md` for every change
 - Working rules for Claude are in `CLAUDE.md` (it loads automatically in Claude Code) and `.claude/rules/`.
 
 ## The story to follow
+
+Live link: https://kamil-agmo.github.io/lokali-proto/ (repo kamil-agmo/lokali-proto; push main, GitHub Pages deploys in ~1 min; run tools/stamp-version.py after each version bump).
+
+Host mode (since 0.37.0): Aina is also a host, of "Kuih morning in a PJ community garden"; switch with the Hosting pill on guest Home (approved hosts) or Switch to guest on host Today. Pak Rahim stays the admin's assisted-onboarding host.
+
 
 Pak Rahim's **Mangrove & fireflies by kampung boat** (Kuala Selangor) is the only fully written experience; guest Aina Rahman books it for Sun 6 Dec. Every test path should lead there (Home → Featured → experience page → Book now → checkout → confirmed → My bookings → chat).
 
@@ -26,7 +31,7 @@ Pak Rahim's **Mangrove & fireflies by kampung boat** (Kuala Selangor) is the onl
 
 ## Open / next
 
-1. **MIMS on the host screens** (`h-…`): not checked against Airy or the newer MIMS rules yet, and their Summary panel text was not refreshed.
+1. ~~MIMS on the host screens~~ done in 0.37.0 (Aina's story). Photos for her kuih listing reuse food photo IDs; swap for real kuih photos.
 2. **Admin styling** — deliberately left for last; do it only when the user asks.
 3. **Old mocks** `explore/listing-long.html`, `listing-fixes.html`, `search-ideas.html` change pages inside iframes, so they only work through a local server; rebuild them self-contained if used again (mock rules).
 4. **Public GitHub repo `axttd/lokali-compare`** (compare pages) — the user planned to delete it.

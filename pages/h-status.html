@@ -4,76 +4,120 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Application status</title>
-  <script src="../shell.config.js?v=0.36.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.36.0"></script>
+  <script src="../shell.config.js?v=0.37.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.36.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.36.0">
-  <script src="../js/lokali.js?v=0.36.0"></script>
-  <script src="../js/art.js?v=0.36.0"></script>
-  <script src="../js/data.js?v=0.36.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
+  <script src="../js/lokali.js?v=0.37.0"></script>
+  <script src="../js/art.js?v=0.37.0"></script>
+  <script src="../js/data.js?v=0.37.0"></script>
+<style>
+/* Application status in Airy (27 Nov): one state at a time, title + one line, the admin note as quoted text, a plain timeline.
+   Cut: the "Almost there" card (said the same as each state's title) and the coloured icon discs. */
+.as-main { padding: 8px 24px calc(var(--home) + 40px); }
+.as-demo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.as-demo span { font-size: 12px; color: var(--muted); margin-right: 2px; }
+.as-demo button { position: relative; min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; }
+.as-demo button::after { content: ""; position: absolute; inset: -6px 0; }
+.as-demo button.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.as-state { margin-top: 28px; }
+.as-ic { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--sand); color: var(--ink); font-size: 28px; }
+.as-ic.ok { color: var(--verified); }
+.as-state h1 { margin: 16px 0 0; }
+.as-lead { margin-top: 6px; font-size: 15px; line-height: 22px; color: var(--text); }
+.as-note { margin-top: 24px; padding: 4px 0 4px 16px; border-left: 2px solid var(--ink); }
+.as-note small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
+.as-note p { margin-top: 4px; font-size: 15px; line-height: 22px; color: var(--ink); }
+.as-sec { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.as-tl { list-style: none; margin: 12px 0 0; padding: 0; }
+.as-tl li { position: relative; display: flex; gap: 14px; padding-bottom: 18px; }
+.as-tl li:last-child { padding-bottom: 0; }
+.as-tl li:not(:last-child)::after { content: ""; position: absolute; left: 9px; top: 24px; bottom: 2px; width: 2px; background: var(--line); }
+.as-tl .d { flex: none; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; border: 2px solid #C8C8C8; background: #fff; display: grid; place-items: center; font-size: 12px; color: #fff; z-index: 1; }
+.as-tl li.done .d { background: var(--ink); border-color: var(--ink); }
+.as-tl li.now .d { border-color: var(--ink); box-shadow: inset 0 0 0 4px #fff; background: var(--ink); }
+.as-tl b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .as-tl small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.as-tl li:not(.done):not(.now) b { color: var(--muted); font-weight: 500; }
+.as-btn { margin-top: 28px; width: 100%; }
+.as-help { display: block; margin: 16px auto 0; padding: 0; border: 0; background: none; font: 600 14px/20px var(--font); color: var(--primary); cursor: pointer; position: relative; }
+.as-help::after { content: ""; position: absolute; inset: -12px -8px; }
+</style>
 </head>
 <body class="m">
   <header class="appbar appbar--flow">
     <button class="icon-btn" data-go="g-account" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <h1 class="appbar__title">Application</h1>
+    <span class="appbar__title">Host application</span>
     <span class="spacer"></span>
   </header>
-<section class="pad" style="padding-top:8px" aria-label="Host application"><div class="card">
-    <span class="bal-label"><i class="ph-fill ph-seal-check" aria-hidden="true"></i>Host application</span>
-    <p class="t2 mt1">Almost there, Aina</p>
-    <p class="sum-note">Every host is checked · up to 2 working days</p>
-  </div></section>
-  <div class="pad mt4">
-    <div class="segmented" data-group>
-      <button data-panel="#p-review">In review</button>
-      <button class="active" data-panel="#p-changes">Changes needed</button>
-      <button data-panel="#p-ok">Approved</button>
-    </div>
-    <p class="xs faint center mt2">Prototype: switch to see each state</p>
+<main class="as-main">
+  <div class="as-demo" data-group role="group" aria-label="Prototype: application state">
+    <span>Prototype</span>
+    <button data-panel="#p-review" data-value="review">In review</button>
+    <button data-panel="#p-changes" data-value="changes" class="active">Changes</button>
+    <button data-panel="#p-ok" data-value="approved">Approved</button>
   </div>
 
-  <section id="p-review" class="pad stack-lg mt4" hidden>
-    <div class="center stack" style="align-items:center"><span class="avatar xl" style="background:var(--info-tint);color:var(--info)"><i class="ph ph-hourglass-medium" style="font-size: 40px" aria-hidden="true"></i></span><h2>Application in review</h2><p class="muted">Up to 2 working days · decision by email and SMS</p></div>
-    <div class="card"><ol class="vsteps">
-      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Sun, 29 Nov 2026 · 10:42 AM</small></div></li>
-      <li class="now" style="--warn:var(--info);--warn-tint:var(--info-tint)"><span class="ic"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></span><div><b>In review</b><small>Documents in review</small></div></li>
-      <li><span class="ic"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div><b>Approved</b><small>Next: create a listing</small></div></li>
+  <!-- In review -->
+  <section id="p-review" class="as-state" hidden>
+    <span class="as-ic"><i class="ph ph-hourglass-medium" aria-hidden="true"></i></span>
+    <h1>We're checking your application</h1>
+    <p class="as-lead">You'll hear from us by Wed, 18 Nov, by email and SMS.</p>
+    <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
+      <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Mon, 16 Nov 2026 · 10:42 AM</small></div></li>
+      <li class="now"><span class="d"></span><div><b>In review</b><small>The Lokali team checks your documents</small></div></li>
+      <li><span class="d"></span><div><b>Approved</b><small>Then you build your first listing</small></div></li>
     </ol></div>
   </section>
 
-  <section id="p-changes" class="pad stack-lg mt4">
-    <div class="center stack" style="align-items:center"><span class="avatar xl" style="background:var(--warn-tint);color:var(--warn)"><i class="ph ph-note-pencil" style="font-size: 40px" aria-hidden="true"></i></span><h2>One thing to fix</h2><p class="muted">Fix it and resubmit. No need to start again.</p></div>
-    <div class="admin-note"><div class="who"><i class="ph ph-chat-centered-text" aria-hidden="true"></i>Note from Lokali team · Tue, 1 Dec</div>Please upload a clearer copy of your MOTAC licence. The expiry date is not readable. Everything else looks good.</div>
-    <div class="card"><ol class="vsteps">
-      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Sun, 29 Nov 2026 · 10:42 AM</small></div></li>
-      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Reviewed</b><small>Tue, 1 Dec · by Nurul H.</small></div></li>
-      <li class="now"><span class="ic"><i class="ph ph-warning" aria-hidden="true"></i></span><div><b>Changes requested</b><small>To do</small></div></li>
-      <li><span class="ic"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div><b>Approved</b><small>Next: create a listing</small></div></li>
+  <!-- Changes requested: the admin note back to the host -->
+  <section id="p-changes" class="as-state">
+    <span class="as-ic"><i class="ph ph-note-pencil" aria-hidden="true"></i></span>
+    <h1>One thing to fix</h1>
+    <p class="as-lead">Fix it and send it back. Everything else is kept.</p>
+    <div class="as-note"><small>Nurul, Lokali team · Wed, 18 Nov</small><p>Please upload a clearer photo of your food handling certificate. The expiry date is cut off. Everything else looks good.</p></div>
+    <button class="btn btn--primary as-btn" id="fix">Fix and resubmit</button>
+    <button class="as-help" data-toast="Calling Lokali host support" data-toast-icon="ph-phone">Call host support</button>
+    <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
+      <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Mon, 16 Nov 2026 · 10:42 AM</small></div></li>
+      <li class="now"><span class="d"></span><div><b>Changes requested</b><small>Wed, 18 Nov</small></div></li>
+      <li><span class="d"></span><div><b>Approved</b><small>Then you build your first listing</small></div></li>
     </ol></div>
-    <button class="btn btn--primary btn--block" id="fix"><i class="ph ph-upload-simple" aria-hidden="true"></i>Fix and resubmit</button>
-    <button class="btn btn--secondary btn--block" data-toast="Calling Lokali host support"><i class="ph ph-phone" aria-hidden="true"></i>Call Lokali for help</button>
   </section>
 
-  <section id="p-ok" class="pad stack-lg mt4" hidden>
-    <div class="center stack" style="align-items:center"><div data-celebrate="full"></div><h2>Application approved</h2><p class="muted">Next: create a listing</p></div>
-    <div class="card card--tint stack">
-      <h3>Start your first listing</h3>
-      <p class="small">A guided form, one section at a time, with tips. Most hosts finish in about 45 minutes. Save as draft any time.</p>
-      <button class="btn btn--primary btn--block" data-go="h-builder">Start listing</button>
-    </div>
-    <button class="btn btn--ghost" data-go="h-home">Go to Today</button>
+  <!-- Approved -->
+  <section id="p-ok" class="as-state" hidden>
+    <span class="as-ic ok"><i class="ph-fill ph-seal-check" aria-hidden="true"></i></span>
+    <h1>You're a Lokali host</h1>
+    <p class="as-lead">Next, build your listing for guests. You can save a draft any time.</p>
+    <button class="btn btn--primary as-btn" data-switch="host" data-switch-to="h-listings">Switch to hosting</button>
+    <div class="as-sec"><h2>Progress</h2><ol class="as-tl">
+      <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Mon, 16 Nov 2026 · 10:42 AM</small></div></li>
+      <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Changes sent</b><small>Thu, 19 Nov · new food handling certificate</small></div></li>
+      <li class="done"><span class="d"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Approved</b><small>Fri, 20 Nov</small></div></li>
+    </ol></div>
   </section>
-  <div style="height:32px"></div>
+</main>
 
-
-  <script>document.getElementById('fix').addEventListener('click', function () { try { sessionStorage.setItem('hSignupStep', '3'); } catch (e) {} L.go('h-signup'); });</script>
-  <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-status', [["State", "Changes requested"], ["Admin note", "Unclear MOTAC licence"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.36.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
+  <script src="../js/shared/embed.js?v=0.37.0"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-status', [["Applicant", "Aina Rahman"], ["State", "Changes requested"], ["Admin note", "Clearer food handling certificate"]]);</script>
+  <script>
+  (function () {
+    document.getElementById('fix').addEventListener('click', function () { try { sessionStorage.setItem('hSignupStep', '3'); } catch (e) {} L.go('h-signup'); });
+    var names = { review: 'In review', changes: 'Changes requested', approved: 'Approved' };
+    function report(k) { if (window.ProtoEmbed) ProtoEmbed.report('h-status', [['Applicant', 'Aina Rahman'], ['State', names[k]], ['Admin note', k === 'changes' ? 'Clearer food handling certificate' : '—']]); }
+    document.querySelector('.as-demo').addEventListener('pick', function (e) { report(e.detail); });
+    /* open on the state the account is in: just submitted = In review; approved = Approved; else Changes requested */
+    var st = L.state.get('hostStatus', 'none'), k = st === 'approved' ? 'approved' : st === 'changes' ? 'changes' : 'review';   /* opened from the menu: the first state after submitting */
+    var b = document.querySelector('.as-demo [data-value="' + k + '"]');
+    document.querySelectorAll('.as-demo [data-panel]').forEach(function (x) { var on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', on); document.querySelector(x.getAttribute('data-panel')).hidden = !on; });
+    report(k);
+  })();
+  </script>
+  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
 </body>
 </html>

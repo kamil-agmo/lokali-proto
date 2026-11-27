@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.37.0 · 2026-11-27
+- Host mode is Aina now (one account, two modes, Q13): she books Pak Rahim's mangrove trip as a guest and hosts her own class, "Kuih morning in a PJ community garden" (Farm & food, RM 85 / adult, Saturdays 9:00 AM, 2–8 guests, Flexible). New host since Fri 20 Nov: 2 classes held, next Sat 5 Dec (6 of 8, 1 peanut allergy), RM 769.25 paid in Nov, RM 408 on Sun 6 Dec, 3 reviews (5.0). Data in js/data.js (L.exp.kuih, L.hosting). Admin keeps Pak Rahim as the staff-assisted host.
+- All 19 host screens rewritten for her story with MIMS + Airy: no dark Canopy headers, tinted tiles, uppercase labels, boxed cards or stat tiles; open sections, pills, grey icons; one fact once. Highlights: Today (next class, 2 to-dos, next payout), Bookings grouped by class, guest list with dietary notes and per-guest Message, Calendar for one listing, Add slot → Calendar, Earnings with the 15% worked out, Menu in the Account style, sign-up filled from her guest account, 14-section builder (live / draft / new).
+- Her listing as a guest: the bottom bar says "Your listing · Booking is off for your own listing" with Edit listing (switches to hosting, opens the builder). Preview as guest (Listings, builder) shows the guest page with a Preview bar and Close preview, no Book.
+- Back follows the path actually taken (js/lokali.js): Back / Close return to the previous screen, one-off steps (Sign in, a finished checkout or application) are skipped, tab taps start fresh; the old fixed targets are only the fallback (presenter menu, direct open). Corporate enquiry Done returns to where it was opened. New rule: .claude/rules/flow-logic.md (part of MIMS).
+- Experience page for other listings: category tag, "Host since" and schedule now come from the listing's data (were the mangrove trip's).
+- Host Inbox tab badge follows read state; switch moment shows Aina's photo; Application status opens on "In review"; "Hosting · date" on Today in eco green.
+
 ## 0.36.0 · 2026-11-27
 - Host mode (suggestion, Q13; from explore/host-mode.html, options B + 2 + 3):
   - Guest Home: a Hosting pill top-right of the cover (her photo, verified tick, red dot when something waits), shown to approved hosts only. It appears after Switch to guest, or Account › host demo › Approved.

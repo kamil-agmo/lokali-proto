@@ -4,95 +4,145 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Listing builder</title>
-  <script src="../shell.config.js?v=0.36.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.36.0"></script>
+  <script src="../shell.config.js?v=0.37.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.36.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.36.0">
-  <script src="../js/lokali.js?v=0.36.0"></script>
-  <script src="../js/art.js?v=0.36.0"></script>
-  <script src="../js/data.js?v=0.36.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
+  <script src="../js/lokali.js?v=0.37.0"></script>
+  <script src="../js/art.js?v=0.37.0"></script>
+  <script src="../js/data.js?v=0.37.0"></script>
+<style>
+/* Listing builder in Airy (27 Nov): 14 sections in guest-page order as open numbered rows, one progress line, required checks.
+   Live listing = manage view (Preview as guest, edits go back to review); draft = Save draft + Submit for review.
+   Cut: the 5 question-group headings (not in the brief, made the list twice as long) and the coloured status discs. */
+.bd-head { padding: 12px 24px 0; }
+.bd-head h1 { margin: 0; }
+.bd-state { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
+.bd-state i { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+.bd-state.draft i { background: #B0B0B0; }
+.bd-head h1 + p, .bd-sub { margin-top: 6px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.bd-prev { position: relative; margin-top: 14px; min-height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--font); color: var(--ink) !important; text-decoration: none; }
+.bd-prev::after { content: ""; position: absolute; inset: -6px 0; }
+.bd-prev .ph { font-size: 16px; }
+.bd-prog { display: flex; align-items: center; gap: 10px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+.bd-prog > span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; } .bd-prog > span i { display: block; height: 100%; background: var(--ink); transition: width .3s; }
+.bd-list { list-style: none; margin: 20px 24px 0; padding: 0; border-top: 1px solid var(--line); }
+.bd-list li { display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+.bd-n { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 600; color: var(--ink); }
+.bd-list li.is-done .bd-n { color: var(--ink); font-size: 15px; }
+.bd-list .grow { min-width: 0; }
+.bd-list b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; color: var(--ink); }
+.bd-list small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bd-req { color: var(--ink); font-weight: 600; }
+.bd-tag { font-size: 12px; font-weight: 400; color: var(--muted); }
+.bd-list .chev { flex: none; font-size: 16px; color: var(--faint); }
+.bd-foot { margin: 16px 24px 0; font-size: 12px; line-height: 17px; color: var(--muted); }
+.bd-demo { display: block; margin: 16px auto 0; padding: 0; border: 0; background: none; font: 500 12px/17px var(--font); color: var(--muted); text-decoration: underline; cursor: pointer; position: relative; }
+.bd-demo::after { content: ""; position: absolute; inset: -12px -8px; }
+body.m.bd-live { padding-bottom: calc(var(--home) + 40px); }
+html body.m .cta-bar :is(.btn--secondary) { color: var(--ink) !important; border: 1px solid var(--line) !important; background: #fff !important; }
+html body.m .cta-bar .btn--primary { flex: 1; }
+html body.m .cta-bar .btn--primary[disabled] { opacity: .35; }
+</style>
 </head>
 <body class="m">
-  <header class="appbar appbar--flow has-prog">
+  <header class="appbar appbar--flow bordered">
     <button class="icon-btn" data-go="h-listings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <span class="appbar__title step-label">Edit listing · <span id="pct">8 of 13</span></span>
-    <button class="btn btn--ghost btn--sm" data-go="g-listing"><i class="ph ph-eye" aria-hidden="true"></i>Preview</button>
-    <div class="flow-prog" aria-hidden="true"><i id="bar" style="width:60%"></i></div>
+    <span class="appbar__title" id="barT">Edit listing</span>
+    <span class="spacer"></span>
   </header>
-  <section class="pad" style="padding-top:16px;padding-bottom:16px">
-    <h1 class="t2">Kelip-kelip photography night</h1>
-    <p class="sum-note" id="left">5 required sections left · draft saved</p>
+
+  <section class="bd-head">
+    <span class="bd-state" id="state"><i aria-hidden="true"></i>Live since Fri, 20 Nov</span>
+    <h1 id="title">Kuih morning in a PJ community garden</h1>
+    <div id="liveBits">
+      <p class="bd-sub">Changes to a live listing are checked by the Lokali team before guests see them.</p>
+      <a class="bd-prev" href="g-listing.html" data-go="g-listing" onclick="L.state.set('exp','kuih');L.state.set('preview',true)"><i class="ph ph-eye" aria-hidden="true"></i>Preview as guest</a>
+    </div>
+    <div class="bd-prog" id="prog"><span><i id="bar"></i></span><b id="pct" style="font-weight:600;color:var(--ink)"></b></div>
   </section>
-  <div id="groups"></div>
-  <p class="xs faint center mt3"><button class="btn btn--ghost btn--sm" id="demo">Prototype: complete all required sections</button></p>
-  <div style="height:16px"></div>
-  <div class="cta-bar">
-    <button class="btn btn--secondary" data-toast="Draft saved" data-toast-icon="ph-floppy-disk">Save draft</button>
-    <button class="btn btn--primary grow" id="submit" disabled>Submit for review</button>
+
+  <ol class="bd-list" id="list" aria-label="Listing sections, in the order guests see them"></ol>
+  <button class="bd-demo" id="demo">Prototype: fill all required sections</button>
+  <div style="height:24px"></div>
+
+  <div class="cta-bar" id="cta">
+    <button class="btn btn--secondary" id="save">Save draft</button>
+    <button class="btn btn--primary" id="submit" disabled>Submit for review</button>
   </div>
 
+  <script src="../js/shared/embed.js?v=0.37.0"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-builder', [["Listing", "Kuih morning in a PJ community garden"], ["State", "Live"], ["Required done", "12 of 12"]]);</script>
   <script>
   (function () {
-    // [n, name, required(1)/optional(0)/if-food(2), done, summary, target]
-    var G = [
-      ['Is it appealing?', [
-        [1, 'Hook', 1, 1, 'Title, promise, 6 photos'],
-        [2, 'Quick facts', 1, 1, '3 h · 2–6 guests · English, Malay'],
-        [3, 'Story', 1, 1, '142 / 200 words'],
-        [4, 'Itinerary', 1, 1, '5 steps, 7:30 – 10:30 PM']]],
-      ['Is it worth it?', [
-        [5, 'Included / not included', 1, 1, '4 included · 2 not included'],
-        [6, 'Meet your guide', 1, 0, 'Missing: 4 personal prompts', 'h-step-guide']]],
-      ['Is it truly sustainable?', [
-        [7, 'Impact story', 1, 0, 'Missing: why it is sustainable'],
-        [8, 'Where your money goes', 1, 0, 'Missing: price split (must add to 100%)']]],
-      ['What do I need to know?', [
-        [9, 'Getting there', 1, 1, 'Jeti Kampung Kuantan · address after booking'],
-        [10, 'What to bring and wear', 1, 1, '5 items'],
-        [11, 'Respect and etiquette', 0, 0, 'Optional · recommended for nature trips'],
-        [12, 'Food and dietary', 2, 1, 'Halal snacks · vegetarian on request'],
-        [13, 'Accessibility', 1, 0, 'Missing: pick-list + notes']]],
-      ['Price & booking', [
-        [14, 'Price & cancellation policy', 1, 0, 'Missing: price per person', 'h-step-price'],
-        [15, 'Group, private & corporate', 0, 0, 'Optional · private boat, corporate link'],
-        [16, 'FAQs', 0, 0, 'Optional']]]
+    /* 14 sections in guest-page order (REQUIREMENTS: listing fields 1–20; Impact + Where your money goes, and Price + Cancellation + Group/private, are one step each).
+       [name, kind: 1 required / 0 optional / 2 required when food is served, target page] */
+    var S = [
+      ['Hook', 1], ['Quick facts', 1], ['Story', 1], ['Itinerary', 1], ['Included and not included', 1],
+      ['Meet your guide', 1, 'h-step-guide'], ['Impact and where your money goes', 1], ['Getting there', 1], ['What to bring and wear', 1],
+      ['Respect and etiquette', 0], ['Food and dietary', 2], ['Accessibility', 1], ['Price and policy', 1, 'h-step-price'], ['FAQs', 0]
     ];
+    var LIST = {
+      kuih: { title: 'Kuih morning in a PJ community garden', food: true, live: true, sum: [
+        'Title, promise, 5 photos', '2.5 hours · 2–8 guests · English, Malay', '146 / 200 words', '4 steps · 9:00 – 11:30 AM', 'Apron, recipe card, kuih to take home',
+        'Aina · 3 of 4 prompts', 'Leftover kuih go to a PJ food bank', 'Taman Komuniti SS3 · exact spot after booking', 'Hat, water bottle, a box for kuih',
+        'Garden rules · shoes off at the kitchen', 'Halal · peanut-free on request', 'Step-free path · seating', 'RM 85 adult · RM 55 child · Flexible', '4 questions'] },
+      pandan: { title: 'Pandan dye workshop', food: false, sum: [
+        'Title, promise, 5 photos', '2 hours · 2–6 guests · English, Malay', '118 / 200 words', '3 steps · 2:00 – 4:00 PM', 'Tote bag to dye and take home',
+        'Aina · 3 of 4 prompts', null, null, null, null, null, null, null, null] },
+      'new': { title: 'New listing', food: false, sum: [null, null, null, null, null, null, null, null, null, null, null, null, null, null] }
+    };
+    var MISSING = ['Add a title, promise and at least 5 photos', 'Add length, group size and languages', 'Tell guests what makes it special', 'Add the steps of the day',
+      "Say what's included and what isn't", 'Answer 3 personal prompts', 'Why it matters, and a price split that adds to 100%', 'Meeting point and how to get there',
+      'What guests should bring and wear', 'Optional', 'Halal, allergies, dietary needs', 'Pick what applies and add notes', 'Price per person, group size, cancellation policy', 'Optional'];
+    var key = L.state.get('hbuild', 'kuih'); if (!LIST[key]) key = 'kuih';
+    var D = LIST[key];
+    var done = D.sum.map(function (x) { return !!x; });
+    function kind(i) { return S[i][1] === 2 ? (D.food ? 1 : 0) : S[i][1]; }
     function render() {
-      var req = 0, done = 0, h = '';
-      G.forEach(function (g) {
-        h += '<div class="sec-group"><h2 class="is-h4">' + g[0] + '</h2></div><div class="list" style="margin:0 var(--s4)">';
-        g[1].forEach(function (s) {
-          var r = s[2] > 0; if (r) { req++; if (s[3]) done++; }
-          var st = s[3] ? '<span class="st done"><i class="ph ph-check" aria-hidden="true"></i></span>' : r ? '<span class="st todo"><i class="ph ph-exclamation-mark" aria-hidden="true"></i></span>' : '<span class="st opt"><i class="ph ph-plus" aria-hidden="true"></i></span>';
-          var tag = s[2] === 1 ? '' : s[2] === 2 ? ' <span class="badge" style="padding:0 8px">If food is served</span>' : ' <span class="badge" style="padding:0 8px">Optional</span>';
-          h += '<div class="sec" data-t="' + (s[5] || '') + '"><span class="sec__n">' + s[0] + '</span>' + st + '<div class="grow"><b>' + s[1] + '</b>' + tag + '<p class="small ' + (!s[3] && r ? '' : 'muted') + '" style="' + (!s[3] && r ? 'color:var(--warn)' : '') + '">' + (s[3] && !r ? 'Added' : s[4]) + '</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>';
-        });
-        h += '</div>';
+      var req = 0, ok = 0, h = '';
+      S.forEach(function (s, i) {
+        var k = kind(i); if (k) { req++; if (done[i]) ok++; }
+        var cls = done[i] ? 'is-done' : k ? 'is-todo' : 'is-opt';
+        var tag = S[i][1] === 0 ? ' <span class="bd-tag">· Optional</span>' : (S[i][1] === 2 && !D.food) ? ' <span class="bd-tag">· Only if food is served</span>' : '';
+        var line = done[i] ? (D.sum[i] || 'Done') : k ? '<span class="bd-req">Required</span> · ' + MISSING[i] : (S[i][1] === 2 ? 'No food served' : 'Not added');
+        h += '<li class="' + cls + '" data-i="' + i + '" role="link" tabindex="0"><span class="bd-n" aria-hidden="true">' + (done[i] ? '<i class="ph ph-check"></i>' : (i + 1)) + '</span>' +
+          '<div class="grow"><b>' + s[0] + tag + '</b><small>' + line + '</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></li>';
       });
-      document.getElementById('groups').innerHTML = h;
-      var left = req - done;
-      document.getElementById('bar').style.width = Math.floor(done / req * 20) * 5 + '%';
-      document.getElementById('pct').textContent = done + ' of ' + req;
-      document.getElementById('left').textContent = left ? left + ' required sections left · draft saved' : 'All required sections done';
-      document.getElementById('submit').disabled = left > 0;
-      if (window.ProtoEmbed) ProtoEmbed.report('h-builder', [['Required done', done + ' of ' + req], ['Submit', left ? 'Disabled' : 'Enabled']]);
+      document.getElementById('list').innerHTML = h;
+      var left = req - ok;
+      document.getElementById('bar').style.width = Math.round(ok / req * 100) + '%';
+      document.getElementById('pct').textContent = ok + ' of ' + req + ' required';
+      var sb = document.getElementById('submit'); if (sb) sb.disabled = left > 0;
+      document.getElementById('demo').hidden = !left;
+      if (window.ProtoEmbed) ProtoEmbed.report('h-builder', [['Listing', D.title], ['State', D.live ? 'Live' : 'Draft'], ['Required done', ok + ' of ' + req], ['Submit', D.live ? '—' : left ? 'Off until ' + left + ' more' : 'On']]);
     }
-    document.getElementById('groups').addEventListener('click', function (e) {
-      var s = e.target.closest('.sec'); if (!s) return;
-      var t = s.getAttribute('data-t'); if (t) L.go(t); else L.toast('Opens this section, one question at a time', 'ph-pencil-simple');
+    document.getElementById('title').textContent = D.title;
+    document.getElementById('barT').textContent = key === 'new' ? '' : 'Edit listing';
+    if (D.live) {
+      document.body.classList.add('bd-live');
+      document.getElementById('cta').remove(); document.getElementById('prog').hidden = true;
+    } else {
+      var st = document.getElementById('state'); st.className = 'bd-state draft';
+      st.innerHTML = '<i aria-hidden="true"></i>' + (key === 'new' ? 'Not saved yet' : 'Draft · saved Tue, 1 Dec');
+      document.getElementById('liveBits').hidden = true;
+    }
+    document.getElementById('list').addEventListener('click', function (e) {
+      var li = e.target.closest('li'); if (!li) return;
+      var t = S[+li.getAttribute('data-i')][2];
+      if (t && key === 'kuih') L.go(t); else L.toast('Opens this section, one question at a time', 'ph-pencil-simple');
     });
-    document.getElementById('demo').addEventListener('click', function () { G.forEach(function (g) { g[1].forEach(function (s) { if (s[2]) s[3] = 1; }); }); render(); });
-    document.getElementById('submit').addEventListener('click', function () { L.toast('Submitted. Lokali will review it in 2–3 working days.'); setTimeout(function () { L.go('h-listings'); }, 900); });
+    document.getElementById('demo').addEventListener('click', function () { S.forEach(function (s, i) { if (kind(i)) done[i] = true; }); render(); });
+    var save = document.getElementById('save'); if (save) save.addEventListener('click', function () { L.toast('Draft saved', 'ph-floppy-disk'); setTimeout(function () { if (L.navPrev() === 'h-listings') L.back(); else L.go('h-listings'); }, 700); });
+    var sub = document.getElementById('submit'); if (sub) sub.addEventListener('click', function () { L.toast('Sent for review. We reply within 2 working days.'); setTimeout(function () { if (L.navPrev() === 'h-listings') L.back(); else L.go('h-listings'); }, 900); });
     render();
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-builder', [["Listing", "Kelip-kelip photography night"], ["Required done", "8 of 13"], ["Submit", "Disabled"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.36.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
 </body>
 </html>
