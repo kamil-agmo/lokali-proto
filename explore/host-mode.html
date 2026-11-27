@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Host mode: switch + indicator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 1000px; }
+  h2.row-h { font-size: 17px; margin: 8px 0 4px; } .row-sub { color: #6A6A6A; margin-bottom: 16px; max-width: 1000px; }
+  .wrap { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 48px; }
+  .col { width: 340px; flex: none; }
+  .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; min-height: 72px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+  .tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 11px; font-weight: 600; vertical-align: 1px; }
+
+  /* phone (402 wide, drawn at 340 = 0.846 scale via zoom-free sizes) */
+  .ph { position: relative; width: 340px; height: 600px; background: #fff; border-radius: 36px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 6px solid #111; }
+  .sb { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 26px; font-size: 13px; font-weight: 600; }
+  .sb.w { color: #fff; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .muted { color: #6A6A6A; }
+
+  /* guest Home top */
+  .cover { position: relative; height: 230px; background: #6c8f7a center / cover; color: #fff; padding: 52px 20px 0; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 35%, transparent 55%, rgba(0,0,0,.45)); }
+  .cover > * { position: relative; z-index: 1; }
+  .cover .top { display: flex; justify-content: space-between; align-items: center; height: 36px; }
+  .wm { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+  .cover h3 { position: absolute; left: 20px; bottom: 44px; font-size: 24px; line-height: 28px; font-weight: 700; }
+  .search { position: relative; z-index: 3; margin: -28px 16px 0; height: 56px; border-radius: 999px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.08); display: flex; align-items: center; padding: 0 6px 0 18px; }
+  .search b { display: block; font-size: 13px; } .search small { display: block; font-size: 10px; color: #6A6A6A; }
+  .search .go { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; background: #D7263D; color: #fff; display: grid; place-items: center; }
+  .chips { display: flex; gap: 6px; padding: 16px 16px 0; overflow: hidden; }
+  .chip { flex: none; height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid #EBEBEB; display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .chip.on { background: #222; border-color: #222; color: #fff; }
+  .sec { padding: 22px 20px 0; } .sec h4 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .card { height: 150px; border-radius: 22px; background: #8aa894 center / cover; }
+
+  /* own photo + host tick */
+  .me { position: relative; width: 36px; height: 36px; flex: none; }
+  .me img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; display: block; }
+  .me .tick { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; }
+  .dot { position: absolute; top: -2px; right: -2px; width: 11px; height: 11px; border-radius: 50%; background: #D7263D; border: 2px solid #fff; }
+
+  /* B: Hosting pill on the cover */
+  .hpill { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 3px; border-radius: 999px; background: #fff; color: #222; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.15); position: relative; }
+  .hpill .me, .hpill .me img { width: 34px; height: 34px; } .hpill .me img { border: 0; }
+
+  /* C: contextual strip under search */
+  .strip { display: flex; align-items: center; gap: 12px; margin: 14px 16px 0; padding: 10px 12px; border-radius: 16px; background: #F7F7F7; font-size: 12px; line-height: 16px; }
+  .strip b { display: block; font-size: 13px; } .strip .go2 { margin-left: auto; height: 30px; padding: 0 12px; border-radius: 999px; background: #222; color: #fff; display: inline-flex; align-items: center; font-weight: 600; font-size: 12px; flex: none; }
+
+  /* tab bars */
+  .tabs { position: absolute; z-index: 4; left: 12px; right: 12px; bottom: 14px; height: 58px; border-radius: 999px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: space-around; padding: 0 6px; }
+  .tabs span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 9px; font-weight: 600; color: #6A6A6A; padding: 6px 10px; border-radius: 999px; position: relative; }
+  .tabs span.on { color: #D7263D; background: #FDECEE; }
+  .tabs .bd { position: absolute; top: 0; right: 4px; min-width: 14px; height: 14px; border-radius: 7px; background: #D7263D; color: #fff; font-size: 9px; line-height: 14px; text-align: center; padding: 0 3px; }
+  .tabs .me, .tabs .me img { width: 22px; height: 22px; } .tabs .me img { border: 0; } .tabs .me .tick { width: 11px; height: 11px; right: -3px; bottom: -3px; }
+
+  /* Account crop */
+  .acc { padding: 56px 20px 0; } .acc h3 { font-size: 24px; font-weight: 700; margin-bottom: 18px; }
+  .hblock { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 18px; background: #F7F7F7; }
+  .hblock b { display: block; font-size: 14px; } .hblock small { display: block; font-size: 11px; color: #6A6A6A; }
+  .hblock .open { margin-left: auto; height: 30px; padding: 0 14px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; }
+  .rows { margin-top: 22px; } .rows div { display: flex; gap: 12px; align-items: center; padding: 13px 0; border-top: 1px solid #EBEBEB; font-size: 13px; color: #222; } .rows .ic { color: #6A6A6A; }
+  .tap { position: absolute; width: 44px; height: 44px; border-radius: 50%; border: 3px solid #D7263D; background: rgba(215,38,61,.12); pointer-events: none; }
+
+  /* host Today */
+  .today { padding: 56px 20px 0; }
+  .today .k { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #6A6A6A; display: flex; align-items: center; gap: 6px; }
+  .today .k.host { color: #1C522C; }
+  .today .head { display: flex; justify-content: space-between; align-items: flex-start; }
+  .today h3 { font-size: 24px; line-height: 29px; font-weight: 700; margin-top: 10px; }
+  .today .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 18px; font-size: 10px; color: #6A6A6A; } .today .stats b { display: block; font-size: 15px; color: #222; }
+  .today .nx { margin-top: 20px; height: 120px; border-radius: 20px; background: #7f9e8a center / cover; }
+  .today .nx + b { display: block; margin-top: 10px; font-size: 14px; }
+  .gpill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid #EBEBEB; font-size: 11px; font-weight: 600; }
+
+  /* switch moment */
+  .moment { position: absolute; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+  .moment .big { position: relative; width: 84px; height: 84px; } .moment .big img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; }
+  .moment .big .tick { position: absolute; right: -2px; bottom: -2px; width: 28px; height: 28px; }
+  .moment b { font-size: 17px; } .moment small { font-size: 12px; color: #6A6A6A; }
+  .moment .bar { width: 120px; height: 3px; border-radius: 2px; background: #EBEBEB; overflow: hidden; } .moment .bar i { display: block; width: 60%; height: 100%; background: #222; }
+  .arrow { font-size: 12px; color: #6A6A6A; text-align: center; margin-top: 8px; }
+
+  .verdict { max-width: 1000px; background: #fff; border-radius: 16px; padding: 18px 20px; margin-bottom: 40px; }
+  .verdict h2 { font-size: 16px; margin-bottom: 8px; } .verdict li { margin: 4px 0 4px 18px; font-size: 13px; line-height: 19px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="seal" viewBox="0 0 24 24"><path fill="#1D9BF0" d="M12 1.5l2.6 1.9 3.2-.2 1 3 2.7 1.8-1 3 1 3-2.7 1.8-1 3-3.2-.2L12 22.5l-2.6-1.9-3.2.2-1-3-2.7-1.8 1-3-1-3 2.7-1.8 1-3 3.2.2z"/><path d="M8 12.2l2.6 2.6L16.2 9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 256 256"><circle cx="112" cy="112" r="72"/><path d="M164 164l52 52"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 256 256"><path d="M32 88a32 32 0 0 0 0 80v32h192v-32a32 32 0 0 1 0-80V56H32z"/><path d="M96 56v144" stroke-dasharray="16 16"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 256 256"><path d="M24 176h208M64 176a64 64 0 0 1 128 0M128 64V40M70 90 54 74M186 90l16-16"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 256 256"><rect x="40" y="48" width="176" height="168" rx="12"/><path d="M40 96h176M88 32v32M168 32v32"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 256 256"><rect x="48" y="48" width="64" height="64" rx="8"/><rect x="144" y="48" width="64" height="64" rx="8"/><rect x="48" y="144" width="64" height="64" rx="8"/><rect x="144" y="144" width="64" height="64" rx="8"/></symbol>
+  <symbol id="i-list" viewBox="0 0 256 256"><path d="M40 64h176M40 128h176M40 192h176"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 256 256"><path d="M176 40l40 40-40 40M216 80H40M80 216l-40-40 40-40M40 176h176"/></symbol>
+  <symbol id="i-user" viewBox="0 0 256 256"><circle cx="128" cy="96" r="48"/><path d="M40 216c16-40 48-64 88-64s72 24 88 64"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 256 256"><circle cx="128" cy="128" r="40"/><path d="M128 24v32M128 200v32M24 128h32M200 128h32M54 54l22 22M180 180l22 22M54 202l22-22M180 76l22-22"/></symbol>
+</svg>
+
+<h1>Host mode: where to switch, and how you know you're hosting</h1>
+<p class="sub">Lokali-wide suggestion (Q13: one account, two modes; not in the brief). Story used here: Aina's host application is approved, so she can host and still book trips. Red outline = recommended.</p>
+
+<h2 class="row-h">1 · Where an approved host switches to hosting</h2>
+<p class="row-sub">Hosts open the app mostly to check bookings, so the switch should be one tap from where the app opens. The app also reopens in the last mode used (no UI needed).</p>
+<div class="wrap">
+  <div class="col">
+    <b>A · Account tab only (today)</b>
+    <p>Switch to hosting sits in Account. Two taps, out of sight on Home; a new booking never reaches a host who is browsing trips.</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="acc">
+        <h3>Account</h3>
+        <div class="hblock"><span class="me"><img class="js-aina" alt=""><svg class="tick"><use href="#seal"/></svg></span><div><b>Switch to hosting</b><small>Listings, bookings and earnings</small></div><span class="open">Open</span></div>
+        <div class="rows"><div><svg class="ic"><use href="#i-user"/></svg>Personal info</div><div><svg class="ic"><use href="#i-gear"/></svg>Sign-in &amp; security</div><div><svg class="ic"><use href="#i-ticket"/></svg>Payment methods</div></div>
+      </div>
+      <div class="tabs"><span><svg class="ic"><use href="#i-search"/></svg>Explore</span><span><svg class="ic"><use href="#i-ticket"/></svg>Bookings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span class="on"><svg class="ic"><use href="#i-user"/></svg>Account</span></div>
+    </div>
+  </div>
+
+  <div class="col rec">
+    <b>B · "Hosting" pill on the Home cover<span class="tag">Recommended</span></b>
+    <p>Her photo with the verified tick and the word Hosting, top-right of the cover (the wordmark's free corner). A red dot when something needs her (new booking, review to answer). Only approved hosts see it. Account keeps its row.</p>
+    <div class="ph">
+      <div class="sb w"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="cover js-cover">
+        <div class="top"><span class="wm">Lokali</span><span class="hpill"><span class="me"><img class="js-aina" alt=""><svg class="tick"><use href="#seal"/></svg></span>Hosting<span class="dot"></span></span></div>
+        <h3>Small trips, real impact</h3>
+      </div>
+      <div class="search"><div><b>Where to?</b><small>Anywhere · Any week · Add guests</small></div><span class="go"><svg class="ic"><use href="#i-search"/></svg></span></div>
+      <div class="chips"><span class="chip on">All</span><span class="chip">Nature &amp; eco-tours</span><span class="chip">Culture, craft</span></div>
+      <div class="sec"><h4>Featured this month</h4><div class="card js-card"></div></div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-search"/></svg>Explore</span><span><svg class="ic"><use href="#i-ticket"/></svg>Bookings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span><svg class="ic"><use href="#i-user"/></svg>Account</span></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <b>C · Strip under search, only when needed</b>
+    <p>"1 new booking · Switch" shows only while something waits. Tells her why, but on a quiet day there is no way in from Home, and it pushes Featured down (the story's first tap).</p>
+    <div class="ph">
+      <div class="sb w"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="cover js-cover"><div class="top"><span class="wm">Lokali</span></div><h3>Small trips, real impact</h3></div>
+      <div class="search"><div><b>Where to?</b><small>Anywhere · Any week · Add guests</small></div><span class="go"><svg class="ic"><use href="#i-search"/></svg></span></div>
+      <div class="strip"><span class="me"><img class="js-aina" alt=""><svg class="tick"><use href="#seal"/></svg></span><div><b>Hosting · 1 new booking</b><span class="muted">Sun, 13 Dec · 2 guests</span></div><span class="go2">Switch</span></div>
+      <div class="chips"><span class="chip on">All</span><span class="chip">Nature &amp; eco-tours</span><span class="chip">Culture, craft</span></div>
+      <div class="sec"><h4>Featured this month</h4><div class="card js-card"></div></div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-search"/></svg>Explore</span><span><svg class="ic"><use href="#i-ticket"/></svg>Bookings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox</span><span><svg class="ic"><use href="#i-user"/></svg>Account</span></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="row-h">2 · How she knows she is hosting</h2>
+<p class="row-sub">Host mode already has its own tab bar (Today, Calendar, Listings, Inbox, Menu). The question is whether that's enough when guest and host Inbox look alike.</p>
+<div class="wrap">
+  <div class="col">
+    <b>1 · Tab bar only (today)</b>
+    <p>Different tabs are the only cue. Fine on Today, but Inbox and Chat look the same in both modes, so she can answer from the wrong side.</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="today">
+        <div class="head"><span class="k">Wed, 2 Dec</span></div>
+        <h3>Selamat pagi, Aina</h3>
+        <div class="stats"><div><b>RM 2,446</b>earned in Dec</div><div><b>4.96</b>rating</div><div><b>410</b>seedlings</div></div>
+        <div class="nx js-card"></div><b>Mangrove &amp; fireflies by kampung boat</b>
+      </div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox<i class="bd">1</i></span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+
+  <div class="col rec">
+    <b>2 · A one-second switch moment<span class="tag">Recommended</span></b>
+    <p>Tapping the pill shows her photo, "Switching to hosting", then Today. Confirms the whole app changed; same moment back to guest. No colour change needed.</p>
+    <div class="ph">
+      <div class="moment">
+        <span class="big"><img class="js-aina" alt=""><svg class="tick"><use href="#seal"/></svg></span>
+        <b>Switching to hosting</b>
+        <small>Listings, bookings and earnings</small>
+        <span class="bar"><i></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col rec">
+    <b>3 · "Hosting" label + the way back<span class="tag">Recommended</span></b>
+    <p>Today's small top line reads "Hosting · Wed, 2 Dec" in eco green, and the same corner holds the pill back: "Switch to guest". Mirrors B, so the switch always lives top-right.</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="today">
+        <div class="head"><span class="k host">Hosting · Wed, 2 Dec</span><span class="gpill"><svg class="ic" style="width:14px;height:14px"><use href="#i-swap"/></svg>Switch to guest</span></div>
+        <h3>Selamat pagi, Aina</h3>
+        <div class="stats"><div><b>RM 2,446</b>earned in Dec</div><div><b>4.96</b>rating</div><div><b>410</b>seedlings</div></div>
+        <div class="nx js-card"></div><b>Mangrove &amp; fireflies by kampung boat</b>
+      </div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox<i class="bd">1</i></span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h2>MIMS</h2>
+  <ul>
+    <li><b>Requirements:</b> none of this is in the brief; it extends suggestion Q13 (one account, two modes). Mark it as a suggestion.</li>
+    <li><b>Recommend B + 2 + 3:</b> one switch pill in the same top-right corner in both modes, a short switch moment, and "Hosting" on Today. Keep the Account and Menu rows as the second way in.</li>
+    <li><b>Cut:</b> C (it only appears sometimes and pushes Featured down); a different tab-bar colour for hosting (colour alone fails accessibility, and red already means actions).</li>
+    <li><b>Story decision:</b> today the guest is Aina and the host is Pak Rahim, so "switch" would jump to another person. Either Aina becomes the host after approval (her name and photo on host screens), or the switch is shown from Pak Rahim's side (he also books trips). Your call.</li>
+  </ul>
+</div>
+
+<script>
+  var u = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; };
+  document.querySelectorAll('.js-aina').forEach(function (i) { i.src = u('1545266241-3516e2a6e016', 200); });
+  document.querySelectorAll('.js-cover').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1495434350527-8f3d63bf008f', 800) + ')'; });
+  document.querySelectorAll('.js-card').forEach(function (e) { e.style.backgroundImage = 'url(' + u('1773904594755-6c25ab2ef6c9', 800) + ')'; });
+</script>
+</body>
+</html>

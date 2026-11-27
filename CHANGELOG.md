@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.35.2 · 2026-11-27
+- Mock: explore/host-mode.html, where an approved host switches to hosting (Account only / Hosting pill on the Home cover / strip under search) and how host mode shows (tab bar only / switch moment / "Hosting" label + Switch to guest). Suggestion, extends Q13.
+
 ## 0.35.1 · 2026-11-27
 - New versions show at once on GitHub Pages (it caches files for 10 minutes, and ⌘⇧R does not refresh the screen inside the phone): every screen opens as page.html?v=<version>, and every local CSS/JS link carries ?v=<version> (tools/stamp-version.py).
 
