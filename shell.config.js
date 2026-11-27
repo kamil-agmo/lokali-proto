@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "Booking platform · Prototype v1",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.34.1",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.35.0",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/habitat-logo.png",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: null,           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
@@ -56,7 +56,7 @@ window.SHELL = {
     'g-signin': { group: 'Guest', title: 'Sign in to book', src: 'pages/g-signin.html', desc: 'Sign-in appears only when the guest books, not while browsing. Google, Apple or email.',
       parts: ['Continue with Apple / Google', 'Email + password', 'Create account link', 'PDPA consent note'] },
     'g-checkout': { group: 'Guest', title: 'Checkout', src: 'pages/g-checkout.html', desc: 'Everything before paying: the booking, the price with the guest service fee as its own line, the cancellation policy and the payment method (card, FPX, e-wallet).',
-      parts: ['Booking summary + Edit', 'Impact line', 'Price breakdown incl. service fee', 'Free cancellation date + policy line', 'Payment method: card / FPX / e-wallet', 'Message for the host (dietary)', 'Pay RM … bar'] },
+      parts: ['Ticket: experience, date, time, guests + Edit; price breakdown incl. service fee and total', 'Impact line', 'Free cancellation date + policy line', 'Payment method: card / FPX / e-wallet', 'Message for the host (dietary)', 'Pay RM … bar'] },
     'g-confirmed': { group: 'Guest', title: 'Booking confirmed', src: 'pages/g-confirmed.html', desc: 'Instant confirmation after payment, with what happens next.',
       parts: ['Confirmed + booking ref', 'Date, time, meeting point', 'What happens next (email, reminder, messages, cancellation)', 'View booking, Message', 'Add to calendar (suggestion)'] },
     'g-email': { group: 'Guest', title: 'Email: confirmation & reminder', src: 'pages/g-email.html', desc: 'The confirmation email sent after paying, and the reminder sent before the experience.',

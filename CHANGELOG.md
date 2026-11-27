@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.35.0 · 2026-11-27
+- Checkout: booking summary and price breakdown as one ticket (user's reference): white with a hairline outline, side notches at a dashed tear line, scalloped foot, grey Date / Time / Guests block, Edit pill with pencil, total 28/700. MIMS: sentence-case labels (Airy, not uppercase), no shadow (it doesn't float), total shown once here and on Pay, impact line kept just below the ticket. Removed the unused Canopy ticket styles.
+
 ## 0.34.1 · 2026-11-27
 - Fixed: Booking details showed a sliver of photo at the left of the curved photo edge (the white sheet below had a rounded corner). Sheets under a curved edge are now square; checked on Booking details, Account, Host profile and Experience page.
 - GitHub Pages: plain files, no Jekyll build (.nojekyll).

@@ -16,26 +16,31 @@
   <script src="../js/art.js"></script>
   <script src="../js/data.js"></script>
 <style>
-.ticket { border-radius: 26px; overflow: hidden; box-shadow: 0 14px 34px rgba(10,20,14,.16); }
-.ticket__top { position: relative; padding: 16px; background-color: var(--deep); color: #fff; }
-.ticket__top > .row { padding-right: 60px; }
-.ticket__img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; flex: none; }
-.ticket__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
-.ticket__grid small { display: block; font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-.ticket__grid b { font: 600 15px/20px var(--font-display); }
-.ticket__edit { position: absolute; top: 14px; right: 14px; display: inline-flex; gap: 4px; align-items: center; padding: 4px 12px; border-radius: 12px; background: rgba(255,255,255,.12); color: #fff; font-size: 12px; font-weight: 600; }
-.ticket__edit .ph { font-size: 14px; vertical-align: 0; }
-.ticket__cut { height: 20px; background: radial-gradient(circle at 0 50%, var(--bg) 10px, transparent 11px), radial-gradient(circle at 100% 50%, var(--bg) 10px, transparent 11px), linear-gradient(var(--surface), var(--surface)); position: relative; }
-.ticket__cut::after { content: ""; position: absolute; left: 18px; right: 18px; top: 50%; border-top: 2px dashed var(--line); }
-.ticket__bottom { background: var(--surface); padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
-.ticket__total { font: 600 34px/41px var(--font-display); letter-spacing: -.02em; color: var(--ink); }
-.ticket__impact { display: flex; gap: 12px; align-items: center; padding: 12px 12px; border-radius: 14px; background: var(--primary-tint); color: var(--primary-strong); font-size: 13px; line-height: 18px; }
-@media (max-width: 320px) {
-  .ticket__top > .row { padding-right: 0; flex-wrap: wrap; }
-  .ticket__edit { position: static; margin-top: 12px; }
-  .ticket__grid { grid-template-columns: 1fr; }
-  .ticket__total { font-size: 28px; }
-}
+/* Airy ticket (27 Nov, user request + MIMS): white, hairline outline, side notches at the tear line, scalloped foot; no shadow (it doesn't float), sentence-case labels */
+.tk { position: relative; border: 1px solid var(--line); border-bottom: 0; border-radius: 20px 20px 0 0; background: #fff; }
+.tk__top { padding: 16px; }
+.tk__exp { display: flex; gap: 12px; align-items: flex-start; }
+.tk__exp img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; flex: none; }
+.tk__exp b { display: block; font-size: 16px; line-height: 21px; font-weight: 600; color: var(--ink); } .tk__exp span { display: block; font-size: 12px; line-height: 17px; color: var(--muted); margin-top: 2px; }
+.tk__edit { flex: none; min-height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; display: inline-flex; gap: 4px; align-items: center; font-size: 13px; font-weight: 600; color: var(--ink) !important; position: relative; }
+.tk__edit::after { content: ""; position: absolute; inset: -6px; } /* 44 px tap area */
+.tk__edit .ph { font-size: 14px; }
+.tk__facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 8px; margin-top: 16px; padding: 12px 16px; border-radius: 14px; background: var(--sand); }
+.tk__facts small { display: block; font-size: 12px; line-height: 16px; color: var(--muted); } .tk__facts b { display: block; margin-top: 2px; font-size: 15px; line-height: 20px; font-weight: 600; color: var(--ink); }
+.tk__cut { position: relative; height: 24px; }
+.tk__cut::before { content: ""; position: absolute; left: 16px; right: 16px; top: 50%; border-top: 1px dashed #D6D6D6; }
+.tk__cut i { position: absolute; top: 2px; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); }
+.tk__cut i:first-child { left: -11px; clip-path: inset(-1px -1px -1px 50%); } .tk__cut i:last-child { right: -11px; clip-path: inset(-1px 50% -1px -1px); }
+.tk__bottom { padding: 0 16px 8px; }
+.tk__bottom h2 { margin-bottom: 4px; }
+.tk__row { display: flex; justify-content: space-between; gap: 12px; align-items: center; min-height: 36px; font-size: 15px; line-height: 20px; color: var(--muted); } .tk__row > span:last-child { color: var(--ink); }
+.tk__total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 8px; padding-top: 16px; border-top: 1px dashed #D6D6D6; }
+.tk__total span { font-size: 16px; font-weight: 600; color: var(--ink); } .tk__total b { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+.tk__foot { height: 9px; margin: 0 0 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'%3E%3Cpath d='M0 .5A8 8 0 0 0 16 .5' fill='%23fff' stroke='%23EBEBEB'/%3E%3C/svg%3E") repeat-x 0 0 / 16px 9px; position: relative; }
+.tk__foot::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: #fff; } /* joins the side borders to the scallops */
+.co-impact { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.co-impact .ph-fill { flex: none; font-size: 16px; color: var(--primary); margin-top: 1px; } .co-impact b { color: var(--ink); }
+@media (max-width: 320px) { .tk__facts { grid-template-columns: 1fr; } }
 .wallet { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px; } .wlogo { margin: 0 auto; width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; letter-spacing: -.02em; line-height: 1; }
 .clogo { width: 36px; height: 24px; display: block; }
 </style>
@@ -62,20 +67,25 @@
   <span class="spacer"></span>
 </header>
 <main class="pad stack-lg" style="padding-top:16px;padding-bottom:16px">
-  <!-- MIMS 27 Nov: open summary (no box), sentence-case labels, total shown once in the breakdown + on the Pay button -->
-  <section class="co-sum" aria-label="Booking summary">
-    <div class="co-exp"><img data-img="1773904594755-6c25ab2ef6c9" data-w="200" alt=""><div class="grow"><b>Mangrove &amp; fireflies by kampung boat</b><span>Pak Rahim · Kuala Selangor</span></div><a href="g-book.html" data-go="g-book" class="co-edit">Edit</a></div>
-    <div class="co-grid"><div><small>Date</small><b id="kDate">Sun, 6 Dec</b></div><div><small>Time</small><b id="kTime">5:00 PM</b></div><div><small>Guests</small><b id="kGuests">2 adults, 1 child</b></div></div>
-    <p class="co-line"><i class="ph-fill ph-leaf" aria-hidden="true"></i><span><b id="kImpact">RM 77</b> of this booking replants mangroves</span></p>
-  </section>
-
-  <section class="card" aria-labelledby="p-h">
-    <h3 id="p-h" style="margin-bottom:8px">Price breakdown</h3>
-    <div id="kLines"><div class="kv"><span>RM 145 × 2 adults</span><span>RM 290.00</span></div>
-    <div class="kv"><span>RM 95 × 1 child</span><span>RM 95.00</span></div></div>
-    <div class="kv"><span>Service fee (5%) <button class="icon-btn" style="margin:-12px 0 -12px -8px;vertical-align:middle" data-open="#feesheet" aria-label="About the service fee"><i class="ph ph-info" aria-hidden="true" style="font-size: 16px"></i></button></span><span id="kFee">RM 19.25</span></div>
-    <div class="kv total"><span>Total (MYR)</span><span id="kTotal2">RM 404.25</span></div>
-    <p class="xs muted" id="kGbp" hidden>≈ GBP 69.60 · bank rate may differ</p>
+  <!-- Ticket (27 Nov): what you're buying + what it costs as one receipt; total once here and on the Pay button -->
+  <section aria-label="Booking summary">
+    <div class="tk">
+      <div class="tk__top">
+        <div class="tk__exp"><img data-img="1773904594755-6c25ab2ef6c9" data-w="200" alt=""><div class="grow"><b>Mangrove &amp; fireflies by kampung boat</b><span>Pak Rahim · Kuala Selangor</span></div><a href="g-book.html" data-go="g-book" class="tk__edit"><i class="ph ph-pencil-simple" aria-hidden="true"></i>Edit</a></div>
+        <div class="tk__facts"><div><small>Date</small><b id="kDate">Sun, 6 Dec</b></div><div><small>Time</small><b id="kTime">5:00 PM</b></div><div><small>Guests</small><b id="kGuests">2 adults, 1 child</b></div></div>
+      </div>
+      <div class="tk__cut" aria-hidden="true"><i></i><i></i></div>
+      <div class="tk__bottom">
+        <h2 class="is-h3" id="p-h">Price breakdown</h2>
+        <div id="kLines"><div class="tk__row"><span>RM 145 × 2 adults</span><span>RM 290.00</span></div>
+        <div class="tk__row"><span>RM 95 × 1 child</span><span>RM 95.00</span></div></div>
+        <div class="tk__row"><span>Service fee (5%) <button class="icon-btn" style="margin:-12px 0 -12px -8px;vertical-align:middle" data-open="#feesheet" aria-label="About the service fee"><i class="ph ph-info" aria-hidden="true" style="font-size: 16px"></i></button></span><span id="kFee">RM 19.25</span></div>
+        <div class="tk__total"><span>Total (MYR)</span><b id="kTotal2">RM 404.25</b></div>
+        <p class="xs muted" id="kGbp" hidden>≈ GBP 69.60 · bank rate may differ</p>
+      </div>
+    </div>
+    <div class="tk__foot" aria-hidden="true"></div>
+    <p class="co-impact"><i class="ph-fill ph-leaf" aria-hidden="true"></i><span><b id="kImpact">RM 77</b> of this booking replants mangroves</span></p>
   </section>
 
   <section class="co-cx" aria-labelledby="c-h">
@@ -142,7 +152,7 @@ window.LKB = (function () {
   $('kDate').textContent = k.date; $('kTime').textContent = k.time; $('kGuests').textContent = k.guests;
   $('kTotal2').textContent = rm(k.total); $('kFee').textContent = rm(k.fee); $('kPay').textContent = 'Pay ' + rm(k.total); $('kImpact').textContent = L.rm(k.impact, 0);
   var X = L.exp[L.curExp()];
-  $('kLines').innerHTML = k.priv ? '<div class="kv"><span>Private, up to ' + String(X.group).split(/[–-]/).pop() + '</span><span>' + rm(X.priv) + '</span></div>' : '<div class="kv"><span>RM ' + X.price + ' × ' + k.a + ' adult' + (k.a > 1 ? 's' : '') + '</span><span>' + rm(k.a * X.price) + '</span></div>' + (k.c ? '<div class="kv"><span>RM ' + X.child + ' × ' + k.c + ' child' + (k.c > 1 ? 'ren' : '') + '</span><span>' + rm(k.c * X.child) + '</span></div>' : '');
+  $('kLines').innerHTML = k.priv ? '<div class="tk__row"><span>Private, up to ' + String(X.group).split(/[–-]/).pop() + '</span><span>' + rm(X.priv) + '</span></div>' : '<div class="tk__row"><span>RM ' + X.price + ' × ' + k.a + ' adult' + (k.a > 1 ? 's' : '') + '</span><span>' + rm(k.a * X.price) + '</span></div>' + (k.c ? '<div class="tk__row"><span>RM ' + X.child + ' × ' + k.c + ' child' + (k.c > 1 ? 'ren' : '') + '</span><span>' + rm(k.c * X.child) + '</span></div>' : '');
   $('kGbp').hidden = true;
   if (k.deadline) { $('kDl').textContent = k.deadline; }
 })();</script>
