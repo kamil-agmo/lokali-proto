@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.34.1 · 2026-11-27
+- Fixed: Booking details showed a sliver of photo at the left of the curved photo edge (the white sheet below had a rounded corner). Sheets under a curved edge are now square; checked on Booking details, Account, Host profile and Experience page.
+- GitHub Pages: plain files, no Jekyll build (.nojekyll).
+
 ## 0.34.0 · 2026-11-27
 - MIMS on the last guest screens:
   - Choose date: cut the Date summary row (the calendar marks the day), "Full slots close automatically. Prices in MYR.", the date after "Time", "You are taking 3 of the 4 spots left" (the slot says it; the line now shows only the over-capacity error) and the guest count in the bottom bar. Time and Guests titles 18/700.
