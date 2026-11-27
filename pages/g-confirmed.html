@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Booking confirmed</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+  /* MIMS 27 Nov: next-step icons grey, Back to Explore in ink (no Canopy green) */
+  body.m .steps-next .n, body.m .steps-next .n .ph { color: var(--muted) !important; }
+  body.m .btn--ghost { color: var(--ink) !important; }
+</style>
+</head>
+<body class="m">
+<main class="stack-lg" style="padding-bottom:32px">
+  <div class="done-hero">
+    <div class="cel" id="cel" aria-hidden="true">
+      <svg viewBox="0 0 200 140" class="cel-svg">
+        <circle class="c-wave" cx="100" cy="72" r="26"/><circle class="c-wave w2" cx="100" cy="72" r="26"/>
+        <circle class="c-halo" cx="100" cy="72" r="40"/>
+        <circle class="c-dot" cx="100" cy="72" r="26"/>
+        <path class="c-check" d="M88 72 l8 8 l16 -16" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="c-leaf" style="--fx:60px;--fy:32px;--i:0"><path transform="translate(40 40) rotate(-30)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--olive)"/></g><g class="c-leaf" style="--fx:-60px;--fy:36px;--i:1"><path transform="translate(160 36) rotate(30)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--accent)"/></g><g class="c-leaf" style="--fx:76px;--fy:-24px;--i:2"><path transform="translate(24 96) rotate(-60)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--olive)"/></g><g class="c-leaf" style="--fx:-76px;--fy:-20px;--i:3"><path transform="translate(176 92) rotate(60)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--accent)"/></g><g class="c-leaf" style="--fx:0px;--fy:54px;--i:4"><path transform="translate(100 18) rotate(0)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--olive)"/></g><g class="c-leaf" style="--fx:30px;--fy:-48px;--i:5"><path transform="translate(70 120) rotate(-15)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--accent)"/></g><g class="c-leaf" style="--fx:-32px;--fy:-50px;--i:6"><path transform="translate(132 122) rotate(15)" d="M0 -10 C7 -6 7 6 0 10 C-7 6 -7 -6 0 -10Z" style="fill:var(--olive)"/></g>
+      </svg>
+      <div class="cel-burst" id="burst"></div>
+    </div>
+    <h1 class="t1 cel-up" style="--dl:.55s">Booking confirmed</h1>
+    <p class="sum-note cel-up" style="margin-top:-8px;--dl:.7s">Booking LK-24817 · <b class="cel-amt" id="kAmt" data-to="404.25">RM 404.25</b> paid</p>
+  </div>
+
+  <section class="pad">
+    <div class="card" style="padding:0;overflow:hidden">
+      <img data-img="1786717667687-2f05e422d6f9" data-w="800" alt="" style="height:140px;width:100%;object-fit:cover">
+      <div style="padding:16px" class="stack">
+        <h2 class="is-h3">Mangrove &amp; fireflies by kampung boat</h2>
+        <div class="meta-list">
+          <div><i class="ph ph-calendar-blank" aria-hidden="true"></i><span><b id="kDate">Sun, 6 Dec 2026</b><br><span id="kTime">5:00 PM – 8:30 PM · arrive by 4:45 PM</span></span></div>
+          <div><i class="ph ph-users" aria-hidden="true"></i><span id="kGuests">2 adults, 1 child</span></div>
+          <div><i class="ph ph-map-pin" aria-hidden="true"></i><span>Jeti Kampung Kuantan, Jalan Kuantan, 45000 Kuala Selangor<br><a href="#" class="small strong" data-sheet="maps">Get directions</a></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad">
+    <h3 style="margin-bottom:16px" class="sec-h">What happens next</h3>
+    <ol class="steps-next">
+      <li><span class="n"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span><div><b>Confirmation email sent</b><div class="muted">To aina.rahman@gmail.com · <a href="g-email.html" data-go="g-email" class="strong">View email</a></div></div></li>
+      <li><span class="n"><i class="ph ph-bell" aria-hidden="true"></i></span><div><b>Reminder on Fri, 4 Dec</b><div class="muted">48 hours before, with what to bring and the weather.</div></div></li>
+      <li><span class="n"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i></span><div><b>Messages from Pak Rahim appear in Inbox</b><div class="muted">Dietary note sent</div></div></li>
+      <li><span class="n"><i class="ph ph-shield-check" aria-hidden="true"></i></span><div><b>Free cancellation until Thu, 3 Dec, 5:00 PM</b><div class="muted">Moderate policy: full refund 72 hours or more before.</div></div></li>
+    </ol>
+  </section>
+
+  <section class="pad stack">
+    <button class="btn btn--primary btn--block" data-go="g-booking">View booking</button>
+    <div class="grid-2">
+      <button class="btn btn--secondary" data-go="g-chat"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i>Message</button>
+      <button class="btn btn--secondary" data-toast="Added to your calendar" data-toast-icon="ph-calendar-plus"><i class="ph ph-calendar-plus" aria-hidden="true"></i>Calendar</button>
+    </div>
+    <button class="btn btn--ghost" data-go="g-home">Back to Explore</button>
+  </section>
+</main>
+  <style>
+.cel { position: relative; width: 220px; height: 154px; cursor: pointer; }
+.cel-svg { width: 100%; height: 100%; overflow: visible; }
+.c-halo { fill: var(--primary-tint); transform-origin: 100px 72px; animation: celHalo .7s var(--spring) .05s both; }
+.c-dot { fill: var(--primary); transform-origin: 100px 72px; animation: celDot .6s var(--spring) .15s both; }
+.c-check { stroke-dasharray: 36; stroke-dashoffset: 36; animation: celDraw .35s ease-out .5s forwards; }
+.c-wave { fill: none; stroke: var(--primary); stroke-width: 2; opacity: 0; transform-origin: 100px 72px; animation: celWave 1.4s ease-out .55s 2; }
+.c-wave.w2 { animation-delay: .85s; }
+.c-leaf { animation: celLeaf .8s var(--spring) calc(.45s + var(--i) * .04s) both, celFloat 3.2s ease-in-out calc(1.4s + var(--i) * .2s) infinite; }
+@keyframes celHalo { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes celDot { 0% { transform: scale(0); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes celDraw { to { stroke-dashoffset: 0; } }
+@keyframes celWave { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(2.6); } }
+@keyframes celLeaf { 0% { transform: translate(var(--fx), var(--fy)) scale(0) rotate(-90deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@keyframes celFloat { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(8deg); } }
+.cel-burst { position: absolute; left: 50%; top: 47%; width: 0; height: 0; pointer-events: none; }
+.cel-burst i { position: absolute; left: 0; top: 0; border-radius: 2px; will-change: transform, opacity; }
+.cel-up { animation: celUp .5s var(--ease) var(--dl, .5s) both; }
+@keyframes celUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.done-hero { overflow: visible; position: relative; z-index: 2; }
+@media (prefers-reduced-motion: reduce) { .c-halo, .c-dot, .c-leaf, .cel-up { animation: none !important; } .c-check { stroke-dashoffset: 0; animation: none; } .c-wave { display: none; } }
+</style>
+<script>
+/* booking summary from the choose-date step; falls back to the story booking (Sun 6 Dec, 2 adults 1 child) */
+window.LKB = (function () {
+  var b = L.state.get('book', null) || {}, D = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  var a = b.adults || 2, c = b.children === undefined ? 1 : b.children, day = b.day || 6, priv = !!b.priv;
+  var X = L.exp[L.curExp()], sub = priv ? X.priv : a * X.price + c * X.child, fee = Math.round(sub * 5) / 100, dl = day - 3;
+  return { priv: priv, a: a, c: c, day: day, time: b.time || '5:00 PM', sub: sub, fee: fee, total: sub + fee, impact: Math.round(sub * .2),
+    date: D[day % 7] + ', ' + day + ' Dec', deadline: dl >= 3 ? D[dl % 7] + ', ' + dl + ' Dec' : null,
+    guests: (priv ? (L.curExp() === 'mangrove' ? 'Private boat · ' : 'Private group · ') : '') + a + ' adult' + (a > 1 ? 's' : '') + (c ? ', ' + c + ' child' + (c > 1 ? 'ren' : '') : ''),
+    isStory: L.curExp() === 'mangrove' && !priv && day === 6 && a === 2 && c === 1 };
+})();
+</script>
+<script>(function () { var k = window.LKB; if (k.isStory) return; var $ = function (i) { return document.getElementById(i); };
+  $('kAmt').setAttribute('data-to', k.total.toFixed(2)); $('kAmt').textContent = L.rm(k.total, 2);
+  $('kDate').textContent = k.date + ' 2026'; $('kTime').textContent = k.time === '7:30 AM' ? '7:30 AM – 10:30 AM · arrive by 7:15 AM' : '5:00 PM – 8:30 PM · arrive by 4:45 PM'; $('kGuests').textContent = k.guests;
+})();</script>
+<script>
+(function () {
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cel = document.getElementById('cel'), burst = document.getElementById('burst');
+  var cols = ['var(--primary)', 'var(--accent)', 'var(--olive)', 'var(--glow)', 'var(--primary-tint)'];
+  function confetti() {
+    if (calm) return;
+    for (var k = 0; k < 42; k++) {
+      var p = document.createElement('i'), a = Math.random() * Math.PI * 2, d = 90 + Math.random() * 150, leaf = k % 3 === 0;
+      var w = leaf ? 7 : 4 + Math.random() * 4, h = leaf ? 12 : 6 + Math.random() * 6;
+      p.style.cssText = 'width:' + w + 'px;height:' + h + 'px;background:' + cols[k % cols.length] + ';' + (leaf ? 'border-radius:50% 0 50% 0;' : k % 4 === 1 ? 'border-radius:50%;' : '');
+      burst.appendChild(p);
+      var dx = Math.cos(a) * d, dy = Math.sin(a) * d - 40, rot = (Math.random() * 720 - 360);
+      p.animate([
+        { transform: 'translate(-50%,-50%) scale(.2) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + dx * .8 + 'px,' + dy * .8 + 'px) scale(1) rotate(' + rot * .6 + 'deg)', opacity: 1, offset: .45 },
+        { transform: 'translate(' + dx + 'px,' + (dy + 160) + 'px) scale(.9) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1400 + Math.random() * 700, delay: 380 + Math.random() * 120, easing: 'cubic-bezier(.15,.8,.3,1)', fill: 'forwards' }).onfinish = (function (el) { return function () { el.remove(); }; })(p);
+    }
+    if (navigator.vibrate) try { navigator.vibrate([12, 40, 18]); } catch (e) {}
+  }
+  function countUp() {
+    var el = document.querySelector('.cel-amt'); if (!el || calm) return;
+    var end = +el.dataset.to, t0 = null;
+    function step(ts) { if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / 900); el.textContent = L.rm(end * (1 - Math.pow(1 - k, 3)), 2); if (k < 1) requestAnimationFrame(step); }
+    setTimeout(function () { requestAnimationFrame(step); }, 700);
+  }
+  function play() {
+    if (calm) return;
+    cel.querySelectorAll('.c-halo,.c-dot,.c-check,.c-wave,.c-leaf').forEach(function (n) { n.style.animation = 'none'; n.getBoundingClientRect(); n.style.animation = ''; });
+    confetti();
+  }
+  confetti(); countUp();
+  cel.addEventListener('click', play);
+})();
+</script>
+  <script>L.swapExp();</script>
+<script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-confirmed', [['Booking ref', 'LK-24817'], ['Status', 'Confirmed instantly after payment'], ['Paid', 'RM 404.25 · Visa •• 4242']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

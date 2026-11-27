@@ -1,0 +1,20 @@
+/* Dialog / alert. Open with <button data-c-open="myDialog">; buttons with [data-c-close] close it. Root: .c-dialog .c-dialog--md|--ios, box .c-dialog__box, buttons in .c-dialog__actions (.is-main, .is-danger). */
+.c-dialog { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; background: rgba(0, 0, 0, .32); font-family: var(--c-font); animation: c-fade .2s both; }
+.c-dialog[hidden] { display: none; }
+.c-dialog__box { width: min(100%, 312px); background: var(--c-bg); color: var(--c-ink); animation: c-pop .25s var(--c-spring) both; }
+.c-dialog__box h2 { margin: 0; } .c-dialog__box p { margin: 0; color: var(--c-muted); }
+.c-dialog__actions button { border: 0; background: none; font: inherit; cursor: pointer; color: var(--c-accent); }
+.c-dialog.is-closing { animation: c-fade .15s reverse both; }
+/* Material 3: 28 dp corners, left-aligned 24 px headline, text buttons bottom right */
+.c-dialog--md .c-dialog__box { padding: 24px; border-radius: 28px; background: var(--c-surface-2); display: flex; flex-direction: column; gap: 16px; }
+.c-dialog--md h2 { font-size: 24px; line-height: 32px; font-weight: 400; } .c-dialog--md p { font-size: 14px; line-height: 20px; }
+.c-dialog--md .c-dialog__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; } .c-dialog--md .c-dialog__actions button { height: 40px; padding: 0 12px; border-radius: 20px; font-size: 14px; font-weight: 500; }
+.c-dialog__actions .is-danger { color: var(--c-danger); }
+@keyframes c-pop { from { transform: scale(1.1); opacity: 0; } }
+/* Apple (iOS 27): a glass alert with large corners, text left-aligned, and capsule buttons side by side (bold = main action) */
+.c-dialog--ios .c-dialog__box { width: min(100%, 300px); padding: 22px 18px 18px; border-radius: 34px; text-align: left; background: color-mix(in srgb, var(--c-bg) 84%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(30px); backdrop-filter: saturate(1.8) blur(30px); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine), 0 20px 50px rgba(0, 0, 0, .18); display: flex; flex-direction: column; gap: 6px; }
+.c-dialog--ios h2 { padding: 0 4px; font-size: 17px; line-height: 22px; font-weight: 600; } .c-dialog--ios p { padding: 0 4px; font-size: 15px; line-height: 20px; color: var(--c-muted); }
+.c-dialog--ios .c-dialog__actions { display: flex; gap: 10px; margin-top: 14px; }
+.c-dialog--ios .c-dialog__actions button { flex: 1; height: 48px; border-radius: 24px; font-size: 17px; font-weight: 500; background: color-mix(in srgb, var(--c-ink) 8%, transparent); color: var(--c-ink); }
+.c-dialog--ios .c-dialog__actions .is-main { background: var(--c-accent); color: var(--c-on-accent); font-weight: 600; }
+.c-dialog--ios .c-dialog__actions .is-danger { color: var(--c-danger); }

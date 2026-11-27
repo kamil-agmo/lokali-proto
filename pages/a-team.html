@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Team & roles</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-team"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--primary" data-open="#inv"><i class="ph ph-user-plus" aria-hidden="true"></i>Invite staff</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour"><div><h1>Team &amp; roles</h1><p>Who can sign in to the admin portal and what each role can do.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-user-gear" aria-hidden="true"></i>Admin portal access</span><b><span class="hl">7 staff</span> · 4 roles</b></div></div></div>
+      <div class="a-card">
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Name</th><th>Role</th><th>Last active</th><th>2-step sign-in</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+      </div>
+      <div class="a-card">
+        <div class="a-card__head"><div><h2 class="is-h3">What each role can do</h2><p><i class="ph-fill ph-check-circle" style="color:var(--success)" aria-hidden="true"></i> Edit · <i class="ph ph-eye" style="color:var(--info)" aria-hidden="true"></i> View only · <i class="ph ph-minus faint" aria-hidden="true"></i> No access</p></div></div>
+        <div class="table-wrap"><table class="perm">
+          <thead><tr><th>Area</th><th>Super admin</th><th>Operations</th><th>Finance</th><th>Content</th></tr></thead>
+          <tbody id="perm"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="inv" role="dialog" aria-modal="true" aria-labelledby="iv-h">
+  <div class="a-modal__body"><h3 id="iv-h">Invite staff</h3>
+    <div class="form-grid">
+      <div class="field"><label for="iv-n">Name</label><input class="input" id="iv-n" value="Amir Hakimi"></div>
+      <div class="field"><label for="iv-e">Work email</label><input class="input" id="iv-e" value="amir.hakimi@lokali.my"></div>
+    </div>
+    <div class="field"><label>Role</label><div data-radio class="stack" style="gap:0">
+      <div class="radio-card active" data-value="Operations"><span class="dot"></span><div><b>Operations</b><p class="small muted">Approvals, hosts, listings, bookings, moderation, enquiries</p></div></div>
+      <div class="radio-card" data-value="Finance"><span class="dot"></span><div><b>Finance</b><p class="small muted">Payouts, refunds, fees, reports</p></div></div>
+      <div class="radio-card" data-value="Content"><span class="dot"></span><div><b>Content</b><p class="small muted">Categories, homepage, FAQs, listing text</p></div></div>
+      <div class="radio-card" data-value="Super admin"><span class="dot"></span><div><b>Super admin</b><p class="small muted">Everything, including team and fees</p></div></div>
+    </div></div>
+  </div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" data-close data-toast="Invite sent to amir.hakimi@lokali.my" data-toast-icon="ph-envelope-simple">Send invite</button></div>
+</div>
+<script>
+(function () {
+  var S = [['Farid Hassan', 'farid@lokali.my', '1774821171205-4e4b5352666d', 'Super admin', 'Now', true, 'Active'], ['Nurul Huda', 'nurul.huda@lokali.my', '1613447895817-e617a4093f50', 'Operations', 'Now', true, 'Active'],
+    ['Arjun Pillai', 'arjun@lokali.my', '1769961982389-bb243681421a', 'Operations', '2 h ago', true, 'Active'], ['Grace Chong', 'grace@lokali.my', '1758600587839-56ba05596c69', 'Finance', 'Yesterday', true, 'Active'],
+    ['Syafiq Roslan', 'syafiq@lokali.my', '1762709412743-3395ed866302', 'Content', '3 days ago', false, 'Active'], ['Melissa Gan', 'melissa@lokali.my', '1668876220471-c91598757e65', 'Content', '—', false, 'Invited'],
+    ['Hazwan Idris', 'hazwan@lokali.my', '1615829254885-d4bfd5ce700e', 'Operations', '14 Oct', true, 'Deactivated']];
+  var rb = { 'Super admin': 'badge--danger', 'Operations': 'badge--brand', 'Finance': 'badge--accent', 'Content': 'badge--info' };
+  document.getElementById('rows').innerHTML = S.map(function (s) {
+    return '<tr><td><div class="who"><img class="round" src="' + L.img(s[2], 100) + '" alt=""><div><b>' + s[0] + '</b><small>' + s[1] + '</small></div></div></td><td><span class="badge ' + rb[s[3]] + '">' + s[3] + '</span></td><td class="small">' + s[4] + '</td>' +
+      '<td>' + (s[5] ? '<span class="badge badge--success"><i class="ph ph-shield-check" aria-hidden="true"></i>On</span>' : '<span class="badge">Off</span>') + '</td><td><span class="badge ' + (s[6] === 'Active' ? 'badge--success' : s[6] === 'Invited' ? 'badge--info' : '') + '">' + s[6] + '</span></td>' +
+      '<td class="num"><select class="select" style="width:auto;min-height:32px;padding:4px 8px" aria-label="Change role for ' + s[0] + '"><option>Change role</option><option>Super admin</option><option>Operations</option><option>Finance</option><option>Content</option><option>Deactivate</option></select></td></tr>';
+  }).join('');
+  var y = '<i class="ph-fill ph-check-circle y" aria-label="Edit"></i>', v = '<i class="ph ph-eye v" aria-label="View only"></i>', n = '<i class="ph ph-minus n" aria-label="No access"></i>';
+  var P = [['Operations'], ['Approvals (hosts, listings)', y, y, n, v], ['Hosts and assisted onboarding', y, y, v, n], ['Listings (edit for host)', y, y, n, y], ['Bookings and cancellations', y, y, v, n], ['Moderation and disputes', y, y, v, n], ['Corporate enquiries', y, y, v, n],
+    ['Money'], ['Manual refunds', y, v, y, n], ['Payouts (hold / release)', y, v, y, n], ['Fees and commission', y, n, v, n], ['Reports and export', y, v, y, v],
+    ['Site'], ['Categories, homepage, FAQs', y, v, n, y], ['Listing fields', y, n, n, y], ['Team and roles', y, n, n, n]];
+  document.getElementById('perm').innerHTML = P.map(function (p) { return p.length === 1 ? '<tr class="grp"><td colspan="5">' + p[0] + '</td></tr>' : '<tr><td>' + p[0] + '</td><td>' + p[1] + '</td><td>' + p[2] + '</td><td>' + p[3] + '</td><td>' + p[4] + '</td></tr>'; }).join('');
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-team', [['Staff', '7'], ['Roles', 'Super admin, Operations, Finance, Content'], ['Sign-in', 'Email + password, 2-step for Finance']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

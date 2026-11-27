@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Pak Rahim</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+  /* Host profile, direction A (27 Nov): background photo of his river with the experience page's hill mask,
+     round profile photo overlapping it, then Message, numbers, what guests say about him, Q&A. Airy sizes from Home.
+     Content from the Canopy copy (teammate). Suggestion (Q15): not in the brief; opens from the listing's Guide row. */
+  .hp-hero { position: relative; height: 260px; background: var(--sand); }
+  .hp-hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hp-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.72) 0, rgba(0,0,0,.35) 22%, transparent 45%, rgba(10,20,14,.35)); pointer-events: none; }
+  .hp-hero .hill { position: absolute; z-index: 2; left: 0; right: 0; bottom: -3px; width: 100%; height: 43px; display: block; fill: var(--bg); pointer-events: none; }
+  .appbar--overlay { z-index: 5; background: none !important; }
+  .appbar--overlay .icon-btn { background: transparent !important; box-shadow: none !important; color: #fff !important; }
+  .appbar--overlay .icon-btn .ph { font-size: 22px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+
+  .hp-main { position: relative; z-index: 3; padding: 0 24px 40px; }
+  .hp-id { display: flex; align-items: flex-end; gap: 16px; margin-top: -44px; }
+  .hp-pic { width: 104px; height: 104px; flex: none; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); box-shadow: 0 6px 18px rgba(0,0,0,.14); background: var(--sand); }
+  .hp-id > div { padding-bottom: 4px; min-width: 0; }
+  .hp-id h1 { font-size: 28px; line-height: 34px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+  .hp-id h1 .ph-fill { font-size: 20px; color: #2D8CFF; }
+  .hp-id small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
+  .hp-msg { margin-top: 20px; min-height: 44px; border-radius: 999px; font-weight: 600; }
+
+  .hp-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+  .hp-stats > div + div { border-left: 1px solid var(--line); padding-left: 16px; }
+  .hp-stats b { display: flex; align-items: center; gap: 4px; font-size: 22px; line-height: 28px; font-weight: 700; color: var(--ink); }
+  .hp-stats b .ph-fill { font-size: 16px; color: var(--star); }
+  .hp-stats span { font-size: 12px; line-height: 17px; color: var(--muted); }
+
+  .hp-sec { margin-top: 28px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .hp-sec h2 { font-size: 18px; line-height: 24px; font-weight: 700; margin-bottom: 14px; }
+  .hp-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hp-tags span { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--ink); }
+  .hp-tags i { font-style: normal; font-weight: 400; color: var(--muted); }
+  .hp-rev { margin: 18px 0 0; font-size: 16px; line-height: 23px; font-weight: 500; color: var(--ink); }
+  .hp-rev cite { display: block; margin-top: 6px; font-style: normal; font-size: 12px; font-weight: 400; color: var(--muted); }
+  .hp-qa > div { display: flex; gap: 12px; padding: 14px 0; } .hp-qa > div + div { border-top: 1px solid var(--line); }
+  .hp-qa .ph { flex: none; font-size: 22px; color: var(--ink); margin-top: 1px; }
+  .hp-qa small { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ink); }
+  .hp-qa p { font-size: 15px; line-height: 22px; color: #3D3D3D; margin-top: 2px; }
+</style>
+</head>
+<body class="m">
+<header class="appbar appbar--overlay">
+  <button class="icon-btn" data-go="g-listing" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <span class="grow"></span>
+</header>
+
+<div class="hp-hero">
+  <img data-img="1786717667687-2f05e422d6f9" data-w="900" alt="The Selangor River at dusk, where Pak Rahim paddles">
+  <svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg>
+</div>
+
+<main class="hp-main">
+  <div class="hp-id">
+    <img class="hp-pic" data-img="1763219069500-e4c9b49f308f" data-w="240" alt="Pak Rahim">
+    <div><h1>Pak Rahim<i class="ph-fill ph-seal-check" role="img" aria-label="Identity verified"></i></h1><small>Host since 2025 · Kuala Selangor</small><small>Speaks English, Malay</small></div>
+  </div>
+  <a class="btn btn--secondary btn--block hp-msg" href="g-chat.html" data-go="g-chat" onclick="try{sessionStorage.setItem('lk-thread','rahim')}catch(e){}">Message Pak Rahim</a>
+
+  <div class="hp-stats" role="list">
+    <div role="listitem"><b>312</b><span>Guests hosted</span></div>
+    <div role="listitem"><b><i class="ph-fill ph-star" aria-hidden="true"></i>4.96</b><span>Rating</span></div>
+    <div role="listitem"><b>1 hour</b><span>Reply time</span></div>
+  </div>
+
+  <section class="hp-sec" aria-labelledby="gs-h">
+    <h2 id="gs-h">What guests say about him</h2>
+    <div class="hp-tags" role="list">
+      <span role="listitem">Great storyteller <i>48</i></span><span role="listitem">Patient with kids <i>31</i></span><span role="listitem">Knows every bird <i>22</i></span><span role="listitem">Always on time <i>19</i></span>
+    </div>
+    <blockquote class="hp-rev">“Pak Rahim knew the name of every bird we heard. My kids still copy his firefly whistle.”<cite>Daniel · Ipoh, Nov 2026</cite></blockquote>
+  </section>
+
+  <section class="hp-sec" aria-labelledby="qa-h">
+    <h2 id="qa-h">Get to know Pak Rahim</h2>
+    <div class="hp-qa">
+      <div><i class="ph ph-house-line" aria-hidden="true"></i><span><small>Where I grew up</small><p>In a stilt house 200 metres from the jetty. My family has fished this stretch of the Selangor River for three generations.</p></span></div>
+      <div><i class="ph ph-sparkle" aria-hidden="true"></i><span><small>Why I started this</small><p>When the fireflies started to disappear, I wanted visitors to see them, and to pay to protect them.</p></span></div>
+      <div><i class="ph ph-chat-circle-text" aria-hidden="true"></i><span><small>Guests always ask me</small><p>“Do they ever switch off?” Yes, when it rains. I'll tell you the night before.</p></span></div>
+      <div><i class="ph ph-map-pin" aria-hidden="true"></i><span><small>My favourite spot</small><p>The bend after the old jetty, where the river goes completely still.</p></span></div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('g-host', [['Opens from', 'Experience page › Guide'], ['Layout', 'River photo with hill mask, round photo overlapping, Message, numbers, guest tags, Q&A'], ['Status', 'Suggestion, not in the brief']]);</script>
+<script src="../js/shared/credits-data.js"></script>
+<script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

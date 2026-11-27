@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{NAME_HTML}}</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="stylesheet" href="../css/pages/sample.css">
+</head>
+<body>
+  <header class="bar"><h1>{{NAME_HTML}}</h1></header>
+  <main class="app">
+    <section class="card"><span class="pulse">Live</span><h2>Today</h2><p>A card with a moving indicator. The Developer inspector can read this animation and export it.</p><div class="meter" aria-hidden="true"><i></i></div></section>
+    <img class="logo" src="../assets/mark.svg" alt="">
+    <a class="btn" href="details.html" data-go="details">Open details</a>
+
+    <section class="card" aria-labelledby="proto">
+      <h2 id="proto">Prototype controls</h2>
+      <p class="note"><b>Not part of the design.</b> These controls only reset the prototype, which helps on a phone where there is no side card.</p>
+      <button class="btn btn--ghost" type="button" id="replay">Replay intro</button>
+      <button class="btn btn--ghost" type="button" id="reset">Reset prototype</button>
+    </section>
+  </main>
+  <script src="../js/shared/embed.js"></script>
+  <script>
+    if (window.ProtoEmbed) ProtoEmbed.report('home', [['Indicator', 'moving']]);
+    // inside the shell, links open through the shell so its list stays in sync
+    document.querySelectorAll('[data-go]').forEach(function (a) { a.addEventListener('click', function (e) { if (window.parent !== window && window.parent.location) { e.preventDefault(); window.parent.location.hash = a.dataset.go; } }); });
+    var rp = document.getElementById('replay'); if (window.SHELL && !SHELL.replay) rp.hidden = true;   // no intro: no Replay control
+    rp.addEventListener('click', function () { if (window.ProtoEmbed) ProtoEmbed.replay(); else location.href = 'home.html?intro'; });
+    document.getElementById('reset').addEventListener('click', function () {   // starts again, still unlocked (the shell offers Undo)
+      if (window.ProtoEmbed && ProtoEmbed.reset) ProtoEmbed.reset();
+      else { var pre = (window.SHELL && SHELL.prefix) || 'proto'; Object.keys(sessionStorage).forEach(function (k) { if (k.indexOf(pre) !== 0) sessionStorage.removeItem(k); }); location.reload(); }
+    });
+  </script>
+</body>
+</html>

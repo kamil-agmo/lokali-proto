@@ -1,0 +1,14 @@
+/* Segmented control (Apple) / tabs (Material). <div class="c-seg c-seg--ios|--md" role="tablist"><button class="c-seg__item is-on">…</button>…</div> */
+.c-seg { display: flex; font-family: var(--c-font); }
+.c-seg__item { flex: 1; border: 0; background: none; color: var(--c-ink); font: inherit; cursor: pointer; }
+/* Material 3 primary tabs: underline indicator under the active label */
+.c-seg--md { position: relative; border-bottom: 1px solid var(--c-line); }
+.c-seg--md .c-seg__item { height: 48px; font-size: 14px; font-weight: 500; color: var(--c-muted); }
+.c-seg--md .c-seg__item.is-on { color: var(--c-accent); }
+.c-seg--md .c-seg__thumb { position: absolute; bottom: -1px; height: 3px; border-radius: 3px 3px 0 0; background: var(--c-accent); transition: transform .3s var(--c-ease), width .3s var(--c-ease); }
+/* Apple (iOS 27): capsule track with a glass capsule thumb that slides to the chosen option */
+.c-seg--ios { position: relative; padding: 3px; border-radius: 99px; background: color-mix(in srgb, var(--c-ink) 8%, transparent); margin: 8px 16px; }
+.c-seg--ios .c-seg__item { position: relative; z-index: 1; height: 34px; font-size: 14px; font-weight: 500; border-radius: 99px; }
+.c-seg--ios .c-seg__item.is-on { font-weight: 600; }
+.c-seg--ios .c-seg__item:disabled { opacity: .35; }
+.c-seg--ios .c-seg__thumb { position: absolute; z-index: 0; top: 3px; bottom: 3px; border-radius: 99px; background: var(--c-bg); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); transition: transform .35s var(--c-spring), width .35s var(--c-spring); }

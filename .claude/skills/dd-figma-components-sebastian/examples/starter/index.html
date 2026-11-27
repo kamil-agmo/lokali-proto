@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starter prototype</title>
+<!-- Step 4: base64 TTF @font-face, injected by a script (a <link>ed sheet can't be read from file://). Generate with:
+     python3 -I ../../tools/inline-fonts.py --family "Inter" path/to/static/Inter-*.ttf --js > figma/fonts.js -->
+<script src="figma/fonts.js"></script>
+<style>
+:root { --font: 'Inter', system-ui, sans-serif; --ink: #1D1D22; --ink-2: #5B5B66; --line: #E6E6EA; --bg: #F7F7F9; --brand: #2F5BEA; --brand-bg: #EEF2FE; --neg: #C4232B; --neg-bg: #FDECEC; --pos: #14794A; --pos-bg: #E7F6EE; }
+body { margin: 0; font-family: var(--font); color: var(--ink); }
+button, input, textarea, select { font-family: inherit; }
+.screen { width: 1280px; min-height: 800px; display: flex; background: var(--bg); font-size: 14px; line-height: 20px; }
+.sidebar { width: 240px; flex: none; display: flex; flex-direction: column; gap: 4px; padding: 24px 16px; background: #fff; border-right: 1px solid var(--line); }
+.sidebar__brand { font-size: 16px; line-height: 24px; font-weight: 700; padding: 0 12px 16px; }
+.nav-item { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 12px; border-radius: 8px; color: var(--ink-2); text-decoration: none; }
+.nav-item.is-active { background: var(--brand-bg); color: var(--brand); font-weight: 600; }
+.nav-item__label { flex: 1; }
+.count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--brand); color: #fff; font-size: 12px; line-height: 16px; font-weight: 600; }
+.main { flex: 1; display: flex; flex-direction: column; gap: 24px; padding: 32px 40px; }
+.page-head { display: flex; align-items: center; justify-content: space-between; }
+.page-head h1 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 700; }
+.btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid transparent; font-size: 14px; line-height: 20px; font-weight: 600; cursor: pointer; }
+.btn--sm { height: 32px; padding: 0 12px; font-size: 13px; }
+.btn--primary { background: var(--brand); color: #fff; }
+.btn--secondary { background: #fff; color: var(--ink); border-color: var(--line); }
+.btn--disabled { opacity: .45; }
+.card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.row { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-top: 1px solid var(--line); }
+.row:first-child { border-top: 0; }
+.row__name { flex: 1; display: flex; flex-direction: column; }
+.row__meta { color: var(--ink-2); font-size: 12px; line-height: 16px; }
+.avatar { width: 36px; height: 36px; border-radius: 18px; background: var(--brand-bg); color: var(--brand); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+.chip { display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border-radius: 12px; font-size: 12px; line-height: 16px; font-weight: 600; }
+.chip--active { background: var(--pos-bg); color: var(--pos); }
+.chip--paused { background: #F1F1F4; color: var(--ink-2); }
+.empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 64px 24px; text-align: center; }
+.empty__title { font-size: 16px; line-height: 24px; font-weight: 600; }
+.empty__text { color: var(--ink-2); }
+.form { display: flex; flex-direction: column; gap: 20px; padding: 24px; width: 520px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label { font-weight: 600; }
+.input { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.input--error { border-color: var(--neg); }
+.input__value { flex: 1; }
+.field__error { color: var(--neg); font-size: 12px; line-height: 16px; }
+.actions { display: flex; gap: 12px; }
+</style>
+</head>
+<body>
+<!-- A screen written as plain HTML: <template> + SCREENS entry { template: '#scr-s3' } (SKILL.md Step 1) -->
+<template id="scr-s3"><div class="screen" data-component="Screen" data-variant="desktop"><nav class="sidebar" data-component="Sidebar"><div class="sidebar__brand">Acme Admin</div><a class="nav-item" data-component="NavItem" data-variant="default" data-layer="Members" data-go="M1"><svg data-icon="users" data-layer="Icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-item__label" data-layer="Label">Members</span><span class="count" data-layer="Count" data-prop-bool="Show count" data-component="Count" data-variant="brand">3</span></a><a class="nav-item is-active" data-component="NavItem" data-variant="active" data-layer="Settings" data-go="S1"><svg data-icon="settings" data-layer="Icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg><span class="nav-item__label" data-layer="Label">Settings</span></a></nav><main class="main"><div class="page-head"><h1>Settings</h1></div><div class="card form" data-component="Card"><div class="empty" data-component="EmptyState"><svg data-icon="inbox" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/></svg><span class="empty__title" data-layer="Title" data-prop-text="Title">Changes saved</span><span class="empty__text" data-layer="Text" data-prop-text="Text">Your company profile is up to date.</span><button class="btn btn--secondary" data-component="Button" data-variant="secondary/md/default" data-go="M1"><span data-layer="Label" data-prop-text="Label">Back to members</span></button></div></div></main></div></template>
+<script>
+/* ---------- tiny component helpers (Step 5: data-component / data-variant / data-layer / data-prop-*) ---------- */
+const dc = (name, variant) => ` data-component="${name}"${variant ? ` data-variant="${variant}"` : ''}`;
+const ICONS = {
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  settings: '<path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/>',
+  plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>',
+};
+const icon = (name, size = 20, extra = '') => `<svg data-icon="${name}"${extra} width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]}</svg>`;
+const btn = (label, { type = 'primary', size = 'md', state = 'default', ic = null, go = '' } = {}) =>
+  `<button class="btn btn--${type}${size === 'sm' ? ' btn--sm' : ''}${state === 'disabled' ? ' btn--disabled' : ''}"${dc('Button', `${type}/${size}/${state}`)}${go ? ` data-go="${go}"` : ''}>${ic ? icon(ic, 16, ' data-layer="Icon" data-prop-swap="Icon"') : ''}<span data-layer="Label" data-prop-text="Label">${label}</span></button>`;
+const chip = (label, status) => `<span class="chip chip--${status}"${dc('StatusChip', status)}><span data-layer="Label" data-prop-text="Label">${label}</span></span>`;
+const avatar = (initials) => `<span class="avatar"${dc('Avatar', 'md')}><span data-layer="Initials" data-prop-text="Initials">${initials}</span></span>`;
+const input = (value, { state = 'default', ic = null } = {}) => `<div class="input${state === 'error' ? ' input--error' : ''}"${dc('Input', `md/${state}`)}>${ic ? icon(ic, 16, ' data-layer="Leading icon"') : ''}<span class="input__value" data-layer="Value" data-prop-text="Value">${value}</span></div>`;
+
+/* R5 + R8: one Sidebar main built from NavItem instances; each item named with data-layer */
+const NAV = [{ key: 'members', label: 'Members', ic: 'users', count: 3 }, { key: 'settings', label: 'Settings', ic: 'settings' }];
+const sidebar = (active) => `<nav class="sidebar"${dc('Sidebar')}><div class="sidebar__brand">Acme Admin</div>${NAV.map((n) =>
+  `<a class="nav-item${n.key === active ? ' is-active' : ''}"${dc('NavItem', n.key === active ? 'active' : 'default')} data-layer="${n.label}" data-go="${n.key === 'members' ? 'M1' : 'S1'}">${icon(n.ic, 20, ' data-layer="Icon"')}<span class="nav-item__label" data-layer="Label">${n.label}</span>${n.count ? `<span class="count" data-layer="Count" data-prop-bool="Show count"${dc('Count', 'brand')}>${n.count}</span>` : ''}</a>`).join('')}</nav>`;
+const screen = (active, body) => `<div class="screen"${dc('Screen', 'desktop')}>${sidebar(active)}<main class="main">${body}</main></div>`;
+
+const MEMBERS = [['AL', 'Aisha Lim', 'aisha@acme.test', 'Active', 'active'], ['BT', 'Ben Tan', 'ben@acme.test', 'Active', 'active'], ['CW', 'Chen Wei', 'chen@acme.test', 'Paused', 'paused']];
+const memberList = (rows) => screen('members', `<div class="page-head"><h1>Members</h1>${btn('Add member', { ic: 'plus' })}</div>
+  <div style="display:flex;gap:12px">${input('Search members', { ic: 'search' })}${btn('Export', { type: 'secondary' })}</div>
+  <div class="card"${dc('Card')}>${rows.length ? rows.map(([i, n, e, s, k]) => `<div class="row"${dc('ListRow', 'member')}>${avatar(i)}<span class="row__name"><span>${n}</span><span class="row__meta">${e}</span></span>${chip(s, k)}${btn('View', { type: 'secondary', size: 'sm' })}</div>`).join('')
+    : `<div class="empty"${dc('EmptyState')}>${icon('inbox', 32)}<span class="empty__title" data-layer="Title" data-prop-text="Title">No members yet</span><span class="empty__text" data-layer="Text" data-prop-text="Text">Add the first member to start tracking activity.</span>${btn('Add member', { ic: 'plus' })}</div>`}</div>`);
+const profileForm = (error) => screen('settings', `<div class="page-head"><h1>Settings</h1></div>
+  <div class="card form"${dc('Card')}><div class="field"${dc('Field')}><span class="field__label">Company name</span>${input('Acme Pte Ltd')}</div>
+  <div class="field"${dc('Field')}><span class="field__label">Billing email</span>${input(error ? 'billing@acme' : 'billing@acme.test', { state: error ? 'error' : 'default' })}${error ? '<span class="field__error">Enter a full email address, like name@company.com</span>' : ''}</div>
+  <div class="actions">${btn('Save changes')}${btn('Cancel', { type: 'secondary' })}</div></div>`);
+
+/* ---------- Registry (SKILL.md §1). Q1 = by module: Module → Function → Screen ---------- */
+const MODULES = [{ key: 'members', name: 'Members' }, { key: 'settings', name: 'Settings' }];
+const SCREENS = [
+  { id: 'M1', module: 'members', fn: 'Member list', screen: 'Member list', state: 'Loaded', case: 'positive', render: () => memberList(MEMBERS) },
+  { id: 'M2', module: 'members', fn: 'Member list', screen: 'Member list', state: 'No members yet', case: 'negative', render: () => memberList([]) },
+  { id: 'S1', module: 'settings', fn: 'Company profile', screen: 'Company profile', state: 'Editing', case: 'positive', render: () => profileForm(false) },
+  { id: 'S2', module: 'settings', fn: 'Company profile', screen: 'Company profile', state: 'Email invalid', case: 'negative', render: () => profileForm(true) },
+  { id: 'S3', module: 'settings', fn: 'Company profile', screen: 'Company profile', state: 'Saved', case: 'positive', template: '#scr-s3' },
+];
+</script>
+<!-- Step 3: engine, after the registry. In a real project copy the four engine files into figma/ and load them from there. -->
+<script src="figma/figma.config.js"></script>
+<script src="../../engine/figma-assets.js"></script>
+<script src="../../engine/figma-export.js"></script>
+<script src="../../engine/figma-native.js"></script>
+<script src="../../engine/figma-panel.js"></script>
+</body>
+</html>

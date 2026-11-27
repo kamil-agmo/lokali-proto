@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Reports</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-reports"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Reports</h1><p>Pick a date range, check the numbers, download a spreadsheet.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-chart-line-up" aria-hidden="true"></i>November 2026</span><b><span class="hl">RM 231,404</span> booked · RM 61,200 to communities</b></div></div>
+        <div class="a-head__actions">
+          <div class="ptabs" data-group><button>7 days</button><button class="active">Last month</button><button>Quarter</button><button>Year</button></div>
+          <div class="input-wrap" style="width:230px"><i class="ph ph-calendar-blank" aria-hidden="true"></i><input class="input" value="1 Nov – 30 Nov 2026" aria-label="Date range" style="padding-left:38px"></div>
+          <button class="btn btn--primary" data-open="#dl"><i class="ph ph-download-simple" aria-hidden="true"></i>Download</button>
+        </div>
+      </div>
+      <div class="a-grid c4">
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-ticket" aria-hidden="true"></i></span>Bookings</span><span class="kpi__value">642</span><span class="kpi__delta up">+14% vs Oct</span><span class="small muted">1,486 guests · 24 cancelled</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-wallet" aria-hidden="true"></i></span>Revenue (guest paid)</span><span class="kpi__value">RM 231,404</span><span class="kpi__delta up">+19% vs Oct</span><span class="small muted">Card 71% · FPX 18% · e-wallet 11%</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-percent" aria-hidden="true"></i></span>Commission + fees</span><span class="kpi__value">RM 44,118</span><span class="kpi__delta up">+19% vs Oct</span><span class="small muted">Commission RM 33,060 · fees RM 11,058</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-hand-coins" aria-hidden="true"></i></span>Paid to hosts</span><span class="kpi__value">RM 181,068</span><span class="kpi__delta up">Avg. 23.6 h after end</span><span class="small muted">Refunds RM 6,215</span></div>
+      </div>
+      <div class="a-grid main-side">
+        <div class="a-card">
+          <div class="a-card__head"><div><h2 class="is-h3">Revenue and commission by week</h2><p>RM thousands</p></div><div class="row small muted"><span class="row"><i style="width:10px;height:10px;border-radius:3px;background:var(--primary);display:inline-block"></i>Revenue</span><span class="row" style="margin-left:12px"><i style="width:10px;height:10px;border-radius:3px;background:var(--accent);display:inline-block"></i>Commission + fees</span></div></div>
+          <div class="a-card__body"><div class="bars" id="bars"></div></div>
+        </div>
+        <div class="a-card">
+          <div class="a-card__head"><h3>Bookings by category</h3></div>
+          <div class="a-card__body hbar" id="cat"></div>
+        </div>
+      </div>
+      <div class="a-card">
+        <div class="a-card__head"><div><h3>Top listings</h3><p>By revenue in the range</p></div><button class="btn btn--secondary btn--sm" data-toast="top-listings_2026-11.csv downloaded" data-toast-icon="ph-download-simple"><i class="ph ph-download-simple" aria-hidden="true"></i>.csv</button></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>#</th><th>Listing</th><th>Category</th><th class="num">Bookings</th><th class="num">Guests</th><th class="num">Revenue</th><th class="num">Commission</th><th class="num">Rating</th></tr></thead>
+          <tbody id="top"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="dl" role="dialog" aria-modal="true" aria-labelledby="dl-h">
+  <div class="a-modal__body"><h3 id="dl-h">Download report</h3><p class="muted">1 Nov – 30 Nov 2026</p>
+    <div class="stack" style="gap:10px">
+      <label class="check on"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span>Bookings (one row per booking)</span></label>
+      <label class="check on"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span>Revenue and commission</span></label>
+      <label class="check on"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span>Top listings</span></label>
+      <label class="check"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span>Payouts</span></label>
+    </div>
+    <div class="field"><label>Format</label><div class="ptabs" data-group><button class="active">Excel (.xlsx)</button><button>CSV</button></div></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" data-close data-toast="lokali-report_2026-11.xlsx downloaded" data-toast-icon="ph-download-simple">Download</button></div>
+</div>
+<script>
+(function () {
+  var W = [['3–9 Nov', 48, 9.2], ['10–16 Nov', 52, 9.9], ['17–23 Nov', 59, 11.2], ['24–30 Nov', 72, 13.8]];
+  document.getElementById('bars').innerHTML = W.map(function (w) { return '<div><div style="display:flex;gap:6px;align-items:flex-end;height:100%;width:70%"><i style="height:' + w[1] * 1.2 + '%"></i><i class="alt" style="height:' + w[2] * 1.2 + '%"></i></div><small>' + w[0] + ' · RM ' + w[1] + 'k</small></div>'; }).join('');
+  var Cs = [['Nature & eco-tours', 318], ['Farm & food', 156], ['Culture, Craft & Heritage', 132], ['Retreats & stays', 36]];
+  document.getElementById('cat').innerHTML = Cs.map(function (c) { return '<span>' + c[0] + '</span><span class="num strong" style="text-align:right">' + c[1] + '</span><div class="track" style="grid-column:1/-1"><i style="width:' + (c[1] / 318 * 100) + '%"></i></div>'; }).join('');
+  var T = [['canopy', 118, 236, 40120], ['nyonya', 92, 189, 37800], ['orangutan', 38, 79, 24640], ['reef', 47, 96, 23710], ['mangrove', 64, 141, 18900], ['retreat', 6, 12, 17400], ['paddy', 33, 84, 12640], ['batik', 51, 108, 12480]];
+  var cats = {}; L.cats.forEach(function (c) { cats[c.key] = c.name; });
+  document.getElementById('top').innerHTML = T.map(function (t, i) { var e = L.exp[t[0]]; return '<tr data-go="a-listing"><td class="muted">' + (i + 1) + '</td><td><div class="who"><img src="' + L.img(e.img, 120) + '" alt=""><div><b>' + e.title + '</b><small>' + L.people[e.host].name + '</small></div></div></td><td class="small">' + cats[e.cat] + '</td><td class="num">' + t[1] + '</td><td class="num">' + t[2] + '</td><td class="num">' + L.rm(t[3]) + '</td><td class="num">' + L.rm(Math.round(t[3] * 0.15)) + '</td><td class="num"><span class="rating"><i class="ph-fill ph-star" aria-hidden="true"></i>' + e.rating.toFixed(2) + '</span></td></tr>'; }).join('');
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-reports', [['Range', '1 Nov – 30 Nov 2026'], ['Reports', 'Bookings, revenue, commission, top listings'], ['Export', '.xlsx or .csv']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

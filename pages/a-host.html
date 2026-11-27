@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Host · Pak Rahim Osman</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-host"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div>
+          <div class="crumbs"><a href="a-hosts.html" data-go="a-hosts">Hosts</a><i class="ph ph-caret-right" aria-hidden="true"></i><span>Pak Rahim Osman</span></div>
+          <div class="row" style="gap:14px">
+            <img class="avatar lg" src="https://images.unsplash.com/photo-1763219069500-e4c9b49f308f?w=160&q=70&auto=format&fit=crop" alt="">
+            <div><h1>Pak Rahim Osman</h1><p class="row wrap" style="gap:6px;margin-top:4px"><span class="badge badge--success">Active</span><span class="badge badge--accent"><i class="ph ph-hand-heart" aria-hidden="true"></i>Assisted onboarding · created by staff</span><span class="small muted">Managed by Nurul Huda since 14 Mar 2025</span></p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-leaf" aria-hidden="true"></i>Since 2025</span><b><span class="hl">RM 48,320</span> paid out · 410 seedlings funded</b></div></div>
+          </div>
+        </div>
+        <div class="a-head__actions">
+          <button class="btn btn--secondary" data-toast="Sign-in link sent by SMS to +60 13-347 2251" data-toast-icon="ph-device-mobile"><i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>Send app invite</button>
+          <button class="btn btn--primary" data-go="a-listing"><i class="ph ph-pencil-simple" aria-hidden="true"></i>Open draft listing</button>
+        </div>
+      </div>
+
+      <div class="notice notice--brand"><i class="ph ph-info" aria-hidden="true"></i><span><b>Assisted host.</b> Staff edit profile and listings · bookings by SMS · shared inbox</span></div>
+
+      <div class="tabs" data-group>
+        <button class="active" data-panel="#t-profile">Profile &amp; business</button>
+        <button data-panel="#t-listings">Listings (2)</button>
+        <button data-panel="#t-money">Payouts &amp; commission</button>
+        <button data-panel="#t-docs">Documents (3)</button>
+      </div>
+
+      <div id="t-profile" class="a-split">
+        <div class="a-card">
+          <div class="a-card__head"><div><h2 class="is-h3">Profile</h2><p>Shown to guests on every listing</p></div><span class="badge">Edited by staff</span></div>
+          <div class="a-card__body form-grid">
+            <div class="field"><label for="n1">Display name</label><input class="input" id="n1" value="Pak Rahim"></div>
+            <div class="field"><label for="n2">Legal name</label><input class="input" id="n2" value="Abdul Rahim bin Osman"></div>
+            <div class="field"><label for="n3">Phone</label><input class="input" id="n3" value="+60 13-347 2251"></div>
+            <div class="field"><label for="n4">Email</label><input class="input" id="n4" value="" placeholder="No email — SMS only"><span class="hint">Optional for assisted hosts.</span></div>
+            <div class="field span-2"><label for="n5">Host story</label><textarea class="textarea" id="n5">I was born in Kampung Kuantan and have taken boats up this river since I was ten. My father planted the mangroves that now shelter the fireflies. I started hosting so visitors could see them the way we do — quietly, by paddle.</textarea><span class="counter">52 / 120 words</span></div>
+            <div class="field"><label for="n6">Hometown</label><input class="input" id="n6" value="Kampung Kuantan, Kuala Selangor"></div>
+            <div class="field"><label for="n7">Languages</label><input class="input" id="n7" value="English, Malay"></div>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--secondary">Discard</button><button class="btn btn--primary" data-toast="Profile saved. Changes are live.">Save changes</button></div>
+        </div>
+        <div class="stack-lg">
+          <div class="a-card">
+            <div class="a-card__head"><h3>Business</h3></div>
+            <div class="a-card__body"><dl class="dl">
+              <dt>Type</dt><dd>Village / community cooperative</dd><dt>Name</dt><dd>Koperasi Nelayan Kg. Kuantan</dd><dt>SSM / ROC</dt><dd>KPSR-B-1288</dd><dt>Licence</dt><dd>MOTAC KPL/LN 10462</dd><dt>Address</dt><dd>Jalan Kuantan, 45000 Kuala Selangor</dd>
+            </dl></div>
+          </div>
+          <div class="a-card">
+            <div class="a-card__head"><h3>At a glance</h3></div>
+            <div class="a-card__body stat-row"><div><small>Bookings (30 d)</small><b>64</b></div><div><small>Rating</small><b>4.96</b></div><div><small>Paid out (2026)</small><b>RM 41,880</b></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="t-listings" class="a-card" hidden>
+        <div class="a-card__head"><h3>Listings</h3><button class="btn btn--primary btn--sm" data-toast="New listing started for Pak Rahim" data-toast-icon="ph-plus"><i class="ph ph-plus" aria-hidden="true"></i>Create listing</button></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Listing</th><th>Status</th><th>Policy</th><th class="num">Price</th><th class="num">Bookings (30 d)</th><th></th></tr></thead>
+          <tbody>
+            <tr data-go="a-listing"><td><div class="who"><img src="https://images.unsplash.com/photo-1773904594755-6c25ab2ef6c9?w=120&q=70&auto=format&fit=crop" alt=""><div><b>Mangrove &amp; fireflies by kampung boat</b><small>Nature &amp; eco-tours</small></div></div></td><td><span class="badge badge--success">Live</span></td><td>Moderate</td><td class="num">RM 145</td><td class="num">64</td><td class="num"><button class="btn btn--secondary btn--sm">Edit</button></td></tr>
+            <tr data-go="a-review"><td><div class="who"><img src="https://images.unsplash.com/photo-1784751449611-ff8ac03ff234?w=120&q=70&auto=format&fit=crop" alt=""><div><b>Mangrove replanting morning</b><small>Nature &amp; eco-tours</small></div></div></td><td><span class="badge badge--danger">Changes requested · Tue 1 Dec</span></td><td>Moderate</td><td class="num">RM 85</td><td class="num">—</td><td class="num"><button class="btn btn--secondary btn--sm">Review</button></td></tr>
+            <tr data-toast="Opening draft: Kelip-kelip photography night" data-toast-icon="ph-pencil-simple"><td><div class="who"><img src="https://images.unsplash.com/photo-1786717667687-2f05e422d6f9?w=120&q=70&auto=format&fit=crop" alt=""><div><b>Kelip-kelip photography night</b><small>Nature &amp; eco-tours</small></div></div></td><td><span class="badge">Draft · 60%</span></td><td>Moderate</td><td class="num">RM 120</td><td class="num">—</td><td class="num"><button class="btn btn--secondary btn--sm">Edit</button></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div id="t-money" class="a-grid c2" hidden>
+        <div class="a-card">
+          <div class="a-card__head"><div><h3>Commission override</h3><p>Default for all hosts is 15%</p></div></div>
+          <div class="a-card__body stack">
+            <div data-radio class="stack" style="gap:0">
+              <div class="radio-card active" data-value="default"><span class="dot"></span><div><b>Use platform default (15%)</b><p class="small muted">Follows changes made in Fees &amp; policies.</p></div></div>
+              <div class="radio-card" data-value="custom"><span class="dot"></span><div class="grow"><b>Custom rate for this host</b><p class="small muted">For example, a lower rate for community projects.</p><div class="pct mt2"><input class="input" value="10" aria-label="Custom commission percent"><span>% of experience price</span></div></div></div>
+            </div>
+            <div class="field"><label for="why">Reason (internal)</label><input class="input" id="why" placeholder="Community cooperative, approved by management"></div>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--primary" data-toast="Commission saved. Applies to new bookings only.">Save commission</button></div>
+        </div>
+        <div class="a-card">
+          <div class="a-card__head"><div><h3>Payout account</h3><p>Paid ~24 h after each experience ends</p></div><span class="badge badge--success">Verified</span></div>
+          <div class="a-card__body"><dl class="dl"><dt>Bank</dt><dd>Maybank</dd><dt>Account</dt><dd>•••• •••• 4821</dd><dt>Holder</dt><dd>Abdul Rahim bin Osman</dd><dt>Next payout</dt><dd>RM 327.25 · Mon, 7 Dec ~8:30 PM</dd></dl></div>
+          <div class="a-card__foot"><button class="btn btn--secondary" data-go="a-payouts">See payouts</button></div>
+        </div>
+      </div>
+
+      <div id="t-docs" class="a-card" hidden>
+        <div class="a-card__head"><div><h3>Documents</h3><p>Uploaded by staff during assisted onboarding</p></div><button class="btn btn--secondary btn--sm" data-toast="Choose a file to upload" data-toast-icon="ph-upload-simple"><i class="ph ph-upload-simple" aria-hidden="true"></i>Upload</button></div>
+        <div class="a-card__body stack">
+          <div class="doc"><i class="ph ph-identification-card" aria-hidden="true"></i><div><b>MyKad (front and back)</b><small>Uploaded 14 Mar 2025 by Nurul Huda</small></div><span class="badge badge--success">Verified</span></div>
+          <div class="doc"><i class="ph ph-buildings" aria-hidden="true"></i><div><b>Cooperative registration</b><small>Uploaded 14 Mar 2025</small></div><span class="badge badge--success">Verified</span></div>
+          <div class="doc"><i class="ph ph-certificate" aria-hidden="true"></i><div><b>MOTAC licence</b><small>Expires 31 Jan 2027</small></div><span class="badge badge--warn">Expires in 2 months</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-host', [['Host', 'Pak Rahim Osman'], ['Onboarding', 'Assisted by staff (Nurul Huda)'], ['Commission', '15% default · override available'], ['Next', 'Open draft listing']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

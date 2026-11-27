@@ -1,0 +1,171 @@
+/* iPhone Duo preview: device picker (left card) and the Duo frames. See js/shell/duo.js */
+.duo-pick { margin: 16px 8px 0; padding-top: 16px; border-top: 1px solid var(--line); }
+.duo-pick__title { margin: 0 0 4px; font-size: 13px; font-weight: 800; color: var(--ink); }
+/* device tabs above the phone frame */
+.duo-tabs { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 5; }
+.duo-tabs[hidden] { display: none; }
+.duo-tabs .duo-pick__seg { background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .1); border: 1px solid var(--line); }
+.duo-tabs .duo-pick__seg button { padding: 8px 18px; font-size: 13px; }
+.duo-tabs .duo-pick__seg button.is-on { background: color-mix(in srgb, var(--accent, #2563eb) 14%, transparent); box-shadow: none; }
+.duo-pick[hidden] { display: none; }
+.duo-pick__h { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.duo-pick__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.duo-pick__row[hidden] { display: none; }
+.duo-pick__row .duo-pick__h { margin: 0; }
+.duo-pick__seg { display: inline-flex; padding: 3px; border-radius: 9999px; background: #f1f5f9; }
+.duo-pick__seg button { padding: 6px 14px; border: 0; border-radius: 9999px; background: none; font: inherit; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.duo-pick__seg button.is-on { background: #fff; color: var(--accent-strong, #1d4ed8); box-shadow: 0 1px 3px rgba(15, 23, 42, .12); }
+.duo-pick__sw { justify-content: flex-end; gap: 16px; }
+.duo-pick__sw label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--ink); cursor: pointer; }
+.duo-pick__sw input { accent-color: var(--accent, #2563eb); margin: 0; }
+.duo-pick__note { margin: 8px 0 0; font-size: 12px; line-height: 16px; color: var(--muted); }
+.duo-pick__note:empty { display: none; }
+
+/* Duo frames: a smaller corner radius than the iPhone, no Dynamic Island pill at the top in side layouts */
+.phone.is-duo { border-radius: 60px; }   /* rounder, as on the real device: about 8% of the screen height */
+.phone.is-duo .phone__screen { border-radius: 52px; }
+.duo-cam, .duo-fold { display: none; position: absolute; pointer-events: none; }
+/* the status rail (side layouts), as in Apple's reference: Dynamic Island (a circle) at the top, the time below it, then one round
+   status icon (Wi-Fi inside a dotted ring) in place of the iPhone's row of signal, Wi-Fi and battery icons */
+.phone[data-duo="outer"] .duo-cam { display: block; z-index: 4; top: 15px; right: 18px;   /* centred on the 72 px rail (36 - 18) and 18 px from the top on screen, so it lands on the same spot when turned */
+  width: 36px; height: 36px; border-radius: 50%; background: #000; }
+.phone.is-duo .island { display: none; }   /* outer: the round Dynamic Island in the corner instead; inner: the camera is hidden behind the display until it is in use */
+.duo-ring { display: none; color: #000; line-height: 0; }
+.phone.is-duo-side .statusbar { left: auto; right: 0; width: 72px; height: auto; padding: 0; top: 72px; flex-direction: column; align-items: center; gap: 8px; }
+.phone.is-duo-side .statusbar__time { font-size: 15px; font-weight: 700; }
+.phone.is-duo-side .statusbar__icons { display: none; }
+.phone.is-duo-side .duo-ring { display: block; }
+.phone[data-duo="open-l"] .statusbar, .phone[data-duo="half"] .statusbar { top: 20px; }
+/* the fold: a hairline when open flat, a shaded band when partly folded */
+/* open flat: a soft crease, blurred across and fading out towards both ends, like light catching the hinge */
+.phone[data-duo="open-p"] .duo-fold { display: block; z-index: 4; left: 0; right: 0; top: calc(50% - 6px); height: 12px; background: linear-gradient(180deg, transparent, rgba(0,0,0,.05) 50%, transparent); -webkit-mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent); mask: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent); }
+.phone[data-duo="open-l"] .duo-fold { display: block; z-index: 4; top: 0; bottom: 0; left: calc(50% - 6px); width: 12px; background: linear-gradient(90deg, transparent, rgba(0,0,0,.05) 50%, transparent); -webkit-mask: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent); mask: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent); }
+.phone[data-duo="half"] .duo-fold { display: block; z-index: 4; top: 0; bottom: 0; left: calc(50% - 14px); width: 28px; background: linear-gradient(90deg, rgba(0,0,0,.02), rgba(0,0,0,.16) 50%, rgba(0,0,0,.02)); }
+.phone[data-duo="half"] { box-shadow: inset -40px 0 60px -40px rgba(255,255,255,.15); }
+
+
+/* closed: the left edge is the hinge (spine), so its corners are almost square and the right side stays round: a D shape.
+   The back half shows as a thin grey edge behind the spine. */
+.phone[data-duo="outer"] { border-radius: 12px 60px 60px 12px; }
+.phone[data-duo="outer"] .phone__screen { border-radius: 6px 52px 52px 6px; }   /* the round side matches the open frame (60 / 52) */
+
+/* Physical buttons, from one model of the device (positions are a best guess until Apple's device art confirms them):
+   CLOSED (hinge on the left): volume up/down on the TOP edge near the right corner; action and power on the RIGHT edge.
+   OPEN HORIZONTAL and HALF-OPEN: the front half swings left around the hinge like a book cover, so its free (right) edge becomes the
+     far LEFT edge: volume on the TOP edge near the LEFT corner; action and power on the LEFT edge at the same heights.
+   OPEN VERTICAL: the horizontal view turned a quarter turn clockwise: volume on the RIGHT edge near the top; action and power on the TOP edge. */
+.phone.is-duo .phone__btn { top: auto; right: auto; bottom: auto; left: auto; }
+.phone[data-duo="outer"] .phone__btn--vol-up   { top: -4.5px; right: 100px; width: 52px; height: 3px; }
+.phone[data-duo="outer"] .phone__btn--vol-down { top: -4.5px; right: 164px; width: 52px; height: 3px; }
+.phone[data-duo="outer"] .phone__btn--action   { right: -4.5px; top: 120px; width: 3px; height: 28px; }
+.phone[data-duo="outer"] .phone__btn--power    { right: -4.5px; top: 200px; width: 3px; height: 82px; }
+.phone[data-duo="open-l"] .phone__btn--vol-up,   .phone[data-duo="half"] .phone__btn--vol-up   { top: -4.5px; left: 100px; width: 52px; height: 3px; }
+.phone[data-duo="open-l"] .phone__btn--vol-down, .phone[data-duo="half"] .phone__btn--vol-down { top: -4.5px; left: 164px; width: 52px; height: 3px; }
+.phone[data-duo="open-l"] .phone__btn--action,   .phone[data-duo="half"] .phone__btn--action   { left: -4.5px; top: 120px; width: 3px; height: 28px; }
+.phone[data-duo="open-l"] .phone__btn--power,    .phone[data-duo="half"] .phone__btn--power    { left: -4.5px; top: 200px; width: 3px; height: 82px; }
+.phone[data-duo="open-p"] .phone__btn--vol-up   { right: -4.5px; top: 100px; width: 3px; height: 52px; }
+.phone[data-duo="open-p"] .phone__btn--vol-down { right: -4.5px; top: 164px; width: 3px; height: 52px; }
+.phone[data-duo="open-p"] .phone__btn--action   { top: -4.5px; right: 120px; width: 28px; height: 3px; }
+.phone[data-duo="open-p"] .phone__btn--power    { top: -4.5px; right: 200px; width: 82px; height: 3px; }
+
+
+
+/* one control bar above the phone frame: Device · Pose · Orientation · Half-open (placed GAP px above the frame by duo.js) */
+.duo-tabs { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.duo-tabs .duo-bar { display: flex; align-items: center; gap: 8px; margin: 0; padding: 0; border: 0; }
+.duo-tabs .duo-bar[hidden], .duo-tabs [data-show][hidden] { display: none; }
+.duo-tabs .duo-bar .duo-pick__seg { background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .1); border: 1px solid var(--line); }
+.duo-tabs .duo-bar .duo-pick__seg button { padding: 8px 14px; font-size: 13px; }
+.duo-tabs .duo-bar .duo-pick__seg button.is-on { background: color-mix(in srgb, var(--accent, #2563eb) 14%, transparent); box-shadow: none; }
+.duo-half { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 9999px; background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 3px rgba(15, 23, 42, .1);
+  font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.duo-half:has(input:checked) { color: var(--accent-strong, #1d4ed8); background: color-mix(in srgb, var(--accent, #2563eb) 10%, #fff); }
+.duo-half input { accent-color: var(--accent, #2563eb); margin: 0; }
+
+/* side cards ride along with the frame (positions set by duo.js): a fixed gap from the frame, gliding out of the window when there is no
+   room, and back in as drawers from the edge tabs. During the fold they move with the fold's timing. */
+.shell.duo-cards { grid-template-columns: auto !important; }
+.shell.duo-cards .side { display: block !important; position: fixed; z-index: 40; margin-top: 0; width: var(--side-w); max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 20px - var(--phone-top, 0px)); transition: left .45s var(--ease-out), top .45s var(--ease-out), box-shadow .3s ease; }
+.shell.duo-cards.is-folding .side { transition-duration: 1.2s; transition-timing-function: cubic-bezier(.45, 0, .2, 1); }
+.shell.duo-cards .side.is-drawer { z-index: 60; height: 100vh; max-height: 100vh; border-radius: 0; box-shadow: 0 0 80px rgba(15, 23, 42, .25); }
+@media (prefers-reduced-motion: reduce) { .shell.duo-cards .side { transition: none; } }
+
+
+/* the control bar animates: it glides with the frame (in step with the fold while opening or closing), groups slide in and out,
+   and a highlight slides under the chosen option */
+.duo-tabs { transition: top .45s var(--ease-out); }
+.shell.is-folding .duo-tabs { transition-duration: 1.2s; transition-timing-function: cubic-bezier(.45, 0, .2, 1); }
+.duo-tabs .duo-bar, .duo-tabs [data-show] { max-width: 420px; opacity: 1; overflow: hidden; transition: max-width .45s var(--ease-out), opacity .3s ease, margin .45s var(--ease-out); }
+.duo-tabs .is-gone { max-width: 0 !important; opacity: 0; margin-left: -8px; pointer-events: none; }
+.duo-tabs .duo-bar.is-gone { margin-left: -8px; }
+.duo-pick__seg { position: relative; }
+.duo-pick__seg button { position: relative; z-index: 1; transition: color .25s ease; }
+.duo-tabs .duo-pick__seg button.is-on, .duo-tabs .duo-bar .duo-pick__seg button.is-on { background: transparent; box-shadow: none; }
+.seg-thumb { position: absolute; z-index: 0; top: 3px; bottom: 3px; left: 3px; width: 0; border-radius: 9999px; background: color-mix(in srgb, var(--accent, #2563eb) 14%, transparent);
+  transition: left .35s var(--ease-out), width .35s var(--ease-out), opacity .2s ease; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .duo-tabs, .duo-tabs .duo-bar, .duo-tabs [data-show], .seg-thumb { transition: none !important; } }
+
+/* while the screen is resized live (fold, orientation), the cards and the bar follow every frame: no lagging transitions */
+.shell.is-sizing .side, .shell.is-sizing .duo-tabs { transition: left .22s cubic-bezier(.22, 1, .36, 1), top .22s cubic-bezier(.22, 1, .36, 1) !important; }   /* a touch of smoothing over frame-to-frame steps */
+
+/* the status bar (time, signal, Wi-Fi, battery, and the Duo rail's round icon) turns white on a dark screen */
+.phone.is-dark-screen .duo-ring { color: #fff; }   /* the status bar itself: css/shell/phone-frame.css */
+
+
+
+
+/* ---------- controls: rotate beside the device tabs, Closed / Open under the frame ---------- */
+.duo-rot { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink, #17132a);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .1); cursor: pointer; transition: transform .45s var(--ease-out), opacity .2s ease, background .2s ease; }
+.duo-rot:hover:not(:disabled) { background: color-mix(in srgb, var(--accent, #2563eb) 10%, #fff); }
+.duo-rot .mi { font-size: 22px; transition: transform .45s var(--ease-out); }
+.duo-rot.is-side .mi { transform: rotate(90deg); }   /* the icon turns with the phone (to the right) */
+.duo-rot:disabled { opacity: .35; cursor: not-allowed; }
+.duo-rot[hidden] { display: none; }
+.duo-bottom { transition: top .45s var(--ease-out), opacity .3s ease; }
+.shell.is-folding .duo-bottom { transition-duration: 1.2s; transition-timing-function: cubic-bezier(.45, 0, .2, 1); }
+.duo-bottom.is-off { opacity: 0; pointer-events: none; }
+
+/* ---------- the iPhone turned sideways (90 deg right): Dynamic Island on the right, no status bar (iOS hides it in landscape) ---------- */
+.phone[data-duo="iphone-l"] .island { top: 50%; left: auto; right: 14px; width: 37px; height: 95px; margin: -47.5px 0 0; border-radius: 19px; }   /* turned right: the island ends on the right */
+.phone[data-duo="iphone-l"] .statusbar { display: none; }
+
+/* ---------- the closed Duo turned sideways (90 deg right): the hinge (square side) on top, the camera bottom-right,
+   centred on the side rail (84 px wide: its centre is 42 px from the edge, so the 36 px camera sits 24 px in) ---------- */
+.phone[data-duo="outer-l"] { border-radius: 12px 12px 60px 60px; }
+.phone[data-duo="outer-l"] .phone__screen { border-radius: 6px 6px 52px 52px; }
+.phone[data-duo="outer-l"] .duo-cam { display: block; z-index: 4; top: auto; bottom: 18px; right: 18px; left: auto; width: 36px; height: 36px; border-radius: 50%; background: #000; }
+
+/* ---------- a phone turned sideways (when the app is made for portrait): a styled "turn it upright" screen ---------- */
+.duo-upright { position: absolute; inset: 0; z-index: 2;   /* under the Dynamic Island and the Duo camera, which a real phone always shows */
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px 64px; text-align: center;
+  color: #fff; background: radial-gradient(120% 140% at 15% 10%, color-mix(in srgb, var(--accent, #7c3aed) 85%, #fff) 0%, var(--accent, #7c3aed) 45%, color-mix(in srgb, var(--accent, #7c3aed) 55%, #ec4899) 100%);
+  border-radius: inherit; animation: duo-up-in .35s ease both; }
+.duo-upright[hidden] { display: none; }
+.duo-upright .mi { font-size: 56px; animation: duo-up-turn 2.4s cubic-bezier(.45, 0, .2, 1) infinite; }
+.duo-upright b { font-size: 22px; line-height: 28px; font-weight: 800; letter-spacing: -.2px; }
+.duo-upright p { margin: 0; max-width: 340px; font-size: 14px; line-height: 20px; opacity: .9; }
+@keyframes duo-up-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes duo-up-turn { 0%, 30% { transform: rotate(90deg); } 60%, 100% { transform: rotate(0deg); } }   /* the icon shows the turn to make */
+@media (prefers-reduced-motion: reduce) { .duo-upright, .duo-upright .mi { animation: none; } }
+
+/* while the sideways closed Duo opens upward (or closes down), the status bar and rail hide (they belong to the upright frame) */
+/* the page stays upright while the frame is turned: counter-turned inside the screen, its width and height swapped */
+.phone.is-turned-fold #screen { position: absolute; left: 50%; top: 50%; width: var(--phone-h); height: var(--phone-w); max-width: none; transform: translate(-50%, -50%) rotate(-90deg); }
+.phone.is-turned-fold .statusbar, .phone.is-turned-fold .duo-ring { opacity: 0; }
+
+/* the closed Duo turned sideways: the camera is bottom-right, so the status bar starts at the top of the rail (as when open) */
+.phone[data-duo="outer-l"] .statusbar { top: 20px; }
+
+/* the bars above and below the phone appear in place on load, and only slide when the phone changes */
+.duo-tabs:not(.is-placed) { transition: none !important; }
+
+/* ---------- desktop (admin) pages fill the window: no device at all - no crease, camera, rounded screen, notice or device bars,
+   however the page was reached (a direct link sets full-window before this add-on starts) ---------- */
+.shell.is-fullwindow .phone .duo-fold, .shell.is-fullwindow .phone .duo-cam, .shell.is-fullwindow .phone .duo-upright, .shell.is-fullwindow .phone .duo-ring { display: none !important; }
+.shell.is-fullwindow .phone, .shell.is-fullwindow .phone .phone__screen { border-radius: 0 !important; }
+.shell.is-fullwindow .duo-tabs { display: none !important; }
+
+/* iPhone Duo only (no iPhone in SHELL.devices): the bar above the frame holds just the rotate button */
+.duo-tabs.is-duo-only { display: flex; }

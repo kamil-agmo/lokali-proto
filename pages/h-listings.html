@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · My listings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Listings</div>
+<header class="lt"><div class="lt-row"><h1>Listings</h1><button class="btn btn--secondary btn--sm" data-go="h-builder"><i class="ph ph-plus" aria-hidden="true"></i>New listing</button></div><p>3 listings · 1 live · 1 needs changes · 1 draft</p></header>
+  <section class="reveal pad mt4">
+    <div class="lst">
+      <div class="lst__top" data-go="g-listing">
+        <img data-img="1773904594755-6c25ab2ef6c9" data-w="200" alt="">
+        <div class="grow"><span class="badge badge--success"><i class="ph-fill ph-circle" aria-hidden="true"></i>Live</span><h2 class="is-h4 mt1">Mangrove & fireflies by kampung boat</h2><p class="small muted"><span class="rating"><i class="ph-fill ph-star" aria-hidden="true"></i>4.96</span> · 128 reviews · RM 145 / adult</p></div>
+      </div>
+      <div class="lst__foot"><button class="btn btn--secondary btn--sm grow" data-go="h-calendar"><i class="ph ph-calendar-blank" aria-hidden="true"></i>Calendar</button><button class="btn btn--secondary btn--sm grow" data-go="h-builder"><i class="ph ph-pencil-simple" aria-hidden="true"></i>Edit</button><button class="btn btn--secondary btn--sm grow" data-go="g-listing"><i class="ph ph-eye" aria-hidden="true"></i>View</button></div>
+    </div>
+
+    <div class="lst">
+      <div class="lst__top" data-go="h-builder">
+        <img data-img="1784751449611-ff8ac03ff234" data-w="200" alt="">
+        <div class="grow"><span class="badge badge--warn"><i class="ph ph-warning" aria-hidden="true"></i>Changes requested</span><h3 class="is-h4 mt1">Mangrove replanting morning</h3><p class="small muted">Submitted Fri 27 Nov · RM 85 / adult</p></div>
+      </div>
+      <div style="padding:0 var(--s3) var(--s3)"><div class="admin-note"><div class="who"><i class="ph ph-chat-centered-text" aria-hidden="true"></i>Lokali team · Tue, 1 Dec</div>Add at least 5 photos and the "Where your money goes" split.</div></div>
+      <div class="lst__foot"><button class="btn btn--primary btn--sm grow" data-go="h-builder">Fix 2 things</button></div>
+    </div>
+
+    <div class="lst">
+      <div class="lst__top" data-go="h-builder">
+        <span class="ph-img"><i class="ph ph-camera" aria-hidden="true"></i></span>
+        <div class="grow"><span class="badge"><i class="ph ph-pencil-simple-line" aria-hidden="true"></i>Draft</span><h4 class="mt1">Kelip-kelip photography night</h4><div class="row mt1"><div class="progress grow"><i style="width:60%"></i></div><span class="xs muted">60%</span></div></div>
+      </div>
+      <div class="lst__foot"><button class="btn btn--tint btn--sm grow" data-go="h-builder">Edit draft</button></div>
+    </div>
+
+    <button class="btn btn--secondary btn--block mt4" data-go="h-builder"><i class="ph ph-plus" aria-hidden="true"></i>Create new listing</button>
+    <p class="small muted center mt2">New listings are checked by the Lokali team before they go live.</p>
+  </section>
+  <div style="height:16px"></div>
+  <nav class="tabbar" data-tabs="host" data-active="h-listings"></nav>
+
+
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-listings', [["Live", "1"], ["Changes requested", "1"], ["Draft", "1 · 60%"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

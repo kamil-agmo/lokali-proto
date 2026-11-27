@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Font Picker</title>
+<style>
+  :root { --ink: #0f172a; --muted: #64748b; --line: #e2e8f0; --bg: #f8fafc; --card: #ffffff; --accent: __ACCENT__; --accent-bg: color-mix(in srgb, var(--accent) 12%, transparent); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink: #f1f5f9; --muted: #94a3b8; --line: #334155; --bg: #0b1220; --card: #111a2e; } }
+  :root[data-theme="dark"] { --ink: #f1f5f9; --muted: #94a3b8; --line: #334155; --bg: #0b1220; --card: #111a2e; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/20px system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 20px 24px 12px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+  header h1 { margin: 0; font-size: 20px; line-height: 28px; }
+  header p { margin: 0; color: var(--muted); }
+  .wrap { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 16px; padding: 0 24px 24px; height: calc(100dvh - 76px); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; min-height: 0; }
+  .side { display: flex; flex-direction: column; }
+  .controls { padding: 12px; display: grid; gap: 8px; border-bottom: 1px solid var(--line); }
+  .controls input, .controls select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 15px; }
+  .controls .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .count { color: var(--muted); font-size: 12px; padding: 0 2px; }
+  ul { list-style: none; margin: 0; padding: 4px; overflow: auto; flex: 1; }
+  li { padding: 10px 12px; border-radius: 10px; cursor: pointer; display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  li:hover { background: var(--bg); } li[aria-selected="true"] { background: var(--accent-bg); }
+  li .nm { font-size: 18px; line-height: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  li .meta { color: var(--muted); font-size: 11px; white-space: nowrap; font-family: system-ui, sans-serif; }
+  li .rec { color: var(--accent); font-weight: 600; }
+  .preview { padding: 24px; overflow: auto; display: flex; flex-direction: column; gap: 20px; }
+  .top { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
+  .top h2 { margin: 0; font-size: 28px; line-height: 36px; font-family: system-ui, sans-serif; }
+  .top .info { color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 99px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .sample { border: 1px dashed var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+  .s-title { font-size: 32px; line-height: 40px; margin: 0; }
+  .s-head { font-size: 20px; line-height: 28px; margin: 0; }
+  .s-body { font-size: 16px; line-height: 24px; margin: 0; max-width: 60ch; }
+  .s-small { font-size: 13px; line-height: 18px; margin: 0; opacity: .75; }
+  .s-ui { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .s-ui .btn { padding: 10px 18px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 15px; }
+  .s-ui .tag { padding: 4px 10px; border-radius: 99px; background: var(--accent-bg); color: var(--accent); font-size: 12px; }
+  .s-digits { font-size: 24px; line-height: 32px; margin: 0; }
+  .use { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .use button { padding: 12px 20px; border-radius: 12px; border: 0; background: var(--accent); color: #fff; font: 600 15px/20px system-ui, sans-serif; cursor: pointer; }
+  .done { padding: 12px 14px; border-radius: 12px; background: var(--accent-bg); color: var(--ink); }
+  .size { color: var(--muted); font-size: 12px; }
+  @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; height: auto; } ul { max-height: 50vh; } header, .wrap { padding-left: 16px; padding-right: 16px; } }
+</style>
+</head>
+<body>
+<header><h1>Pick a font for __APP__</h1><p>Every Google Font that works with Latin text. Scroll or search, click to preview, then press “Use this font”.</p></header>
+<div class="wrap">
+  <section class="card side" aria-label="Font list">
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search fonts (e.g. Inter, serif, round)…" aria-label="Search fonts" role="combobox" aria-controls="list" aria-expanded="true">
+      <div class="row">
+        <select id="cat" aria-label="Category"><option value="">All categories</option><option>Sans Serif</option><option>Serif</option><option>Display</option><option>Handwriting</option><option>Monospace</option></select>
+        <select id="sort" aria-label="Sort"><option value="pop">Most popular</option><option value="az">A – Z</option><option value="var">Variable first</option></select>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+    <ul id="list" role="listbox" aria-label="Fonts"></ul>
+  </section>
+  <section class="card preview" aria-live="polite">
+    <div class="top"><div><h2 id="pName">—</h2><div class="info" id="pInfo"></div></div><div class="chips" id="weights" aria-label="Preview weight"></div></div>
+    <div class="sample" id="sample">
+      <p class="s-title">__APP__</p>
+      <p class="s-head">Golden hour never misses</p>
+      <p class="s-body">The quick brown fox jumps over the lazy dog. This is how body text will read at 16 px, the size most of the app uses for captions, comments and settings.</p>
+      <p class="s-small">aina.travels · Kuala Lumpur · 2h ago</p>
+      <div class="s-ui"><span class="btn">Follow</span><span class="tag">New posts</span><span>1,284 likes</span></div>
+      <p class="s-digits">0123456789 · RM 1,249.90 · 12:45</p>
+    </div>
+    <div class="use"><button id="use" type="button">Use this font</button><span class="size" id="size"></span></div>
+    <div class="done" id="done" hidden></div>
+  </section>
+</div>
+<script>
+  var FONTS = __FONTS__;                 // [family, category, [weights], popularity, [wghtMin, wghtMax] | null]
+  var RECOMMENDED = __RECOMMENDED__;     // families suggested for this app
+  var list = document.getElementById('list'), q = document.getElementById('q'), cat = document.getElementById('cat'), sort = document.getElementById('sort');
+  var loaded = {}, current = null, weight = 400;
+  window.fontChoice = null;
+  try { var prev = JSON.parse(localStorage.getItem('font-picker-choice') || 'null'); } catch (e) {}
+
+  // Only the glyphs of the font's own name are downloaded for the list (text=), so scrolling 1,800 fonts stays light.
+  function loadName(f) {
+    if (loaded[f]) return; loaded[f] = 1;
+    var l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(f) + '&text=' + encodeURIComponent(f) + '&display=swap';
+    document.head.appendChild(l);
+  }
+  function loadFull(f, ws) {
+    var l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(f) + ':wght@' + ws.join(';') + '&display=swap';
+    document.head.appendChild(l);
+  }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { loadName(e.target.dataset.f); io.unobserve(e.target); } }); }, { root: list, rootMargin: '200px' });
+
+  function render() {
+    var term = q.value.trim().toLowerCase(), c = cat.value;
+    var rows = FONTS.filter(function (f) { return (!c || f[1] === c) && (!term || f[0].toLowerCase().indexOf(term) > -1 || f[1].toLowerCase().indexOf(term) > -1); });
+    if (sort.value === 'az') rows.sort(function (a, b) { return a[0].localeCompare(b[0]); });
+    else if (sort.value === 'var') rows.sort(function (a, b) { return (b[4] ? 1 : 0) - (a[4] ? 1 : 0) || a[3] - b[3]; });
+    rows.sort(function (a, b) { return (RECOMMENDED.indexOf(b[0]) > -1) - (RECOMMENDED.indexOf(a[0]) > -1); });
+    list.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    rows.forEach(function (f) {
+      var li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.f = f[0]; li.tabIndex = -1;
+      li.setAttribute('aria-selected', current && current[0] === f[0] ? 'true' : 'false');
+      var n = document.createElement('span'); n.className = 'nm'; n.textContent = f[0]; n.style.fontFamily = '"' + f[0] + '", system-ui';
+      var m = document.createElement('span'); m.className = 'meta';
+      m.innerHTML = (RECOMMENDED.indexOf(f[0]) > -1 ? '<span class="rec">Suggested · </span>' : '') + f[1] + (f[4] ? ' · variable' : ' · ' + f[2].length + ' wt');
+      li.appendChild(n); li.appendChild(m); li.addEventListener('click', function () { pick(f); });
+      frag.appendChild(li); io.observe(li);
+    });
+    list.appendChild(frag);
+    document.getElementById('count').textContent = rows.length + ' of ' + FONTS.length + ' fonts';
+  }
+
+  function pick(f) {
+    current = f;
+    list.querySelectorAll('li').forEach(function (li) { li.setAttribute('aria-selected', li.dataset.f === f[0] ? 'true' : 'false'); });
+    var ws = f[4] ? [100, 200, 300, 400, 500, 600, 700, 800, 900].filter(function (w) { return w >= f[4][0] && w <= f[4][1]; }) : f[2];
+    loadFull(f[0], ws);
+    weight = ws.indexOf(400) > -1 ? 400 : ws[0];
+    document.getElementById('pName').textContent = f[0];
+    document.getElementById('pInfo').textContent = f[1] + ' · ' + (f[4] ? 'variable ' + f[4][0] + '–' + f[4][1] : 'weights ' + f[2].join(', '));
+    var wEl = document.getElementById('weights'); wEl.innerHTML = '';
+    ws.forEach(function (w) {
+      var b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.textContent = w; b.setAttribute('aria-pressed', w === weight ? 'true' : 'false');
+      b.addEventListener('click', function () { weight = w; wEl.querySelectorAll('.chip').forEach(function (x) { x.setAttribute('aria-pressed', +x.textContent === w ? 'true' : 'false'); }); draw(); });
+      wEl.appendChild(b);
+    });
+    draw(); measure(f);
+  }
+  function draw() {
+    var s = document.getElementById('sample'); s.style.fontFamily = '"' + current[0] + '", system-ui, sans-serif';
+    s.querySelectorAll('.s-body, .s-small, .s-digits').forEach(function (e) { e.style.fontWeight = weight; });
+    s.querySelectorAll('.s-title, .s-head, .btn').forEach(function (e) { e.style.fontWeight = Math.min(900, Math.max(weight, 600)); });
+  }
+  // Rough download size for Regular + Semibold (or the nearest weights), Latin only
+  function measure(f) {
+    var el = document.getElementById('size'); el.textContent = 'Measuring download size…';
+    var ws = f[4] ? [400, 600].filter(function (w) { return w >= f[4][0] && w <= f[4][1]; }) : f[2].filter(function (w) { return w === 400 || w === 600 || w === 700; }).slice(0, 2);
+    if (!ws.length) ws = [f[2][0]];
+    fetch('https://fonts.googleapis.com/css2?family=' + encodeURIComponent(f[0]) + ':wght@' + ws.join(';') + '&display=swap')
+      .then(function (r) { return r.text(); })
+      .then(function (css) {
+        var urls = {}; css.split('/* ').forEach(function (b) { if (b.indexOf('latin */') === 0) { var m = b.match(/url\((https:[^)]+)\)/); if (m) urls[m[1]] = 1; } });
+        return Promise.all(Object.keys(urls).map(function (u) { return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (b) { return b.byteLength; }); }));
+      })
+      .then(function (sizes) { if (current !== f) return; var kb = sizes.reduce(function (a, b) { return a + b; }, 0) / 1024; el.textContent = '≈ ' + kb.toFixed(1) + ' KB for weights ' + ws.join(' + ') + ' (Latin)'; })
+      .catch(function () { el.textContent = ''; });
+  }
+  document.getElementById('use').addEventListener('click', function () {
+    if (!current) return;
+    window.fontChoice = { family: current[0], category: current[1], weights: current[2], variable: current[4] };
+    try { localStorage.setItem('font-picker-choice', JSON.stringify(window.fontChoice)); } catch (e) {}
+    document.title = 'Font Picker: ' + current[0];
+    var d = document.getElementById('done'); d.hidden = false;
+    d.innerHTML = '<b>' + current[0] + '</b> selected. Go back to Claude and say <b>done</b> (or just type the font name).';
+  });
+  [q, cat, sort].forEach(function (e) { e.addEventListener(e === q ? 'input' : 'change', render); });
+  render();
+  var start = prev && FONTS.find(function (f) { return f[0] === prev.family; }) || FONTS.find(function (f) { return f[0] === RECOMMENDED[0]; }) || FONTS[0];
+  pick(start);
+</script>
+</body>
+</html>

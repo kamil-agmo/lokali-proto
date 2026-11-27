@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Corporate enquiry</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+.whys { display: flex; flex-direction: column; gap: 12px; }
+.whys div { display: flex; gap: 12px; font-size: 15px; line-height: 20px; } .whys .ph { color: var(--primary); font-size: 22px; flex: none; }
+</style>
+</head>
+<body class="m">
+<header class="appbar appbar--flow">
+  <button class="icon-btn" data-go="g-home" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <div class="appbar__title">Lokali for teams</div>
+  <span class="spacer"></span>
+</header>
+
+<main id="form" class="pad stack-lg" style="padding-top:8px;padding-bottom:16px">
+  <h1 class="t2">Team days that give back</h1>
+  <div class="whys">
+    <div><i class="ph ph-users-three" aria-hidden="true"></i><span><b>11 to 200 people</b>, split across hosts if needed</span></div>
+    <div><i class="ph ph-plant" aria-hidden="true"></i><span><b>Real CSR impact</b> — tree planting, reef and beach work, with a report after</span></div>
+    <div><i class="ph ph-receipt" aria-hidden="true"></i><span><b>One quote, one invoice</b> within 2 working days</span></div>
+  </div>
+
+  <section class="form-sec" aria-labelledby="co-h">
+    <h2 class="is-h3" id="co-h">Company</h2>
+    <div class="field"><label for="c1">Company name <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="c1" placeholder="Greenline Logistics Sdn Bhd"></div>
+    <div class="field"><label for="c2">Contact name <span style="color:var(--danger)">*</span></label><input class="input" id="c2" placeholder="Farah Ismail"></div>
+    <div class="grid-2">
+      <div class="field"><label for="c3">Work email <span style="color:var(--danger)">*</span></label><input class="input" id="c3" type="email" placeholder="farah@example.com"></div>
+      <div class="field"><label for="c4">Phone</label><input class="input" id="c4" type="tel" placeholder="+60 12-345 6789"></div>
+    </div>
+  </section>
+
+  <section class="form-sec" aria-labelledby="ev-h">
+    <h3 id="ev-h" class="sec-h">Group</h3>
+    <div class="guest-row" style="padding:0"><div><b>Group size <span style="color:var(--danger)">*</span></b><small>People taking part</small></div>
+      <div class="stepper" data-stepper data-min="11" data-max="200"><button data-dec aria-label="Fewer people"><i class="ph ph-minus" aria-hidden="true"></i></button><output>40</output><button data-inc aria-label="More people"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
+    <div class="grid-2">
+      <div class="field"><label for="d1">Preferred date</label><input class="input" id="d1" placeholder="Mar 2027"></div>
+      <div class="field"><label for="d2">Or alternative</label><input class="input" id="d2" placeholder="Apr 2027"></div>
+    </div>
+    <div class="check on" role="checkbox" aria-checked="true"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span class="small">Dates are flexible</span></div>
+    <div class="field"><label for="b">Budget per person</label><select class="select" id="b"><option>Under RM 100</option><option selected>RM 100 – 200</option><option>RM 200 – 400</option><option>RM 400+</option><option>Not sure yet</option></select></div>
+    <div class="field"><label for="loc">Preferred area</label><input class="input" id="loc" placeholder="Within 2 hours of Kuala Lumpur"></div>
+  </section>
+
+  <section class="form-sec" aria-labelledby="in-h">
+    <h3 id="in-h" class="sec-h">Interests</h3>
+    <div class="chips wrap" data-group data-multi>
+      <button class="chip chip--soft">Tree planting</button><button class="chip chip--soft">Beach clean-up</button><button class="chip chip--soft">Cooking together</button><button class="chip chip--soft">Craft workshop</button><button class="chip chip--soft">Wildlife</button><button class="chip chip--soft">Overnight retreat</button>
+    </div>
+    <div class="field"><label for="exp">Experience (optional)</label><input class="input" id="exp" placeholder="Mangrove &amp; fireflies by kampung boat"></div>
+    <div class="field"><label for="m">Anything else?</label><textarea class="textarea" id="m" placeholder="Half-day, with lunch. About 5 people need halal food and one uses a wheelchair."></textarea></div>
+  </section>
+  <p class="xs muted">Used only for the quote (PDPA)</p>
+</main>
+<div class="cta-bar" id="bar"><button class="btn btn--primary btn--block" id="send">Send enquiry</button></div>
+
+<main id="done" hidden class="stack-lg" style="padding-bottom:32px">
+  <div class="done-hero"><div data-celebrate="small"></div><h2 class="is-h1">Enquiry sent</h2><p class="muted">Thanks, Farah. Our team will send a quote to farah@example.com within 2 working days.</p></div>
+  <div class="pad"><div class="card"><div class="kv"><span>Reference</span><b>CE-1042</b></div><div class="kv"><span>Group</span><span>40 people · Mar 2027</span></div><div class="kv"><span>Budget</span><span>RM 100 – 200 per person</span></div></div></div>
+  <div class="pad"><button class="btn btn--primary btn--block" data-go="g-home">Back to Explore</button></div>
+</main>
+  <script>
+  (function () {
+document.getElementById('send').addEventListener('click', function () { document.getElementById('form').hidden = true; window.scrollTo(0, 0); document.getElementById('bar').remove(); document.body.classList.remove('has-cta'); document.getElementById('done').hidden = false; window.scrollTo(0, 0); });
+  })();
+  </script>
+  <script>/* coming from an experience page: that experience is filled in; from anywhere else the fields only show example text */
+(function () { var k = null; try { k = sessionStorage.getItem('lk-corp-exp'); sessionStorage.removeItem('lk-corp-exp'); } catch (e) {} var f = document.getElementById('exp'); if (k && f && L.exp[k]) f.value = L.exp[k].title + ' · ' + L.exp[k].place.split(',')[0]; })();</script>
+<script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-corporate', [['Goes to', 'Admin › Corporate enquiries'], ['Reply', 'Quote sent offline in MVP'], ['Fields', 'Company, group size, dates, budget, interests']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

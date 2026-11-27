@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · My bookings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+/* Bookings in Airy (27 Nov): Home's card style (photo, text below, no box), Home-style pills, open rows for past trips */
+.bk-tabs { display: flex; gap: 8px; }
+.bk-tabs button { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; }
+.bk-tabs button.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.bk { display: block; color: var(--ink); cursor: pointer; }
+.bk__img { position: relative; }
+.bk__img > img:first-child { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 26px; display: block; }
+.bk__host { position: absolute; left: 14px; bottom: -14px; width: 36px; height: 36px; border-radius: 50%; border: 3px solid #fff; object-fit: cover; }
+.bk__body { padding: 22px 2px 0; }
+.bk__when { display: block; font-size: 13px; line-height: 18px; font-weight: 600; color: var(--ink); }
+.bk__title { font-size: 16px; line-height: 21px; font-weight: 600; margin-top: 4px; }
+.bk__meta { display: block; font-size: 12px; line-height: 17px; color: var(--muted); margin-top: 2px; }
+.brow { display: flex; gap: 14px; padding: 16px 0; color: var(--ink); cursor: pointer; }
+.brow + .brow { border-top: 1px solid var(--line); }
+.brow img { width: 72px; height: 72px; border-radius: 20px; object-fit: cover; flex: none; }
+.brow .grow { display: flex; flex-direction: column; gap: 2px; }
+.brow b { font-size: 16px; line-height: 21px; font-weight: 600; }
+.bk-rev { align-self: flex-start; margin-top: 8px; min-height: 32px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 600 13px/1 var(--font); color: var(--ink); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.bk-rev .ph { font-size: 16px; }
+  </style>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Bookings</div>
+<header class="lt"><h1>Bookings</h1></header>
+<div class="pad" style="margin-top:8px"><div class="bk-tabs" data-group role="tablist">
+  <button class="active" data-panel="#up">Upcoming</button><button data-panel="#past">Past</button>
+</div></div>
+
+<main class="pad" style="padding-top:20px;padding-bottom:110px">
+  <section id="up" class="stack-lg">
+    <a class="bk" href="g-booking.html" data-go="g-booking">
+      <div class="bk__img"><img data-img="1773904594755-6c25ab2ef6c9" data-w="800" alt=""><img class="bk__host" data-img="1763219069500-e4c9b49f308f" data-w="80" alt=""></div>
+      <div class="bk__body"><span class="bk__when">In 4 days · Sun, 6 Dec · 5:00 PM</span><h2 class="bk__title">Mangrove &amp; fireflies by kampung boat</h2><span class="bk__meta">with Pak Rahim · Kuala Selangor</span><span class="bk__meta">2 adults, 1 child</span></div>
+    </a>
+    <a class="bk" href="#" data-toast="Opens your Nyonya booking" data-toast-icon="ph-ticket">
+      <div class="bk__img"><img data-img="1679541946014-a47f1ec0dc1a" data-w="800" alt=""><img class="bk__host" data-img="1773899337978-b8d83bd9b783" data-w="80" alt=""></div>
+      <div class="bk__body"><span class="bk__when">Sat, 19 Dec · 10:00 AM</span><h3 class="bk__title">Nyonya kitchen: zero-waste cooking class</h3><span class="bk__meta">with Jenny Tan · George Town, Penang</span><span class="bk__meta">2 adults</span></div>
+    </a>
+  </section>
+
+  <!-- Past also holds cancelled bookings (as "Cancelled · refunded RM X"); none in this sample account -->
+  <section id="past" hidden>
+    <div class="brow" data-go="g-review"><img data-img="1657463420259-1c92c609f89e" data-w="200" alt=""><div class="grow"><span class="xs muted">Sun, 22 Nov 2026 · Completed</span><b>Rainforest canopy walk &amp; hornbill watch</b><span class="small muted">Penang Hill · Kumar</span><button class="bk-rev" data-go="g-review"><i class="ph ph-star" aria-hidden="true"></i>Leave a review</button></div></div>
+    <div class="brow" data-toast="Opening past booking" data-toast-icon="ph-ticket"><img data-img="1595974482597-4b8da8879bc5" data-w="200" alt=""><div class="grow"><span class="xs muted">Mon, 16 Nov 2026 · Completed</span><b>Paddy-to-plate farm day</b><span class="small muted">Sekinchan · Mei Ling</span><span class="row small mt1"><span class="stars" aria-label="Rated 5 stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span><span class="muted">Reviewed</span></span></div></div>
+  </section>
+</main>
+<nav class="tabbar" data-tabs="guest" data-active="g-bookings"></nav>
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-bookings', [['Upcoming', '2'], ['Past', '2 (1 to review); cancelled bookings also go here']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

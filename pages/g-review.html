@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Write a review</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<header class="appbar appbar--flow">
+  <button class="icon-btn" data-go="g-bookings" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+  <h1 class="appbar__title">Review</h1>
+  <span class="spacer"></span>
+</header>
+<main id="form" class="pad stack-lg" style="padding-top:8px;padding-bottom:16px">
+  <section class="card" aria-label="Experience">
+    <div class="bk-sum"><img data-img="1657463420259-1c92c609f89e" data-w="200" alt=""><div><b>Rainforest canopy walk &amp; hornbill watch</b><div class="small muted">With Kumar · Sun, 22 Nov 2026</div></div></div>
+  </section>
+  <section class="center stack" aria-labelledby="r-h">
+    <h2 id="r-h">How was it?</h2>
+    <div class="star-input" id="stars" role="radiogroup" aria-label="Rating"></div>
+    <p class="small muted" id="slabel">Tap to rate</p>
+  </section>
+  <div class="field">
+    <label for="txt">Tell other travellers about it</label>
+    <textarea class="textarea" id="txt" maxlength="1000" placeholder="What made it special? What should people know before going?">Kumar spotted three species of hornbill before 8 AM and knew every plant on the trail. Go early and bring binoculars.</textarea>
+    <span class="counter" id="cnt">0 / 1000</span>
+  </div>
+  <div class="field">
+    <span class="label">Add photos <span class="muted" style="font-weight:400">(optional)</span></span>
+    <div class="row" style="gap:8px">
+      <img class="photo-thumb" data-img="1592080231635-58456a85c693" data-w="200" alt="Photo added to the review">
+      <img class="photo-thumb" data-img="1698802933641-b185747ae391" data-w="200" alt="Photo added to the review">
+      <button class="photo-add" aria-label="Add photo" data-toast="Photo picker opens" data-toast-icon="ph-image"><i class="ph ph-plus" aria-hidden="true" style="font-size: 22px"></i></button>
+    </div>
+  </div>
+  <p class="xs muted">Reviews are public on the listing with your first name. Kumar can reply publicly.</p>
+</main>
+<div class="cta-bar" id="bar"><button class="btn btn--primary btn--block" id="submit">Post review</button></div>
+<main id="done" hidden class="stack-lg">
+  <div class="done-hero"><div data-celebrate="medium"></div><h2 class="is-h1">Review posted</h2><p class="muted">Shown on the listing</p></div>
+  <div class="pad stack"><button class="btn btn--primary btn--block" data-go="g-home">Explore experiences</button><button class="btn btn--ghost" data-go="g-bookings">Back to bookings</button></div>
+</main>
+  <script>
+  (function () {
+var r = 5, S = document.getElementById('stars'), labels = ['', 'Poor', 'Not great', 'Good', 'Great', 'Amazing'];
+function draw() { var h = ''; for (var i = 1; i <= 5; i++) h += '<button role="radio" aria-checked="' + (i === r) + '" aria-label="' + i + ' star' + (i > 1 ? 's' : '') + '" data-v="' + i + '"><i class="' + (i <= r ? 'ph-fill' : 'ph') + ' ph-star" aria-hidden="true"></i></button>'; S.innerHTML = h; document.getElementById('slabel').textContent = labels[r]; }
+draw(); S.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { r = +b.dataset.v; draw(); } });
+var t = document.getElementById('txt'), c = document.getElementById('cnt'); function cnt() { c.textContent = t.value.length + ' / 1000'; } t.addEventListener('input', cnt); cnt();
+document.getElementById('submit').addEventListener('click', function () { document.getElementById('form').hidden = true; window.scrollTo(0, 0); document.getElementById('bar').remove(); document.body.classList.remove('has-cta'); document.getElementById('done').hidden = false; });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-review', [['Experience', 'Rainforest canopy walk · Sun, 22 Nov'], ['Shown on', 'Listing page, with host reply']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+/* Search bar. <label class="c-search c-search--md|--ios"><span class="c-ico">search</span><input type="search" placeholder="Search"></label> */
+.c-search { display: flex; align-items: center; gap: 10px; font-family: var(--c-font); color: var(--c-muted); }
+.c-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--c-ink); font: inherit; }
+.c-search input::-webkit-search-cancel-button { filter: grayscale(1); }
+/* Material 3: 56 dp full pill on a tonal surface */
+.c-search--md { height: 56px; margin: 8px 16px; padding: 0 16px; border-radius: 28px; background: var(--c-surface-2); font-size: 16px; }
+/* Apple (iOS 27): a glass capsule search field (in iOS 27 search usually lives as a tab in the tab bar) */
+.c-search--ios { height: 44px; margin: 8px 16px; padding: 0 14px; gap: 8px; border-radius: 22px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); font-size: 17px; }
+.c-search--ios .c-ico { font-size: 20px; }

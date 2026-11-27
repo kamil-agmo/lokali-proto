@@ -1,0 +1,23 @@
+/* Tab bar. <nav class="c-tabbar c-tabbar--md|--ios"> with <a class="c-tab is-on"> items (icon + label). */
+.c-tabbar { position: sticky; bottom: 0; z-index: 20; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; font-family: var(--c-font); padding-bottom: var(--c-safe-b); }
+.c-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--c-muted); text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; background: none; border: 0; font: inherit; }
+/* Material 3 Expressive: pill indicator behind the active icon, label underneath */
+.c-tabbar--md { height: calc(64px + var(--c-safe-b)); background: var(--c-surface-2); }   /* Material 3 Expressive: shorter 64 dp bar */
+.c-tabbar--md .c-tab { font-size: 12px; line-height: 16px; font-weight: 500; }
+.c-tabbar--md .c-tab .c-ico { width: 56px; height: 32px; display: grid; place-items: center; border-radius: 16px; transition: background .25s var(--c-ease); }
+.c-tabbar--md .c-tab.is-on { color: var(--c-ink); font-weight: 700; }
+.c-tabbar--md .c-tab.is-on .c-ico { background: var(--c-accent-soft); color: var(--c-accent); font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+/* Apple (iOS 27 Liquid Glass): a floating glass capsule inset from the screen edges; the selected tab sits on a soft pill; search can be one of the tabs */
+.c-tabbar--ios { position: fixed; left: 16px; right: 16px; bottom: calc(10px + var(--c-safe-b)); height: 62px; padding: 4px; border-radius: 31px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); }
+.c-tabbar--ios .c-tab { gap: 1px; border-radius: 27px; font-size: 10px; line-height: 12px; font-weight: 600; color: var(--c-ink); transition: background .3s var(--c-spring), color .2s; }
+.c-tabbar--ios .c-tab .c-ico { font-size: 24px; }
+.c-tabbar--ios .c-tab.is-on { color: var(--c-accent); background: color-mix(in srgb, var(--c-ink) 8%, transparent); }
+.c-tabbar--ios .c-tab.is-on .c-ico { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+.c-tabbar--ios .c-tab:active { transform: scale(.94); }
+
+/* Search tab (Apple HIG): add class c-tab--search to the last tab and it becomes its own round glass button after the bar.
+   In the iPhone Duo side rail (.duo-tabbar) it stays a normal tab. */
+.c-tabbar--ios:has(.c-tab--search):not(.duo-tabbar) { right: calc(16px + 62px + 8px); }
+.c-tabbar--ios:not(.duo-tabbar) .c-tab--search { position: absolute; top: -1px; right: -71px; flex: none; width: 62px; height: 62px; border-radius: 50%; padding: 0; font-size: 0; line-height: 0; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); }
+.c-tabbar--ios:not(.duo-tabbar) .c-tab--search.is-on { background: color-mix(in srgb, var(--c-ink) 8%, var(--c-glass)); }
+.c-tabbar--ios:not(.duo-tabbar) .c-tab--search .c-ico { font-size: 26px; }

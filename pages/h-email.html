@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Host email</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+.mailbar { display: flex; justify-content: center; padding: 12px var(--s4) 8px; }
+.mailbar .segmented { width: 100%; }
+.mail .btn { min-height: 44px; }
+  </style>
+</head>
+<body class="m">
+<header class="appbar bordered">
+  <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <div class="appbar__title">Inbox</div>
+  <button class="icon-btn" aria-label="Archive"><i class="ph ph-archive" aria-hidden="true"></i></button>
+</header>
+<div class="mailbar"><div class="segmented" data-group><button class="active" data-panel="#m1">New booking</button><button data-panel="#m2">Cancellation</button></div></div>
+
+<section id="m1">
+  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: Pak Rahim Osman · Wed, 2 Dec, 10:14 AM<br><b>New booking: Aina Rahman, Sun 6 Dec, 5:00 PM</b></div>
+  <article class="mail">
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24817</span></div>
+    <div class="mail__body">
+      <h2>New booking</h2>
+      <table class="mail-table">
+        <tr><td>Experience</td><td><b>Mangrove &amp; fireflies by kampung boat</b></td></tr>
+        <tr><td>When</td><td>Sun, 6 Dec 2026, 5:00 – 8:30 PM</td></tr>
+        <tr><td>Guest</td><td>Aina Rahman · Petaling Jaya</td></tr>
+        <tr><td>Group</td><td>2 adults, 1 child (age 7)</td></tr>
+        <tr><td>Dietary note</td><td>One vegetarian</td></tr>
+        <tr><td>Slot</td><td>9 of 10 places taken</td></tr>
+        <tr><td>Your payout</td><td>RM 327.25 · about 24 hours after the experience</td></tr>
+      </table>
+      <a class="btn btn--primary btn--block" href="h-booking.html" data-go="h-booking">View guest list</a>
+    </div>
+    <div class="mail__foot"><img src="../assets/habitat-logo.png" alt="The Habitat Group"><span>Lokali by The Habitat Group · Kuala Lumpur, Malaysia<br>Sent for every new booking · Notification settings</span></div>
+  </article>
+</section>
+
+<section id="m2" hidden>
+  <div class="mail-meta"><b>Lokali for hosts</b> &lt;hosts@lokali.my&gt;<br>To: Pak Rahim Osman · Mon, 30 Nov, 8:02 PM<br><b>Booking cancelled: Lee family, Sat 12 Dec, 5:00 PM</b></div>
+  <article class="mail">
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24790</span></div>
+    <div class="mail__body">
+      <h2>Booking cancelled</h2>
+      <table class="mail-table">
+        <tr><td>Experience</td><td><b>Mangrove &amp; fireflies by kampung boat</b></td></tr>
+        <tr><td>When</td><td>Sat, 12 Dec 2026, 5:00 PM</td></tr>
+        <tr><td>Guest</td><td>Lee family · 3 adults</td></tr>
+        <tr><td>Cancelled by</td><td>Guest, 12 days before (Moderate policy)</td></tr>
+        <tr><td>Refund to guest</td><td>Full refund</td></tr>
+        <tr><td>Slot</td><td>3 places reopened</td></tr>
+      </table>
+      <a class="btn btn--primary btn--block" href="h-calendar.html" data-go="h-calendar">Open calendar</a>
+    </div>
+    <div class="mail__foot"><img src="../assets/habitat-logo.png" alt="The Habitat Group"><span>Lokali by The Habitat Group · Kuala Lumpur, Malaysia<br>Sent for every cancellation · Notification settings</span></div>
+  </article>
+</section>
+<div style="height:24px"></div>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-email', [['Templates', 'New booking · Cancellation'], ['To', 'Host'], ['Requirement', 'Email per new booking / cancellation (Must)']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Inbox</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Inbox</div>
+<header class="lt"><h1>Inbox</h1><p>1 unread · 1 enquiry · replying within an hour gets more bookings</p></header>
+<a class="mode-note" href="g-inbox.html" data-go="g-inbox"><i class="ph ph-suitcase-rolling" aria-hidden="true"></i><span class="grow">Own trips · Guest inbox</span><b>Switch</b></a>
+
+  <div class="chips mt4" data-group id="filt">
+    <button class="chip active" data-value="all">All</button>
+    <button class="chip" data-value="unread">Unread <span class="badge badge--danger" style="padding:0 8px">1</span></button>
+    <button class="chip" data-value="enq">Enquiries <span class="badge" style="padding:0 8px">1</span></button>
+  </div>
+  <div class="list mt4" style="margin-inline:var(--s4)" id="threads">
+    <div class="thread" data-k="booked" data-go="h-chat">
+      <div class="av-wrap"><img class="avatar" data-img="1545266241-3516e2a6e016" data-w="120" alt=""><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
+      <div class="thread__body"><div class="row-between"><b>Aina Rahman</b><span class="xs faint">9:05 AM</span></div><span class="xs muted">Booked · Sun, 6 Dec · LK-24817</span><p>You: Hello Aina! Yes, Adam is very welcome…</p></div>
+    </div>
+    <div class="thread" data-k="enq" data-go="h-chat">
+      <div class="av-wrap"><span class="avatar">JL</span><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
+      <div class="thread__body"><div class="row-between"><b>Jason Lim</b><span class="xs faint">Yesterday</span></div><span class="xs"><span class="badge badge--info" style="padding:0 8px">Enquiry · not booked</span></span><p>You: Yes, a private boat for 4 is RM 980. Want me to…</p></div>
+    </div>
+    <div class="thread" data-k="booked" data-go="h-chat">
+      <div class="av-wrap"><img class="avatar" data-img="1613447895817-e617a4093f50" data-w="120" alt=""><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
+      <div class="thread__body"><div class="row-between"><b>Nur Aisyah Kamal</b><span class="xs faint">Mon</span></div><span class="xs muted">Booked · Today, 5:00 PM</span><p>Terima kasih Pak Rahim, see you at the jetty.</p></div>
+    </div>
+    <div class="thread unread" data-k="unread lokali" data-go="h-listings">
+      <div class="av-wrap"><span class="avatar" style="background:var(--primary);color:#fff"><i class="ph-fill ph-leaf" aria-hidden="true"></i></span></div>
+      <div class="thread__body"><div class="row-between"><b>Lokali team</b><span class="xs faint">Yesterday</span></div><span class="xs muted">About: Mangrove replanting morning</span><p>2 changes needed before going live</p></div>
+      <span class="ud" aria-label="Unread"></span>
+    </div>
+  </div>
+  <div class="empty" id="none" hidden><i class="ph ph-chat-circle" aria-hidden="true"></i><b>Nothing here</b><p class="small muted">Messages from guests show up here.</p></div>
+  <nav class="tabbar" data-tabs="host" data-active="h-inbox"></nav>
+
+  <script>
+  (function () {
+    document.getElementById('filt').addEventListener('pick', function (e) {
+      var f = e.detail, n = 0;
+      document.querySelectorAll('#threads .thread').forEach(function (t) { var show = f === 'all' || t.getAttribute('data-k').indexOf(f) > -1; t.hidden = !show; if (show) n++; });
+      document.getElementById('none').hidden = n > 0;
+    });
+  })();
+  </script>
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-inbox', [["Unread", "1"], ["Enquiries", "1 (before booking)"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

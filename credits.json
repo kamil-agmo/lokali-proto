@@ -1,0 +1,42 @@
+{
+ "name": "Lokali",
+ "design": "Cheryl",
+ "made": [
+  {
+   "skill": "Presenter",
+   "by": "David"
+  },
+  {
+   "skill": "iPhone",
+   "by": "David"
+  },
+  {
+   "skill": "Icons",
+   "by": "Kamil"
+  },
+  {
+   "skill": "Desktop",
+   "by": "Kamil"
+  },
+  {
+   "skill": "Accessibility",
+   "by": "Kamil"
+  },
+  {
+   "skill": "Admin panel",
+   "by": "Kamil"
+  },
+  {
+   "skill": "UX writing",
+   "by": "Kamil"
+  }
+ ],
+ "thanks": [],
+ "line": "Design by Cheryl · Presenter & iPhone by David · Icons, Desktop, Accessibility, Admin panel & UX writing by Kamil",
+ "parts": [
+  "Design by Cheryl",
+  "Presenter & iPhone by David",
+  "Icons, Desktop, Accessibility, Admin panel & UX writing by Kamil"
+ ],
+ "pill": true
+}

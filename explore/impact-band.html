@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Impact as a background band</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 15px/22px Inter, system-ui, sans-serif; color: #222; background: #F3F3F1; padding: 32px 24px 48px; }
+  .wrap { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+  .col { width: 360px; }
+  .col > h2 { font: 600 15px/20px Inter; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 14px; min-height: 36px; }
+  .phone { width: 360px; background: #fff; border-radius: 32px; overflow: hidden; padding: 24px 0 26px; box-shadow: 0 20px 60px rgba(0,0,0,.10); }
+  .pad { padding: 0 22px; }
+  .ctx { border: 1px solid #EBEBEB; border-radius: 26px; padding: 16px; font-size: 14px; line-height: 20px; color: #222; }
+  .ctx small { display: block; font-size: 12px; color: #6A6A6A; margin-top: 4px; }
+  .sh { font: 700 18px/24px Inter; letter-spacing: -.01em; }
+  .muted { font-size: 13px; color: #6A6A6A; }
+  .band { position: relative; margin: 26px 0; height: 300px; overflow: hidden; }
+  .band img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .num { display: block; white-space: nowrap; font: 800 30px/34px Inter; letter-spacing: -.03em; }
+  .num small { font-size: 14px; font-weight: 700; letter-spacing: 0; margin-right: 3px; vertical-align: 13px; }
+  .lbl { display: block; font: 500 12px/16px Inter; margin-top: 2px; }
+  .nums { display: grid; grid-template-columns: 1fr 1fr; }
+
+  /* A · Melt: photo fades into white at top and bottom, numbers in white on the darker middle */
+  .a img { -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent); filter: brightness(.72); }
+  .a .in { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 22px; color: #fff; text-align: center; }
+  .a .sh { color: #fff; } .a .muted { color: rgba(255,255,255,.85); margin-top: 2px; }
+  .a .nums { margin-top: 18px; } .a .nums > div + div { border-left: 1px solid rgba(255,255,255,.5); }
+
+  /* B · Wave: full-bleed, soft wave edges top and bottom (like the listing photo) */
+  .b img { filter: brightness(.66); }
+  .b .wave { position: absolute; left: 0; right: 0; height: 28px; fill: #fff; z-index: 1; }
+  .b .wave.t { top: -1px; } .b .wave.bt { bottom: -1px; transform: scaleY(-1); }
+  .b .in { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 0 22px; color: #fff; }
+  .b .sh { color: #fff; } .b .muted { color: rgba(255,255,255,.85); margin-top: 2px; }
+  .b .nums { margin-top: 18px; } .b .nums > div + div { border-left: 1px solid rgba(255,255,255,.5); padding-left: 16px; }
+
+  /* C · Side fade: photo on the right melts into white on the left; dark text on white */
+  .c { height: 260px; }
+  .c img { left: 30%; width: 70%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%); mask-image: linear-gradient(90deg, transparent, #000 45%); }
+  .c .in { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 22px; max-width: 240px; }
+  .c .stack > div { margin-top: 14px; } .c .num { color: #2F5D3A; }
+  .c .lbl { color: #3D3D3D; }
+
+  /* A2 · Soft melt: taller band, long eased fades (no hard edge), no grey wash; darkness only behind the text */
+  .a2 { height: 380px; margin: 6px 0; }
+  .a2 img { -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.04) 6%, rgba(0,0,0,.15) 13%, rgba(0,0,0,.35) 21%, rgba(0,0,0,.6) 29%, rgba(0,0,0,.85) 37%, #000 44%, #000 56%, rgba(0,0,0,.85) 63%, rgba(0,0,0,.6) 71%, rgba(0,0,0,.35) 79%, rgba(0,0,0,.15) 87%, rgba(0,0,0,.04) 94%, rgba(0,0,0,0) 100%);
+             mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.04) 6%, rgba(0,0,0,.15) 13%, rgba(0,0,0,.35) 21%, rgba(0,0,0,.6) 29%, rgba(0,0,0,.85) 37%, #000 44%, #000 56%, rgba(0,0,0,.85) 63%, rgba(0,0,0,.6) 71%, rgba(0,0,0,.35) 79%, rgba(0,0,0,.15) 87%, rgba(0,0,0,.04) 94%, rgba(0,0,0,0) 100%); }
+  .a2::before { content: ""; position: absolute; z-index: 1; left: 0; right: 0; top: 28%; bottom: 28%; background: radial-gradient(ellipse 75% 60% at 50% 50%, rgba(0,0,0,.5), rgba(0,0,0,0) 100%); }
+  .a2 .in { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 22px; color: #fff; text-align: center; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+  .a2 .sh { color: #fff; } .a2 .muted { color: rgba(255,255,255,.9); margin-top: 2px; }
+  .a2 .nums { margin-top: 18px; } .a2 .nums > div + div { border-left: 1px solid rgba(255,255,255,.5); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="col">
+    <h2>A · Melt</h2>
+    <p>Edge to edge, no corners. The photo fades into the white page at top and bottom, so it reads as backdrop, not a card.</p>
+    <div class="phone">
+      <div class="pad"><div class="ctx">“The fireflies came back when the trees did.”<small>Pak Rahim · mangrove guide</small></div></div>
+      <div class="band a"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=800&q=70&auto=format&fit=crop" alt="">
+        <div class="in"><div class="sh">Impact so far</div><div class="muted">Since 2025, guests on Lokali have given</div>
+          <div class="nums"><div><span class="num"><small>RM</small>412,800</span><span class="lbl">to local hosts</span></div><div><span class="num">8,240</span><span class="lbl">mangroves replanted</span></div></div></div></div>
+      <div class="pad"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+
+
+  <div class="col">
+    <h2>A2 · Soft melt</h2>
+    <p>Same idea as A with longer, eased fades and no grey wash, so there is no visible edge. Darkness only behind the text.</p>
+    <div class="phone">
+      <div class="pad"><div class="ctx">“The fireflies came back when the trees did.”<small>Pak Rahim · mangrove guide</small></div></div>
+      <div class="band a2"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=800&q=70&auto=format&fit=crop" alt="">
+        <div class="in"><div class="sh">Impact so far</div><div class="muted">Since 2025, guests on Lokali have given</div>
+          <div class="nums"><div><span class="num"><small>RM</small>412,800</span><span class="lbl">to local hosts</span></div><div><span class="num">8,240</span><span class="lbl">mangroves replanted</span></div></div></div></div>
+      <div class="pad"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+  <div class="col">
+    <h2>B · Wave</h2>
+    <p>Edge to edge with soft wave edges top and bottom, echoing the listing photo. Numbers left-aligned.</p>
+    <div class="phone">
+      <div class="pad"><div class="ctx">“The fireflies came back when the trees did.”<small>Pak Rahim · mangrove guide</small></div></div>
+      <div class="band b"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=800&q=70&auto=format&fit=crop" alt="">
+        <svg class="wave t" viewBox="0 0 360 28" preserveAspectRatio="none"><path d="M0 0H360V8C300 30 220 30 180 18C130 4 60 4 0 22Z"/></svg>
+        <svg class="wave bt" viewBox="0 0 360 28" preserveAspectRatio="none"><path d="M0 0H360V8C300 30 220 30 180 18C130 4 60 4 0 22Z"/></svg>
+        <div class="in"><div class="sh">Impact so far</div><div class="muted">Since 2025, guests on Lokali have given</div>
+          <div class="nums"><div><span class="num"><small>RM</small>412,800</span><span class="lbl">to local hosts</span></div><div><span class="num">8,240</span><span class="lbl">mangroves replanted</span></div></div></div></div>
+      <div class="pad"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <h2>C · Side fade</h2>
+    <p>Photo sits on the right and melts into white towards the left. Numbers in dark green on white. Quietest.</p>
+    <div class="phone">
+      <div class="pad"><div class="ctx">“The fireflies came back when the trees did.”<small>Pak Rahim · mangrove guide</small></div></div>
+      <div class="band c"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=800&q=70&auto=format&fit=crop" alt="">
+        <div class="in"><div class="sh">Impact so far</div><div class="muted">Since 2025, guests have given</div>
+          <div class="stack"><div><span class="num"><small>RM</small>412,800</span><span class="lbl">to local hosts</span></div><div><span class="num">8,240</span><span class="lbl">mangroves replanted</span></div></div></div></div>
+      <div class="pad"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

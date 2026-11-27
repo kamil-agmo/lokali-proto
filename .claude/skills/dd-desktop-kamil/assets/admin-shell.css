@@ -1,0 +1,21 @@
+/* dd-desktop-kamil: admin (desktop) screens for the dd-presenter-david.
+   Loaded after css/shell/prototype.css. The shell gets .is-desktop while a desktop page shows, and .is-drawers when the side cards slide in. */
+/* ---------- desktop (admin) screens: the page fills the window like a real desktop app (no frame) ---------- */
+.shell.is-desktop { padding: 0; column-gap: 0; grid-template-columns: var(--side-w) minmax(0, 1fr) var(--side-w); justify-content: stretch; }
+.shell.is-desktop .stage { height: 100vh; width: auto !important; }
+.shell.is-desktop .phone { width: 100%; height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; transform: none !important; }
+.shell.is-desktop .phone__screen { width: 100%; height: 100%; border-radius: 0; }
+.shell.is-desktop .phone__btn, .shell.is-desktop .island, .shell.is-desktop .statusbar, .shell.is-desktop .indicator { display: none; }
+/* side cards run the full height of the window: docked columns on ultrawide, drawers otherwise */
+.shell.is-desktop .side { display: block !important; margin-top: 0; height: 100vh; max-height: 100vh; border-radius: 0; border: 0; box-shadow: none; padding-bottom: 64px; background: var(--panel); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.shell.is-desktop .side--left { border-right: 1px solid var(--line); }
+.shell.is-desktop .side--right { border-left: 1px solid var(--line); }
+
+/* not ultrawide: the page takes the whole width and the cards slide in over it */
+.shell.is-drawers { grid-template-columns: minmax(0, 1fr); }
+.shell.is-drawers .side { position: fixed; z-index: 60; top: 0; bottom: 0; width: var(--side-w); max-width: calc(100vw - 48px); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
+.shell.is-drawers .side--left { left: 0; transform: translateX(-100%); }
+.shell.is-drawers .side--right { right: 0; transform: translateX(100%); }
+.shell.is-drawers.nav-open .side--left, .shell.is-drawers.sum-open .side--right { transform: none; box-shadow: 0 0 80px rgba(15, 23, 42, .25); }
+body:has(.shell.is-desktop) .dvcredits { z-index: 61; }   /* dev mode's Credits button sits on the full-height card */
+@media (prefers-reduced-motion: reduce) { .shell.is-drawers .side { transition: none; } }

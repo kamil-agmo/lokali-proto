@@ -1,0 +1,14 @@
+/* Tooltip / popover: a short hint or a small card of extra info next to something. Tooltip shows on hover or focus; popover opens on tap.
+   Tooltip: <span class="c-tip c-tip--md|--ios" data-tip="Copied to clipboard"><button class="c-icon …">…</button></span>
+   Popover: <button data-c-pop="info">…</button> <div class="c-pop c-pop--md|--ios" id="info" hidden><b>Title</b><p>Text</p></div> (closes on tap outside / Esc) */
+.c-tip { position: relative; display: inline-flex; }
+.c-tip::after { content: attr(data-tip); position: absolute; z-index: 30; left: 50%; bottom: calc(100% + 8px); transform: translate(-50%, 4px); opacity: 0; pointer-events: none; white-space: nowrap; font: 500 12px/16px var(--c-font); transition: opacity .15s, transform .15s; }
+.c-tip:hover::after, .c-tip:focus-within::after, .c-tip.is-on::after { opacity: 1; transform: translate(-50%, 0); }
+.c-tip--md::after { padding: 6px 8px; border-radius: 4px; background: #313033; color: #f4eff4; }
+.c-tip--ios::after { padding: 8px 12px; border-radius: 99px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); color: var(--c-ink); font-size: 13px; }
+.c-pop { position: fixed; z-index: 55; max-width: 280px; padding: 14px 16px; font-family: var(--c-font); color: var(--c-ink); animation: c-menu-in .2s var(--c-spring) both; transform-origin: top center; }
+.c-pop[hidden] { display: none; } .c-pop b { display: block; margin-bottom: 4px; font-size: 15px; } .c-pop p { margin: 0; color: var(--c-muted); font-size: 14px; line-height: 20px; }
+/* Material 3 rich tooltip: tinted card with 12 dp corners */
+.c-pop--md { border-radius: 12px; background: var(--c-surface-2); box-shadow: 0 4px 16px rgba(0, 0, 0, .14); }
+/* Apple (iOS 27) popover: glass card with large corners */
+.c-pop--ios { border-radius: 24px; background: color-mix(in srgb, var(--c-bg) 90%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(30px); backdrop-filter: saturate(1.8) blur(30px); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine), 0 12px 40px rgba(0, 0, 0, .14); }

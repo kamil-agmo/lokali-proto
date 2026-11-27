@@ -1,0 +1,12 @@
+{"name":"energy-flow","generatedFrom":{"page":"home.html","element":"section.flow"},"size":{"width":370,"height":420},"notes":["Numbers counting up are script driven."],
+"elements":[
+{"id":"streak1","selector":"section > div.flow__electric > i","tag":"i","rect":{"x":20,"y":40,"w":2,"h":60},"style":{"background":"rgba(37, 99, 235, 0.5)","backgroundToken":"","color":"rgb(0,0,0)","borderRadius":"2px","opacity":"1","transformOrigin":[0.5,0.5]},
+ "animations":[{"name":"flow-rise","type":"css-animation","durationMs":6600,"delayMs":-2600,"endDelayMs":0,"iterations":"infinite","direction":"normal","fill":"none","easing":"linear",
+  "keyframes":[{"offset":0,"easing":"linear","props":{"opacity":"0","transform":"translateY(0px)"}},{"offset":0.1,"easing":"cubic-bezier(0.4, 0, 0.2, 1)","props":{"opacity":"0.52"}},{"offset":0.8,"easing":"ease-in","props":{"opacity":"0.52"}},{"offset":1,"easing":"linear","props":{"opacity":"0","transform":"translateY(-620px)"}}]}]},
+{"id":"dot","selector":"span.live > span.dot","tag":"span","rect":{"x":300,"y":10,"w":8,"h":8},"style":{"background":"rgb(34, 197, 94)","backgroundToken":"--success","color":"rgb(0,0,0)","borderRadius":"9999px","opacity":"1","transformOrigin":[0.7,0.7]},
+ "animations":[{"name":"pulse","type":"css-animation","durationMs":1400,"delayMs":200,"endDelayMs":0,"iterations":"infinite","direction":"alternate","fill":"none","easing":"ease",
+  "keyframes":[{"offset":0,"easing":"ease","props":{"transform":"scale(1)","opacity":"1"}},{"offset":1,"easing":"ease","props":{"transform":"scale(3) rotate(-14deg)","opacity":"0"}}]},
+  {"name":"march","type":"css-animation","durationMs":800,"delayMs":0,"endDelayMs":0,"iterations":3,"direction":"normal","fill":"none","easing":"linear","keyframes":[{"offset":0,"easing":"linear","props":{"backgroundPositionY":"0px"}},{"offset":1,"easing":"linear","props":{"backgroundPositionY":"12.667px"}}]}]},
+{"id":"card","selector":"article.flow","tag":"article","rect":{"x":0,"y":0,"w":370,"h":420},"style":{"background":"rgba(0, 0, 0, 0)","backgroundToken":"","color":"rgb(0,0,0)","borderRadius":"24px","opacity":"1","transformOrigin":[0.5,0.5]},
+ "animations":[{"name":"m-rise","type":"css-animation","durationMs":500,"delayMs":120,"endDelayMs":0,"iterations":1,"direction":"normal","fill":"both","easing":"linear","keyframes":[{"offset":0,"easing":"cubic-bezier(0.16, 1, 0.3, 1)","props":{"opacity":"0","transform":"translateY(12px)"}},{"offset":1,"easing":"linear","props":{"opacity":"1","transform":"none"}}]}]}
+]}

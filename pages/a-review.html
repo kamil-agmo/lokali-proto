@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Review a listing</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-review"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div>
+          <div class="crumbs"><a href="a-approvals.html" data-go="a-approvals">Approvals</a><i class="ph ph-caret-right" aria-hidden="true"></i><span>Listings</span></div>
+          <h1>Mangrove replanting morning</h1>
+          <p>by Pak Rahim Osman · Nature &amp; eco-tours · Kuala Selangor · submitted Fri, 27 Nov 2026, 9:12 PM · changes requested Tue, 1 Dec</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-warning-circle" aria-hidden="true"></i>Before it goes live</span><b><span class="hl">2 changes</span> needed</b></div>
+        </div>
+        <div class="a-head__actions"><span class="badge badge--info">New listing</span><span class="badge badge--danger"><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i>Changes requested · Tue 1 Dec</span><button class="btn btn--secondary" data-go="a-listing"><i class="ph ph-pencil-simple" aria-hidden="true"></i>Edit for host</button></div>
+      </div>
+
+      <div class="a-split">
+        <div class="a-card">
+          <div class="a-card__head"><div><h2 class="is-h3">Guest view preview</h2><p>Exactly what guests will see, in listing order</p></div><div class="ptabs" data-group><button class="active">Mobile order</button><button>Changes only</button></div></div>
+          <div class="a-card__body">
+            <div class="preview">
+              <div class="preview__hero">
+                <img src="https://images.unsplash.com/photo-1784751449611-ff8ac03ff234?w=900&q=70&auto=format&fit=crop" alt="Mangrove roots in shallow water">
+                <img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=500&q=70&auto=format&fit=crop" alt="Hands planting a seedling">
+                <img src="https://images.unsplash.com/photo-1773904594755-6c25ab2ef6c9?w=500&q=70&auto=format&fit=crop" alt="Mangrove trees">
+                <div class="ph-slot"><span><i class="ph ph-image-broken" aria-hidden="true"></i><br>Photo 4 missing</span></div>
+                <div class="ph-slot"><span><i class="ph ph-image-broken" aria-hidden="true"></i><br>Photo 5 missing</span></div>
+              </div>
+              <div class="preview__body">
+                <div><h2>Mangrove replanting morning</h2><p class="muted mt1">Plant your own mangrove seedling with the village that has protected this river for 40 years.</p></div>
+                <div class="pv-sec"><h3 class="is-h4"><i class="ph ph-list-checks" aria-hidden="true"></i>2 · Quick facts</h3><p class="small">3 hours · 4–20 guests · Starts 8:00 AM · English, Malay · Moderate fitness (mud) · Age 8+</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-book-open-text" aria-hidden="true"></i>3 · Story</h4><p class="small">When the 2004 tsunami reached our coast, the mangroves took the blow so our houses didn't. Since then our kampung replants every month. You'll pull on boots, wade into the mud with us and plant a seedling with your name on its tag. We send you a photo of it in a year.</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-path" aria-hidden="true"></i>4 · Itinerary</h4><p class="small">8:00 Welcome tea at the jetty · 8:30 Nursery walk · 9:15 Planting in the mudflats · 10:30 Rinse, kuih and kopi · 11:00 End</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-user-circle" aria-hidden="true"></i>6 · Meet your guide</h4><p class="small">Pak Rahim, born in Kampung Kuantan. "Why I started this: my father planted the trees you'll walk under."</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-leaf" aria-hidden="true"></i>7 · Impact story</h4><p class="small">Every seedling is logged with the state forestry office; 1,800 planted since 2023 with an 81% survival rate.</p></div>
+                <div class="pv-sec missing"><h4 style="color:var(--danger)"><i class="ph ph-chart-pie-slice" aria-hidden="true"></i>8 · Where your money goes — missing</h4><p class="small" style="color:#8A1C13">Required. The host has not split the RM 85 price yet.</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-map-pin" aria-hidden="true"></i>10 · Getting there</h4><p class="small">Jeti Kampung Kuantan, Kuala Selangor · Parking at the surau · Full address shown after booking</p></div>
+                <div class="pv-sec"><h4><i class="ph ph-tag" aria-hidden="true"></i>16–17 · Price &amp; policy</h4><p class="small">RM 85 / adult · RM 50 / child · Private group RM 900 · Moderate: full refund 72 h or more before start</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="a-card a-sticky">
+          <div class="a-card__head"><div><h3>Section checklist</h3><p>12 of 14 required sections pass</p></div><span class="badge badge--danger">2 issues</span></div>
+          <div class="a-card__body">
+            <ul class="checklist" id="chk"></ul>
+          </div>
+          <div class="a-card__body" style="border-top:1px solid var(--line)">
+            <div class="field">
+              <label for="note">Note to Pak Rahim</label>
+              <textarea class="textarea" id="note">Add at least 5 photos and the 'Where your money goes' split. Everything else looks great — the story is lovely.</textarea>
+              <span class="hint">Sent by email and shown in the host app</span>
+            </div>
+          </div>
+          <div class="a-card__foot" style="justify-content:space-between;flex-wrap:wrap;gap:var(--s2)">
+            <button class="btn btn--danger" data-open="#rej">Reject</button>
+            <div class="row" style="flex-wrap:wrap"><button class="btn btn--secondary" data-open="#approve-warn">Approve</button><button class="btn btn--primary" data-open="#changes">Resend change request</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="changes" role="dialog" aria-modal="true" aria-labelledby="ch-h">
+  <div class="a-modal__body"><h3 id="ch-h">Resend the change request to Pak Rahim?</h3><p class="muted">The listing stays in "Changes requested" (sent Tue, 1 Dec). He gets your note and the 2 sections to fix again. It comes back to the approvals queue when he resubmits.</p>
+    <div class="quote">Add at least 5 photos and the 'Where your money goes' split. Everything else looks great — the story is lovely.</div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="send-changes">Resend request</button></div>
+</div>
+<div class="a-modal" id="approve-warn" role="dialog" aria-modal="true" aria-labelledby="ap-h">
+  <div class="a-modal__body"><h3 id="ap-h">2 required sections are incomplete</h3><p class="muted">Photos (3 of 5) and "Where your money goes" are required before a listing can go live. Request changes, or edit the listing for the host first.</p></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Close</button><button class="btn btn--primary" data-go="a-listing">Edit for host</button></div>
+</div>
+<div class="a-modal" id="rej" role="dialog" aria-modal="true" aria-labelledby="rj-h">
+  <div class="a-modal__body"><h3 id="rj-h">Reject this listing?</h3><p class="muted">Rejecting removes it from review. The host can't resubmit this listing. Use "Request changes" if it can be fixed.</p>
+    <div class="field"><label for="rr">Reason</label><select class="select" id="rr"><option>Not a sustainable experience</option><option>Unsafe activity</option><option>Duplicate of a live listing</option><option>Other</option></select></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--danger" data-close data-toast="Listing rejected." data-toast-icon="ph-x-circle">Reject listing</button></div>
+</div>
+<script>
+(function () {
+  var rows = [
+    ['ok', '1 Hook', 'Title, promise ✓ · Photos 3 of 5', 'bad'],
+    ['ok', '2 Quick facts', 'All 6 facts'], ['ok', '3 Story', '118 / 250 words'], ['ok', '4 Itinerary', '5 steps'],
+    ['ok', '5 Included / not included', '4 + 2 items'], ['ok', '6 Meet your guide', 'Photo, 4 prompts, no video'],
+    ['ok', '7 Impact story', 'Clear, with numbers'], ['bad', '8 Where your money goes', 'Not filled in'],
+    ['ok', '10 Getting there', 'Pin, parking, address after booking'], ['ok', '11 What to bring', '5 items'],
+    ['opt', '12 Respect & etiquette', 'Optional · not added'], ['ok', '13 Food & dietary', 'Halal kuih, vegetarian'],
+    ['ok', '14 Accessibility', 'Not wheelchair accessible · mud'], ['ok', '16–17 Price & policy', 'RM 85 · Moderate']
+  ];
+  document.getElementById('chk').innerHTML = rows.map(function (r) {
+    var st = r[3] || r[0];
+    var ic = st === 'ok' ? '<i class="ph-fill ph-check-circle ok" aria-label="Passes"></i>' : st === 'bad' ? '<i class="ph-fill ph-x-circle bad" aria-label="Needs fixing"></i>' : '<i class="ph ph-minus-circle opt" aria-label="Optional"></i>';
+    return '<li>' + ic + '<div><b>' + r[1] + '</b><small>' + r[2].replace('✓', '') + '</small></div></li>';
+  }).join('');
+  document.getElementById('send-changes').addEventListener('click', function () {
+    L.close(); L.toast('Change request resent. Pak Rahim has been sent an SMS.');
+    setTimeout(function () { L.go('a-approvals'); }, 1400);
+  });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-review', [['Listing', 'Mangrove replanting morning'], ['Host', 'Pak Rahim Osman'], ['Required sections', '12 of 14 done'], ['Status', 'Changes requested · Tue 1 Dec']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

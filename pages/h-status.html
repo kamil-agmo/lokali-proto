@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Application status</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="g-account" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Application</h1>
+    <span class="spacer"></span>
+  </header>
+<section class="pad" style="padding-top:8px" aria-label="Host application"><div class="card">
+    <span class="bal-label"><i class="ph-fill ph-seal-check" aria-hidden="true"></i>Host application</span>
+    <p class="t2 mt1">Almost there, Aina</p>
+    <p class="sum-note">Every host is checked · up to 2 working days</p>
+  </div></section>
+  <div class="pad mt4">
+    <div class="segmented" data-group>
+      <button data-panel="#p-review">In review</button>
+      <button class="active" data-panel="#p-changes">Changes needed</button>
+      <button data-panel="#p-ok">Approved</button>
+    </div>
+    <p class="xs faint center mt2">Prototype: switch to see each state</p>
+  </div>
+
+  <section id="p-review" class="pad stack-lg mt4" hidden>
+    <div class="center stack" style="align-items:center"><span class="avatar xl" style="background:var(--info-tint);color:var(--info)"><i class="ph ph-hourglass-medium" style="font-size: 40px" aria-hidden="true"></i></span><h2>Application in review</h2><p class="muted">Up to 2 working days · decision by email and SMS</p></div>
+    <div class="card"><ol class="vsteps">
+      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Sun, 29 Nov 2026 · 10:42 AM</small></div></li>
+      <li class="now" style="--warn:var(--info);--warn-tint:var(--info-tint)"><span class="ic"><i class="ph ph-magnifying-glass" aria-hidden="true"></i></span><div><b>In review</b><small>Documents in review</small></div></li>
+      <li><span class="ic"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div><b>Approved</b><small>Next: create a listing</small></div></li>
+    </ol></div>
+  </section>
+
+  <section id="p-changes" class="pad stack-lg mt4">
+    <div class="center stack" style="align-items:center"><span class="avatar xl" style="background:var(--warn-tint);color:var(--warn)"><i class="ph ph-note-pencil" style="font-size: 40px" aria-hidden="true"></i></span><h2>One thing to fix</h2><p class="muted">Fix it and resubmit. No need to start again.</p></div>
+    <div class="admin-note"><div class="who"><i class="ph ph-chat-centered-text" aria-hidden="true"></i>Note from Lokali team · Tue, 1 Dec</div>Please upload a clearer copy of your MOTAC licence. The expiry date is not readable. Everything else looks good.</div>
+    <div class="card"><ol class="vsteps">
+      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Submitted</b><small>Sun, 29 Nov 2026 · 10:42 AM</small></div></li>
+      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Reviewed</b><small>Tue, 1 Dec · by Nurul H.</small></div></li>
+      <li class="now"><span class="ic"><i class="ph ph-warning" aria-hidden="true"></i></span><div><b>Changes requested</b><small>To do</small></div></li>
+      <li><span class="ic"><i class="ph ph-seal-check" aria-hidden="true"></i></span><div><b>Approved</b><small>Next: create a listing</small></div></li>
+    </ol></div>
+    <button class="btn btn--primary btn--block" id="fix"><i class="ph ph-upload-simple" aria-hidden="true"></i>Fix and resubmit</button>
+    <button class="btn btn--secondary btn--block" data-toast="Calling Lokali host support"><i class="ph ph-phone" aria-hidden="true"></i>Call Lokali for help</button>
+  </section>
+
+  <section id="p-ok" class="pad stack-lg mt4" hidden>
+    <div class="center stack" style="align-items:center"><div data-celebrate="full"></div><h2>Application approved</h2><p class="muted">Next: create a listing</p></div>
+    <div class="card card--tint stack">
+      <h3>Start your first listing</h3>
+      <p class="small">A guided form, one section at a time, with tips. Most hosts finish in about 45 minutes. Save as draft any time.</p>
+      <button class="btn btn--primary btn--block" data-go="h-builder">Start listing</button>
+    </div>
+    <button class="btn btn--ghost" data-go="h-home">Go to Today</button>
+  </section>
+  <div style="height:32px"></div>
+
+
+  <script>document.getElementById('fix').addEventListener('click', function () { try { sessionStorage.setItem('hSignupStep', '3'); } catch (e) {} L.go('h-signup'); });</script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-status', [["State", "Changes requested"], ["Admin note", "Unclear MOTAC licence"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

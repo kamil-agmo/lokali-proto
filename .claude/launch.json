@@ -1,0 +1,32 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "lokali",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /tmp && exec python3 -m http.server 8765 --directory \"/Users/user/Documents/Shortcuts/Agmo/CLAUDE/Lokali (Cheryl)\""
+      ],
+      "port": 8765
+    },
+    {
+      "name": "lokali-copy",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /tmp && exec python3 -m http.server 8768 --directory \"/private/tmp/claude-501/-Users-user-Documents-Shortcuts-Agmo-CLAUDE-Lokali--Cheryl-/401356a4-0c59-43d8-bba9-36556ce10d36/scratchpad/lokali-copy\""
+      ],
+      "port": 8768
+    },
+    {
+      "name": "lokali-her",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /tmp && exec python3 -m http.server 8771 --directory \"/private/tmp/claude-501/-Users-user-Documents-Shortcuts-Agmo-CLAUDE-Lokali--Cheryl-/401356a4-0c59-43d8-bba9-36556ce10d36/scratchpad/her-copy\""
+      ],
+      "port": 8771
+    }
+  ]
+}

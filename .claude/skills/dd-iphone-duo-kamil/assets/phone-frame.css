@@ -1,0 +1,29 @@
+/* iPhone frame for the presenter shell (dd-iphone-david; iPhone Duo bundles the same file). Loaded after css/shell/prototype.css.
+   js/shell/phone-frame.js adds .phone--framed to the presenter's screen box (#phone) and the parts inside it: status bar, Dynamic Island,
+   home indicator. Without this file the presenter shows pages in a plain card of the same size.
+   Frame: 10.5 px per side (1.5 px edge + 9 px black bezel); screen corners 58 px, outer corners 68.5 px (58 + 10.5, so the curves run
+   parallel); Dynamic Island 95 x 37 px, 14 px from the top. Screen size: --phone-w x --phone-h (iPhone 17 Pro, 402 x 874). */
+/* base frame (the iPhone Duo poses build on it: +18 px, 9 px bezel) */
+.phone--framed { --stroke: #3a3a40; width: calc(var(--phone-w) + 18px); height: calc(var(--phone-h) + 18px); padding: 9px; border-radius: 63px; background: #000; border: 1.5px solid var(--stroke);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, .06), 0 2px 6px rgba(15, 23, 42, .08), 0 18px 48px rgba(15, 23, 42, .18); }
+.phone--framed .phone__screen { border-radius: 54px; box-shadow: none; }
+/* the iPhone itself: exactly the iPhone Duo frame's thickness, 10.5 px per side */
+.phone--framed:not(.is-duo) { width: calc(var(--phone-w) + 21px); height: calc(var(--phone-h) + 21px); border-radius: 68.5px; }
+.phone--framed:not(.is-duo) .phone__screen { border-radius: 58px; }
+.phone__btn { display: none; }   /* no side buttons (older projects still have them in index.html) */
+.island { position: absolute; z-index: 3; top: 11px; left: 50%; width: 120px; height: 35px; margin-left: -60px; border-radius: 20px; background: #000; pointer-events: none; }
+.phone--framed:not(.is-duo) .island { top: 14px; width: 95px; height: 37px; margin-left: -47.5px; border-radius: 19px; }
+.statusbar { position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 47px; padding: 15px 30px 0 40px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; color: #000; transition: color .25s ease; }
+.phone--framed:not(.is-duo) .statusbar { height: 54px; padding: 18px 32px 0 44px; align-items: center; }   /* the iPhone's own spacing, beside the island */
+.phone--framed:not(.is-duo) .statusbar > * { margin-top: 0; }
+.statusbar__time { font-weight: 700; font-size: 16px; line-height: 20px; letter-spacing: -.2px; }
+.statusbar__icons { display: flex; align-items: center; gap: 6px; height: 20px; }
+.sb-ico { display: block; color: currentColor; }
+.indicator { position: absolute; z-index: 3; bottom: 8px; left: 50%; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: #000; opacity: .85; pointer-events: none; }
+/* the status bar turns white on a dark screen (js/shell/phone-frame.js reads the colour under it) */
+.phone--framed.is-dark-screen .statusbar { color: #fff; }
+.phone--framed.is-dark-screen .indicator { background: #fff; }
+/* full-window pages (dd-desktop-kamil's desktop pages): no device at all, whatever order the stylesheets load in */
+.shell.is-fullwindow .phone--framed { width: 100%; height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.shell.is-fullwindow .phone--framed .phone__screen { width: 100%; height: 100%; border-radius: 0; }
+.shell.is-fullwindow .phone--framed .island, .shell.is-fullwindow .phone--framed .statusbar, .shell.is-fullwindow .phone--framed .indicator { display: none; }

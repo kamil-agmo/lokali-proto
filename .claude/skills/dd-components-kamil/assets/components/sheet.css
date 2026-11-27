@@ -1,0 +1,16 @@
+/* Bottom sheet. Open with <button data-c-open="mySheet">, close with [data-c-close], a tap on the backdrop, a downward swipe or Esc. Root: .c-sheet .c-sheet--md|--ios, panel .c-sheet__panel. */
+.c-sheet { position: fixed; inset: 0; z-index: 40; display: flex; align-items: flex-end; background: rgba(0, 0, 0, .32); font-family: var(--c-font); animation: c-fade .25s both; }
+.c-sheet[hidden] { display: none; }
+.c-sheet__panel { width: 100%; max-height: 90%; overflow: auto; background: var(--c-bg); color: var(--c-ink); padding: 8px 16px calc(24px + var(--c-safe-b)); animation: c-up .35s var(--c-ease) both; touch-action: pan-x; }
+.c-sheet__grab { display: block; width: 32px; height: 4px; margin: 4px auto 16px; border-radius: 2px; background: var(--c-muted); opacity: .4; }
+.c-sheet.is-closing { animation: c-fade .2s reverse both; } .c-sheet.is-closing .c-sheet__panel { animation: c-up .2s reverse both; }
+/* Material 3: 28 dp top corners, tonal surface */
+.c-sheet--md .c-sheet__panel { border-radius: 28px 28px 0 0; background: var(--c-surface-2); }
+@keyframes c-up { from { transform: translateY(100%); } } @keyframes c-fade { from { opacity: 0; } }
+/* Apple (iOS 27): a floating glass sheet, inset from the screen edges with large corners; Cancel/close on the leading edge, Done on the trailing edge */
+.c-sheet--ios { padding: 0 8px calc(8px + var(--c-safe-b)); }
+.c-sheet--ios .c-sheet__panel { border-radius: 34px; padding: 10px 16px 20px; background: color-mix(in srgb, var(--c-bg) 94%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(30px); backdrop-filter: saturate(1.8) blur(30px); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); }
+.c-sheet--ios .c-sheet__grab { width: 36px; height: 5px; margin: 0 auto 12px; }
+.c-sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 -4px 12px; }
+.c-sheet__head h3 { flex: 1; margin: 0; text-align: center; font-size: 17px; font-weight: 600; }
+.c-sheet__close { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--c-glass-edge); background: color-mix(in srgb, var(--c-ink) 8%, transparent); color: var(--c-ink); cursor: pointer; }

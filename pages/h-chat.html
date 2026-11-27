@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Chat with guest</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<h1 class="sr-only">Chat with Aina Rahman</h1>
+  <header class="appbar chat-bar">
+    <button class="icon-btn" data-go="h-inbox" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <img class="avatar chat-av" data-img="1545266241-3516e2a6e016" data-w="80" alt="">
+    <div class="grow chat-who"><b>Aina Rahman</b><span>Usually replies within an hour</span></div>
+    <button class="icon-btn" aria-label="Call guest" data-toast="Aina Rahman · +44 7700 900 318" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i></button>
+  </header>
+  <a class="pin-card" href="h-booking.html" data-go="h-booking">
+    <img data-img="1773904594755-6c25ab2ef6c9" data-w="120" alt="">
+    <div class="grow"><b>Sun, 6 Dec · 5:00 PM</b><span>LK-24817 · 2 adults, 1 child · 1 vegetarian</span></div>
+    <span class="badge badge--success">Confirmed</span>
+  </a>
+  <div class="chat" id="chat">
+    <span class="bubble-time">Mon, 30 Nov · 9:40 PM</span>
+    <div class="bubble in">Hi Pak Rahim! We'd like to come on Sunday, 2 adults and our son Adam (7). Can he join?</div>
+    <div class="bubble in">One of us is vegetarian — is the kuih OK?</div>
+    <span class="bubble-time">Wed, 2 Dec · 9:05 AM</span>
+    <div class="bubble out">Hello Aina! Yes, Adam is very welcome. Children 5–12 join with an adult, and we have child life jackets. The kuih is vegetarian too.</div>
+    <span class="bubble-time">10:14 AM · Aina booked LK-24817</span>
+  </div>
+  <div class="saved">
+    <div class="chips" data-group id="saved">
+      <button class="chip chip--soft" data-value="jackets"><i class="ph ph-lifebuoy" aria-hidden="true"></i>Life jackets</button>
+      <button class="chip chip--soft" data-value="dir"><i class="ph ph-map-pin" aria-hidden="true"></i>Directions</button>
+      <button class="chip chip--soft" data-value="bring"><i class="ph ph-backpack" aria-hidden="true"></i>What to bring</button>
+      <button class="chip chip--soft" data-value="rain"><i class="ph ph-cloud-rain" aria-hidden="true"></i>Rain plan</button>
+    </div>
+  </div>
+  <div class="composer">
+    <button class="icon-btn" aria-label="Add photo" data-sheet="camera"><i class="ph ph-image" aria-hidden="true"></i></button>
+    <input class="input grow" id="msg" placeholder="Message Aina" aria-label="Message">
+    <button class="icon-btn filled" id="send" aria-label="Send" style="background:var(--primary);color:#fff"><i class="ph-fill ph-paper-plane-right" aria-hidden="true"></i></button>
+  </div>
+
+  <script>
+  (function () {
+    var T = {
+      jackets: 'We have child life jackets on the boat. Adam sits in the middle with you.',
+      dir: 'Meet at Jeti Kampung Kuantan, Jalan Kuantan, 45000 Kuala Selangor. Park beside the surau, 2 min walk. Come 15 min early.',
+      bring: 'Repellent is provided. Wear shoes that can get wet. No flash photos, the fireflies are sensitive to light.',
+      rain: 'If there is heavy rain we move you to the next day or refund 100%. I will message you by 2 PM on the day.'
+    };
+    var chat = document.getElementById('chat'), msg = document.getElementById('msg');
+    document.getElementById('saved').addEventListener('pick', function (e) { msg.value = T[e.detail] || ''; msg.focus(); });
+    function send() {
+      if (!msg.value.trim()) return;
+      var b = document.createElement('div'); b.className = 'bubble out'; b.textContent = msg.value; chat.appendChild(b);
+      msg.value = ''; window.scrollTo(0, document.body.scrollHeight);
+      if (chat.querySelectorAll('.out').length === 2) setTimeout(function () {
+        var r = document.createElement('div'); r.className = 'bubble in'; r.textContent = 'Perfect, thank you! See you Sunday.'; chat.appendChild(r); window.scrollTo(0, document.body.scrollHeight);
+      }, 1200);
+    }
+    document.getElementById('send').addEventListener('click', send);
+    msg.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
+    var note = document.createElement('p'); note.className = 'xs faint center'; note.style.margin = '8px 24px 0';
+    note.innerHTML = '<i class="ph ph-shield-check" aria-hidden="true"></i> Keep payments and changes on Lokali so guests stay protected.';
+    chat.insertBefore(note, chat.firstChild);
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-chat', [["Guest", "Aina Rahman"], ["Booking", "LK-24817"], ["Saved replies", "4"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Builder: Price & policy</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow has-prog">
+    <button class="icon-btn" data-go="h-builder" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <span class="appbar__title step-label">Section 14 of 16 · Price &amp; booking</span>
+    <button class="btn btn--ghost btn--sm" data-toast="Draft saved" data-toast-icon="ph-floppy-disk">Save</button>
+    <div class="flow-prog" role="progressbar" aria-label="Listing progress" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><i style="width:88%"></i></div>
+  </header>
+  <section class="reveal pad stack-lg" style="padding-top:16px">
+    <div><h1 class="t2">Price &amp; policy</h1><p class="sum-note">Prices are per person in MYR. Guests see the total before paying.</p></div>
+
+    <div class="field"><label for="adult">Price per adult <span class="req" style="color:var(--danger)">*</span></label>
+      <div class="money-input"><span>RM</span><input class="input" id="adult" type="number" value="160" inputmode="decimal"></div>
+      <div class="earn"><i class="ph ph-hand-coins" aria-hidden="true"></i><span>You earn <b id="earn">RM 136.00</b> per adult after 15% Lokali commission.</span></div>
+      <span class="hint">Guests pay a 5% service fee on top</span>
+    </div>
+
+    <div class="card stack">
+      <div class="toggle-row"><div class="grow"><b>Child price</b><p class="small muted">Ages 5–12. Under 5 can't join.</p></div><button class="switch" id="swChild" role="switch" aria-checked="true" aria-label="Child price"></button></div>
+      <div id="childF" class="money-input"><span>RM</span><input class="input" id="child" type="number" value="100" aria-label="Price per child"></div>
+    </div>
+
+    <div class="card stack">
+      <div class="toggle-row"><div class="grow"><b>Private booking</b><p class="small muted">One group gets the whole slot.</p></div><button class="switch" id="swPriv" role="switch" aria-checked="false" aria-label="Private booking"></button></div>
+      <div id="privF" class="stack" hidden><div class="money-input"><span>RM</span><input class="input" type="number" value="850" aria-label="Private price"></div><span class="hint">Flat price for up to 6 guests.</span></div>
+    </div>
+
+    <div class="card">
+      <b>Group size</b><p class="small muted">Per slot. Slots close when full.</p>
+      <div class="row-between mt3"><span>Minimum guests</span><div class="stepper" data-stepper data-min="1" data-max="6"><button data-dec aria-label="Fewer"><i class="ph ph-minus" aria-hidden="true"></i></button><output>2</output><button data-inc aria-label="More"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
+      <div class="divider" style="margin:12px 0"></div>
+      <div class="row-between"><span>Maximum guests</span><div class="stepper" data-stepper data-min="2" data-max="20"><button data-dec aria-label="Fewer"><i class="ph ph-minus" aria-hidden="true"></i></button><output>6</output><button data-inc aria-label="More"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
+    </div>
+
+    <div>
+      <h2 class="is-h3">Cancellation policy <span class="req" style="color:var(--danger)">*</span></h2>
+      <p class="small muted mt1">Shown next to the price · refunds automatic</p>
+      <div data-radio class="mt3" id="pol"></div>
+    </div>
+  </section>
+  <div style="height:24px"></div>
+  <div class="cta-bar"><button class="btn btn--secondary" data-go="h-builder">Back</button><button class="btn btn--primary grow" id="next">Save and next</button></div>
+
+  <script>
+  (function () {
+    var C = L.fees.commission;
+    function upd() { var v = parseFloat(document.getElementById('adult').value) || 0; document.getElementById('earn').textContent = L.rm(v * (1 - C), 2); }
+    document.getElementById('adult').addEventListener('input', upd); upd();
+    document.getElementById('swChild').addEventListener('change', function () { document.getElementById('childF').hidden = this.getAttribute('aria-checked') !== 'true'; });
+    document.getElementById('swPriv').addEventListener('change', function () { document.getElementById('privF').hidden = this.getAttribute('aria-checked') !== 'true'; });
+    var P = L.policies.day, h = '';
+    ['Flexible', 'Moderate', 'Firm'].forEach(function (k) {
+      var p = P[k];
+      h += '<div class="radio-card' + (p.default ? ' active' : '') + '" data-value="' + k + '" role="radio" aria-checked="' + !!p.default + '"><span class="dot"></span><div class="grow"><div class="row"><b>' + k + '</b>' + (p.default ? '<span class="badge badge--brand">Recommended</span>' : '') + '</div>' +
+        '<div class="policy-rules"><div><i class="ph-fill ph-check-circle g" aria-hidden="true"></i>Full refund: ' + p.full + '</div>' +
+        (p.partial ? '<div><i class="ph-fill ph-minus-circle y" aria-hidden="true"></i>' + p.partial + '</div>' : '') +
+        '<div><i class="ph-fill ph-x-circle r" aria-hidden="true"></i>No refund: ' + p.none.toLowerCase() + '</div></div></div></div>';
+    });
+    document.getElementById('pol').innerHTML = h;
+    document.getElementById('pol').addEventListener('pick', function (e) { if (window.ProtoEmbed) ProtoEmbed.report('h-step-price', [['Policy', e.detail], ['Commission', '15%']]); });
+    document.getElementById('next').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { L.go('h-builder'); }, 600); });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-price', [["Policy", "Moderate (default)"], ["Commission", "15%"], ["Service fee", "5%, paid by guest"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<style>
+  :root { --bg: var(--figma-color-bg, #fff); --fg: var(--figma-color-text, #1e1e1e); --muted: var(--figma-color-text-secondary, #6b6b6b); --line: var(--figma-color-border, #e6e6e6); --accent: var(--figma-color-bg-brand, #0d99ff); --accent-fg: var(--figma-color-text-onbrand, #fff); --soft: var(--figma-color-bg-secondary, #f5f5f5); --warn: var(--figma-color-text-warning, #b86200); --danger: var(--figma-color-text-danger, #d1293d); }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; font: 12px/1.45 Inter, system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  h1 { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+  p { margin: 0; color: var(--muted); }
+  .drop { margin: 14px 0 8px; border: 1px dashed var(--line); border-radius: 8px; padding: 16px 14px; text-align: center; }
+  .drop.over { border-color: var(--accent); background: var(--soft); }
+  .drop strong { display: block; font-weight: 500; }
+  .pick { display: flex; gap: 6px; margin-top: 10px; justify-content: center; }
+  .pick button { width: auto; margin: 0; padding: 6px 10px; background: var(--soft); color: var(--fg); font-weight: 500; }
+  input[type=file] { display: none; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+  .card b { font-weight: 600; }
+  .badge { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 4px; background: var(--soft); color: var(--muted); font-size: 11px; }
+  .badge.draft { color: var(--warn); }
+  .meta { color: var(--muted); margin-top: 2px; }
+  .opt { display: grid; grid-template-columns: 16px 1fr; gap: 8px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px; cursor: pointer; }
+  .opt:has(input:checked) { border-color: var(--accent); background: var(--soft); }
+  .opt input { margin: 2px 0 0; }
+  .opt span { display: block; color: var(--muted); }
+  .check { display: flex; gap: 8px; align-items: center; margin: 4px 0; cursor: pointer; }
+  button { width: 100%; margin-top: 10px; padding: 9px; border: 0; border-radius: 6px; background: var(--accent); color: var(--accent-fg); font: inherit; font-weight: 500; cursor: pointer; }
+  button:disabled { opacity: .4; cursor: default; }
+  .status { margin-top: 10px; color: var(--muted); white-space: pre-wrap; }
+  .status.err { color: var(--danger); }
+  .warn { margin-top: 6px; color: var(--warn); white-space: pre-wrap; }
+  [hidden] { display: none !important; }
+</style>
+<h1>Motion → Figma</h1>
+<p>Drop an export folder or an animation .json. The plugin finds the animation inside.</p>
+<div class="drop" id="drop">
+  <strong id="dropTitle">Drop a folder or .json here</strong>
+  <span class="meta" id="dropMeta">A HyperFrames export/ folder works best</span>
+  <div class="pick"><button id="pickFolder">Choose folder…</button><button id="pickFile">Choose file…</button></div>
+</div>
+<input type="file" id="folderIn" webkitdirectory directory multiple />
+<input type="file" id="fileIn" accept=".json,application/json" />
+
+<div id="choose" hidden><p style="margin:6px 0">Several animations found. Pick one:</p><div id="chooseList"></div></div>
+
+<div id="found" hidden>
+  <div class="card"><b id="fTitle"></b><span class="badge" id="fBadge"></span><div class="meta" id="fMeta"></div><div class="meta" id="fPath"></div><div class="warn" id="fWarn" hidden></div></div>
+  <div id="optsHandoff" hidden>
+    <label class="opt"><input type="radio" name="scope" value="film" checked /><div><b>Whole film</b><span id="filmMeta"></span></div></label>
+    <label class="opt"><input type="radio" name="scope" value="loop" /><div><b>Loop only</b><span id="loopMeta"></span></div></label>
+  </div>
+  <div id="optsVariants" hidden>
+    <div id="modes"></div>
+    <label class="check"><input type="checkbox" id="wire" checked /> Connect prototype automatically</label>
+    <label class="check"><input type="checkbox" id="fromStart" /> After-delay counts from start of animation</label>
+  </div>
+</div>
+
+<button id="build" disabled>Build in Figma</button>
+<div class="status" id="status"></div>
+
+<script>
+/*
+ * Motion maths shared by bake.mjs / pingpong.mjs (Node) and the plugin UI's draft converter
+ * (inlined into ui.html by build-plugin.mjs). ONE copy, so the two routes can't drift.
+ * Plain ES2017, no imports.
+ */
+
+// A cut is a keyframe flagged `hold: true`: the value steps there instead of tweening. The
+// plugin writes HOLD easing on it, but a real Figma build (V4, 2026-11-12) played such opacity
+// swaps as a plain LINEAR tween across the whole segment (a 2.5 s cross-fade: the seeker and its
+// mirrored twin were both half-visible, "two-headed"). So every cut is also encoded in the data:
+// a keyframe CUT_DELTA before it repeats the old value. Whatever Figma does with HOLD, the
+// change is then confined to one 60 fps frame, and every other segment is flat.
+var CUT_DELTA = 1 / 60;
+
+function encodeCuts(tracks, delta) {
+  if (delta === undefined) delta = CUT_DELTA;
+  if (!tracks) return tracks;
+  var out = {};
+  Object.keys(tracks).forEach(function (key) {
+    var kf = tracks[key], res = [];
+    for (var i = 0; i < kf.length; i++) {
+      var k = kf[i], prev = res[res.length - 1];
+      if (k.hold && prev && k.t - prev.t > delta * 1.01) res.push({ t: +(k.t - delta).toFixed(6), v: prev.v });
+      res.push(Object.assign({}, k));
+    }
+    out[key] = res;
+  });
+  return out;
+}
+
+// Teleports. The source loops reset offscreen within one frame (the seeker jumps from far
+// left back to far right, the quaffle from past the hoop back to the start, a front/back
+// swap flips opacity). Sampled at 30 fps that is a 1-frame LINEAR segment, and Figma plays
+// it at the display rate, so the layer visibly flies backwards across the frame. Mark the
+// arriving keyframe `hold: true` so the plugin writes HOLD easing there (an instant cut).
+function markJumps(tracks) {
+  if (!tracks) return tracks;
+  var MIN = { TRANSLATION_X: 3, TRANSLATION_Y: 3, ROTATION: 10, SCALE_XY: 0.08, SCALE_X: 0.08, SCALE_Y: 0.08, OPACITY: 0.3 };
+  var FRAME = 1.5 / 30;
+  var out = {};
+  Object.keys(tracks).forEach(function (key) {
+    var kf = tracks[key], min = MIN[key];
+    out[key] = kf.map(function (p) { return Object.assign({}, p); });
+    if (min === undefined) return;
+    var rate = function (i) { return i < 1 || i >= kf.length ? 0 : Math.abs(kf[i].v - kf[i - 1].v) / Math.max(1e-6, kf[i].t - kf[i - 1].t); };
+    for (var i = 1; i < kf.length; i++) {
+      var dt = kf[i].t - kf[i - 1].t, dv = Math.abs(kf[i].v - kf[i - 1].v);
+      if (dt > FRAME || dv < min) continue;
+      var neighbour = Math.max(rate(i - 1), rate(i + 1)) * dt;
+      if (dv > 4 * neighbour) out[key][i].hold = true;
+    }
+  });
+  return out;
+}
+
+// Staggered card groups. The export gives every member of a GSAP stagger the whole group's span
+// as its duration (V5 shutter bars: 0.565 s each instead of 0.32 s + 0.035 s stagger), so they
+// crawl. A group = same ease, same duration, same fields, >= 2 layers with a constant start step:
+// per-item duration d = span - (n - 1) * step. Returns the candidate groups; bake.mjs verifies
+// them against the running composition, the plugin's draft route applies them unverified.
+function staggerGroups(tweens) {
+  var groups = {};
+  tweens.forEach(function (t) {
+    var k = t.gsapEase + '|' + (t.end - t.start).toFixed(3) + '|' + t.fields.map(function (f) { return f.field + JSON.stringify(f.from) + JSON.stringify(f.to); }).join(',');
+    (groups[k] = groups[k] || []).push(t);
+  });
+  var cands = [];
+  Object.keys(groups).forEach(function (k) {
+    var list = groups[k];
+    if (list.length < 2) return;
+    list.sort(function (a, b) { return a.start - b.start; });
+    var steps = list.slice(1).map(function (t, i) { return t.start - list[i].start; });
+    if (!(steps[0] > 0.001) || steps.some(function (x) { return Math.abs(x - steps[0]) > 0.002; })) return;
+    var D = list[0].end - list[0].start, d = D - (list.length - 1) * steps[0];
+    if (d <= 0.02) return;
+    cands.push({ list: list, D: D, d: d, step: steps[0] });
+  });
+  return cands;
+}
+
+var MotionMath = { CUT_DELTA: CUT_DELTA, encodeCuts: encodeCuts, markJumps: markJumps, staggerGroups: staggerGroups };
+if (typeof module !== 'undefined' && module.exports) module.exports = MotionMath;
+
+/*
+ * Format detection + the raw-handoff draft converter. Inlined into the plugin UI (ui.html) by
+ * build-plugin.mjs after motion-math.cjs; also loaded by handoff/test-draft.mjs in headless Chrome.
+ * Detection is by CONTENT, never by file name: a user picking figma-motion.json next to a baked
+ * figma-bundle.json (2026-11-12) got "not a figma-bundle.json".
+ * Plain ES2017, browser globals only where noted (rendering is injected via ctx.render).
+ */
+var Formats = (function () {
+  var MM = typeof MotionMath !== 'undefined' ? MotionMath : require('./motion-math.cjs');
+
+  // ---------- detection ----------
+  function isObj(x) { return x && typeof x === 'object' && !Array.isArray(x); }
+  function trackCount(tracks) {
+    // tracks that actually move: >= 2 keyframes with differing values
+    var n = 0;
+    Object.keys(tracks || {}).forEach(function (k) {
+      var kf = tracks[k];
+      if (Array.isArray(kf) && kf.length >= 2 && kf.some(function (p) { return Math.abs(p.v - kf[0].v) > 1e-9; })) n++;
+    });
+    return n;
+  }
+  function kfCount(tracks) { var n = 0; Object.keys(tracks || {}).forEach(function (k) { n += (tracks[k] || []).length; }); return n; }
+  function tweenMoves(t) { return (t.fields || []).some(function (f) { return f.from === undefined || JSON.stringify(f.from) !== JSON.stringify(f.to); }); }
+
+  // -> { format: 'bundle' | 'raw-handoff' | 'variants' | null, label, quality, name, stats, moving, error }
+  function detect(j) {
+    if (Array.isArray(j)) return { format: null, error: 'This JSON is a list (' + j.length + ' items), not an animation export.' };
+    if (!isObj(j)) return { format: null, error: 'This JSON is a ' + typeof j + ', not an animation export.' };
+    var r;
+    if (j.kind === 'hyperframes-handoff' && Array.isArray(j.layers)) {
+      var moving = 0, kfs = 0;
+      j.layers.forEach(function (l) { moving += trackCount(l.tracks); kfs += kfCount(l.tracks); });
+      var tw = (j.cardTweens || []).filter(tweenMoves).length;
+      r = { format: 'bundle', label: 'Baked handoff bundle', quality: 'Full quality', name: j.name || j.slug || 'Motion',
+        stats: { layers: j.layers.length, keyframes: kfs, tweens: tw, duration: j.duration, size: j.width + '×' + j.height }, moving: moving + tw };
+    } else if (isObj(j.loop) && Array.isArray(j.loop.layers) && isObj(j.card) && Array.isArray(j.card.layers) && isObj(j.timeline) && isObj(j.canvas)) {
+      var mv = 0, k2 = 0;
+      j.loop.layers.forEach(function (l) { mv += trackCount(l.tracks); k2 += kfCount(l.tracks); });
+      var tw2 = (j.card.tweens || []).filter(tweenMoves).length;
+      r = { format: 'raw-handoff', label: 'HyperFrames export (not baked)', quality: 'Draft', name: j.variation || j.slug || 'Motion',
+        stats: { layers: j.loop.layers.length + j.card.layers.length, keyframes: k2, tweens: tw2, duration: j.timeline.total, size: j.canvas.width + '×' + j.canvas.height }, moving: mv + tw2 };
+    } else if (isObj(j.modes) && Array.isArray(j.layers) && j.width && j.height) {
+      var poses = 0;
+      Object.keys(j.modes).forEach(function (m) {
+        var md = j.modes[m];
+        if (md && md.tracks) md.tracks.forEach(function (t) { poses = Math.max(poses, (t.poses || []).length); });
+        else if (md && md.poses) poses = Math.max(poses, md.poses.length);
+      });
+      r = { format: 'variants', label: 'motion-to-figma loop (variants)', quality: 'Components + prototype', name: j.name || 'Motion',
+        stats: { layers: j.layers.length, poses: poses, duration: j.duration, size: j.width + '×' + j.height }, moving: poses >= 2 ? 1 : 0 };
+    } else if ('v' in j && 'fr' in j && 'ip' in j && 'op' in j && Array.isArray(j.layers)) {
+      return { format: null, error: 'This is a Lottie animation (' + j.layers.length + ' layers). Lottie isn’t supported yet.' };
+    } else {
+      var keys = Object.keys(j);
+      var layers = Array.isArray(j.layers) ? j.layers.length : 0;
+      return { format: null, error: layers
+        ? 'Found ' + layers + ' layers but no keyframes or tweens this plugin understands.'
+        : 'No animation found. Top-level fields: ' + (keys.slice(0, 8).join(', ') || 'none') + (keys.length > 8 ? '…' : '') + '.' };
+    }
+    if (!r.moving) { r.error = 'Recognised as ' + r.label + ', but nothing in it moves (no track with two different keyframes, no tween).'; r.format = null; }
+    return r;
+  }
+
+  // ---------- picking from a dropped folder ----------
+  // files: [{ path, lastModified, json? }] (only .json files parsed). Returns { candidates, staleNotes }.
+  function dirOf(p) { var i = p.lastIndexOf('/'); return i < 0 ? '' : p.slice(0, i); }
+  function candidates(files) {
+    var found = files.filter(function (f) { return f.json !== undefined; }).map(function (f) {
+      return { path: f.path, dir: dirOf(f.path), lastModified: f.lastModified, json: f.json, det: detect(f.json) };
+    }).filter(function (c) { return c.det.format; });
+    // a baked bundle wins over the raw export it was made from (same folder)
+    var out = [];
+    found.forEach(function (c) {
+      if (c.det.format === 'raw-handoff' && found.some(function (o) { return o.det.format === 'bundle' && o.dir === c.dir; })) return;
+      if (c.det.format === 'bundle') {
+        var raw = found.filter(function (o) { return o.det.format === 'raw-handoff' && o.dir === c.dir; })[0];
+        if (raw && raw.lastModified && c.lastModified && raw.lastModified > c.lastModified + 2000)
+          c.stale = 'figma-bundle.json is older than ' + raw.path.split('/').pop() + ': re-run bake to pick up the latest export.';
+        if (raw && raw.json.slug && c.json.slug && raw.json.slug !== c.json.slug)
+          c.stale = 'The bundle (' + c.json.slug + ') and the export (' + raw.json.slug + ') are different animations.';
+      }
+      out.push(c);
+    });
+    var rank = { bundle: 0, 'raw-handoff': 1, variants: 2 };
+    out.sort(function (a, b) { return rank[a.det.format] - rank[b.det.format] || a.path.localeCompare(b.path); });
+    return out;
+  }
+
+  // ---------- raw handoff -> bundle (draft) ----------
+  function parseColor(s) {
+    var m = String(s || '').match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    var v = m[1].split(/[\s,/]+/).filter(Boolean).map(Number);
+    return { r: v[0] / 255, g: v[1] / 255, b: v[2] / 255, a: v.length > 3 ? v[3] : 1 };
+  }
+  function parseFont(s) {
+    // computed shorthand: [italic] [small-caps] <weight> <size>px / <lh>px "Family", fallback
+    var m = String(s || '').match(/^\s*(?:(italic|oblique)\s+)?(?:small-caps\s+)?(?:(\d{3}|bold|normal)\s+)?(?:\w+\s+)?([\d.]+)px(?:\s*\/\s*(?:([\d.]+)px|normal|[\d.]+))?\s+(.+)$/);
+    if (!m) return null;
+    return {
+      italic: !!m[1],
+      weight: m[2] === 'bold' ? 700 : m[2] === 'normal' || !m[2] ? 400 : +m[2],
+      size: +m[3],
+      lineHeight: m[4] ? +m[4] : null,
+      family: m[5].split(',')[0].replace(/["']/g, '').trim(),
+    };
+  }
+  function paintsBox(css) {
+    var bg = parseColor(css.background && !/^\s*rgba?\(/.test(css.background) ? '' : css.background);
+    return (bg && bg.a > 0) || (css.backgroundImage && css.backgroundImage !== 'none') ||
+      (css.boxShadow && css.boxShadow !== 'none') || (css.border && !/^0px|none/.test(css.border));
+  }
+  function hasMask(css) { return [css.maskImage, css.webkitMaskImage, css.WebkitMaskImage].some(function (v) { return v && !/^none/.test(String(v)); }); }
+
+  // url("file:///…/assets/img/x.png") etc. in exported CSS -> the dropped file's data URL
+  function fixUrls(css, asset, missing) {
+    var out = {};
+    Object.keys(css).forEach(function (k) {
+      var v = css[k];
+      out[k] = typeof v !== 'string' ? v : v.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g, function (m, q, u) {
+        if (/^data:/.test(u)) return m;
+        var i = u.indexOf('assets/'), d = i >= 0 ? asset(u.slice(i)) : null;
+        if (!d) { missing.push(i >= 0 ? u.slice(i) : u); return 'none'; }
+        return 'url("' + d + '")';
+      });
+    });
+    return out;
+  }
+
+  // ctx: { render(spec) -> Promise<{png, w, h} | null>, asset(path) -> dataUrl | null, indexHtml?: string,
+  //        progress?(done, total),
+  //        stat?: { hasStatic(scene), measure(scene, name), renderElement(scene, name, opts) } }
+  // With `stat` (the export's loop-static.html / card-static.html loaded in the UI) each layer is
+  // measured and rendered from its real element; without it, from the exported CSS alone.
+  async function rawToBundle(raw, ctx) {
+    var W = raw.canvas.width, H = raw.canvas.height, tl = raw.timeline;
+    var LOOP_END = tl.loop && tl.loop.sceneEnd != null ? tl.loop.sceneEnd : tl.total;
+    var warnings = [], notes = [];
+    var missingAssets = [], guessedAlign = 0, spins = [];
+    var blurred = {};
+    raw.loop.layers.forEach(function (l) { if (Object.keys(l.tracks || {}).some(function (k) { return /^LAYER_BLUR/.test(k); })) blurred[l.name] = 1; });
+    (raw.card.tweens || []).forEach(function (t) { if (t.fields.some(function (f) { return /^LAYER_BLUR/.test(f.field); })) blurred[t.layer] = 1; });
+
+    // absolute centre x of a card / loop layer (for the text-alignment guess)
+    var all = {};
+    raw.loop.layers.forEach(function (l) { all[l.name] = { scene: 'loop', l: l }; });
+    raw.card.layers.forEach(function (l) { all[l.name] = { scene: 'card', l: l }; });
+    var S = ctx.stat && (ctx.stat.hasStatic('loop') || ctx.stat.hasStatic('card')) ? ctx.stat : null, measCache = {};
+    function meas(scene, name) {
+      if (!S || !S.hasStatic(scene)) return null;
+      if (!(name in measCache)) measCache[name] = S.measure(scene, name);
+      return measCache[name];
+    }
+    function absBox(name) {
+      var e = all[name];
+      var m = e && meas(e.scene, name);
+      if (m) return { x: m.cx - m.w / 2, y: m.cy - m.h / 2, w: m.w, h: m.h };
+      if (!e) return { x: 0, y: 0, w: W, h: H };
+      var l = e.l, g = e.scene === 'loop'
+        ? { cx: l.rest.centerX, cy: l.rest.centerY, w: l.rest.width, h: l.rest.height }
+        : { cx: l.left + l.width / 2, cy: l.top + l.height / 2, w: l.width, h: l.height };
+      var p = l.parent === 'root' || !l.parent ? { x: 0, y: 0 } : absBox(l.parent);
+      return { x: p.x + g.cx - g.w / 2, y: p.y + g.cy - g.h / 2, w: g.w, h: g.h };
+    }
+
+    var list = raw.loop.layers.map(function (l) { return { scene: 'loop', l: l }; }).concat(raw.card.layers.map(function (l) { return { scene: 'card', l: l }; }));
+    var layers = [], listedNames = list.map(function (o) { return o.l.name; }), live = 0, geomDrift = 0;
+    var irisLayers = {};
+    (raw.card.tweens || []).forEach(function (t) { if (t.fields.some(function (f) { return /^MASK/.test(f.field); })) irisLayers[t.layer] = 1; });
+    for (var i = 0; i < list.length; i++) {
+      var sc = list[i].scene, l = list[i].l, css = l.css || {};
+      if (ctx.progress) ctx.progress(i, list.length);
+      var g = sc === 'loop'
+        ? { cx: l.rest.centerX, cy: l.rest.centerY, w: l.rest.width, h: l.rest.height, rotCss: l.rest.rotationCSSdeg || 0, scale: l.rest.scale || 1, opacity: l.rest.opacity }
+        : { cx: l.left + l.width / 2, cy: l.top + l.height / 2, w: l.width, h: l.height, rotCss: l.finalRotationCSSdeg || 0, scale: 1, opacity: l.finalOpacity };
+      var withKids = list.some(function (o) { return o.l.parent === l.name; });
+      var M = meas(sc, l.name);
+      if (M) {
+        live++;
+        if (sc === 'card') {
+          // card geometry from the live layout (the JSON's left/top can come from fallback fonts)
+          var pa = l.parent === 'root' || !l.parent ? { x: 0, y: 0 } : absBox(l.parent);
+          var ncx = M.cx - pa.x, ncy = M.cy - pa.y;
+          geomDrift = Math.max(geomDrift, Math.abs(ncx - g.cx), Math.abs(ncy - g.cy));
+          g.cx = ncx; g.cy = ncy; g.w = M.w; g.h = M.h;
+        }
+        var paintL = await S.renderElement(sc, l.name, { listed: listedNames, w: g.w, h: g.h, stripBlur: !!blurred[l.name], nowrap: M.textOnly && M.lines === 1 });
+        var maskL = hasMask(css) && withKids ? await S.renderElement(sc, l.name, { listed: listedNames, w: g.w, h: g.h, maskOnly: true }) : null;
+        var colL = M.textOnly ? parseColor(M.color) : null;
+        layers.push({
+          scene: sc, name: l.name, parent: l.parent === 'root' || !l.parent ? null : l.parent,
+          cx: g.cx, cy: g.cy, w: g.w, h: g.h, rotCss: g.rotCss, scale: g.scale, opacity: g.opacity,
+          clip: M.clip && !irisLayers[l.name], radius: M.radius,
+          blend: css.mixBlendMode && css.mixBlendMode !== 'normal' ? css.mixBlendMode : null,
+          paint: paintL, mask: maskL,
+          text: colL && M.characters ? {
+            characters: M.characters, family: M.font.family, weight: M.font.weight, italic: M.font.italic, size: M.font.size,
+            lineHeight: M.font.lineHeight, letterSpacing: M.font.letterSpacing, textCase: M.textCase, align: M.align,
+            color: { r: colL.r, g: colL.g, b: colL.b }, colorAlpha: colL.a, lines: M.lines,
+          } : null,
+          tracks: sc === 'loop' ? MM.encodeCuts(MM.markJumps(JSON.parse(JSON.stringify(l.tracks || {})))) : {},
+        });
+        if (sc === 'loop' && ['SCALE_X', 'SCALE_Y', 'SCALE_XY'].some(function (k) { return (l.tracks || {})[k] && l.tracks[k].some(function (p) { return p.v < 0; }); })) spins.push(l.name);
+        continue;
+      }
+      css = fixUrls(css, ctx.asset, missingAssets);
+      var font = css.text ? parseFont(css.font) : null;
+      var align = 'LEFT';
+      if (css.text) {
+        var ab = absBox(l.name);
+        if (Math.abs(ab.x + ab.w / 2 - W / 2) < 1.5) align = 'CENTER';
+        guessedAlign++;
+      }
+      var img = null;
+      if (l.asset) { img = ctx.asset(l.asset); if (!img) missingAssets.push(l.asset); }
+      // own paint: everything except what the timeline replays (transform, opacity, blend, a blur that animates)
+      var filter = css.filter && css.filter !== 'none' ? css.filter : null;
+      if (filter && blurred[l.name]) filter = filter.replace(/blur\([^)]*\)/g, '').trim() || null;
+      var textOnly = css.text && font && !paintsBox(css) && !img && !withKids;
+      var spec = {
+        w: g.w, h: g.h, css: css, filter: filter, img: img, imgMissing: !!(l.asset && !img),
+        text: css.text || null, align: align, lines: font ? Math.max(1, Math.round(g.h / (font.lineHeight || font.size * 1.2))) : 1,
+        mask: hasMask(css) && !withKids, // a mask over children is rebuilt as a Figma mask below
+      };
+      var paint = await ctx.render(spec);
+      var mask = null;
+      if (hasMask(css) && withKids) mask = await ctx.render({ w: g.w, h: g.h, css: css, maskOnly: true });
+      var col = css.text ? parseColor(css.color) : null;
+      layers.push({
+        scene: sc, name: l.name, parent: l.parent === 'root' || !l.parent ? null : l.parent,
+        cx: g.cx, cy: g.cy, w: g.w, h: g.h, rotCss: g.rotCss, scale: g.scale, opacity: g.opacity,
+        clip: false, radius: parseFloat(css.borderRadius) || 0,
+        blend: css.mixBlendMode && css.mixBlendMode !== 'normal' ? css.mixBlendMode : null,
+        paint: paint, mask: mask,
+        text: textOnly && col ? {
+          characters: css.text, family: font.family, weight: font.weight, italic: font.italic, size: font.size,
+          lineHeight: font.lineHeight, letterSpacing: parseFloat(css.letterSpacing) || 0,
+          textCase: { uppercase: 'UPPER', lowercase: 'LOWER', capitalize: 'TITLE' }[css.textTransform] || 'ORIGINAL',
+          align: align, color: { r: col.r, g: col.g, b: col.b }, colorAlpha: col.a, lines: spec.lines,
+        } : null,
+        tracks: sc === 'loop' ? MM.encodeCuts(MM.markJumps(JSON.parse(JSON.stringify(l.tracks || {})))) : {},
+        draftBox: !paint && !(textOnly && col) && (paintsBox(css) || !!l.asset) ? true : undefined,
+      });
+      if (sc === 'loop' && ['SCALE_X', 'SCALE_Y', 'SCALE_XY'].some(function (k) { return (l.tracks || {})[k] && l.tracks[k].some(function (p) { return p.v < 0; }); })) spins.push(l.name);
+    }
+    if (ctx.progress) ctx.progress(list.length, list.length);
+
+    var tweens = (raw.card.tweens || []).map(function (t) { return Object.assign({}, t); });
+    MM.staggerGroups(tweens).forEach(function (c) {
+      c.list.forEach(function (t) { t.end = +(t.start + c.d).toFixed(4); });
+      notes.push('stagger group ' + c.list[0].layer + '… (' + c.list.length + ') ' + c.D.toFixed(3) + ' → ' + c.d.toFixed(3) + ' s each, unverified');
+    });
+
+    var background = null;
+    if (ctx.indexHtml) {
+      var m = ctx.indexHtml.match(/(?:html|body)[^{]*\{[^}]*background(?:-color)?\s*:\s*#([0-9a-f]{6}|[0-9a-f]{3})\b/i);
+      if (m) {
+        var h = m[1].length === 3 ? m[1].split('').map(function (c) { return c + c; }).join('') : m[1];
+        background = { r: parseInt(h.slice(0, 2), 16) / 255, g: parseInt(h.slice(2, 4), 16) / 255, b: parseInt(h.slice(4, 6), 16) / 255 };
+      }
+    }
+    if (!background) { background = { r: 0, g: 0, b: 0 }; warnings.push('Page background unknown (drop the variation folder that holds index.html to get it); using black.'); }
+
+    if (missingAssets.length) warnings.push('Images not found, built as empty boxes: ' + missingAssets.filter(function (a, i) { return missingAssets.indexOf(a) === i; }).join(', ') + '. Drop the whole export folder to include them.');
+    var failed = layers.filter(function (l) { return l.draftBox; }).map(function (l) { return l.name; });
+    if (failed.length) warnings.push('Could not render, left empty: ' + failed.join(', '));
+    if (S) notes.push(live + ' of ' + list.length + ' layers rendered from the static snapshots' + (geomDrift > 1 ? '; card layout corrected by up to ' + geomDrift.toFixed(0) + ' px' : ''));
+    if (guessedAlign) notes.push('text alignment guessed (centred when the box is centred on the frame) for ' + guessedAlign + ' text layers');
+    if (spins.length) warnings.push('Mirrored poses on ' + spins.join(', ') + ' will play as spins; bake fixes this.');
+    if (live < list.length) warnings.push((S ? (list.length - live) + ' layers' : 'Layers') + ' rebuilt from the exported CSS only: icons and labels inside them, skews and exact layout can be lost. Drop the whole export folder, or run bake, for full quality.');
+    else notes.push('draft: rest poses and mirror flips are taken from the export as-is (bake repairs them from the source composition)');
+
+    return {
+      version: 2, kind: 'hyperframes-handoff', draft: true,
+      scenes: {
+        loop: { start: tl.loop && tl.loop.start != null ? tl.loop.start : 0, end: LOOP_END },
+        card: { start: tl.card && tl.card.start != null ? tl.card.start : 0, end: tl.card && tl.card.end != null ? tl.card.end : tl.total },
+      },
+      background: background, name: raw.variation || raw.slug || 'Motion', slug: raw.slug, width: W, height: H, scale: 2,
+      duration: tl.total, loopCycle: tl.loop.cycle, layers: layers, cardTweens: tweens, exitTweens: raw.loop.exitTweens || [],
+      notes: notes, warnings: warnings,
+    };
+  }
+
+  return { detect: detect, candidates: candidates, rawToBundle: rawToBundle, parseFont: parseFont, parseColor: parseColor };
+})();
+if (typeof module !== 'undefined' && module.exports) module.exports = Formats;
+
+/*
+ * Browser-only: renders one raw-export layer's CSS to a transparent PNG, the plugin UI's stand-in
+ * for bake's Chrome capture. The layer is an inline-styled box inside an SVG <foreignObject>,
+ * drawn to a canvas at `scale`, with PAD css px of room on every side (symmetric: the builder
+ * centres the paint on the layer box). Fonts and images must be data URLs inside the SVG: the
+ * plugin has no network access and an external URL would taint the canvas.
+ * Inlined into ui.html by build-plugin.mjs; also used by handoff/test-draft.mjs.
+ */
+var DraftRender = (function () {
+  var PAD = 90, SCALE = 2;
+  var fontCss = '';
+
+  // fonts: [{ family, weight, style, url }] (url = data: URL of a woff2/ttf)
+  function faceCss(fonts) {
+    return fonts.map(function (f) {
+      return '@font-face{font-family:"' + f.family + '";font-weight:' + f.weight + ';font-style:' + f.style + ';src:url(' + f.url + ');}';
+    }).join('');
+  }
+  function addFonts(fonts) {
+    fonts.forEach(function (f) { known[(f.family + '|' + f.weight + '|' + f.style).toLowerCase()] = 1; });
+    fontCss += faceCss(fonts);
+  }
+  function setFonts(fonts) { fontCss = ''; known = {}; addFonts(fonts); }
+  // assets/fonts/grenze-gotisch-latin-700-normal.woff2 -> Grenze Gotisch 700 normal (fontsource naming)
+  function fontFromPath(p) {
+    var m = p.split('/').pop().match(/^(.+?)-(?:latin(?:-ext)?|all|cyrillic|greek|vietnamese)-(\d{3})-(normal|italic)\.(woff2?|ttf|otf)$/i);
+    if (!m) return null;
+    return { family: m[1].split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' '), weight: +m[2], style: m[3].toLowerCase() };
+  }
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function style(o) {
+    return Object.keys(o).filter(function (k) { return o[k] !== null && o[k] !== undefined && o[k] !== ''; })
+      .map(function (k) { return k + ':' + o[k]; }).join(';');
+  }
+
+  // spec: { w, h, css, filter, img, text, align, lines, mask, maskOnly }
+  async function render(spec) {
+    var w = Math.max(1, spec.w), h = Math.max(1, spec.h), css = spec.css || {};
+    var CW = w + PAD * 2, CH = h + PAD * 2;
+    var box = {
+      position: 'absolute', left: PAD + 'px', top: PAD + 'px', width: w + 'px', height: h + 'px',
+      'box-sizing': 'border-box', margin: 0, overflow: 'visible',
+    };
+    var inner = '';
+    if (spec.maskOnly) {
+      box.background = '#fff';
+      box['mask-image'] = css.maskImage || css.webkitMaskImage || css.WebkitMaskImage;
+      box['-webkit-mask-image'] = box['mask-image'];
+    } else {
+      Object.assign(box, {
+        background: css.background, border: css.border, 'border-radius': css.borderRadius,
+        'box-shadow': css.boxShadow, filter: spec.filter, 'clip-path': css.clipPath && css.clipPath !== 'none' ? css.clipPath : null,
+        color: css.color, font: css.font, 'letter-spacing': css.letterSpacing, 'text-transform': css.textTransform,
+      });
+      if (css.backgroundSize && !/^auto$/.test(css.backgroundSize) && css.background && !/\/\s*\S/.test(css.background)) box['background-size'] = css.backgroundSize;
+      if (spec.mask) {
+        box['mask-image'] = css.maskImage || css.webkitMaskImage || css.WebkitMaskImage;
+        box['-webkit-mask-image'] = box['mask-image'];
+      }
+      if (spec.text) {
+        box['text-align'] = (spec.align || 'LEFT').toLowerCase();
+        if ((spec.lines || 1) === 1) box['white-space'] = 'nowrap';
+        inner = esc(spec.text);
+      }
+      if (spec.img) inner = '<img src="' + spec.img + '" style="display:block;width:100%;height:100%" />' + inner;
+      if (spec.img === null && spec.imgMissing) box.outline = '1px dashed rgba(255,0,0,.6)';
+    }
+    var markup = '<div style="' + esc(style(box)) + '">' + inner + '</div>';
+    return rasterize(markup, CW, CH, !!spec.text);
+  }
+
+  // markup: XHTML positioned inside a CW x CH css-px stage -> { png, w, h } | null
+  async function rasterize(markup, CW, CH, hasText) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + CW * SCALE + '" height="' + CH * SCALE + '" viewBox="0 0 ' + CW + ' ' + CH + '">' +
+      '<style>' + fontCss + '</style>' +
+      '<foreignObject x="0" y="0" width="' + CW + '" height="' + CH + '">' +
+      '<div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:' + CW + 'px;height:' + CH + 'px;margin:0">' +
+      markup + '</div></foreignObject></svg>';
+    var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    var im = new Image();
+    im.src = url;
+    // decode can stall on a malformed SVG; never let one layer hang the whole draft
+    var ok = await Promise.race([im.decode().then(function () { return true; }, function () { return false; }), new Promise(function (r) { setTimeout(function () { r(false); }, 8000); })]);
+    if (!ok) return null;
+    var cv = document.createElement('canvas');
+    cv.width = CW * SCALE; cv.height = CH * SCALE;
+    var g = cv.getContext('2d');
+    g.drawImage(im, 0, 0);
+    // a second draw after fonts inside the SVG document have settled (first paint can use fallbacks)
+    if (hasText && fontCss) { await new Promise(function (r) { setTimeout(r, 30); }); g.clearRect(0, 0, cv.width, cv.height); g.drawImage(im, 0, 0); }
+    var data;
+    try {
+      // fully transparent -> the layer paints nothing of its own
+      var px = g.getImageData(0, 0, cv.width, cv.height).data, any = false;
+      for (var i = 3; i < px.length; i += 4) if (px[i]) { any = true; break; }
+      if (!any) return null;
+      data = cv.toDataURL('image/png');
+    } catch (e) {
+      return null; // tainted canvas (an external reference slipped in): caller marks the layer
+    }
+    return { png: data.slice(data.indexOf(',') + 1), w: CW, h: CH };
+  }
+
+  // ---------- static snapshots (loop-static.html / card-static.html) ----------
+  // When the export folder is available, each layer is rendered from its real element: the page
+  // is loaded into a hidden same-origin iframe (scripts stripped, asset URLs swapped for data
+  // URLs), the element is cloned with every computed style inlined (so ancestor selectors and
+  // non-layer children such as button labels and icons survive), and the clone is rasterised.
+  var docs = {};
+  // any url()/src that points into an assets/ folder (relative, file://, http://) -> data URL
+  function rewriteUrls(text, resolve) {
+    return text
+      .replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g, function (m, q, u) {
+        if (/^data:/.test(u)) return m;
+        var i = u.indexOf('assets/'); var d = i >= 0 ? resolve(u.slice(i)) : null;
+        return d ? 'url("' + d + '")' : 'none';
+      })
+      .replace(/(\s(?:src|href)\s*=\s*)(['"])([^'"]+)\2/g, function (m, a, q, u) {
+        if (/^(data:|#)/.test(u)) return m;
+        var i = u.indexOf('assets/'); var d = i >= 0 ? resolve(u.slice(i)) : null;
+        return d ? a + q + d + q : a + q + q;
+      });
+  }
+  var frames = [];
+  // forget the previous drop's snapshots (a new folder without them must not reuse old pages)
+  function reset() { frames.forEach(function (f) { f.remove(); }); frames = []; docs = {}; }
+  async function loadStatic(key, html, resolve, W, H) {
+    html = html.replace(/<script\b[\s\S]*?<\/script>/gi, '').replace(/<link\b[^>]*>/gi, '');
+    html = rewriteUrls(html, resolve);
+    var inject = '<style>' + fontCss + '*{animation:none!important;transition:none!important}</style>';
+    html = /<head[^>]*>/i.test(html) ? html.replace(/<head[^>]*>/i, function (m) { return m + inject; }) : inject + html;
+    var fr = document.createElement('iframe');
+    fr.setAttribute('aria-hidden', 'true');
+    fr.style.cssText = 'position:fixed;left:-30000px;top:0;width:' + W + 'px;height:' + H + 'px;border:0;opacity:0;pointer-events:none';
+    var loaded = new Promise(function (r) { fr.onload = function () { r(true); }; setTimeout(function () { r(false); }, 10000); });
+    fr.srcdoc = html;
+    document.body.appendChild(fr);
+    frames.push(fr);
+    if (!(await loaded)) return false;
+    var doc;
+    try { doc = fr.contentDocument; } catch (e) { return false; }
+    if (!doc || !doc.body) return false;
+    try { await doc.fonts.ready; } catch (e) {}
+    await Promise.all(Array.from(doc.images).map(function (i) { return i.decode().catch(function () {}); }));
+    docs[key] = { doc: doc, win: fr.contentWindow };
+    return true;
+  }
+  function find(key, name) {
+    var d = docs[key];
+    if (!d) return null;
+    return d.doc.getElementById(name) || d.doc.querySelector('[data-fid="' + String(name).replace(/"/g, '\\"') + '"]');
+  }
+  // ---------- web fonts the export doesn't ship ----------
+  // HyperFrames resolves its bundled families (League Gothic, Space Mono, …) from Google Fonts at
+  // render time, so they are not in assets/fonts. Without them the draft lays out with fallback
+  // fonts (V4: "ARIA LIM" wrapped). Families used by the loaded snapshots that have no @font-face
+  // of ours are fetched (latin subset) and embedded as data URLs. Offline: skipped, noted.
+  var known = {};
+  var GENERIC = /^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-\w+|-apple-system|times|times new roman|georgia|courier|courier new|arial|helvetica|verdana|inter)$/i;
+  function usedFonts() {
+    var want = {};
+    Object.keys(docs).forEach(function (k) {
+      var d = docs[k];
+      Array.from(d.doc.querySelectorAll('body *')).forEach(function (el) {
+        var cs = d.win.getComputedStyle(el), fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim();
+        if (!fam || GENERIC.test(fam)) return;
+        var w = Math.min(900, Math.max(100, Math.round((parseInt(cs.fontWeight, 10) || 400) / 100) * 100)), st = cs.fontStyle === 'italic' ? 'italic' : 'normal';
+        if (known[(fam + '|' + w + '|' + st).toLowerCase()]) return;
+        want[fam + '|' + w + '|' + st] = { family: fam, weight: w, style: st };
+      });
+    });
+    return Object.keys(want).map(function (k) { return want[k]; });
+  }
+  function toDataUrl(blob) { return new Promise(function (r) { var fr = new FileReader(); fr.onload = function () { r(fr.result); }; fr.onerror = function () { r(null); }; fr.readAsDataURL(blob); }); }
+  async function fetchGoogle(f) {
+    var q = 'family=' + encodeURIComponent(f.family).replace(/%20/g, '+') + ':ital,wght@' + (f.style === 'italic' ? 1 : 0) + ',' + f.weight;
+    try {
+      var res = await fetch('https://fonts.googleapis.com/css2?' + q + '&display=block');
+      if (!res.ok) return null;
+      var css = await res.text();
+      var blocks = css.split('@font-face').slice(1);
+      var pick = blocks.filter(function (b, i) { return /\/\*\s*latin\s*\*\//.test(css.split('@font-face')[i]); })[0] || blocks[blocks.length - 1];
+      var m = pick && pick.match(/url\((https:[^)]+)\)/);
+      if (!m) return null;
+      var fr = await fetch(m[1]);
+      if (!fr.ok) return null;
+      var url = await toDataUrl(await fr.blob());
+      return url ? { family: f.family, weight: f.weight, style: f.style, url: url } : null;
+    } catch (e) { return null; }
+  }
+  // returns { added: [...], missing: [...] }
+  async function fetchMissingFonts() {
+    var need = usedFonts(), added = [], missing = [];
+    var got = await Promise.all(need.map(fetchGoogle));
+    got.forEach(function (g, i) { if (g) added.push(g); else missing.push(need[i].family + ' ' + need[i].weight + (need[i].style === 'italic' ? ' italic' : '')); });
+    if (added.length) {
+      addFonts(added);
+      for (var k in docs) {
+        var d = docs[k], stl = d.doc.createElement('style');
+        stl.textContent = faceCss(added);
+        d.doc.head.appendChild(stl);
+        await Promise.all(added.map(function (f) { return d.doc.fonts.load((f.style === 'italic' ? 'italic ' : '') + f.weight + ' 16px "' + f.family + '"').catch(function () {}); }));
+        try { await d.doc.fonts.ready; } catch (e) {}
+      }
+    }
+    return { added: added.map(function (f) { return f.family + ' ' + f.weight; }), missing: missing };
+  }
+
+  var NEUTRAL = ['transform', 'translate', 'rotate', 'scale'];
+  // live layout of a layer with its own transform switched off (as bake measures it)
+  function measure(key, name) {
+    var el = find(key, name);
+    if (!el) return null;
+    var d = docs[key], st = el.style, saved = NEUTRAL.map(function (k) { return [k, st.getPropertyValue(k), st.getPropertyPriority(k)]; });
+    NEUTRAL.forEach(function (k) { st.setProperty(k, 'none', 'important'); });
+    var r = el.getBoundingClientRect();
+    var stage = d.doc.getElementById('stage') || d.doc.body;
+    var sr = stage.getBoundingClientRect();
+    var cs = d.win.getComputedStyle(el);
+    var info = {
+      cx: r.left + r.width / 2 - sr.left, cy: r.top + r.height / 2 - sr.top,
+      w: el.offsetWidth !== undefined ? el.offsetWidth : r.width, h: el.offsetHeight !== undefined ? el.offsetHeight : r.height,
+      align: { center: 'CENTER', right: 'RIGHT', end: 'RIGHT', justify: 'JUSTIFIED' }[cs.textAlign] || 'LEFT',
+      lines: Math.max(1, Math.round(r.height / (parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2))),
+      clip: cs.overflow === 'hidden' || cs.overflow === 'clip',
+      radius: parseFloat(cs.borderTopLeftRadius) || 0,
+      color: cs.color,
+      textCase: { uppercase: 'UPPER', lowercase: 'LOWER', capitalize: 'TITLE' }[cs.textTransform] || 'ORIGINAL',
+      font: { family: cs.fontFamily.split(',')[0].replace(/["']/g, '').trim(), weight: parseInt(cs.fontWeight, 10) || 400, italic: cs.fontStyle === 'italic',
+        size: parseFloat(cs.fontSize), lineHeight: cs.lineHeight === 'normal' ? null : parseFloat(cs.lineHeight),
+        letterSpacing: cs.letterSpacing === 'normal' ? 0 : parseFloat(cs.letterSpacing) },
+      textOnly: false,
+    };
+    // pure text: text only, no element children, no box paint of its own (mirrors bake)
+    var bg = (cs.backgroundColor.match(/[\d.]+/g) || []);
+    var ownBox = (bg.length && (bg.length < 4 || +bg[3] > 0)) || cs.backgroundImage !== 'none' || cs.boxShadow !== 'none' || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0;
+    info.textOnly = !ownBox && el.children.length === 0 && !!el.textContent.trim();
+    info.characters = info.textOnly ? (el.innerText || el.textContent) : null;
+    saved.forEach(function (x) { if (x[1]) st.setProperty(x[0], x[1], x[2]); else st.removeProperty(x[0]); });
+    return info;
+  }
+  function styleText(cs) { var s = ''; for (var i = 0; i < cs.length; i++) { var p = cs[i]; s += p + ':' + cs.getPropertyValue(p) + ';'; } return s; }
+  // ::before / ::after (overlays, notches, sheens) aren't part of a clone: materialise them as spans
+  function pseudo(src, win, which) {
+    var cs = win.getComputedStyle(src, which), c = cs.content;
+    if (!c || c === 'none' || c === 'normal' || cs.display === 'none') return null;
+    var sp = src.ownerDocument.createElement('span');
+    sp.setAttribute('style', styleText(cs));
+    var txt = c.match(/^(["'])([\s\S]*)\1$/);
+    if (txt) sp.textContent = txt[2].replace(/\\([0-9a-f]{1,6})\s?/gi, function (m, h) { return String.fromCodePoint(parseInt(h, 16)); }).replace(/\\(.)/g, '$1');
+    return sp;
+  }
+  function inlineAll(src, dst, win) {
+    if (src.nodeType !== 1) return;
+    var cs = win.getComputedStyle(src);
+    var s = styleText(cs);
+    // text laid out on one line in the page stays on one line (the SVG render's glyphs can be a hair wider)
+    var direct = Array.prototype.some.call(src.childNodes, function (n) { return n.nodeType === 3 && n.textContent.trim(); });
+    if (direct) {
+      var lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2, r = src.getBoundingClientRect();
+      var inner = r.height - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0) - (parseFloat(cs.borderTopWidth) || 0) - (parseFloat(cs.borderBottomWidth) || 0);
+      if (inner < lh * 1.5) s += 'white-space:nowrap;';
+    }
+    dst.setAttribute('style', s);
+    dst.removeAttribute('class');
+    for (var k = 0; k < src.childNodes.length; k++) inlineAll(src.childNodes[k], dst.childNodes[k], win);
+    var b = pseudo(src, win, '::before'), a = pseudo(src, win, '::after');
+    if (b) dst.insertBefore(b, dst.firstChild);
+    if (a) dst.appendChild(a);
+  }
+  // opts: { listed: [names], w, h, maskOnly, stripBlur }
+  async function renderElement(key, name, opts) {
+    var el = find(key, name);
+    if (!el) return null;
+    var d = docs[key];
+    var clone = el.cloneNode(true);
+    inlineAll(el, clone, d.win);
+    // other layers are built on their own
+    var listed = {};
+    (opts.listed || []).forEach(function (n) { listed[n] = 1; });
+    // hidden, not removed: they keep their place in the layout (a flex column's label would slide up)
+    Array.from(clone.querySelectorAll('[id],[data-fid]')).forEach(function (n) {
+      if (!(listed[n.id] || listed[n.getAttribute('data-fid')])) return;
+      [n].concat(Array.from(n.querySelectorAll('*'))).forEach(function (k) { k.style && k.style.setProperty('visibility', 'hidden', 'important'); });
+    });
+    var st = clone.style;
+    ['inset', 'inset-block', 'inset-inline', 'left', 'top', 'right', 'bottom'].forEach(function (k) { st.removeProperty(k); });
+    var root = { position: 'absolute', left: PAD + 'px', top: PAD + 'px', margin: '0px', right: 'auto', bottom: 'auto',
+      transform: 'none', translate: 'none', rotate: 'none', scale: 'none', opacity: '1', 'mix-blend-mode': 'normal', visibility: 'visible',
+      width: opts.w + 'px', height: opts.h + 'px', 'box-sizing': 'border-box' };
+    Object.keys(root).forEach(function (k) { st.setProperty(k, root[k], 'important'); });
+    // single-line text: never wrap (the SVG render's glyph advances can be a hair wider than the page's)
+    if (opts.nowrap) st.setProperty('white-space', 'nowrap', 'important');
+    if (opts.stripBlur) st.setProperty('filter', (st.getPropertyValue('filter') || '').replace(/blur\([^)]*\)/g, '').trim() || 'none', 'important');
+    if (opts.maskOnly) {
+      Array.from(clone.querySelectorAll('*')).forEach(function (n) { n.style.setProperty('visibility', 'hidden', 'important'); });
+      st.setProperty('background', '#fff', 'important'); st.setProperty('box-shadow', 'none', 'important');
+      st.setProperty('filter', 'none', 'important'); st.setProperty('border-color', 'transparent', 'important');
+    }
+    clone.removeAttribute('id');
+    var markup = new XMLSerializer().serializeToString(clone);
+    return rasterize(markup, opts.w + PAD * 2, opts.h + PAD * 2, !!el.textContent.trim());
+  }
+
+  return { render: render, setFonts: setFonts, fontFromPath: fontFromPath, reset: reset, loadStatic: loadStatic, fetchMissingFonts: fetchMissingFonts, measure: measure, renderElement: renderElement, hasStatic: function (k) { return !!docs[k]; }, PAD: PAD, SCALE: SCALE };
+})();
+
+</script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  let files = [];      // [{ path, file }] everything the user gave us (File objects are read lazily)
+  let cands = [];      // detected animations
+  let cur = null;      // the chosen candidate
+  let draftWarn = [];  // what the draft route lost, shown after the build
+  const SKIP_DIRS = /(^|\/)(frames|node_modules|\.git|preview)(\/|$)/;
+  const KEEP = /\.(json|html?|png|jpe?g|webp|gif|svg|woff2?|ttf|otf)$/i;
+
+  function status(msg, err) { $('status').className = 'status' + (err ? ' err' : ''); $('status').textContent = msg || ''; }
+  function reset() { cands = []; cur = null; $('choose').hidden = true; $('chooseList').innerHTML = ''; $('found').hidden = true; $('build').disabled = true; status(''); }
+
+  // ---------- intake ----------
+  function readEntry(entry, prefix) {
+    // a dropped folder: walk it (readEntries returns ~100 at a time; loop until empty)
+    return new Promise((ok) => {
+      const path = prefix ? prefix + '/' + entry.name : entry.name;
+      if (entry.isFile) {
+        if (!KEEP.test(entry.name)) return ok([]);
+        entry.file((f) => ok([{ path, file: f }]), () => ok([]));
+        return;
+      }
+      if (SKIP_DIRS.test(path)) return ok([]);
+      const rd = entry.createReader(), all = [];
+      const next = () => rd.readEntries(async (batch) => {
+        if (!batch.length) { const kids = await Promise.all(all.map((e) => readEntry(e, path))); return ok([].concat.apply([], kids)); }
+        all.push.apply(all, batch); next();
+      }, () => ok([]));
+      next();
+    });
+  }
+  async function intake(list, label) {
+    reset();
+    files = list.filter((f) => KEEP.test(f.path) && !SKIP_DIRS.test(f.path.split('/').slice(0, -1).join('/')));
+    $('dropTitle').textContent = label;
+    const jsons = files.filter((f) => /\.json$/i.test(f.path));
+    $('dropMeta').textContent = files.length + ' files · ' + jsons.length + ' .json';
+    if (!jsons.length) return status('No .json file in what you dropped.', true);
+    status('Reading…');
+    const parsed = [], errors = [];
+    for (const f of jsons) {
+      if (f.file.size > 80e6) { errors.push(f.path + ': too large (' + Math.round(f.file.size / 1e6) + ' MB)'); continue; }
+      try { parsed.push({ path: f.path, lastModified: f.file.lastModified, json: JSON.parse(await f.file.text()) }); }
+      catch (e) { errors.push(f.path + ': not valid JSON'); }
+    }
+    parsed.forEach((p) => { const d = Formats.detect(p.json); if (!d.format) errors.push(p.path.split('/').pop() + ': ' + d.error); });
+    cands = Formats.candidates(parsed);
+    if (!cands.length) return status('No loadable animation found.\n' + errors.join('\n'), true);
+    status('');
+    if (cands.length === 1) return choose(0);
+    $('chooseList').innerHTML = cands.map((c, i) =>
+      '<label class="opt"><input type="radio" name="cand" value="' + i + '" /><div><b>' + esc(c.det.name) + '</b><span>' + esc(c.det.label) + ' · ' + esc(c.path) + '</span></div></label>').join('');
+    $('choose').hidden = false;
+    document.querySelectorAll('input[name=cand]').forEach((r) => (r.onchange = () => choose(+r.value)));
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+
+  // ---------- summary ----------
+  function choose(i) {
+    cur = cands[i];
+    const d = cur.det, s = d.stats, j = cur.json;
+    $('fTitle').textContent = d.name;
+    $('fBadge').textContent = d.quality;
+    $('fBadge').className = 'badge' + (cur.det.format === 'raw-handoff' ? ' draft' : '');
+    $('fMeta').textContent = d.label + ' · ' + s.size + ' · ' + s.duration + ' s · ' + s.layers + ' layers · ' +
+      (d.format === 'variants' ? s.poses + ' poses' : s.keyframes + ' keyframes, ' + s.tweens + ' tweens');
+    $('fPath').textContent = cur.path;
+    const w = [];
+    if (cur.stale) w.push(cur.stale);
+    if (d.format === 'raw-handoff') {
+      const snaps = ['loop', 'card'].filter((k) => files.some((f) => f.path === (cur.dir ? cur.dir + '/' : '') + k + '-static.html'));
+      w.push(snaps.length === 2
+        ? 'Not baked: artwork is rendered here from the export\u2019s static snapshots (draft). Bake gives exact rest poses, mirror flips and scrolling textures.'
+        : 'Not baked, and no loop-static.html / card-static.html beside it: artwork is rebuilt from the exported CSS only (labels and icons inside layers can be lost). Drop the whole export folder for a better draft.');
+    }
+    (j.warnings || []).forEach((x) => w.push(x));
+    $('fWarn').hidden = !w.length; $('fWarn').textContent = w.join('\n');
+    const handoff = d.format !== 'variants';
+    $('optsHandoff').hidden = !handoff; $('optsVariants').hidden = handoff;
+    if (handoff) {
+      const cyc = d.format === 'bundle' ? j.loopCycle : j.timeline.loop.cycle;
+      $('filmMeta').textContent = s.duration + ' s · loop, transition, card';
+      $('loopMeta').textContent = cyc + ' s · ' + (j.pingpong ? 'there and back (ping-pong)' : 'one seamless cycle');
+    } else {
+      const MODES = [['tracks', 'Tracks', 'Each top-level layer loops in its own component. Recommended.'], ['keypose', 'Key poses', 'One component, shared cuts.'], ['baked', 'Baked', 'A pose every frame step, linear. Heaviest.']];
+      $('modes').innerHTML = MODES.filter(([k]) => j.modes[k]).map(([k, t, b], n) =>
+        '<label class="opt"><input type="radio" name="mode" value="' + k + '"' + (n ? '' : ' checked') + ' /><div><b>' + t + '</b><span>' + b + '</span></div></label>').join('');
+    }
+    $('found').hidden = false; $('build').disabled = false;
+  }
+
+  // ---------- assets for the draft route ----------
+  function dirOf(p) { const i = p.lastIndexOf('/'); return i < 0 ? '' : p.slice(0, i); }
+  function findFile(rel, base) {
+    // match by path suffix (the dropped root varies); prefer the json's own folder
+    const exact = files.find((f) => f.path === (base ? base + '/' : '') + rel);
+    return exact || files.find((f) => f.path === rel || f.path.endsWith('/' + rel));
+  }
+  const asDataUrl = (file) => new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = () => ok(null); r.readAsDataURL(file); });
+  async function draftBundle(raw, base) {
+    const assets = {};
+    for (const l of raw.loop.layers.concat(raw.card.layers)) {
+      if (!l.asset || assets[l.asset] !== undefined) continue;
+      const f = findFile(l.asset, base);
+      assets[l.asset] = f ? await asDataUrl(f.file) : null;
+    }
+    DraftRender.reset();
+    const fonts = [];
+    for (const f of files.filter((x) => /\.(woff2?|ttf|otf)$/i.test(x.path) && dirOf(x.path).startsWith(base))) {
+      const info = DraftRender.fontFromPath(f.path);
+      if (info) fonts.push(Object.assign(info, { url: await asDataUrl(f.file) }));
+    }
+    DraftRender.setFonts(fonts);
+    const idx = files.find((f) => f.path === (dirOf(base) ? dirOf(base) + '/' : '') + 'index.html');
+    // the static snapshots next to figma-motion.json give the real elements (labels, icons, layout)
+    const cache = {};
+    const resolve = (rel) => cache[rel];
+    for (const f of files.filter((x) => /(^|\/)assets\//.test(x.path) && x.path.startsWith(base ? base + '/' : ''))) {
+      const rel = f.path.slice(f.path.indexOf('assets/'));
+      if (!(rel in cache) && !/\.(json|html?)$/i.test(rel)) cache[rel] = await asDataUrl(f.file);
+    }
+    for (const k of ['loop', 'card']) {
+      const sf = files.find((f) => f.path === (base ? base + '/' : '') + k + '-static.html');
+      if (sf) { status('Loading ' + k + '-static.html…'); await DraftRender.loadStatic(k, await sf.file.text(), resolve, raw.canvas.width, raw.canvas.height); }
+    }
+    let webFonts = { added: [], missing: [] };
+    if (DraftRender.hasStatic('loop') || DraftRender.hasStatic('card')) { status('Fetching web fonts…'); webFonts = await DraftRender.fetchMissingFonts(); }
+    const B = await Formats.rawToBundle(raw, {
+      render: DraftRender.render, stat: DraftRender,
+      asset: (p) => assets[p] || null,
+      indexHtml: idx ? await idx.file.text() : null,
+      progress: (i, n) => status('Preparing draft artwork… ' + i + '/' + n),
+    });
+    if (webFonts.added.length) B.notes.push('web fonts fetched from Google Fonts: ' + webFonts.added.join(', '));
+    if (webFonts.missing.length) B.warnings.push('Fonts not available (offline or not on Google Fonts), drawn with a fallback: ' + webFonts.missing.join(', '));
+    return B;
+  }
+
+  // ---------- events ----------
+  const drop = $('drop');
+  document.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  document.addEventListener('dragleave', () => drop.classList.remove('over'));
+  document.addEventListener('drop', (e) => {
+    e.preventDefault(); drop.classList.remove('over');
+    // grab entries synchronously: the item list is dead once this handler returns
+    const entries = Array.from(e.dataTransfer.items || []).map((it) => it.webkitGetAsEntry && it.webkitGetAsEntry()).filter(Boolean);
+    const plain = Array.from(e.dataTransfer.files || []);
+    (async () => {
+      let list;
+      if (entries.length) list = [].concat.apply([], await Promise.all(entries.map((en) => readEntry(en, ''))));
+      else list = plain.map((f) => ({ path: f.name, file: f }));
+      intake(list, entries.length === 1 ? entries[0].name : list.length + ' items');
+    })();
+  });
+  $('pickFolder').onclick = () => $('folderIn').click();
+  $('pickFile').onclick = () => $('fileIn').click();
+  $('folderIn').onchange = (e) => {
+    const fl = Array.from(e.target.files);
+    intake(fl.map((f) => ({ path: f.webkitRelativePath || f.name, file: f })), fl.length ? (fl[0].webkitRelativePath || '').split('/')[0] || 'folder' : 'folder');
+    e.target.value = '';
+  };
+  $('fileIn').onchange = (e) => { const f = e.target.files[0]; if (f) intake([{ path: f.name, file: f }], f.name); e.target.value = ''; };
+
+  $('build').onclick = async () => {
+    if (!cur) return;
+    $('build').disabled = true;
+    try {
+      if (cur.det.format === 'variants') {
+        status('Building…');
+        parent.postMessage({ pluginMessage: { type: 'build', format: 'variants', spec: cur.json, mode: document.querySelector('input[name=mode]:checked').value, wire: $('wire').checked, delayFromStart: $('fromStart').checked } }, '*');
+        return;
+      }
+      let bundle = cur.json;
+      draftWarn = [];
+      if (cur.det.format === 'raw-handoff') { bundle = await draftBundle(cur.json, cur.dir); draftWarn = bundle.warnings || []; }
+      status('Building… (images upload first, give it a moment)');
+      parent.postMessage({ pluginMessage: { type: 'build', format: 'handoff', bundle, scope: document.querySelector('input[name=scope]:checked').value } }, '*');
+    } catch (e) {
+      $('build').disabled = false;
+      status('Could not prepare the build: ' + (e && e.message ? e.message : e), true);
+    }
+  };
+
+  onmessage = (e) => {
+    const m = e.data.pluginMessage; if (!m) return;
+    $('build').disabled = false;
+    if (m.type === 'error') return status(m.message, true);
+    const r = m.res;
+    if (m.format === 'variants') {
+      return status(r.sets.map((s) => s.name + ': ' + s.poses + ' variants').join('\n') +
+        (r.wired ? '\nPrototype connected. Select "Play / ' + cur.det.name + '" and press Present.\nCheck: Pose=1 → Prototype tab shows ' + r.check + '.' : '\nNot connected: follow the Wiring guide next to the variants.') +
+        (r.placeholders.length ? '\nMissing images (grey): ' + r.placeholders.map((p) => p.layer).join(', ') : '') +
+        (r.warnings.length ? '\n' + r.warnings.join('\n') : ''));
+    }
+    status(
+      r.layers + ' layers, ' + r.images + ' images' +
+      (r.motion ? '\n' + r.tracks + ' keyframe tracks, ' + r.keyframes + ' keyframes · timeline ' + (r.timeline ? r.timeline.duration + ' s' : '?') : '\nNo motion applied') +
+      (r.textNative.length ? '\nEditable text: ' + r.textNative.length : '') +
+      (r.textRaster.length ? '\nText kept as image (font missing): ' + r.textRaster.join(', ') : '') +
+      (r.warnings.length ? '\n' + r.warnings.join('\n') : '') +
+      (draftWarn.length ? '\n' + draftWarn.join('\n') : '') +
+      '\nSelect the frame and press Play in the timeline.');
+  };
+</script>

@@ -1,0 +1,9 @@
+/* Floating action button. <button class="c-fab c-fab--md|--ios" aria-label="New post"><span class="c-ico">add</span><span class="c-fab__label">New</span></button>; the label is optional (Material "extended" FAB). */
+.c-fab { position: fixed; z-index: 18; right: 16px; bottom: calc(96px + var(--c-safe-b)); display: inline-flex; align-items: center; gap: 12px; border: 0; cursor: pointer; font-family: var(--c-font); transition: transform .2s var(--c-spring), box-shadow .2s; }
+.c-fab:active { transform: scale(.94); }
+.c-fab--md { height: 56px; min-width: 56px; padding: 0 16px; border-radius: 16px; background: var(--c-accent-soft); color: var(--c-accent); box-shadow: 0 3px 6px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .1); font-size: 14px; font-weight: 500; justify-content: center; }
+.c-fab--md { background: color-mix(in srgb, var(--c-accent) 18%, var(--c-bg)); }
+.c-fab:not(:has(.c-fab__label)) { padding: 0; }
+/* Apple style (iOS has no FAB): a round "prominent glass" button in your brand colour, floating above the tab bar */
+.c-fab--ios { width: 56px; height: 56px; justify-content: center; border-radius: 50%; background: var(--c-accent); color: var(--c-on-accent); border: 1px solid color-mix(in srgb, #fff 25%, transparent); box-shadow: var(--c-glass-shine); }
+.c-fab--ios .c-fab__label { display: none; }

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Builder: Meet your guide</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow has-prog">
+    <button class="icon-btn" data-go="h-builder" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <span class="appbar__title step-label">Section 6 of 16 · Is it worth it?</span>
+    <button class="btn btn--ghost btn--sm" data-toast="Draft saved" data-toast-icon="ph-floppy-disk">Save</button>
+    <div class="flow-prog" role="progressbar" aria-label="Listing progress" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100"><i style="width:38%"></i></div>
+  </header>
+  <section class="reveal pad stack-lg" style="padding-top:16px">
+    <div><h1 class="t2">Meet your guide</h1><p class="sum-note">Guests book people, not tours. This is personal, not a CV.</p></div>
+    
+
+    <div class="row" style="gap:16px">
+      <div class="photo-pick"><img data-img="1763219069500-e4c9b49f308f" data-w="240" alt="Guide photo"><span class="cam"><i class="ph ph-camera" aria-hidden="true"></i></span></div>
+      <div class="grow stack">
+        <div class="field"><label for="gn">Name guests will see <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="gn" value="Pak Rahim"></div>
+      </div>
+    </div>
+    <div class="field"><label for="ht">Hometown <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="ht" value="Kampung Kuantan, Kuala Selangor"></div>
+
+    <div><h2 class="is-h3">Answers</h2><p class="small muted mt1">Answer at least 3 of these 4.</p></div>
+    <div class="card">
+      <label class="label" for="p1">Where I grew up</label>
+      <textarea class="textarea mt2" id="p1" placeholder="In a wooden house on stilts by the river. We fished at night by the light of the fireflies." style="min-height:90px">Right here on the Selangor River. My father fished at night, and the fireflies were our lanterns.</textarea>
+      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="In a wooden house on stilts by the river. We fished at night by the light of the fireflies."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">17 / 60 words</span></div>
+    </div><div class="card">
+      <label class="label" for="p2">Why I started this</label>
+      <textarea class="textarea mt2" id="p2" placeholder="When the old trees were cut for a jetty, the fireflies left. I wanted guests to see why we protect them." style="min-height:90px">In 2011 half the berembang trees were cut and the fireflies nearly disappeared. Showing guests is how we pay to replant them.</textarea>
+      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="When the old trees were cut for a jetty, the fireflies left. I wanted guests to see why we protect them."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">22 / 60 words</span></div>
+    </div><div class="card">
+      <label class="label" for="p3">Something guests always ask me</label>
+      <textarea class="textarea mt2" id="p3" placeholder="Why do the fireflies blink together? I tell them it is the males calling, all on the same beat." style="min-height:90px"></textarea>
+      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="Why do the fireflies blink together? I tell them it is the males calling, all on the same beat."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">0 / 60 words</span></div>
+    </div><div class="card">
+      <label class="label" for="p4">My favourite spot</label>
+      <textarea class="textarea mt2" id="p4" placeholder="The bend after the old surau, where the river goes completely quiet." style="min-height:90px"></textarea>
+      <div class="row-between mt1"><button class="btn btn--ghost btn--sm" style="padding:0" data-ex="The bend after the old surau, where the river goes completely quiet."><i class="ph ph-sparkle" aria-hidden="true"></i>Use example to start</button><span class="counter">0 / 60 words</span></div>
+    </div>
+
+    <div class="field"><span class="label">Intro video <span class="badge" style="padding:0 8px">Optional</span></span>
+      <div class="video-tile" data-sheet="video"><i class="ph ph-video-camera" aria-hidden="true"></i><div class="grow"><b>Record a 30-second hello</b><p class="small muted">Listings with a video get more bookings.</p></div><i class="ph ph-plus-circle" style="font-size: 22px" aria-hidden="true"></i></div>
+    </div>
+  </section>
+  <div style="height:24px"></div>
+  <div class="cta-bar"><button class="btn btn--secondary" data-go="h-builder">Back</button><button class="btn btn--primary grow" id="next">Save and next</button></div>
+
+  <script>
+  (function () {
+    document.querySelectorAll('[data-ex]').forEach(function (b) { b.addEventListener('click', function () {
+      var t = b.closest('.card').querySelector('textarea'); t.value = b.getAttribute('data-ex'); t.dispatchEvent(new Event('input'));
+    }); });
+    document.querySelectorAll('textarea').forEach(function (t) { t.addEventListener('input', function () {
+      var n = t.value.trim() ? t.value.trim().split(/\s+/).length : 0; t.closest('.card').querySelector('.counter').textContent = n + ' / 60 words';
+    }); });
+    document.getElementById('next').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { L.go('h-builder'); }, 600); });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-guide', [["Section", "6 · Meet your guide"], ["Prompts", "4 (answer 3+)"], ["Video", "Optional"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

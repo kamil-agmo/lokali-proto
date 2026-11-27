@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Sign in</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+</head>
+<body class="a">
+<div class="a-login">
+  <section class="a-login__art" data-a11y-ok aria-label="The Habitat Group">
+    <img src="../assets/habitat-logo.png" alt="The Habitat Group">
+    <div>
+      <h2>Lokali admin portal</h2>
+      <p>Approve hosts and listings, manage bookings, refunds and payouts, and keep the site up to date.</p>
+    </div>
+    <p class="small" style="color:rgba(255,255,255,.7)">Staff only. Access is logged.</p>
+  </section>
+  <section class="a-login__form">
+    <form id="f" novalidate>
+      <span class="wordmark"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span>
+      <div><h1 style="font-size:24px;line-height:30px">Sign in</h1><p class="muted mt1">Lokali staff account</p></div>
+      <div class="field"><label for="em">Work email</label><input class="input" id="em" type="email" value="nurul.huda@lokali.my" autocomplete="username"></div>
+      <div class="field">
+        <div class="row-between"><label class="label" for="pw">Password</label><a class="small strong" href="#" data-toast="Reset link sent to nurul.huda@lokali.my" data-toast-icon="ph-envelope-simple">Forgot password?</a></div>
+        <div class="input-wrap"><i class="ph ph-lock-simple" aria-hidden="true"></i><input class="input" id="pw" type="password" value="prototype" autocomplete="current-password"></div>
+      </div>
+      <label class="check on" role="checkbox" aria-checked="true"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span class="small">Keep me signed in on this device for 8 hours</span></label>
+      <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+      <div class="notice"><i class="ph ph-shield-check" aria-hidden="true"></i><span>Access by role: Super admin, Operations, Finance, Content</span></div>
+    </form>
+  </section>
+</div>
+<script>
+(function () {
+  document.getElementById('f').addEventListener('submit', function (e) { e.preventDefault(); L.go('a-dashboard'); });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-login', [['Account', 'nurul.huda@lokali.my'], ['Role after sign-in', 'Operations']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

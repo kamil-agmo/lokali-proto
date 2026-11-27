@@ -1,0 +1,4 @@
+  <script>/* phone-install: on a phone-sized window open the first screen full screen instead of the presenter frame (add ?shell to see the frame) */
+    (function () { var S = window.SHELL, p = S && S.pages && S.pages[S.startPage];
+      if (p && matchMedia('(max-width: 500px)').matches && location.search.indexOf('shell') < 0) location.replace(p.src); })();
+  </script>

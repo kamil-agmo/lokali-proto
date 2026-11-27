@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Bookings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-home" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Bookings</h1>
+    <span class="spacer"></span>
+  </header>
+<section class="pad" style="padding-top:8px" aria-label="Summary"><div class="card">
+    <span class="bal-label"><i class="ph-fill ph-ticket" aria-hidden="true"></i>All listings</span>
+    <p class="t2 mt1">9 bookings coming up</p>
+    <div class="sum-stats"><div><b>22</b>guests</div><div><b>6</b>today</div><div><b>RM 2,967</b>still to earn in Dec</div></div>
+  </div></section>
+  <div class="tabs" data-group>
+    <button class="active" data-panel="#up">Upcoming <span class="badge">9</span></button>
+    <button data-panel="#past">Past</button>
+    <button data-panel="#cx">Cancelled</button>
+  </div>
+
+  <section id="up">
+    <div class="date-label"><span>Today · Wed, 2 Dec</span><span>6 / 10</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-booking"><div class="bk__time"><small>WED</small><b>2</b><small>Dec</small></div><div class="grow"><div class="row"><b>Nur Aisyah Kamal</b></div><p class="small muted">5:00 PM · 2 adults, 1 child · LK-24802</p><span class="flag" style="color:var(--danger)"><i class="ph ph-warning" aria-hidden="true"></i>Shellfish allergy</span></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-booking"><div class="bk__time"><small>WED</small><b>2</b><small>Dec</small></div><div class="grow"><div class="row"><b>Daniel Wong</b></div><p class="small muted">5:00 PM · 2 adults · LK-24790</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-booking"><div class="bk__time"><small>WED</small><b>2</b><small>Dec</small></div><div class="grow"><div class="row"><b>Haziq Azman</b></div><p class="small muted">5:00 PM · 1 adult · LK-24811</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+    <div class="date-label"><span>Sun, 6 Dec</span><span>7:30 AM 10 / 10 (private) · 5:00 PM 7 / 10</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-booking"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><div class="row"><b>Aina Rahman</b><span class="badge badge--accent">New</span></div><p class="small muted">5:00 PM · 2 adults, 1 child · LK-24817</p><span class="flag"><i class="ph ph-leaf" aria-hidden="true"></i>1 vegetarian</span></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-booking"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><div class="row"><b>Farid Ismail</b></div><p class="small muted">5:00 PM · 2 adults · LK-24799</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-booking"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><div class="row"><b>Priya Nair</b></div><p class="small muted">5:00 PM · 2 adults · LK-24808</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-toast="Private boat · whole slot booked by the Tan family"><div class="bk__time"><small>SUN</small><b>6</b><small>Dec</small></div><div class="grow"><div class="row"><b>Tan family</b><span class="badge badge--brand">Private</span></div><p class="small muted">7:30 AM · 4 guests · private boat · LK-24806</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+    <div class="date-label"><span>Mon, 7 Dec</span><span>5:00 PM 5 / 10</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-booking"><div class="bk__time"><small>MON</small><b>7</b><small>Dec</small></div><div class="grow"><div class="row"><b>Lee Wei Ming</b></div><p class="small muted">5:00 PM · 2 adults · LK-24813</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-booking"><div class="bk__time"><small>MON</small><b>7</b><small>Dec</small></div><div class="grow"><div class="row"><b>Ong Mei Xin</b></div><p class="small muted">5:00 PM · 3 adults · LK-24815</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+  </section>
+
+  <section id="past" hidden>
+    <div class="date-label"><span>Tue, 1 Dec</span><span>Payout today</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-earnings"><div class="bk__time"><small>TUE</small><b>1</b><small>Dec</small></div><div class="grow"><div class="row"><b>Wan family</b><span class="badge badge--info">Scheduled</span></div><p class="small muted">5:00 PM · 2 adults, 1 child · RM 327.25 payout</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+    <div class="date-label"><span>Mon, 30 Nov</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-reviews"><div class="bk__time"><small>MON</small><b>30</b><small>Nov</small></div><div class="grow"><div class="row"><b>Hidayah Salleh</b><span class="badge badge--success">Paid</span></div><p class="small muted">5:00 PM · 2 adults · Reviewed 5 stars</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div><div class="bk" data-go="h-earnings"><div class="bk__time"><small>MON</small><b>30</b><small>Nov</small></div><div class="grow"><div class="row"><b>Ahmad Faiz</b><span class="badge badge--success">Paid</span></div><p class="small muted">5:00 PM · 4 adults · Reviewed 4 stars</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+  </section>
+
+  <section id="cx" hidden>
+    <div class="date-label"><span>Sat, 12 Dec</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="bk" data-go="h-bookings"><div class="bk__time"><small>SAT</small><b>12</b><small>Dec</small></div><div class="grow"><div class="row"><b>Kelvin Ng</b><span class="badge">Cancelled</span></div><p class="small muted">Guest cancelled 1 Dec · refunded 100% (Moderate, 11 days before)</p></div><i class="ph ph-caret-right faint" aria-hidden="true"></i></div>
+    </div>
+    <p class="small muted pad mt3">Email for every booking and cancellation · <a href="h-email.html" data-go="h-email">View emails</a></p>
+  </section>
+  <div style="height:32px"></div>
+
+
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bookings', [["Upcoming", "9 bookings"], ["Shared booking", "LK-24817 · Aina Rahman"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

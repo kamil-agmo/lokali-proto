@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Payouts</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-payouts"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--secondary" data-toast="payouts_2026-12.xlsx downloaded" data-toast-icon="ph-download-simple"><i class="ph ph-download-simple" aria-hidden="true"></i>Export</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Payouts</h1><p>Lokali holds each payment and pays the host about 24 hours after the experience ends, to their Malaysian bank account.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-bank" aria-hidden="true"></i>Paid about 24 h after each experience</span><b><span class="hl">RM 3,893.25</span> going out today</b></div></div>
+        <div class="a-head__actions"><div class="ptabs" data-group id="t"><button class="active" data-value="Scheduled">Scheduled <em>31</em></button><button data-value="On hold">On hold <em>2</em></button><button data-value="Paid">Paid <em>412</em></button></div></div>
+      </div>
+      <div class="a-grid c4">
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-calendar-check" aria-hidden="true"></i></span>Scheduled (next 7 days)</span><span class="kpi__value">RM 18,555.50</span><span class="small muted">31 payouts to 24 hosts</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-pause-circle" aria-hidden="true"></i></span>On hold</span><span class="kpi__value">RM 2,384.75</span><span class="small muted">2 payouts need action</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-check-circle" aria-hidden="true"></i></span>Paid (30 days)</span><span class="kpi__value">RM 186,430.50</span><span class="small muted">Avg. 23.6 h after end</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-percent" aria-hidden="true"></i></span>Commission earned (30 days)</span><span class="kpi__value">RM 35,870</span><span class="small muted">+ RM 12,670 guest service fees</span></div>
+      </div>
+      <div class="a-card">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Host, booking ref or bank" aria-label="Search payouts"></div>
+          <select class="select" aria-label="Date"><option>Next 7 days</option><option>Today</option><option>Last 30 days</option></select>
+          <span class="grow"></span>
+          <div class="notice" style="padding:6px 12px"><i class="ph ph-lightning" aria-hidden="true"></i><span class="small">Automatic payouts: <b>On</b> · sent via the payment gateway</span></div>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Host</th><th>Booking</th><th>Experience ended</th><th class="num">Guest paid</th><th class="num">Commission</th><th class="num">Payout</th><th>Pays on</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="hold" role="dialog" aria-modal="true" aria-labelledby="hd-h">
+  <div class="a-modal__body"><h2 class="is-h3" id="hd-h">Hold this payout?</h2><p class="muted" id="hd-txt">The payout will not be sent until you release it. The host sees "On hold — Lokali is reviewing".</p>
+    <div class="field"><label for="hd-r">Reason</label><select class="select" id="hd-r"><option>Guest reported an issue</option><option>Dispute open</option><option>Bank details check</option><option>Other</option></select></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="hd-go">Hold payout</button></div>
+</div>
+<div class="a-modal" id="rel" role="dialog" aria-modal="true" aria-labelledby="rl-h">
+  <div class="a-modal__body"><h3 id="rl-h">Release this payout?</h3><p class="muted" id="rl-txt">It will be sent in the next payout run (every hour).</p></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="rl-go">Release payout</button></div>
+</div>
+<script>
+(function () {
+  var P = [
+    ['rahim', 'LK-24817', 'Sun, 6 Dec · 8:30 PM', 404.25, 57.75, 327.25, 'Mon, 7 Dec · ~8:30 PM', 'Scheduled'],
+    ['jaineh', 'LK-24822', 'Sun, 6 Dec · 1:00 PM', 672, 64, 576, 'Mon, 7 Dec · ~1:00 PM', 'Scheduled'],
+    ['siti', 'LK-24809', 'Sat, 5 Dec · 1:00 PM', 378, 54, 306, 'Sun, 6 Dec · ~1:00 PM', 'Scheduled'],
+    ['kumar', 'LK-24795', 'Fri, 4 Dec · 11:00 AM', 378, 54, 306, 'Sat, 5 Dec · ~11:00 AM', 'Scheduled'],
+    ['jenny', 'LK-24788', 'Thu, 3 Dec · 2:00 PM', 882, 126, 714, 'Fri, 4 Dec · ~2:00 PM', 'Scheduled'],
+    ['meiling', 'LK-24731', 'Mon, 30 Nov · 1:00 PM', 840, 120, 680, 'Tue, 1 Dec · 1:04 PM', 'Paid'],
+    ['rahim', 'LK-24781 · Wan family', 'Tue, 1 Dec · 8:30 PM', 404.25, 57.75, 327.25, 'Wed, 2 Dec · ~8:30 PM', 'Scheduled'],
+    ['jaineh', 'LK-24690', 'Mon, 30 Nov · 2:00 PM', 2688, 256, 2304, 'Held since Tue, 1 Dec', 'On hold', 'Bank not verified'],
+    ['siti', 'LK-24718', 'Sun, 29 Nov · 1:00 PM', 99.75, 14.25, 80.75, 'Held since Mon, 30 Nov', 'On hold', 'Dispute open'],
+    ['kumar', 'LK-24702', 'Sun, 29 Nov · 11:00 AM', 2268, 324, 1836, 'Mon, 30 Nov · 11:02 AM', 'Paid'],
+    ['jenny', 'LK-24694', 'Sat, 28 Nov · 2:00 PM', 1680, 240, 1360, 'Sun, 29 Nov · 2:01 PM', 'Paid']
+  ];
+  var tb = document.getElementById('rows'), f = 'Scheduled', cur = null;
+  var badge = { 'Scheduled': 'badge--info', 'On hold': 'badge--warn', 'Paid': 'badge--success' };
+  function draw() {
+    tb.innerHTML = P.map(function (p, i) { p.i = i; return p; }).filter(function (p) { return p[7] === f; }).map(function (p) {
+      var h = L.people[p[0]];
+      var act = p[7] === 'Scheduled' ? '<button class="btn btn--secondary btn--sm" data-act="hold" data-i="' + p.i + '">Hold</button>' : p[7] === 'On hold' ? '<button class="btn btn--primary btn--sm" data-act="rel" data-i="' + p.i + '">Release</button>' : '<button class="btn btn--ghost btn--sm" data-toast="Remittance advice sent to host" data-toast-icon="ph-envelope-simple">Receipt</button>';
+      return '<tr><td><div class="who"><img class="round" src="' + L.img(h.img, 120) + '" alt=""><div><b>' + h.name + '</b><small>' + (p[0] === 'jaineh' ? 'Maybank •• 7731 · not verified' : 'Verified bank') + '</small></div></div></td>' +
+        '<td><a href="a-booking.html" data-go="a-booking" class="strong">' + p[1] + '</a></td><td class="nowrap">' + p[2] + '</td><td class="num">' + L.rm(p[3], 2) + '</td><td class="num">− ' + L.rm(p[4], 2) + '</td><td class="num strong">' + L.rm(p[5], 2) + '</td>' +
+        '<td class="nowrap small">' + p[6] + '</td><td><span class="badge ' + badge[p[7]] + '">' + p[7] + (p[8] ? ' · ' + p[8] : '') + '</span></td><td class="num">' + act + '</td></tr>';
+    }).join('');
+  }
+  tb.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]'); if (!b) return; cur = +b.dataset.i; var p = P[cur], h = L.people[p[0]];
+    if (b.dataset.act === 'hold') { document.getElementById('hd-txt').textContent = L.rm(p[5], 2) + ' to ' + h.name + ' will not be sent until you release it. The host sees "On hold — Lokali is reviewing".'; L.open('#hold'); }
+    else { document.getElementById('rl-txt').textContent = L.rm(p[5], 2) + ' to ' + h.name + ' will be sent in the next payout run (every hour).' + (p[8] === 'Bank not verified' ? ' Check the bank details are verified first.' : ''); L.open('#rel'); }
+  });
+  document.getElementById('hd-go').addEventListener('click', function () { P[cur][7] = 'On hold'; P[cur][8] = document.getElementById('hd-r').value; P[cur][6] = 'Held today'; L.close(); draw(); L.toast('Payout on hold. Find it under On hold.', 'ph-pause-circle'); });
+  document.getElementById('rl-go').addEventListener('click', function () { P[cur][7] = 'Scheduled'; P[cur][8] = ''; P[cur][6] = 'Next run · within 1 h'; L.close(); draw(); L.toast('Payout released. It goes out in the next run.'); });
+  document.getElementById('t').addEventListener('pick', function (e) { f = e.detail; draw(); });
+  draw();
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-payouts', [['Rule', 'Scheduled ~24 h after each experience ends'], ['Scheduled', 'RM 18,442.75 · 31 payouts'], ['On hold', '2 · bank not verified / dispute'], ['Commission (30 d)', 'RM 35,870']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

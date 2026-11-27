@@ -1,0 +1,2 @@
+/* This project's own tweaks to the automatic iPhone Duo tablet layouts (css/shared/duo.css). Loads after it; the skill never overwrites this file.
+   Scope every rule with html.duo-wide (and html[data-tl-kind="..."] for one kind of screen) so the iPhone and the closed Duo never change. */

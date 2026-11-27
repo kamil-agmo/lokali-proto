@@ -1,0 +1,11 @@
+/* Carousel: a row of cards or photos you swipe through. Snaps to each item; pairs with the page indicator (c-dots) underneath.
+   <div class="c-carousel c-carousel--md|--ios" aria-label="Featured"><div class="c-carousel__item"><img …><span>Caption</span></div>…</div> */
+.c-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 8px 16px; font-family: var(--c-font); }
+.c-carousel::-webkit-scrollbar { display: none; }
+.c-carousel__item { position: relative; flex: none; scroll-snap-align: start; overflow: hidden; background: var(--c-surface-2); }
+.c-carousel__item img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.c-carousel__item span { position: absolute; left: 12px; bottom: 10px; color: #fff; font-weight: 600; font-size: 15px; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+/* Material 3 Expressive multi-browse carousel: one big item and narrower ones peeking, 28 dp corners */
+.c-carousel--md { gap: 8px; scroll-padding: 16px; } .c-carousel--md .c-carousel__item { width: 62%; height: 200px; border-radius: 28px; } .c-carousel--md .c-carousel__item:nth-child(n+2) { width: 30%; }
+/* Apple (iOS 27): full-width paging cards with large corners */
+.c-carousel--ios { gap: 12px; scroll-padding: 16px; } .c-carousel--ios .c-carousel__item { width: calc(100% - 32px); height: 220px; border-radius: 26px; }

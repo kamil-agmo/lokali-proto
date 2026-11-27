@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Credits · Lokali</title>
+  <link rel="icon" type="image/svg+xml" href="assets/brand/mark-colour.svg">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <meta name="robots" content="noindex">
+  <style>
+    :root { --bg: #f6f7fb; --card: #fff; --ink: #0f172a; --soft: #475569; --muted: #64748b; --line: #e2e8f0; --accent: #2F5D3A; color-scheme: light dark; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #0b0d14; --card: #141826; --ink: #eef0f8; --soft: #b6bdd0; --muted: #8890a8; --line: #252b3d; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 32px 16px; background: var(--bg); color: var(--ink);
+      font: 400 15px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    main { width: 100%; max-width: 520px; padding: 36px 32px 28px; border-radius: 24px; background: var(--card); border: 1px solid var(--line);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, .08); animation: in .6s cubic-bezier(.22, 1, .36, 1) both; }
+    @keyframes in { from { opacity: 0; transform: translateY(10px); } }
+    .eyebrow { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    h1 { margin: 6px 0 4px; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; }
+    .design { margin: 0 0 24px; font-size: 17px; color: var(--soft); }
+    .design b { color: var(--ink); }
+    ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+    li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    li span { color: var(--soft); } li b { font-weight: 650; text-align: right; }
+    .thanks { margin: 18px 0 0; color: var(--soft); }
+    footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 28px; font-size: 13px; color: var(--muted); }
+    footer a { color: var(--accent); font-weight: 600; text-decoration: none; } footer a:hover { text-decoration: underline; }
+    @media (prefers-reduced-motion: reduce) { main { animation: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Credits</p>
+    <h1>Lokali</h1>
+    <p class="design">Design by <b>Cheryl</b></p>
+    <ul>
+      <li><span>Presenter &amp; iPhone</span><b>David</b></li>
+      <li><span>Icons, Desktop, Accessibility, Admin panel &amp; UX writing</span><b>Kamil</b></li>
+    </ul>
+    
+    <footer><span>Made with Design Department skills</span><a href="index.html">Back to the prototype</a></footer>
+  </main>
+</body>
+</html>

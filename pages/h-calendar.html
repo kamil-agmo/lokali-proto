@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Calendar</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Calendar</div>
+<header class="lt"><div class="lt-row"><h1>Calendar</h1><button class="btn btn--secondary btn--sm" data-go="h-slot"><i class="ph ph-plus" aria-hidden="true"></i>Add slot</button></div><p>December 2026 · 32 open slots · 2 full · 4 days blocked</p></header>
+  <div class="pad" style="margin-top:8px">
+    <button class="chip" style="width:100%;background:var(--surface);box-shadow:var(--shadow-2);justify-content:space-between;min-height:48px;border-radius:var(--r)" data-open="#pick">
+      <span class="row"><img data-img="1773904594755-6c25ab2ef6c9" data-w="80" alt="" style="width:30px;height:30px;border-radius:8px;object-fit:cover">Mangrove & fireflies by kampung boat</span><i class="ph ph-caret-down" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <section class="reveal cal mt4" aria-label="December 2026">
+    <div class="cal__head">
+      <button class="icon-btn" aria-label="Previous month" data-toast="November 2026"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+      <h2 class="is-h3">December 2026</h2>
+      <button class="icon-btn" aria-label="Next month" data-toast="January 2027"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+    </div>
+    <div class="cal__dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+    <div class="cal__grid" id="grid"></div>
+  </section>
+  <div class="legend">
+    <span><i class="d-open"></i>Open</span><span><i class="d-booked"></i>Has bookings</span><span><i class="d-full"></i>Full (closed)</span><span><i class="bl"></i>Blocked</span>
+  </div>
+
+  <section class="reveal section" style="padding-bottom:16px">
+    <div class="section-head"><h2 id="dayTitle" class="sec-h">Sun, 6 Dec</h2><span class="small muted" id="daySub"></span></div>
+    <div class="list" style="margin:0 var(--s4)" id="slots"></div>
+    <div class="card" style="margin:var(--s3) var(--s4) 0">
+      <div class="toggle-row"><div class="grow"><b>Block this date</b><p class="small muted">No new bookings. Existing guests are not affected.</p></div><button class="switch" id="block" role="switch" aria-checked="false" aria-label="Block this date"></button></div>
+    </div>
+    <div class="pad mt3"><button class="btn btn--secondary btn--block" data-go="h-slot"><i class="ph ph-plus" aria-hidden="true"></i>Add one-off slot</button></div>
+  </section>
+
+  <div class="sheet" id="pick" role="dialog" aria-label="Choose listing">
+    <h3 class="sheet-title">Show calendar for</h3>
+    <div data-radio class="mt3">
+      <div class="radio-card active" data-close><span class="dot"></span><div><b>Mangrove & fireflies by kampung boat</b><p class="small muted">Live · daily 5:00 PM, weekends 7:30 AM</p></div></div>
+      <div class="radio-card" data-toast="Not live yet: fix the requested changes first" data-toast-icon="ph-info"><span class="dot"></span><div><b>Mangrove replanting morning</b><p class="small muted">Changes requested · no slots</p></div></div>
+      <div class="radio-card" data-toast="Draft: finish the listing to add slots" data-toast-icon="ph-info"><span class="dot"></span><div><b>Kelip-kelip photography night</b><p class="small muted">Draft · no slots</p></div></div>
+    </div>
+  </div>
+
+  <nav class="tabbar" data-tabs="host" data-active="h-calendar"></nav>
+
+  <script>
+  (function () {
+    var CAP = 10, TODAY = 2, sel = 6;
+    var blocked = { 15: 1, 16: 1, 17: 1, 25: 1 };
+    var pm = { 1: 3, 2: 6, 3: 4, 4: 2, 5: 5, 6: 7, 7: 5, 8: 0, 9: 1, 10: 2, 11: 0, 12: 6, 13: 10, 14: 8, 18: 1, 19: 4, 20: 9, 21: 5, 22: 0, 23: 2, 24: 6, 26: 7, 27: 8, 28: 3, 29: 0, 30: 1, 31: 4 };
+    var am = { 5: 2, 6: 10, 12: 4, 13: 0, 19: 3, 20: 1, 26: 0, 27: 2 };
+    var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    function slotsOf(d) {
+      if (blocked[d]) return [];
+      var s = [], wk = d % 7 >= 5;
+      if (wk) s.push({ t: '7:30 AM', b: am[d] || 0, note: d === 6 ? 'Private · Tan family' : '' });
+      s.push({ t: '5:00 PM', b: pm[d] || 0 });
+      return s;
+    }
+    function dots(d) {
+      return slotsOf(d).map(function (s) { return '<i class="' + (s.b >= CAP ? 'd-full' : s.b ? 'd-booked' : 'd-open') + '"></i>'; }).join('');
+    }
+    function grid() {
+      var h = '<span aria-hidden="true"></span>'; /* 1 Dec 2026 is a Tuesday */
+      for (var d = 1; d <= 31; d++) {
+        var c = [];
+        if (d < TODAY) c.push('past'); if (d === TODAY) c.push('today'); if (d === sel) c.push('sel'); if (blocked[d]) c.push('blocked');
+        h += '<button class="' + c.join(' ') + '" data-d="' + d + '" aria-label="' + DOW[d % 7] + ' ' + d + ' December">' + d + '<span class="dots">' + dots(d) + '</span></button>';
+      }
+      document.getElementById('grid').innerHTML = h;
+    }
+    function day() {
+      var s = slotsOf(sel), total = s.reduce(function (a, x) { return a + x.b; }, 0);
+      document.getElementById('dayTitle').textContent = DOW[sel % 7] + ', ' + sel + ' Dec' + (sel === TODAY ? ' · Today' : '');
+      document.getElementById('daySub').textContent = blocked[sel] ? 'Blocked' : total + ' guests booked';
+      document.getElementById('block').setAttribute('aria-checked', blocked[sel] ? 'true' : 'false');
+      document.getElementById('slots').innerHTML = s.length ? s.map(function (x) {
+        var full = x.b >= CAP, pct = Math.min(100, x.b / CAP * 100);
+        var badge = full ? '<span class="badge badge--danger">Full · closed</span>' : x.b ? '<span class="badge badge--brand">' + (CAP - x.b) + ' spots left</span>' : '<span class="badge">Open</span>';
+        return '<div class="slot" data-slot="' + x.t + '"><div class="grow"><b>' + x.t + '</b><p class="small muted">' + (x.note || (x.t === '5:00 PM' ? '3.5 hours · fireflies' : '3 hours · mangrove paddle')) + '</p></div>' +
+          '<div class="slot__cap"><span class="small strong">' + x.b + ' / ' + CAP + '</span><div class="progress' + (full ? ' full' : '') + '"><i style="width:' + pct + '%"></i></div></div>' + badge + '</div>';
+      }).join('') : '<div class="empty" style="padding:24px"><i class="ph ph-prohibit" aria-hidden="true"></i><b>Blocked</b><p class="small muted">Guests can\'t book this day. Turn off "Block this date" to reopen.</p></div>';
+    }
+    document.getElementById('grid').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-d]'); if (!b) return; sel = +b.getAttribute('data-d'); grid(); day();
+      if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [['Selected', sel + ' Dec'], ['Capacity', '10 per slot']]);
+    });
+    document.getElementById('slots').addEventListener('click', function (e) {
+      var r = e.target.closest('[data-slot]'); if (!r) return;
+      if (sel === 6 && r.getAttribute('data-slot') === '5:00 PM') L.go('h-booking'); else L.toast('Opens the guest list for this slot', 'ph-users');
+    });
+    document.getElementById('block').addEventListener('change', function () {
+      var on = this.getAttribute('aria-checked') === 'true';
+      if (on && slotsOf(sel).some(function (x) { return x.b > 0; })) {
+        this.setAttribute('aria-checked', 'false'); L.toast('This day has bookings. Cancel them first to block it.', 'ph-warning'); return;
+      }
+      if (on) blocked[sel] = 1; else delete blocked[sel];
+      grid(); day(); L.toast(on ? 'Date blocked' : 'Date reopened');
+    });
+    grid(); day();
+  })();
+  </script>
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-calendar', [["Selected", "6 Dec"], ["Capacity", "10 per slot"], ["Full slots", "Close automatically"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

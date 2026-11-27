@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Results</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+.res-bar { position: sticky; top: 0; z-index: 20; background: var(--bg); padding: var(--sb) var(--s4) 12px; border-bottom: 1px solid var(--line); }
+.res-pill { display: flex; align-items: center; gap: 12px; }
+.res-pill a.sp { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 16px; border-radius: var(--r-full); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-1); color: var(--ink); }
+.res-pill a.sp b { display: block; font-size: 15px; line-height: 20px; } .res-pill a.sp small { display: block; font-size: 12px; color: var(--muted); line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fbtn { position: relative; width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; }
+.fbtn em { position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--ink); color: #fff; font: 600 11px/13px var(--font); font-style: normal; text-align: center; }
+.res-title { padding: 12px 4px 0; }
+.sortrow { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+.top-pick { position: relative; } .top-pick::before { content: "Top pick for your dates"; position: absolute; z-index: 2; top: 12px; left: 12px; padding: 8px 12px; border-radius: 10px; background: var(--accent); color: #1d2008; font-size: 12px; font-weight: 600; }
+.res-bar .chips { padding: 12px 0 0; }
+.chip .ph-x { font-size: 14px; }
+    /* Results is a step inside Explore (it has Back), so no tab bar; the Map button floats alone */
+  body.m .fab-toggle { bottom: var(--home) !important; } /* same height as the buttons in Home's tab bar (30px from the bottom) */
+  /* Map / List switch: white floating pill like Home's tab bar; black stays for selected chips only (27 Nov) */
+  body.m .fab-toggle { background: #fff !important; color: var(--ink) !important; border: 1px solid var(--line) !important; box-shadow: 0 8px 24px rgba(0,0,0,.16), 0 2px 6px rgba(0,0,0,.08) !important; font-weight: 600; }
+  body.m .fab-toggle .ph { color: var(--ink) !important; font-size: 20px; }
+  body.m #list { padding-bottom: 96px !important; }
+</style>
+</head>
+<body class="m">
+<div class="res-bar">
+  <div class="res-pill">
+    <button class="icon-btn" data-go="g-home" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <a class="sp" href="g-search.html" id="sp-open"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span class="grow"><b>Kuala Selangor</b><small>Sun, 6 Dec · 2 adults, 1 child</small></span></a>
+    <button class="fbtn" data-open="#sh-f" id="fbtn" aria-label="Filters, 1 applied"><i class="ph ph-sliders-horizontal" aria-hidden="true"></i><em id="fcount">1</em></button>
+  </div>
+  <div class="res-title"><h1 class="t2">18 trips</h1></div>
+  <div class="chips">
+    <button class="chip active" data-toast="Filter removed" data-toast-icon="ph-x">Nature &amp; eco-tours <i class="ph ph-x" aria-hidden="true"></i></button>
+    <button class="chip">Private option</button>
+    <button class="chip">Halal food</button>
+  </div>
+</div>
+
+<main id="list" class="pad stack-lg" style="padding-top:16px; padding-bottom:72px">
+  <div class="sortrow" data-group>
+    <button class="chip chip--soft active"><i class="ph ph-sparkle" aria-hidden="true"></i>Recommended</button>
+    <button class="chip chip--soft"><i class="ph-fill ph-leaf" aria-hidden="true"></i>Most impact</button>
+    <button class="chip chip--soft"><i class="ph ph-star" aria-hidden="true"></i>Top rated</button>
+    <button class="chip chip--soft"><i class="ph ph-currency-circle-dollar" aria-hidden="true"></i>Lowest price</button>
+  </div>
+  <div class="stack-lg" id="cards"></div>
+  <p class="center small muted">Showing 4 of 18 · <a href="#" data-toast="Loading more…" data-toast-icon="ph-arrow-down">Load more</a></p>
+</main>
+
+<section id="mapview" hidden>
+  <div class="map map-full" id="mapbox">
+    <span class="pin" style="left:30%;top:28%">RM 180</span>
+    <span class="pin active" style="left:46%;top:44%">RM 145</span>
+    <span class="pin" style="left:70%;top:36%">RM 260</span>
+    <span class="pin" style="left:80%;top:20%">RM 320</span>
+    <a class="map-preview" href="g-listing.html" data-go="g-listing" id="prev" aria-label="Open Mangrove &amp; fireflies by kampung boat"></a>
+  </div>
+</section>
+
+<button class="fab-toggle" id="toggle" data-toggle="#list, #mapview"><i class="ph ph-map-trifold" aria-hidden="true"></i><span>Map</span></button>
+
+  <script>
+  (function () {
+/* Results follows where you came from: 'featured' (Home › Featured › See all), 'all' (Home › More to explore › See all) or 'search' (Search › Show). Mangrove & fireflies leads every list: it is the complete story. */
+    var from = L.state.get('resFrom', 'search'), $id = function (i) { return document.getElementById(i); };
+    var keys = from === 'featured' ? L.featured.slice() : from === 'all' ? ['mangrove'].concat(Object.keys(L.exp).filter(function (k) { return k !== 'mangrove'; })) : ['mangrove', 'canopy', 'reef', 'orangutan'];
+    if (from !== 'search') {
+      document.querySelector('.res-title h1').textContent = from === 'featured' ? 'Featured this month' : 'All experiences';
+      document.querySelector('.res-bar .chips').hidden = true;
+      /* Featured is the team's own order: sorting and filters would undo it (MIMS) */
+      if (from === 'featured') { var sr = document.querySelector('.sortrow'); if (sr) sr.hidden = true; $id('fbtn').hidden = true; }
+      $id('fcount').hidden = true; $id('fbtn').setAttribute('aria-label', 'Filters');
+      document.querySelector('#sp-open b').textContent = 'Anywhere'; document.querySelector('#sp-open small').textContent = 'Any week · Add guests';
+      var more = document.querySelector('#list > p.center'); if (more) more.innerHTML = from === 'featured' ? 'Picked by the Lokali team each month' : 'Showing ' + keys.length + ' of 73 · <a href="#" data-toast="Loading more…" data-toast-icon="ph-arrow-down">Load more</a>';
+    }
+    document.getElementById('cards').innerHTML = keys.map(function (k, i) { return (i === 0 && from === 'search' ? '<div class="top-pick reveal in">' : '<div class="reveal' + (i === 0 ? ' in' : '') + '">') + L.cardHTML(k, { full: true }) + '</div>'; }).join('');
+var e = L.exp.mangrove;
+document.getElementById('prev').innerHTML = '<img src="' + L.img(e.img, 300) + '" alt=""><div class="grow"><span class="rating"><i class="ph-fill ph-star" aria-hidden="true"></i>' + e.rating.toFixed(2) + ' <span class="muted" style="font-weight:400">(' + e.reviews + ')</span></span><div class="exp-row__title">' + e.title + '</div><div class="small muted">' + e.duration + ' · ' + e.place + '</div><div class="small"><b>' + L.rm(e.price) + '</b> / adult</div></div>';
+var t = document.getElementById('toggle');
+t.addEventListener('click', function () { setTimeout(function () { var onMap = !document.getElementById('mapview').hidden; t.innerHTML = onMap ? '<i class="ph ph-list-bullets" aria-hidden="true"></i><span>List</span>' : '<i class="ph ph-map-trifold" aria-hidden="true"></i><span>Map</span>'; window.scrollTo(0, 0); }, 0); });
+document.getElementById('mapbox').addEventListener('click', function (ev) { var p = ev.target.closest('.pin'); if (!p) return; this.querySelectorAll('.pin').forEach(function (x) { x.classList.remove('active'); }); p.classList.add('active'); });
+  })();
+  </script>
+<style>
+  #sh-f { max-height: 88%; overflow-y: auto; padding-bottom: 0; }
+  #sh-f h3 { font: 600 20px/25px var(--font-display); }
+  .f-sec { padding: 16px 0; border-top: 1px solid var(--line); }
+  .f-sec:first-of-type { border-top: 0; }
+  .f-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .f-head h4 { font: 600 15px/20px var(--font); } .f-head span { font-size: 15px; font-weight: 600; color: var(--primary); text-align: right; }
+  .f-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .f-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font: 600 14px var(--font); color: var(--ink); cursor: pointer; }
+  .f-pill .ph { font-size: 18px; color: var(--primary); }
+  .f-pill[aria-pressed="true"], .f-pill[aria-checked="true"] { background: var(--primary); border-color: var(--primary); color: #fff; } .f-pill[aria-pressed="true"] .ph, .f-pill[aria-checked="true"] .ph { color: #fff; }
+  .f-dual { position: relative; height: 32px; margin: 4px 0 8px; }
+  .f-dual input { position: absolute; inset: 0; width: 100%; appearance: none; -webkit-appearance: none; background: none; pointer-events: none; margin: 0; }
+  .f-dual input::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 2px solid var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,.15); cursor: pointer; }
+  .f-dual .tr { position: absolute; left: 14px; right: 14px; top: 14px; height: 4px; border-radius: 2px; background: var(--line); } .f-dual .fl { position: absolute; top: 14px; height: 4px; background: var(--primary); }
+  .f-foot { position: sticky; bottom: 0; display: flex; gap: 12px; padding: 12px 0 calc(var(--home) + 8px); background: var(--surface); border-top: 1px solid var(--line); margin-top: 4px; }
+  .f-foot .btn--primary { flex: 1; }
+</style>
+<div class="sheet" id="sh-f" role="dialog" aria-labelledby="f-h" hidden>
+  <div class="row-between"><h3 id="f-h" class="sheet-title">Filters</h3><button class="icon-btn" data-close aria-label="Close filters"><i class="ph ph-x" aria-hidden="true"></i></button></div>
+  <section class="f-sec"><div class="f-head"><h4>Sort by</h4></div>
+    <div class="f-pills" role="radiogroup" aria-label="Sort by" data-one id="f-sort">
+      <button class="f-pill" role="radio" aria-checked="true"><i class="ph ph-sparkle" aria-hidden="true"></i>Recommended</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-arrow-down" aria-hidden="true"></i>Lowest price</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-star" aria-hidden="true"></i>Highest rated</button><button class="f-pill" role="radio" aria-checked="false"><i class="ph ph-navigation-arrow" aria-hidden="true"></i>Nearest</button></div></section>
+  <section class="f-sec"><div class="f-head"><h4>Category</h4><span id="fv-cat"></span></div><div class="f-pills" id="f-cat"></div></section>
+  <section class="f-sec"><div class="f-head"><h4>Price per adult</h4><span id="fv-price">RM 0 – RM 500+</span></div>
+    <div class="f-dual"><span class="tr"></span><span class="fl" id="f-fl"></span><input type="range" id="f-min" min="0" max="500" step="10" value="0" aria-label="Minimum price"><input type="range" id="f-max" min="0" max="500" step="10" value="500" aria-label="Maximum price"></div>
+    <div class="grid-2"><div class="field"><label for="f-pmin">Minimum</label><input class="input" id="f-pmin" inputmode="numeric" value="RM 0"></div><div class="field"><label for="f-pmax">Maximum</label><input class="input" id="f-pmax" inputmode="numeric" value="RM 500+"></div></div></section>
+  <section class="f-sec"><div class="f-head"><h4>Time of day</h4><span id="fv-time"></span></div>
+    <div class="f-pills" id="f-time"><button class="f-pill" aria-pressed="false"><i class="ph ph-sun-horizon" aria-hidden="true"></i>Morning</button><button class="f-pill" aria-pressed="false"><i class="ph ph-sun" aria-hidden="true"></i>Afternoon</button><button class="f-pill" aria-pressed="false"><i class="ph ph-cloud-sun" aria-hidden="true"></i>Evening</button><button class="f-pill" aria-pressed="false"><i class="ph ph-moon-stars" aria-hidden="true"></i>Night</button></div></section>
+  <section class="f-sec"><div class="f-head"><h4>Duration</h4><span id="fv-dur"></span></div>
+    <div class="f-pills" id="f-dur"><button class="f-pill" aria-pressed="false">Under 3 h</button><button class="f-pill" aria-pressed="false">Half day</button><button class="f-pill" aria-pressed="false">Full day</button><button class="f-pill" aria-pressed="false">Multi-day</button></div></section>
+  <div class="sheet-foot row-2"><button class="btn btn--ghost" id="f-clr">Clear all</button><button class="btn btn--primary" data-close id="f-show">Show 18 experiences</button></div>
+</div>
+<script>
+(function () {
+  /* search pill: a page-coloured panel slides up over the results, then the search page loads underneath it, so nothing flashes white */
+  document.getElementById('sp-open').addEventListener('click', function (e) {
+    e.preventDefault(); e.stopPropagation();
+    try { sessionStorage.setItem('lk-slideup', '1'); } catch (x) {}
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var c = document.createElement('div');
+    c.style.cssText = 'position:fixed;inset:0;z-index:999;background:var(--bg);border-radius:24px 24px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.18);transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1)';
+    document.body.appendChild(c); c.getBoundingClientRect();
+    requestAnimationFrame(function () { c.style.transform = 'none'; });
+    setTimeout(function () { L.go('g-search'); }, reduce ? 0 : 300);
+  }, true);
+  function $(i) { return document.getElementById(i); }
+  $('f-cat').innerHTML = L.cats.map(function (c, i) { return '<button class="f-pill" aria-pressed="' + (i === 0) + '" data-k="' + c.key + '"><i class="ph ' + c.icon + '" aria-hidden="true"></i>' + c.name + '</button>'; }).join('');
+  var sh = $('sh-f');
+  function on(id) { return [].slice.call($(id).querySelectorAll('[aria-pressed="true"]')); }
+  function label(id, out) { var a = on(id).map(function (b) { return b.textContent.trim(); }); $(out).textContent = a.length > 2 ? a.length + ' selected' : a.join(', '); return a.length; }
+  function upd() {
+    var lo = +$('f-min').value, hi = +$('f-max').value;
+    $('f-fl').style.left = 'calc(14px + (100% - 28px) * ' + lo / 500 + ')'; $('f-fl').style.right = 'calc(14px + (100% - 28px) * ' + (1 - hi / 500) + ')';
+    var t = 'RM ' + lo + ' – RM ' + hi + (hi >= 500 ? '+' : ''); $('fv-price').textContent = t;
+    if (document.activeElement !== $('f-pmin')) $('f-pmin').value = 'RM ' + lo; if (document.activeElement !== $('f-pmax')) $('f-pmax').value = 'RM ' + hi + (hi >= 500 ? '+' : '');
+    var nc = label('f-cat', 'fv-cat'), nt = label('f-time', 'fv-time'), nd = label('f-dur', 'fv-dur');
+    var priced = lo > 0 || hi < 500, sorted = $('f-sort').querySelector('[aria-checked="true"]') !== $('f-sort').firstElementChild;
+    var n = Math.max(0, Math.round(89 * (nc ? .25 + nc * .2 : 1) * Math.min(1, (hi - lo) / 300 + .3) * (nt ? .3 + nt * .2 : 1) * (nd ? .3 + nd * .2 : 1) * .45));
+    $('f-show').textContent = n ? 'Show ' + n + ' experience' + (n > 1 ? 's' : '') : 'No matches · widen filters';
+    var k = (nc ? 1 : 0) + (priced ? 1 : 0) + (nt ? 1 : 0) + (nd ? 1 : 0) + (sorted ? 1 : 0);
+    $('fcount').textContent = k; $('fcount').hidden = !k; $('fbtn').setAttribute('aria-label', 'Filters' + (k ? ', ' + k + ' applied' : ''));
+  }
+  sh.addEventListener('click', function (e) {
+    var b = e.target.closest('.f-pill'); if (!b) return;
+    if (b.getAttribute('role') === 'radio') b.parentNode.querySelectorAll('.f-pill').forEach(function (x) { x.setAttribute('aria-checked', x === b); });
+    else b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true');
+    upd();
+  });
+  function clampPair(src) { var lo = +$('f-min').value, hi = +$('f-max').value; if (lo > hi - 10) { if (src === $('f-min')) $('f-min').value = hi - 10; else $('f-max').value = lo + 10; } upd(); }
+  $('f-min').addEventListener('input', function () { clampPair(this); }); $('f-max').addEventListener('input', function () { clampPair(this); });
+  [['f-pmin', 'f-min'], ['f-pmax', 'f-max']].forEach(function (p) { $(p[0]).addEventListener('input', function () { var n = parseInt(this.value.replace(/\D/g, ''), 10); if (!isNaN(n)) { $(p[1]).value = Math.min(500, n); clampPair($(p[1])); } }); $(p[0]).addEventListener('blur', upd); });
+  $('f-clr').addEventListener('click', function () { sh.querySelectorAll('[aria-pressed]').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); $('f-sort').querySelectorAll('.f-pill').forEach(function (x, i) { x.setAttribute('aria-checked', i === 0); }); $('f-min').value = 0; $('f-max').value = 500; upd(); });
+  upd();
+})();
+</script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-results', [['Focus', 'Top pick for the dates'], ['Results', '18 experiences'], ['View', 'List, toggle to map'], ['Filters', 'Nature · 3 guests']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

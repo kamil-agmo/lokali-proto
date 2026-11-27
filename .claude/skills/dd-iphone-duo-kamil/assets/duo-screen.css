@@ -1,0 +1,344 @@
+/* iPhone Duo layouts for the screens (test add-on). The shell sets the classes on <html>; see js/shell/duo.js.
+   duo-side: controls on a side rail · duo-wide: inner display (two columns, even grids) · duo-half: partly folded (avoid the fold) */
+
+/* ---------- side rail (outer display, inner display in landscape) ---------- */
+html.duo-side { --sb: 16px; --safe-b: 16px; --rail: 72px; }   /* 48 px buttons + 12 px each side: content sits close to the controls (Apple: margins are uneven on the control side) */
+html.duo-side body { padding-right: var(--rail); }   /* iPhone Duo puts the rail on the right edge by default */
+.duo-rail[hidden] { display: none; }
+.duo-rail { position: fixed; z-index: 30; right: 0; top: 0; bottom: 0; width: var(--rail); display: flex; flex-direction: column; align-items: center; gap: 8px; padding: var(--rail-top, 144px) 0 16px; background: var(--tab-bg, rgba(255,255,255,.96)); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-left: 1px solid var(--line); }
+html.duo-open-l .duo-rail, html.duo-half .duo-rail { padding-top: var(--rail-top, 92px); }   /* --rail-top is set by the shell while the phone folds, so the rail slides */   /* no Dynamic Island on the inner display: the rail starts below the time and status icon */
+.duo-rail__nav { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.duo-rail__tabs { margin-top: auto; }
+/* bottom toolbar items sit at the bottom of the column, right above the tab bar (Apple: they keep the end they came from) */
+.duo-rail__bottom { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.duo-rail__bottom:empty { display: none; }
+.duo-rail__bottom:not(:empty) + .duo-rail__tabs { margin-top: 0; }
+.duo-emptied { display: none !important; }
+/* icon buttons in the rail: symbol + title */
+.duo-rail .c-iconbtn { width: 72px; height: auto; min-height: 56px; padding: 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: 16px; background: none; border: 0; box-shadow: none; }
+.duo-rail .duo-label { font-size: 10px; line-height: 12px; font-weight: 600; color: var(--muted); }
+.c-iconbtn .duo-label { display: none; } .duo-rail .c-iconbtn .duo-label { display: block; }
+/* the tab bar becomes a vertical column in the rail */
+/* with the bars on the side the top bar is just the title; a floating button stays clear of the rail */
+html.duo-side .c-appbar { padding-right: 16px; }
+/* with its buttons in the rail, the top bar holds only the title: it scrolls away with the page instead of staying pinned */
+html.duo-side .c-appbar { position: relative; }
+/* on the open (tablet-size) screen the title sits on the left of the top bar, after any leading button (Back), like an iPad app;
+   on the phone and the closed Duo it stays centred */
+html.duo-side .c-appbar--ios .c-appbar__title, html.duo-wide .c-appbar--ios .c-appbar__title { position: static; flex: 1; min-width: 0; height: 52px; line-height: 52px; text-align: left; font-size: 20px; font-weight: 700; padding-left: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html.duo-side .c-appbar--ios .c-appbar__spacer, html.duo-wide .c-appbar--ios .c-appbar__spacer { display: none; }
+/* except a sheet-style bar with text buttons (Cancel ... Save): its title stays centred between them, as on iPhone and iPad */
+html:is(.duo-side, .duo-wide) .c-appbar--ios:has(> .c-appbar__text) .c-appbar__title { position: absolute; left: 96px; right: 96px; bottom: 0; padding-left: 0; text-align: center; font-size: 16px; font-weight: 600; }
+html:is(.duo-side, .duo-wide) .c-appbar--ios:has(> .c-appbar__text) > .c-appbar__text:last-child { margin-left: auto; }
+html.duo-side .c-fab { bottom: 16px; right: calc(var(--rail) + 16px); }
+html.duo-side .pill { top: calc(var(--sb) + 52px + 8px); }
+
+/* ---------- tablet layouts on the open inner display (automatic) ----------
+   js/shared/duo-auto.js recognises the kind of screen and marks it (html[data-tl-kind], [data-tl] on the blocks); these rules lay it out.
+   Sizes follow Google's window size classes: medium 600-839 (open vertical, 650), expanded 840+ (open horizontal, 920).
+   Following Google's canonical layouts (feed, list-detail, supporting pane) and Apple's iPhone Duo guidance: one extra level on the
+   inner display, never a stretched phone, even grid columns. Only the layout changes: radii, gaps and colours stay as on the phone.
+   Project-specific tweaks go in css/shared/duo-tablet.css, which loads after this file. */
+.t-pane { display: none; }
+
+@media (min-width: 600px) {
+  /* MEDIUM and up */
+  html.duo-wide[data-tl-kind="readable"] [data-tl="col"] { width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; box-sizing: border-box; }
+  html.duo-wide[data-tl-kind^="form"] [data-tl="form"] { max-width: 560px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="signin"] [data-tl="signin"] { max-width: 420px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="signin-plain"] [data-tl="signin"] { width: 100%; max-width: 420px; margin-left: auto; margin-right: auto; }
+  /* card grids: more columns as the screen widens (3 at medium, 4 at expanded); titles and other blocks line up with the grid */
+  html.duo-wide[data-tl-kind="cards"] [data-tl="cards"] { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); max-width: 880px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="cards"] [data-tl="col"]:not([data-tl="head"]) { max-width: 880px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="col"], html.duo-wide[data-tl-kind="hero"] [data-tl="hero"] { width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; }
+  /* stat tiles: as many columns as fit; a readable screen with tiles (a dashboard) gets a wider column */
+  html.duo-wide [data-tl-tiles] { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  html.duo-wide[data-tl-wide][data-tl-kind="readable"] [data-tl="col"] { max-width: 880px; }
+  /* chat: thread and message box in one readable column */
+  html.duo-wide[data-tl-kind="chat"] [data-tl="col"]:not([data-tl="head"]) { width: 100%; max-width: 720px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="chat"] [data-tl="composer"] { left: calc((100% - var(--rail, 0px) - min(720px, 100% - var(--rail, 0px))) / 2); right: auto; width: min(720px, 100% - var(--rail, 0px)); box-sizing: border-box; }
+  html.duo-wide:not(.duo-side)[data-tl-kind="chat"] [data-tl="composer"] { --rail: 0px; }
+  html.duo-wide [data-tl="grid"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }        /* even columns divide cleanly at the fold */
+  html.duo-wide [data-tl="feed"] { display: grid; grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));   /* 3 columns open vertically, 4 open horizontally, as social apps do on wide foldables */
+    gap: 16px; padding-left: 16px; padding-right: 16px; align-items: start; }
+  html.duo-wide [data-tl="feed"] > * { min-width: 0; }
+}
+
+@media (min-width: 840px) {
+  /* EXPANDED: feed + supporting pane (about 70 / 30) when the screen has an <aside class="t-pane">; otherwise 2 card columns */
+  html.duo-wide[data-tl-kind="feed"] [data-tl="feed"] { max-width: 960px; margin-left: auto; margin-right: auto; }
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] { display: grid; grid-template-columns: minmax(0, 1fr) 296px; column-gap: 24px; align-content: start; padding-right: 24px; }
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > * { grid-column: 1; min-width: 0; }
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="head"] { grid-column: 1 / -1; }
+  /* one column beside the panel: posts keep the phone's look, their photos run edge to edge across the column */
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed"] { grid-template-columns: minmax(0, 1fr); padding-left: 0; padding-right: 0; }
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="col"] { justify-self: stretch; width: auto; min-width: 0; }   /* stories, tabs: the column's width, keeping their own side margins as on the phone */
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"] { display: flex; flex-direction: column; gap: 16px; grid-column: 2; grid-row: 2 / span 20; align-self: start; position: sticky; top: calc(var(--sb, 0px) + 64px); padding-top: 16px; }
+
+  /* list-detail (a profile): details in a 300 px left column that stays put, only the photo grid scrolls.
+     Rows are set by the script: every block gets its own row (two auto-placed blocks in one column would overlap), nothing sticky. */
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] { display: grid; grid-template-columns: 300px minmax(0, 1fr); align-content: stretch; height: 100dvh; overflow: hidden; padding-bottom: 0; box-sizing: border-box; }
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] > [data-tl="head"] { grid-column: 1 / -1; }
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] > [data-tl="side"] { grid-column: 1; min-width: 0; }
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] > [data-tl="side"]:last-of-type { overflow-y: auto; min-height: 0; scrollbar-width: none; }
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] > [data-tl="grid"] { grid-column: 2; min-height: 0; overflow-y: auto; scrollbar-width: none; align-content: start; padding: 16px 16px 16px 0; }
+
+  /* hero (a product, an article): the big picture left (stays put), the details right */
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero-root"] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; align-content: start; padding-left: 16px; padding-right: 16px; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero-root"] > * { grid-column: 2; min-width: 0; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero-root"] > [data-tl="head"] { grid-column: 1 / -1; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero"] { grid-column: 1; grid-row: 2 / span 20; max-width: none; position: sticky; top: calc(var(--sb, 0px) + 64px); align-self: start; }
+  /* the picture (or a post's photos) never runs past the bottom of the screen; photos in a swipe row fill that height */
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero"] { max-height: calc(100dvh - var(--sb, 0px) - 80px); overflow: hidden; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero"] > img, html.duo-wide[data-tl-kind="hero"] [data-tl="hero"] > video { height: 100%; max-height: inherit; object-fit: cover; }
+  html.duo-wide[data-tl-kind="hero"] [data-tl="hero-root"] > [data-tl="col"] { max-width: none; margin: 0; }
+  /* list-detail: the list on the left (only it scrolls), the tapped row's screen on the right */
+  html.duo-wide[data-tl-kind="list"] [data-tl="list-root"] { display: grid; grid-template-columns: 360px minmax(0, 1fr); align-content: stretch; height: 100dvh; overflow: hidden; padding-bottom: var(--tl-bottom, 0px); box-sizing: border-box; }
+  html.duo-wide[data-tl-kind="list"] [data-tl="list-root"] > [data-tl="head"] { grid-column: 1; }   /* each column has its own bar (Apple split view): the list's bar sits over the list only */
+  html.duo-wide[data-tl-kind="list"] [data-tl="list-root"] > [data-tl="side"], html.duo-wide[data-tl-kind="list"] [data-tl="list-root"] > [data-tl="list"] { grid-column: 1; min-width: 0; }
+  html.duo-wide[data-tl-kind="list"] [data-tl="list"] { min-height: 0; overflow-y: auto; scrollbar-width: none; }
+  html.duo-wide[data-tl-kind="list"] .duo-picked { background: var(--soft, rgba(0, 0, 0, .05)); }
+  html.duo-wide[data-tl-kind="list"] .duo-detail { grid-column: 2; width: 100%; height: 100%; border: 0; border-left: 1px solid var(--line, rgba(0, 0, 0, .1)); background: var(--bg, #fff); }
+
+  /* when the screen's root is <body>, a layout's own side padding must not take away the room kept for the rail */
+  html.duo-side[data-tl-kind] body[data-tl="feed-root"] { padding-right: calc(var(--rail) + 24px); }
+  html.duo-side[data-tl-kind] body[data-tl="hero-root"] { padding-right: calc(var(--rail) + 16px); }
+
+  /* in the side poses the top bar scrolls away, so blocks that stay put (side panel, post photos, photo picker) scroll up with
+     the page and stop near the top of the screen, not under a bar that is no longer there */
+  html.phone-land[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"],
+  html.duo-side.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"],
+  html.duo-side.duo-wide[data-tl-kind="hero"] [data-tl="hero"],
+  html.duo-side.duo-wide[data-tl-kind="form-split"] [data-tl="form"] > [data-tl="side"] { top: calc(var(--sb, 0px) + 16px); }
+
+  /* the detail layout's grid title sits above the grid in the right column */
+  html.duo-wide[data-tl-kind="detail"] [data-tl="detail"] > [data-tl="gridtitle"] { grid-column: 2; }
+
+  /* form with a picture block: picker left (sticky; nothing below it in that column), fields right */
+  html.duo-wide[data-tl-kind="form-split"] [data-tl="form"] { max-width: 760px; display: grid; grid-template-columns: 240px minmax(0, 1fr); column-gap: 32px; align-items: start; }
+  html.duo-wide[data-tl-kind="form-split"] [data-tl="form"] > * { grid-column: 2; }
+  html.duo-wide[data-tl-kind="form-split"] [data-tl="form"] > [data-tl="side"] { grid-column: 1; position: sticky; top: calc(var(--sb, 0px) + 68px); }
+  html.duo-wide[data-tl-kind="form-split"] [data-tl="side"] * { flex-wrap: wrap; max-width: 100%; }
+
+  /* sign-in: brand panel left, form right */
+  html.duo-wide[data-tl-kind="signin"] [data-tl="signin"] { max-width: none; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; padding-left: 48px; padding-right: 48px; }
+  html.duo-wide[data-tl-kind="signin"] [data-tl="brand"] { width: 100%; height: calc(100dvh - var(--sb, 0px) - 96px); max-height: 520px; margin: 0; display: flex; align-items: center; justify-content: center; }
+  html.duo-wide[data-tl-kind="signin"] [data-tl="signin"] > :not([data-tl]) { max-width: 380px; width: 100%; justify-self: center; }
+
+  /* the side panel's own look (cards of people, tags) */
+  .t-card { background: var(--soft); border-radius: 24px; padding: 16px; }
+  .t-card h2 { margin: 0 0 12px; font-size: 13px; line-height: 16px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+  .t-people { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .t-people li { display: flex; align-items: center; gap: 12px; }
+  .t-people img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+  .t-people span { flex: 1; min-width: 0; } .t-people b { display: block; font-size: 13px; } .t-people small { display: block; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .t-follow { min-height: 32px; padding: 0 12px; border: 0; border-radius: 9999px; background: var(--brand); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .t-follow.is-on { background: var(--line); color: var(--ink); }
+  .t-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .t-tag { padding: 8px 12px; border: 0; border-radius: 9999px; background: var(--bg); color: var(--brand); font-size: 12px; font-weight: 600; cursor: pointer; }
+}
+
+/* ---------- partly folded: nothing sits on the fold ---------- */
+/* The fold is the middle of the screen; the rail on the right makes the content area asymmetric, so the right column is narrower. */
+html.duo-half { --gap: calc(var(--duo-fold, 28px) + 32px); --left: calc(50vw - 16px - var(--gap) / 2); }
+html.duo-half #feed { grid-template-columns: var(--left) minmax(0, 1fr); column-gap: var(--gap); }
+html.duo-half .grid { grid-template-columns: calc((var(--left) - 2px) / 2) calc((var(--left) - 2px) / 2) calc(var(--gap) - 4px) 1fr 1fr; padding: 0 16px; }
+html.duo-half .grid > :nth-child(4n+1) { grid-column: 1; } html.duo-half .grid > :nth-child(4n+2) { grid-column: 2; }
+html.duo-half .grid > :nth-child(4n+3) { grid-column: 4; } html.duo-half .grid > :nth-child(4n+4) { grid-column: 5; }
+/* single-column content (forms, empty states, sign-in) moves into the left half instead of sitting on the fold */
+html.duo-half .login, html.duo-half .wip, html.duo-half .edit, html.duo-half .prof { max-width: var(--left); margin-left: 16px; margin-right: 0; }
+html.duo-half .stories, html.duo-half .c-seg { max-width: var(--left); }
+/* titles and floating chips that would centre on the fold move into the left half */
+html.duo-half .c-appbar__title, html.duo-half .c-large__small { left: 16px; right: auto; width: var(--left); text-align: left; }
+html.duo-half .pill { margin-left: 16px; }
+
+/* ---------- rail look, as in Apple's iPhone Duo picture ----------
+   No panel: the controls float. Navigation and actions are single glass circles; the tabs sit in one glass capsule (icons only,
+   the chosen tab on a soft pill). Names stay available to screen readers and as tooltips. */
+.duo-rail { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; border: 0; pointer-events: none; gap: 12px; }
+.duo-rail > * { pointer-events: auto; }
+.duo-rail__nav { gap: 12px; }
+.duo-rail .c-iconbtn { width: 48px; height: 48px; min-height: 0; padding: 0; gap: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(0, 0, 0, .06); box-shadow: 0 4px 14px rgba(0, 0, 0, .10), inset 0 1px 0 rgba(255, 255, 255, .9); color: var(--ink); }
+.duo-rail .c-iconbtn .duo-label { display: none; }
+.duo-rail .c-tabbar {
+  background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(0, 0, 0, .06); box-shadow: 0 4px 14px rgba(0, 0, 0, .10), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.duo-rail .c-tabbar .c-tab .c-ico { font-size: 24px; line-height: 24px; }
+html.dark .duo-rail .c-iconbtn, html.dark .duo-rail .c-tabbar { background: rgba(40, 40, 44, .72); border-color: rgba(255, 255, 255, .08); box-shadow: 0 4px 14px rgba(0, 0, 0, .4); }
+@media (prefers-color-scheme: dark) { html:not(.light) .duo-rail .c-iconbtn, html:not(.light) .duo-rail .c-tabbar { background: rgba(40, 40, 44, .72); border-color: rgba(255, 255, 255, .08); box-shadow: 0 4px 14px rgba(0, 0, 0, .4); } }
+html.duo-side .c-appbar__group:not(:has(*)) { display: none; }   /* its buttons moved to the rail */
+
+/* a plain tab bar (not the kit's .c-tabbar) moved into the rail: a vertical glass capsule of icon-sized tabs */
+.duo-rail .duo-tabbar:not(.c-tabbar) { border: 1px solid rgba(0, 0, 0, .06);
+  background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6); box-shadow: 0 4px 14px rgba(0, 0, 0, .10), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.duo-rail button[aria-label]:not(.c-iconbtn):not(.c-tab), .duo-rail a[aria-label]:not(.c-iconbtn):not(.c-tab) { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+/* symbols for word-only tabs: only in the rail (the phone keeps its words) */
+.duo-tabico { display: none; }
+.duo-rail .duo-tabbar:not(.c-tabbar) > * > .duo-tabico { display: block; font-family: 'Material Symbols Rounded'; font-size: 24px; line-height: 24px; font-weight: normal; font-style: normal; letter-spacing: normal; text-transform: none; white-space: nowrap; -webkit-font-feature-settings: 'liga'; font-feature-settings: 'liga'; font-variation-settings: 'FILL' 0; }
+.duo-rail .duo-tabbar:not(.c-tabbar) > :is([aria-current], .on, .is-on, .active) > .duo-tabico { font-variation-settings: 'FILL' 1; }
+.duo-rail .duo-tabbar:not(.c-tabbar) > * > .duo-tabico--letter { font-family: inherit; font-size: 17px; font-weight: 700; }
+.duo-rail .duo-tabbar:not(.c-tabbar) > * > .duo-tabname { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }   /* kept for screen readers, takes no room */
+.duo-rail .duo-tabbar:not(.c-tabbar) > a, .duo-rail .duo-tabbar:not(.c-tabbar) > button { position: relative; padding: 0; line-height: 0; }
+/* the list-detail pane is hidden whenever the screen is not split */
+.duo-detail { display: none; }
+@media (min-width: 840px) { html.duo-wide[data-tl-kind="list"] .duo-detail { display: block; } }
+html.duo-pane { --sb: 8px; --safe-b: 16px; }   /* inside the pane: no status bar above it and no tab bar below it, so no room kept for them */
+html.duo-pane body, html.duo-pane .page { padding-bottom: 16px; }
+html.duo-pane .c-tabbar { display: none !important; }
+/* a screen set to data-tablet="off": shown the way the Duo shows an app with no tablet layout - the phone layout at phone width,
+   centred on a dark screen. transform keeps its fixed bars (tab bar, buttons) inside that column. */
+html.duo-wide[data-tablet="off"] { background: #0b0b0c; }
+html.duo-wide[data-tablet="off"] body { width: 402px; max-width: 100%; margin: 0 auto; min-height: 100dvh; transform: translateZ(0); background: var(--bg, #fff); padding-right: 0; }
+/* the iPhone turned sideways (90 deg right): no status bar above the content; keep clear of the Dynamic Island (right) and the rounded corners */
+html.phone-land { --sb: 8px; }
+html.phone-land body { padding-left: 52px; padding-right: 52px; }
+html.phone-land .c-tabbar--ios, html.phone-land .c-fab { left: 68px; right: 68px; }
+html.phone-land .c-fab { left: auto; }
+/* a floating button beside a side panel: it floats over the feed column's bottom-right corner, never over the panel
+   (--tl-pr = the room kept on the right: the rail on the Duo, the corner inset on a sideways iPhone) */
+html.duo-side { --tl-pr: var(--rail); }
+html.phone-land { --tl-pr: 52px; }
+@media (min-width: 840px) {
+  html.duo-wide[data-tl-kind="feed-pane"] .c-fab { left: auto; right: calc(var(--tl-pr, 0px) + 24px + 296px + 24px + 16px); }
+}
+
+/* ---------- the closed Duo turned sideways ---------- */
+/* the camera sits bottom-right: the rail starts under the status bar at the top and stops above the camera */
+html.duo-land .duo-rail { padding-top: var(--rail-top, 92px); padding-bottom: 72px; }   /* the camera (36 px, 18 px in) sits centred in the 72 px left below the rail: 18 px above and below it */
+html.duo-land .c-fab { bottom: 16px; }
+
+/* ---------- the iPhone turned sideways: compact tab bar (iOS, compact height) ----------
+   shorter, only as wide as its tabs, centred; icon beside the label instead of above it */
+html.phone-land .c-tabbar--ios { left: 50%; right: auto; transform: translateX(-50%); width: auto; height: 46px; bottom: 8px; padding: 3px; display: flex; gap: 2px; border-radius: 23px; }
+html.phone-land .c-tabbar--ios .c-tab { flex: none; flex-direction: row; gap: 6px; height: 40px; padding: 0 14px; border-radius: 20px; font-size: 12px; line-height: 16px; }
+html.phone-land .c-tabbar--ios .c-tab .c-ico { font-size: 20px; }
+html.phone-land { --tab-h: 54px; }
+html.phone-land .c-fab { bottom: 62px; }
+
+/* a side panel never runs off a short screen: it ends above whatever sits at the bottom and scrolls inside itself
+   (--tl-low = room kept at the bottom: the sideways iPhone's compact tab bar) */
+html.phone-land { --tl-low: 62px; }
+@media (min-width: 840px) {
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"] { max-height: calc(100dvh - var(--sb, 0px) - 80px - var(--tl-low, 0px));   /* fits where it starts (under the title), so also once it has moved up */ overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; padding-bottom: 8px; box-sizing: border-box; }
+  html.duo-wide[data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"]::-webkit-scrollbar { display: none; }
+}
+
+/* list beside its item (open horizontally): only the list scrolls, so a large title would never shrink - show it shrunk */
+@media (min-width: 840px) {
+  html.duo-wide[data-tl-kind="list"] .c-large { --c-p: 1; position: relative; top: 0; }
+  html.duo-wide[data-tl-kind="list"] .c-large .c-large__title { display: none; }
+  html.duo-wide[data-tl-kind="list"] .c-large .c-large__small { opacity: 1; }
+}
+
+/* ---------- open vertically: the tab bar floats, only as wide as its tabs, centred (it does not span the tablet-wide screen) ---------- */
+html.duo-wide:not(.duo-side):not(.phone-land) .c-tabbar--ios { left: 50%; right: auto; transform: translateX(-50%); width: auto; display: flex; gap: 2px; }
+html.duo-wide:not(.duo-side):not(.phone-land) .c-tabbar--ios .c-tab:not(.c-tab--search) { flex: none; width: 84px; }
+/* a search tab (round button after the bar, dd-components-kamil): the bar and the circle are centred together, and the circle keeps its size */
+html.duo-wide:not(.duo-side):not(.phone-land) .c-tabbar--ios:has(.c-tab--search) { transform: translateX(calc(-50% - 35px)); }
+html.phone-land .c-tabbar--ios:has(.c-tab--search) { transform: translateX(calc(-50% - 27px)); }
+html.phone-land .c-tabbar--ios .c-tab--search.c-tab--search { width: 46px; height: 46px; padding: 0; right: -55px; }
+html.phone-land .c-tabbar--ios .c-tab--search .c-ico { font-size: 22px; }
+
+/* ---------- the rail, following Apple's "Raise the bar with iPhone Duo" ---------- */
+/* groups stay groups: one glass capsule, buttons stacked inside */
+.duo-rail .duo-group { display: flex; flex-direction: column; align-items: center; width: 48px; padding: 0; gap: 0; border-radius: 24px;
+  background: rgba(255, 255, 255, .72); -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(0, 0, 0, .06); box-shadow: 0 4px 14px rgba(0, 0, 0, .10), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.duo-rail .duo-group .c-iconbtn, .duo-rail .duo-group button { background: none !important; border: 0 !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html.dark .duo-rail .duo-group { background: rgba(40, 40, 44, .72); border-color: rgba(255, 255, 255, .08); }
+/* the main action (Done, Save, or data-prominent): a filled circle in the accent colour, right under going back */
+.duo-rail .duo-prominent, .duo-rail .duo-prominent .c-iconbtn { background: var(--c-accent, var(--brand, #2563eb)) !important; color: #fff !important; border-color: transparent !important; }
+/* counts as badges on a symbol (data-badge="3"), in the rail and in the phone's own bars */
+[data-badge] { position: relative; }
+[data-badge]::after { content: attr(data-badge); position: absolute; top: 2px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px;
+  background: #ef4444; color: #fff; font: 700 10px/16px -apple-system, system-ui, sans-serif; text-align: center; pointer-events: none; }
+[data-badge=""]::after { min-width: 8px; width: 8px; height: 8px; padding: 0; top: 6px; right: 6px; }
+.duo-rail .c-tab[data-badge]::after { top: 4px; right: 4px; }
+/* overflow: items that do not fit leave the rail (bottom up) and live in one "more" menu */
+.duo-rail .duo-overflowed { display: none !important; }
+.duo-rail .duo-more[hidden] { display: none; }
+.duo-more__ico { display: block; font-family: 'Material Symbols Rounded'; font-size: 24px; line-height: 24px; font-weight: normal; font-style: normal; -webkit-font-feature-settings: 'liga'; font-feature-settings: 'liga'; }
+.duo-menu { position: fixed; z-index: 60; min-width: 190px; padding: 6px; display: flex; flex-direction: column; border-radius: 18px;
+  background: rgba(255, 255, 255, .92); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(0, 0, 0, .06); box-shadow: 0 12px 32px rgba(0, 0, 0, .18); animation: duo-menu-in .18s ease both; }
+.duo-menu__item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: none; color: var(--ink, #111); font: 500 15px/20px -apple-system, system-ui, sans-serif; text-align: left; cursor: pointer; }
+.duo-menu__item:hover { background: rgba(0, 0, 0, .05); }
+.duo-menu__ico { font-family: 'Material Symbols Rounded'; font-size: 20px; line-height: 20px; font-weight: normal; -webkit-font-feature-settings: 'liga'; font-feature-settings: 'liga'; }
+html.dark .duo-menu { background: rgba(40, 40, 44, .92); } html.dark .duo-menu__item { color: #fff; }
+@keyframes duo-menu-in { from { opacity: 0; transform: translateX(6px) scale(.97); } to { opacity: 1; transform: none; } }
+/* a shrunk tab bar (task-focused screens, or when nothing else fits): only the current tab; tap it to show them all */
+.duo-rail .duo-min:not(.duo-min-open) > :not(.is-on):not([aria-current]):not(.on):not(.active) { display: none !important; }
+
+/* ---------- sheets ---------- */
+/* closed Duo (outer display): a sheet's own bar goes vertical, on the sheet's right edge */
+html.duo-outer .c-sheet--ios .c-sheet__panel { position: relative; padding-right: 72px; }
+html.duo-outer .c-sheet--ios .c-sheet__head { margin-right: 0; }
+html.duo-outer .c-sheet--ios .c-sheet__head .c-sheet__close, html.duo-outer .c-sheet--ios .c-sheet__head .c-iconbtn { position: absolute; right: 12px; top: 12px; }
+html.duo-outer .c-sheet--ios .c-sheet__head > :last-child:empty, html.duo-outer .c-sheet--ios .c-sheet__head > span:last-child { display: none; }
+html.duo-outer .c-sheet--ios .c-sheet__head h3 { text-align: left; flex: 1; }
+html.duo-outer .c-sheet--ios { padding-right: calc(var(--rail, 0px) + 8px); }
+/* open (inner display): sheets sit centred and keep their horizontal bar */
+html.duo-wide:not(.duo-outer) .c-sheet { align-items: center; justify-content: center; padding-right: var(--tl-pr, 0px); }
+html.duo-wide:not(.duo-outer) .c-sheet .c-sheet__panel { width: 100%; max-width: 560px; }
+
+/* a tight rail (navigation screens that keep their whole tab bar in little room): 44 px tabs, Apple's smallest tap size */
+.duo-rail.duo-tight { gap: 5px; }
+.duo-rail.duo-tight .c-tabbar { gap: 2px; }
+.duo-rail.duo-tight .c-iconbtn { width: 44px; height: 44px; min-height: 0; }   /* tabs keep their own rules below */
+
+/* ---------- a screen that keeps its own bars (data-tablet="off" or data-rail="off") on a Duo with the side column ----------
+   Like an app not made for the Duo: it uses only the area left of the column (status bar, camera), its own bars included */
+html.duo-side:is([data-tablet="off"], [data-rail="off"]) body { width: calc(100% - var(--rail)); max-width: none; margin: 0; padding-right: 0; transform: translateZ(0); min-height: 100dvh; }
+
+/* ---------- the closed Duo's corners: a sheet near the bottom corners follows the screen's curve (concentric: 52 - 8 inset) ---------- */
+html.duo-outer .c-sheet--ios .c-sheet__panel { border-radius: 44px; }
+
+/* ---------- arrangements: a main view and a secondary view (Apple's ArrangementView) ----------
+   <div data-arrange="split|overlay" [data-arrange-axis="horizontal"]> <… data-primary> <… data-secondary> </div>
+   split   - side by side when the screen is wider than tall, stacked when taller; with axis="horizontal" it never stacks: on a tall
+             screen only the main view shows. On the closed Duo (narrow) it is the phone layout, or the main view only with axis="horizontal".
+   overlay - open, the secondary floats over the main view: a card on the trailing side when wider than tall, a bottom card when
+             taller. Closed, it keeps the phone's own layout.
+   A hidden secondary ([hidden]) gives the main view the whole space; the main view never moves to the middle. */
+[data-arrange] > [data-secondary][hidden] { display: none !important; }
+html.duo:not(.duo-wide) [data-arrange="split"][data-arrange-axis="horizontal"] > [data-secondary] { display: none; }
+@media (orientation: landscape) {
+  html.duo-wide [data-arrange="split"] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 40%); column-gap: 16px; align-items: start; }
+  html.duo-wide [data-arrange="split"] > [data-secondary] { position: sticky; top: calc(var(--sb, 0px) + 16px); max-height: calc(100dvh - var(--sb, 0px) - 32px); overflow-y: auto; }
+  html.duo-wide [data-arrange="overlay"] > [data-secondary] { position: fixed; z-index: 20; right: calc(var(--tl-pr, 0px) + 16px); bottom: 16px; width: min(360px, 42%); max-height: calc(100dvh - var(--sb, 0px) - 48px); overflow-y: auto; }
+}
+@media (orientation: portrait) {
+  html.duo-wide [data-arrange="split"][data-arrange-axis="horizontal"] > [data-secondary] { display: none; }
+  html.duo-wide [data-arrange="overlay"] > [data-secondary] { position: fixed; z-index: 20; left: 16px; right: 16px; bottom: calc(var(--tl-low, 0px) + 96px); max-height: 45dvh; overflow-y: auto; }
+}
+
+/* ---------- a feed's side panel is a COLUMN, like Apple's split view (Mail): full height from the top of the screen, a faint
+   hairline between it and the feed, and each column with its own bar - the feed's bar sits over the feed only ---------- */
+@media (min-width: 840px) {
+  html.duo-wide.duo-wide[data-tl-kind="feed-pane"][data-tl-kind="feed-pane"] [data-tl="feed-root"] { grid-template-columns: minmax(0, 1fr) 320px; column-gap: 0; padding-right: 0; }
+  html.duo-side.duo-side[data-tl-kind="feed-pane"][data-tl-kind="feed-pane"] body[data-tl="feed-root"] { padding-right: var(--rail); }
+  html.duo-wide.duo-wide[data-tl-kind="feed-pane"][data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="head"] { grid-column: 1; }
+  html.duo-wide.duo-wide[data-tl-kind="feed-pane"][data-tl-kind="feed-pane"] [data-tl="feed-root"] > [data-tl="pane"] {
+    grid-column: 2; grid-row: 1 / span 30; align-self: start; position: sticky; top: 0; height: 100dvh; max-height: none; overflow-y: auto;
+    box-sizing: border-box; padding: var(--sb, 0px) 16px calc(16px + var(--tl-low, 0px)); border-left: 1px solid var(--line, rgba(0, 0, 0, .1)); }
+  html.duo-wide.duo-wide[data-tl-kind="feed-pane"][data-tl-kind="feed-pane"] .c-fab { right: calc(var(--tl-pr, 0px) + 320px + 16px); }
+}
+
+/* ---------- the tab bar in the side rail: one set of rules for the kit's tab bar and plain ones ----------
+   It sits centred in the rail, 48 px wide, inside the safe area (the rail's padding keeps it under
+   the status column and above the bottom inset or the camera; when it doesn't fit, the overflow menu takes over). Tabs fill it, and
+   the selected tab shows a vertical pill (44 x 58, 44 x 48 in a tight rail) in every pose. Sizes as agreed: tab bar 48 px, the same as the
+   rail's icon buttons, with 44 px tabs. */
+html.duo-side { --rail-tabs: 48px; }
+.duo-rail .duo-rail__tabs { align-self: center; max-height: 100%; }
+.duo-rail :is(.c-tabbar, .duo-tabbar) { position: static; inset: auto; box-sizing: border-box; width: var(--rail-tabs); height: auto; margin: 0; padding: 8px 1px; display: flex; flex-direction: column; align-items: center; gap: 6px; border-radius: calc(var(--rail-tabs) / 2); }
+.duo-rail :is(.c-tabbar, .duo-tabbar) > :is(a, button) { position: relative; isolation: isolate; flex: none; width: 44px; height: 44px; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 0; gap: 0; border-radius: 999px; font-size: 0; line-height: 0; background: transparent; }
+.duo-rail :is(.c-tabbar, .duo-tabbar) > :is(a, button) .c-ico { font-size: 24px; line-height: 24px; }
+.duo-rail :is(.c-tabbar, .duo-tabbar) > :is(.is-on, [aria-current], .on, .active)::before { content: ''; position: absolute; z-index: -1; top: -7px; bottom: -7px; left: 0; right: 0; border-radius: 22px;   /* 44 x 58: a vertical pill in every rail */
+  background: color-mix(in srgb, var(--c-ink, #17132a) 8%, transparent); }
+.duo-rail.duo-rail :is(.c-tabbar, .duo-tabbar) > :is(a, button):is(.is-on, [aria-current], .on, .active) { background: transparent; }   /* the pill is the only highlight: no second circle from the tab's own selected style */
+html.dark .duo-rail :is(.c-tabbar, .duo-tabbar) > :is(.is-on, [aria-current], .on, .active)::before { background: rgba(255, 255, 255, .14); }
+.duo-rail.duo-tight.duo-tight :is(.c-tabbar, .duo-tabbar) { padding: 2px 1px; gap: 2px; }   /* a short rail: tighter, still a pill */
+.duo-rail.duo-tight.duo-tight :is(.c-tabbar, .duo-tabbar) > :is(.is-on, [aria-current], .on, .active)::before { top: -2px; bottom: -2px; }   /* 44 x 48 */

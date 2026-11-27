@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Corporate enquiries</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-enquiries"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Corporate enquiries</h1><p>Team-building and CSR requests from the enquiry form. Reply with a quote by email, then track it here.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-buildings" aria-hidden="true"></i>Corporate pipeline</span><b><span class="hl">5 new</span> · RM 186,000 in open quotes</b></div></div>
+      </div>
+      <div class="pipe" data-group id="pipe">
+        <button type="button" class="active" data-value="New"><small>New</small><b>5</b></button>
+        <button type="button" data-value="Contacted"><small>Contacted</small><b>3</b></button>
+        <button type="button" data-value="Quoted"><small>Quote sent</small><b>5</b></button>
+        <button type="button" data-value="Won"><small>Won</small><b>8</b></button>
+        <button type="button" data-value="Lost"><small>Lost</small><b>2</b></button>
+      </div>
+      <div class="a-card">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Company or contact" aria-label="Search enquiries"></div>
+          <span class="grow"></span><span class="small muted" id="lbl">New · reply within 1 working day</span>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Company</th><th>Contact</th><th class="num">Group</th><th>Preferred dates</th><th class="num">Budget / person</th><th>Interests</th><th>Received</th><th>Status</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<aside class="a-drawer" id="dr" aria-label="Enquiry">
+  <div class="a-drawer__head"><span class="avatar" style="background:var(--info-tint);color:var(--info)"><i class="ph ph-buildings" aria-hidden="true"></i></span><div class="grow"><h2 class="is-h3" id="d-co">Company</h2><small class="muted" id="d-when"></small></div><button class="icon-btn" data-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button></div>
+  <div class="a-drawer__body">
+    <dl class="dl">
+      <dt>Contact</dt><dd id="d-ct"></dd><dt>Group size</dt><dd id="d-gs"></dd><dt>Preferred dates</dt><dd id="d-dt"></dd><dt>Budget</dt><dd id="d-bd"></dd><dt>Interests</dt><dd id="d-in"></dd>
+    </dl>
+    <div><h3 class="is-h4">Message</h3><div class="quote mt2" id="d-msg"></div></div>
+    <div><h4>Suggested experiences</h4><div class="stack mt2" id="d-sug"></div></div>
+    <div class="field"><label for="d-st">Status</label><select class="select" id="d-st"><option>New</option><option>Contacted</option><option>Quote sent</option><option>Won</option><option>Lost</option></select></div>
+    <div class="field"><label for="d-note">Internal note</label><textarea class="textarea" id="d-note" placeholder="Called on 2 Dec, sending quote Friday"></textarea></div>
+  </div>
+  <div class="a-drawer__foot"><button class="btn btn--secondary" data-toast="Email draft opened" data-toast-icon="ph-envelope-simple"><i class="ph ph-envelope-simple" aria-hidden="true"></i>Email contact</button><button class="btn btn--primary" data-close data-toast="Enquiry updated">Save</button></div>
+</aside>
+<script>
+(function () {
+  var E = [
+    ['Greenline Logistics Sdn Bhd', 'Farah Ismail', 'farah@example.com · +60 12-345 6789', 40, 'Mar 2027 or Apr 2027, flexible', 'RM 100–200', ['Tree planting', 'Cooking together'], '2 Dec, 9:45 AM · CE-1042', 'New', 'Half-day, with lunch. About 5 people need halal food and one uses a wheelchair. Within 2 hours of Kuala Lumpur.', ['mangrove', 'paddy']],
+    ['Sinar Hijau Bhd', 'Aminah Rashid · HR Manager', 'aminah.r@sinarhijau.com.my · +60 12-310 4482', 120, 'Mar 2027, weekdays', 'RM 250–350', ['CSR / volunteering', 'Nature'], '2 Dec, 9:20 AM', 'New', 'Annual CSR day for our KL office. Tree planting or mangrove work, with lunch. Bus from KL Sentral.', ['mangrove', 'paddy']],
+    ['Kelana Digital Sdn Bhd', 'Jason Lim · Office Manager', 'jason@kelanadigital.my · +60 16-224 9031', 24, '16–17 Jan 2027', 'RM 400–600', ['Team-building', 'Food'], '1 Dec, 4:05 PM', 'New', 'Two-day offsite in Penang. Cooking class + a nature morning. Some vegetarians.', ['nyonya', 'canopy']],
+    ['Northbridge International School', 'Ms Devi Krishnan · Year 9 coordinator', 'dkrishnan@nis.edu.my · +60 3-7781 2290', 60, 'Apr 2027, school term', 'RM 150–200', ['Education', 'Culture'], '1 Dec, 11:48 AM', 'New', '60 students + 6 teachers. Learning about crafts and sustainability. Must be halal.', ['batik', 'weaving']],
+    ['Teluk Capital Partners', 'Ravi Shankar · Partner', 'ravi@telukcapital.com · +60 17-880 2154', 12, 'Any weekend in Feb', 'RM 1,000+', ['Wildlife', 'Retreat'], '30 Nov, 7:30 PM', 'New', 'Partners retreat. Private, comfortable, wildlife. Could be 2–3 days in Sabah.', ['orangutan', 'retreat']],
+    ['Mutiara Foods Sdn Bhd', 'Nurul Ain · CSR Lead', 'ain@mutiarafoods.my', 40, 'Feb 2027', 'RM 200–300', ['Farm', 'CSR / volunteering'], '27 Nov', 'Contacted', 'Farm volunteering for our graduates programme.', ['paddy']],
+    ['Selat Logistics', 'Kevin Ong · HR', 'kevin.ong@selatlog.my', 80, 'May 2027', 'RM 180–250', ['Team-building'], '24 Nov', 'Quoted', 'Family day with kids.', ['mangrove']],
+    ['Hikmah Foundation', 'Zulkifli Ahmad', 'zul@hikmah.org.my', 30, 'Dec 2026', 'RM 120–180', ['Culture'], '18 Nov', 'Won', 'Staff appreciation day.', ['batik']]
+  ];
+  var tb = document.getElementById('rows'), f = 'New';
+  var lbl = { New: 'New · reply within 1 working day', Contacted: 'Contacted · send a quote', Quoted: 'Quote sent · follow up after 5 days', Won: 'Won · create bookings', Lost: 'Lost' };
+  var bd = { New: 'badge--info', Contacted: 'badge--accent', Quoted: 'badge--warn', Won: 'badge--success', Lost: '' };
+  function draw() {
+    var r = E.map(function (x, i) { x.i = i; return x; }).filter(function (x) { return x[8] === f; });
+    tb.innerHTML = r.length ? r.map(function (x) {
+      return '<tr data-i="' + x.i + '"><td><b>' + x[0] + '</b></td><td>' + x[1] + '</td><td class="num">' + x[3] + '</td><td>' + x[4] + '</td><td class="num">' + x[5] + '</td><td>' + x[6].map(function (t) { return '<span class="badge">' + t + '</span>'; }).join(' ') + '</td><td class="nowrap small">' + x[7] + '</td><td><span class="badge ' + bd[x[8]] + '">' + (x[8] === 'Quoted' ? 'Quote sent' : x[8]) + '</span></td></tr>';
+    }).join('') : '<tr><td colspan="8"><div class="empty"><i class="ph ph-tray" aria-hidden="true"></i><b>Nothing here</b><span class="small muted">Enquiries move here when their status changes.</span></div></td></tr>';
+    document.getElementById('lbl').textContent = lbl[f];
+  }
+  tb.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr[data-i]'); if (!tr) return; var x = E[+tr.dataset.i];
+    document.getElementById('d-co').textContent = x[0]; document.getElementById('d-when').textContent = 'Received ' + x[7];
+    document.getElementById('d-ct').innerHTML = x[1] + '<br><span class="muted small">' + x[2] + '</span>'; document.getElementById('d-gs').textContent = x[3] + ' people';
+    document.getElementById('d-dt').textContent = x[4]; document.getElementById('d-bd').textContent = x[5] + ' per person'; document.getElementById('d-in').textContent = x[6].join(', ');
+    document.getElementById('d-msg').textContent = x[9];
+    document.getElementById('d-sug').innerHTML = x[10].map(function (k) { var ex = L.exp[k]; return '<div class="doc"><img src="' + L.img(ex.img, 100) + '" alt="" style="width:40px;height:40px;border-radius:8px;object-fit:cover"><div><b>' + ex.title + '</b><small>' + ex.place + ' · private group ' + L.rm(ex.priv) + '</small></div></div>'; }).join('');
+    document.getElementById('d-st').value = x[8] === 'Quoted' ? 'Quote sent' : x[8];
+    L.open('#dr');
+  });
+  document.getElementById('pipe').addEventListener('pick', function (e) { f = e.detail; draw(); });
+  draw();
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-enquiries', [['New', '5'], ['Quote', 'Sent offline (email / PDF) in the MVP'], ['Row opens', 'Enquiry drawer']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

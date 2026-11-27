@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Search ideas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  :root { --ink: #222; --text: #3D3D3D; --muted: #6A6A6A; --line: #EBEBEB; --sand: #F7F7F7; --brand: #D7263D; --green: #2F5D3A; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 15px/22px Inter, system-ui, sans-serif; color: var(--ink); background: #F3F3F1; padding: 28px 20px 48px; }
+  .wrap { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+  .col { width: 360px; } .col > h2 { font: 600 15px/20px Inter; } .col > p { font-size: 13px; line-height: 18px; color: var(--muted); margin: 4px 0 14px; min-height: 36px; }
+  .phone { position: relative; width: 360px; height: 760px; overflow: hidden; background: #fff; border-radius: 36px; box-shadow: 0 20px 60px rgba(0,0,0,.12); }
+  .pad { padding: 0 24px; }
+  .bar { display: flex; align-items: center; height: 56px; padding: 0 14px; font: 600 16px/21px Inter; } .bar span { flex: 1; text-align: center; margin-right: 32px; } .bar .ph { font-size: 22px; }
+  .h1 { font: 700 28px/34px Inter; letter-spacing: -.02em; }
+  .pill { display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 8px 0 18px; border-radius: 999px; background: #fff; border: 1px solid var(--line); box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.08); color: var(--muted); font-size: 15px; }
+  .pill .go { margin-left: auto; width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-size: 18px; }
+  .sh { font: 700 18px/24px Inter; letter-spacing: -.01em; }
+  .line { height: 1px; background: var(--line); margin: 22px 24px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  .tile img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 16px; }
+  .tile b { display: block; font: 600 14px/19px Inter; margin-top: 8px; } .tile small { font-size: 12px; color: var(--muted); }
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-top: 1px solid var(--line); font: 600 16px/21px Inter; }
+  .row:first-child { border-top: 0; }
+  .row i.ph { font-size: 20px; color: var(--muted); margin-right: 10px; vertical-align: -3px; }
+  .row em { font: 500 14px Inter; font-style: normal; color: var(--ink); } .row em .ph { font-size: 14px; color: var(--muted); margin: 0 0 0 4px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); font: 500 13px Inter; }
+  .chip.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; gap: 10px; padding: 14px 24px 24px; background: #fff; border-top: 1px solid var(--line); }
+  .btn { height: 44px; border-radius: 999px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 600 15px Inter; }
+  .btn.ghost { border: 1px solid var(--line); } .btn.red { flex: 1; background: var(--brand); color: #fff; }
+  /* B */
+  .cover { position: relative; aspect-ratio: 16 / 9; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.25), transparent 40%, rgba(0,0,0,.45)); }
+  .cover .t { position: absolute; z-index: 1; left: 24px; bottom: 44px; color: #fff; font: 700 26px/31px Inter; letter-spacing: -.02em; }
+  .cover .x { position: absolute; z-index: 1; top: 14px; left: 14px; width: 36px; height: 36px; border-radius: 50%; background: #fff; display: grid; place-items: center; }
+  .cover + .pad .pill { margin-top: -27px; position: relative; z-index: 2; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .duo div { border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; } .duo small { display: block; font-size: 12px; color: var(--muted); } .duo b { font: 600 14px/19px Inter; }
+  .recent { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); } .recent:first-of-type { border-top: 0; }
+  .recent img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; } .recent b { display: block; font: 500 15px/20px Inter; } .recent small { font-size: 12px; color: var(--muted); }
+  /* C */
+  .panel { margin: 0 16px; border-radius: 26px; padding: 18px; border: 1px solid var(--line); }
+  .panel + .mini { margin-top: 10px; }
+  .mini { margin: 0 16px; border-radius: 999px; border: 1px solid var(--line); height: 52px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; font: 600 15px Inter; }
+  .mini + .mini { margin-top: 10px; } .mini em { font: 500 14px Inter; font-style: normal; color: var(--muted); }
+  .hs { display: flex; gap: 12px; overflow: hidden; margin-top: 14px; }
+  .hs .tile { flex: none; width: 120px; } .hs .tile img { aspect-ratio: 1; border-radius: 16px; }
+  .live { width: 402px; height: 849px; border: 0; transform: scale(.8955); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="col"><h2>Now · current Search</h2><p>The live screen as it is today (after the spacing and size fixes), for comparison.</p>
+    <div class="phone"><iframe class="live" src="../pages/g-search.html" title="Current search screen"></iframe></div></div>
+
+  <div class="col"><h2>A · Home-like</h2><p>Big "Where to next?" title, Home's search pill, popular places as photo tiles, then When / Who / Category / Price as even rows.</p>
+    <div class="phone">
+      <div class="bar"><i class="ph ph-x"></i><span>Search</span></div>
+      <div class="pad"><div class="h1">Where to next?</div><div class="pill" style="margin-top:16px"><i class="ph ph-magnifying-glass" style="font-size:20px;color:var(--ink)"></i>Search places or experiences<span class="go"><i class="ph ph-magnifying-glass"></i></span></div></div>
+      <div class="pad" style="margin-top:24px"><div class="sh">Popular places</div>
+        <div class="tiles">
+          <div class="tile"><img src="https://images.unsplash.com/photo-1779399642977-7c6bfd7bc472?w=300&q=60&auto=format&fit=crop" alt=""><b>Kuala Selangor</b><small>40 experiences</small></div>
+          <div class="tile"><img src="https://images.unsplash.com/photo-1786530876393-8ad44d32e2de?w=300&q=60&auto=format&fit=crop" alt=""><b>Penang</b><small>21 experiences</small></div>
+          <div class="tile"><img src="https://images.unsplash.com/photo-1690668107430-6529392858b0?w=300&q=60&auto=format&fit=crop" alt=""><b>Sabah</b><small>17 experiences</small></div>
+          <div class="tile"><img src="https://images.unsplash.com/photo-1708649290066-5f617003b93f?w=300&q=60&auto=format&fit=crop" alt=""><b>Pulau Tioman</b><small>8 experiences</small></div>
+        </div></div>
+      <div class="line"></div>
+      <div class="pad"><div class="row" style="border-top:0;padding-top:0"><span><i class="ph ph-calendar-dots"></i>When</span><em>Any week<i class="ph ph-caret-right"></i></em></div><div class="row"><span><i class="ph ph-users-three"></i>Who</span><em>Add guests<i class="ph ph-caret-right"></i></em></div></div>
+      <div class="foot"><span class="btn ghost">Clear all</span><span class="btn red"><i class="ph ph-magnifying-glass"></i>Show 64 experiences</span></div>
+    </div></div>
+
+  <div class="col"><h2>B · Photo cover</h2><p>Opens like Home: a calm 16:9 photo, headline on it, search pill on its edge. When and Who as two side-by-side boxes, Home's chips, recent searches.</p>
+    <div class="phone">
+      <div class="cover"><img src="https://images.unsplash.com/photo-1495434350527-8f3d63bf008f?w=800&q=70&auto=format&fit=crop" alt=""><span class="x"><i class="ph ph-x"></i></span><div class="t">Find your next<br>small trip</div></div>
+      <div class="pad"><div class="pill"><i class="ph ph-magnifying-glass" style="font-size:20px;color:var(--ink)"></i>Search places or experiences<span class="go"><i class="ph ph-magnifying-glass"></i></span></div></div>
+      <div class="pad" style="margin-top:20px"><div class="duo"><div><small>When</small><b>Any week</b></div><div><small>Who</small><b>Add guests</b></div></div>
+        <div class="chips" style="margin-top:16px"><span class="chip on">All</span><span class="chip"><i class="ph ph-tree-evergreen" style="color:#2F5D3A"></i>Nature</span><span class="chip"><i class="ph ph-palette" style="color:#8A3D1C"></i>Culture</span><span class="chip">Food</span></div></div>
+      <div class="line"></div>
+      <div class="pad"><div class="sh" style="margin-bottom:6px">Recent searches</div>
+        <div class="recent"><img src="https://images.unsplash.com/photo-1779399642977-7c6bfd7bc472?w=120&q=60&auto=format&fit=crop" alt=""><div><b>Kuala Selangor</b><small>Sun, 6 Dec · 2 adults, 1 child</small></div></div>
+        <div class="recent"><img src="https://images.unsplash.com/photo-1708649290066-5f617003b93f?w=120&q=60&auto=format&fit=crop" alt=""><div><b>Pulau Tioman</b><small>Any week · 2 adults</small></div></div></div>
+      <div class="foot"><span class="btn ghost">Clear all</span><span class="btn red"><i class="ph ph-magnifying-glass"></i>Show 64 experiences</span></div>
+    </div></div>
+
+  <div class="col"><h2>C · One step at a time</h2><p>Only "Where" is open, with a search pill and place photos to tap. When / Who / Category wait as slim pills and open when tapped.</p>
+    <div class="phone">
+      <div class="bar"><i class="ph ph-x"></i><span>Search</span></div>
+      <div class="panel"><div class="h1" style="font-size:24px;line-height:30px">Where?</div>
+        <div class="pill" style="margin-top:14px;box-shadow:none;background:var(--sand);border-color:var(--sand)"><i class="ph ph-magnifying-glass" style="font-size:20px;color:var(--ink)"></i>Search destinations</div>
+        <div class="hs">
+          <div class="tile"><img src="https://images.unsplash.com/photo-1779399642977-7c6bfd7bc472?w=240&q=60&auto=format&fit=crop" alt=""><b>Kuala Selangor</b></div>
+          <div class="tile"><img src="https://images.unsplash.com/photo-1786530876393-8ad44d32e2de?w=240&q=60&auto=format&fit=crop" alt=""><b>Penang</b></div>
+          <div class="tile"><img src="https://images.unsplash.com/photo-1690668107430-6529392858b0?w=240&q=60&auto=format&fit=crop" alt=""><b>Sabah</b></div>
+        </div></div>
+      <div class="mini" style="margin-top:12px">When<em>Any week</em></div>
+      <div class="mini">Who<em>Add guests</em></div>
+      <div class="mini">Category<em>All</em></div>
+      <div class="mini">Price<em>Any price</em></div>
+      <div class="foot"><span class="btn ghost">Clear all</span><span class="btn red"><i class="ph ph-magnifying-glass"></i>Search</span></div>
+    </div></div>
+
+</div>
+<script>document.querySelector(".live").addEventListener("load",function(){try{var d=this.contentDocument;d.documentElement.classList.add("in-phone");d.querySelectorAll(".reveal").forEach(function(e){e.classList.add("in")})}catch(e){}});</script>
+</body>
+</html>

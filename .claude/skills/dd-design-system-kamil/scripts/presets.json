@@ -1,0 +1,58 @@
+{
+  "_note": "Starting scales per design system, taken from each system's public guidelines. They are a starting point: the designer can change any value in design-system.config.js. minTap = finger screens (phone), minTapDesktop = mouse screens (admin / desktop pages).",
+  "apple": {
+    "label": "Apple Human Interface Guidelines (iOS)",
+    "style": "Apple HIG (iOS 27), Liquid Glass: calm, content first, translucent bars, little decoration",
+    "spacing": [0, 4, 8, 12, 16, 20, 24, 32, 48],
+    "radius": [0, 8, 12, 16, 20, 26, "full"],
+    "fontSizes": [10, 11, 12, 13, 15, 16, 17, 20, 22, 28, 34],
+    "fontWeights": [400, 500, 600, 700],
+    "minTap": 44, "minTapDesktop": 24,
+    "must": ["Tap areas are at least 44 × 44 pt (the visible control may be smaller if its tap area is not)", "Content comes first: bars are translucent and step back", "Large titles on top-level screens; a back button on every pushed screen", "Works in light and dark mode", "Bars and tab bar stay clear of the notch and home indicator (safe areas)"],
+    "cannot": ["No spacing, rounding or text size off the scales", "No pure black (#000) text; use the Text colour", "No new colours outside the theme tokens", "No more than one filled (primary) button per screen", "No custom controls where a system one exists (switch, segmented control, sheet)"]
+  },
+  "material": {
+    "label": "Google Material 3",
+    "style": "Material 3 Expressive: bold shapes, tonal surfaces, clear hierarchy, motion with purpose",
+    "spacing": [0, 4, 8, 12, 16, 24, 32, 40, 48, 64],
+    "radius": [0, 4, 8, 12, 16, 28, "full"],
+    "fontSizes": [11, 12, 14, 16, 22, 24, 28, 32, 36, 45, 57],
+    "fontWeights": [400, 500],
+    "minTap": 48, "minTapDesktop": 24,
+    "must": ["Touch targets are at least 48 × 48 dp", "Colours come from the colour roles (primary, secondary, surface, on-surface...)", "Type comes from the type scale roles (display, headline, title, body, label)", "Works in light and dark themes", "Shapes follow the shape scale"],
+    "cannot": ["No spacing, rounding or text size off the scales", "No colours outside the colour roles", "No more than one FAB per screen", "No pure black text on light surfaces; use on-surface", "No icons outside the chosen icon set"]
+  },
+  "fluent": {
+    "label": "Microsoft Fluent 2",
+    "style": "Fluent 2: calm, familiar, efficient; soft depth, clear focus states",
+    "spacing": [0, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40],
+    "radius": [0, 2, 4, 6, 8, 12, "full"],
+    "fontSizes": [10, 12, 14, 16, 20, 24, 28, 32, 40, 68],
+    "fontWeights": [400, 600, 700],
+    "minTap": 44, "minTapDesktop": 24,
+    "must": ["Every control has a visible focus state", "Colours come from the brand and neutral tokens", "Text uses the type ramp", "Works in light, dark and high contrast", "Pointer targets at least 24 px, touch targets at least 44 px"],
+    "cannot": ["No spacing, rounding or text size off the scales", "No colours outside the tokens", "No pure black text; use the neutral foreground", "No more than one primary button per area", "No icons outside the chosen icon set"]
+  },
+  "carbon": {
+    "label": "IBM Carbon",
+    "style": "Carbon v11: productive, precise, square; strong grid and clear data",
+    "spacing": [0, 2, 4, 8, 12, 16, 24, 32, 40, 48, 64, 80],
+    "radius": [0, 2, 4, "full"],
+    "fontSizes": [12, 14, 16, 18, 20, 24, 28, 32, 42],
+    "fontWeights": [300, 400, 600],
+    "minTap": 44, "minTapDesktop": 24,
+    "must": ["Layout follows the 2x grid and spacing scale", "Colours come from the theme tokens (White, G10, G90, G100)", "Type uses the productive or expressive type sets", "Every interactive element has a focus outline", "Data tables and forms use the standard row heights"],
+    "cannot": ["No spacing, rounding or text size off the scales", "No rounded cards or buttons (Carbon is square)", "No colours outside the theme tokens", "No more than one primary button per group", "No icons outside the Carbon icon set or the chosen set"]
+  },
+  "ant": {
+    "label": "Ant Design",
+    "style": "Ant Design v6: natural, certain, meaningful, growing; dense and efficient for back-office work",
+    "spacing": [0, 4, 8, 12, 16, 20, 24, 32, 48],
+    "radius": [0, 2, 4, 6, 8, "full"],
+    "fontSizes": [12, 14, 16, 20, 24, 30, 38],
+    "fontWeights": [400, 500, 600],
+    "minTap": 44, "minTapDesktop": 24,
+    "must": ["Spacing follows the 8 px base (4 px for small steps)", "Colours come from the seed and map tokens", "Text uses the font size tokens", "Destructive actions ask for confirmation", "Every form field has a label"],
+    "cannot": ["No spacing, rounding or text size off the scales", "No colours outside the tokens", "No pure black text; use colorText", "No more than one primary button per area", "No icons outside the chosen icon set"]
+  }
+}

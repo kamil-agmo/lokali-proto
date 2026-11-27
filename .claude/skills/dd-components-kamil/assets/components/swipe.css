@@ -1,0 +1,12 @@
+/* Swipe actions: drag a row to the left to reveal actions (archive, delete). iOS 27 allows swipe actions on any item in a scrolling view.
+   <div class="c-swipe c-swipe--md|--ios"><div class="c-swipe__actions"><button class="c-swipe__btn">Archive</button><button class="c-swipe__btn is-danger">Delete</button></div><div class="c-swipe__row">…row content…</div></div> */
+.c-swipe { position: relative; overflow: hidden; font-family: var(--c-font); touch-action: pan-y; }
+.c-swipe__row { position: relative; z-index: 1; background: var(--c-bg); transition: transform .3s var(--c-spring); will-change: transform; }
+.c-swipe.is-dragging .c-swipe__row { transition: none; }
+.c-swipe__actions { position: absolute; top: 0; right: 0; bottom: 0; display: flex; }
+.c-swipe__btn { display: grid; place-items: center; width: 84px; border: 0; color: #fff; font: 600 14px/1 var(--c-font); cursor: pointer; background: color-mix(in srgb, var(--c-ink) 45%, transparent); }
+.c-swipe__btn.is-danger { background: var(--c-danger); }
+/* Material: square action areas, accent for the first */
+.c-swipe--md .c-swipe__btn:first-child { background: var(--c-accent); }
+/* Apple (iOS 27): rounded capsule actions with a small gap, like Mail */
+.c-swipe--ios .c-swipe__actions { gap: 6px; padding: 6px 8px; } .c-swipe--ios .c-swipe__btn { width: 76px; border-radius: 20px; } .c-swipe--ios .c-swipe__btn:first-child { background: var(--c-accent); }

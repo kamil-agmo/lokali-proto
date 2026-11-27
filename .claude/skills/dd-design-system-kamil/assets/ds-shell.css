@@ -1,0 +1,22 @@
+/* dd-design-system-kamil:begin (added by install_ds.py; re-running the installer replaces this block) */
+/* Top of the right card: Design System (left) and Dev mode (right) on the first line; the dev tools Sections (left) and Rules (right) on the second */
+.side__top { flex-wrap: wrap; row-gap: 8px; justify-content: space-between !important; }
+.side__top .devbtn { white-space: nowrap; }
+.side__top::after { content: ""; order: 2; flex-basis: 100%; }
+.side__top:has(#secbtn[hidden]):has(.uirules__btn[hidden])::after { display: none; }
+.side__top #stdbtn, .side__top #devmode { order: 1; }
+.side__top #secbtn, .side__top .uirules__btn { order: 3; margin-right: 0; }
+.stdbtn[hidden], .stddl[hidden] { display: none; }
+/* the Design System panel: the rulebook page in a wide card over the shell */
+.stdpanel { position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(15, 23, 42, .4); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.stdpanel[hidden] { display: none; }
+.stdpanel__card { width: min(880px, 100%); height: min(860px, 100%); display: flex; flex-direction: column; border-radius: 20px; background: #fff; overflow: hidden; box-shadow: 0 24px 60px rgba(15, 23, 42, .3); animation: ds-in .3s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes ds-in { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+.stdpanel__head { display: flex; align-items: center; gap: 12px; padding: 16px 16px 16px 24px; border-bottom: 1px solid var(--line, #e5e7eb); }
+.stdpanel__head h2 { margin: 0; font-size: 20px; line-height: 28px; font-weight: 800; }
+.stdpanel__note { flex: 1; font-size: 12px; color: var(--muted, #6b7280); }
+.stdpanel__btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--line, #e5e7eb); border-radius: 9999px; background: #fff; font: inherit; font-weight: 600; color: var(--muted, #6b7280); cursor: pointer; white-space: nowrap; }
+.stdpanel__btn:hover { background: #f8fafc; color: var(--ink, #111827); }
+.stddl { color: var(--accent-strong, #1d4ed8); border-color: color-mix(in srgb, var(--accent, #2563eb) 30%, transparent); }
+.stdpanel iframe { flex: 1; width: 100%; border: 0; }
+/* dd-design-system-kamil:end */

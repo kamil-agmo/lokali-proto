@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Checkout</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+.ticket { border-radius: 26px; overflow: hidden; box-shadow: 0 14px 34px rgba(10,20,14,.16); }
+.ticket__top { position: relative; padding: 16px; background-color: var(--deep); color: #fff; }
+.ticket__top > .row { padding-right: 60px; }
+.ticket__img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; flex: none; }
+.ticket__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+.ticket__grid small { display: block; font-size: 11px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.ticket__grid b { font: 600 15px/20px var(--font-display); }
+.ticket__edit { position: absolute; top: 14px; right: 14px; display: inline-flex; gap: 4px; align-items: center; padding: 4px 12px; border-radius: 12px; background: rgba(255,255,255,.12); color: #fff; font-size: 12px; font-weight: 600; }
+.ticket__edit .ph { font-size: 14px; vertical-align: 0; }
+.ticket__cut { height: 20px; background: radial-gradient(circle at 0 50%, var(--bg) 10px, transparent 11px), radial-gradient(circle at 100% 50%, var(--bg) 10px, transparent 11px), linear-gradient(var(--surface), var(--surface)); position: relative; }
+.ticket__cut::after { content: ""; position: absolute; left: 18px; right: 18px; top: 50%; border-top: 2px dashed var(--line); }
+.ticket__bottom { background: var(--surface); padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.ticket__total { font: 600 34px/41px var(--font-display); letter-spacing: -.02em; color: var(--ink); }
+.ticket__impact { display: flex; gap: 12px; align-items: center; padding: 12px 12px; border-radius: 14px; background: var(--primary-tint); color: var(--primary-strong); font-size: 13px; line-height: 18px; }
+@media (max-width: 320px) {
+  .ticket__top > .row { padding-right: 0; flex-wrap: wrap; }
+  .ticket__edit { position: static; margin-top: 12px; }
+  .ticket__grid { grid-template-columns: 1fr; }
+  .ticket__total { font-size: 28px; }
+}
+.wallet { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px; } .wlogo { margin: 0 auto; width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; letter-spacing: -.02em; line-height: 1; }
+.clogo { width: 36px; height: 24px; display: block; }
+</style>
+<style>
+  .co-sum { padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .co-exp { display: flex; gap: 12px; align-items: center; }
+  .co-exp img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; flex: none; }
+  .co-exp b { display: block; font-size: 16px; line-height: 21px; font-weight: 600; } .co-exp span { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
+  .co-edit { flex: none; min-height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: var(--ink) !important; }
+  .co-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+  .co-grid small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); } .co-grid b { font-size: 15px; line-height: 20px; font-weight: 600; }
+  .co-line { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; font-size: 13px; line-height: 18px; color: var(--muted); }
+  .co-line .ph-fill { flex: none; font-size: 16px; color: var(--primary); margin-top: 1px; } .co-line b { color: var(--ink); }
+  .co-safe { margin-top: 0; } .co-safe .ph { flex: none; font-size: 16px; margin-top: 1px; }
+  .co-cx h3 { font-size: 16px; line-height: 21px; font-weight: 600; }
+  /* selected payment: ink, not Canopy green */
+  body.m .radio-card.active .dot, body.m .radio-card[aria-checked="true"] .dot { border-color: var(--ink) !important; background: radial-gradient(circle, var(--ink) 0 45%, #fff 50%) !important; }
+</style>
+</head>
+<body class="m">
+<header class="appbar bordered">
+  <button class="icon-btn" data-go="g-book" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <div class="appbar__title">Confirm and pay</div>
+  <span class="spacer"></span>
+</header>
+<main class="pad stack-lg" style="padding-top:16px;padding-bottom:16px">
+  <!-- MIMS 27 Nov: open summary (no box), sentence-case labels, total shown once in the breakdown + on the Pay button -->
+  <section class="co-sum" aria-label="Booking summary">
+    <div class="co-exp"><img data-img="1773904594755-6c25ab2ef6c9" data-w="200" alt=""><div class="grow"><b>Mangrove &amp; fireflies by kampung boat</b><span>Pak Rahim · Kuala Selangor</span></div><a href="g-book.html" data-go="g-book" class="co-edit">Edit</a></div>
+    <div class="co-grid"><div><small>Date</small><b id="kDate">Sun, 6 Dec</b></div><div><small>Time</small><b id="kTime">5:00 PM</b></div><div><small>Guests</small><b id="kGuests">2 adults, 1 child</b></div></div>
+    <p class="co-line"><i class="ph-fill ph-leaf" aria-hidden="true"></i><span><b id="kImpact">RM 77</b> of this booking replants mangroves</span></p>
+  </section>
+
+  <section class="card" aria-labelledby="p-h">
+    <h3 id="p-h" style="margin-bottom:8px">Price breakdown</h3>
+    <div id="kLines"><div class="kv"><span>RM 145 × 2 adults</span><span>RM 290.00</span></div>
+    <div class="kv"><span>RM 95 × 1 child</span><span>RM 95.00</span></div></div>
+    <div class="kv"><span>Service fee (5%) <button class="icon-btn" style="margin:-12px 0 -12px -8px;vertical-align:middle" data-open="#feesheet" aria-label="About the service fee"><i class="ph ph-info" aria-hidden="true" style="font-size: 16px"></i></button></span><span id="kFee">RM 19.25</span></div>
+    <div class="kv total"><span>Total (MYR)</span><span id="kTotal2">RM 404.25</span></div>
+    <p class="xs muted" id="kGbp" hidden>≈ GBP 69.60 · bank rate may differ</p>
+  </section>
+
+  <section class="co-cx" aria-labelledby="c-h">
+    <h3 id="c-h">Free cancellation until <span id="kDl">Thu, 3 Dec</span>, 5:00 PM</h3>
+    <p class="small muted mt1">Moderate policy. After that, no refund. If the host cancels, you get everything back.</p>
+  </section>
+
+  <section aria-labelledby="m-h">
+    <h3 id="m-h" style="margin-bottom:12px">Pay with</h3>
+    <div data-radio id="methods">
+      <div class="radio-card active" data-value="card" role="radio" aria-checked="true"><span class="dot"></span><div class="grow"><div class="row"><b>Credit or debit card</b><span class="card-logos"><svg class="clogo" viewBox="0 0 48 32" role="img" aria-label="Visa"><rect width="48" height="32" rx="5" fill="#1A1F71"/><text x="24" y="21" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="900" font-style="italic" fill="#fff" letter-spacing=".5">VISA</text></svg><svg class="clogo" viewBox="0 0 48 32" role="img" aria-label="Mastercard"><rect width="48" height="32" rx="5" fill="#fff" stroke="#E2DBC9"/><circle cx="19" cy="16" r="9" fill="#EB001B"/><circle cx="29" cy="16" r="9" fill="#F79E1B"/><path d="M24 8.4a9 9 0 0 1 0 15.2a9 9 0 0 1 0-15.2z" fill="#FF5F00"/></svg></span></div>
+        <div class="pay-sub" data-sub="card"><div class="row"><i class="ph ph-credit-card" aria-hidden="true"></i><span class="grow">Visa •• 4242</span><span class="small muted">12/28</span></div><a href="#" class="small strong" data-toast="Card form opens (gateway-hosted)" data-toast-icon="ph-credit-card">Use another card</a></div></div></div>
+      <div class="radio-card" data-value="fpx" role="radio" aria-checked="false"><span class="dot"></span><div class="grow"><b>FPX online banking</b><div class="small muted">Malaysian bank accounts</div>
+        <div class="pay-sub" data-sub="fpx" hidden><div class="field"><label for="bank">Bank</label><select class="select" id="bank"><option>Maybank2u</option><option>CIMB Clicks</option><option>Public Bank</option><option>RHB Now</option><option>Hong Leong Connect</option><option>AmOnline</option><option>Bank Islam</option><option>Bank Rakyat</option></select></div></div></div></div>
+      <div class="radio-card" data-value="wallet" role="radio" aria-checked="false"><span class="dot"></span><div class="grow"><b>E-wallet</b><div class="small muted">Touch 'n Go eWallet, GrabPay, Boost</div>
+        <div class="pay-sub" data-sub="wallet" hidden><div class="wallets" data-group><button class="wallet active"><span class="wlogo" style="background:#005BAA;color:#FFD200;font-size:11px" aria-hidden="true">TnG</span>Touch 'n Go</button><button class="wallet"><span class="wlogo" style="background:#00B14F;color:#fff;font-size:10px" aria-hidden="true">Grab</span>GrabPay</button><button class="wallet"><span class="wlogo" style="background:#EE2E24;color:#fff;font-size:16px" aria-hidden="true">B</span>Boost</button></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="field">
+    <label for="msg">Message for Pak Rahim <span class="muted" style="font-weight:400">(optional)</span></label>
+    <textarea class="textarea" id="msg" placeholder="Dietary needs, allergies, questions">One of us is vegetarian. Our son Adam is 7.</textarea>
+    <span class="hint">Shared with the host</span>
+  </section>
+
+  <p class="co-line co-safe"><i class="ph ph-shield-check" aria-hidden="true"></i><span>Payment held by Lokali until after the experience · card details not stored</span></p>
+</main>
+
+<div class="sheet" id="feesheet" role="dialog" aria-labelledby="fee-h">
+  <h3 id="fee-h" class="sheet-title">About the service fee</h3>
+  <p class="small muted mt2">The 5% service fee helps run Lokali: secure payments, 7-day support and checking every experience before it goes live. It is refunded with any full refund.</p>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+
+<div class="cta-bar">
+  <button class="btn btn--primary btn--block" id="pay"><span id="kPay">Pay RM 404.25</span></button>
+</div>
+  <script>
+  (function () {
+document.getElementById('methods').addEventListener('pick', function (e) {
+  if (!e.target.matches('[data-radio]')) return;
+  this.querySelectorAll('[data-sub]').forEach(function (s) { s.hidden = s.getAttribute('data-sub') !== e.detail; });
+});
+document.getElementById('pay').addEventListener('click', function () {
+  var b = this; b.disabled = true; b.innerHTML = '<i class="ph ph-circle-notch" aria-hidden="true"></i><span>Processing…</span>';
+  L.state.set('booked', true);
+  setTimeout(function () { L.go('g-confirmed'); }, 900);
+});
+  })();
+  </script>
+<script>
+/* booking summary from the choose-date step; falls back to the story booking (Sun 6 Dec, 2 adults 1 child) */
+window.LKB = (function () {
+  var b = L.state.get('book', null) || {}, D = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  var a = b.adults || 2, c = b.children === undefined ? 1 : b.children, day = b.day || 6, priv = !!b.priv;
+  var X = L.exp[L.curExp()], sub = priv ? X.priv : a * X.price + c * X.child, fee = Math.round(sub * 5) / 100, dl = day - 3;
+  return { priv: priv, a: a, c: c, day: day, time: b.time || '5:00 PM', sub: sub, fee: fee, total: sub + fee, impact: Math.round(sub * .2),
+    date: D[day % 7] + ', ' + day + ' Dec', deadline: dl >= 3 ? D[dl % 7] + ', ' + dl + ' Dec' : null,
+    guests: (priv ? (L.curExp() === 'mangrove' ? 'Private boat · ' : 'Private group · ') : '') + a + ' adult' + (a > 1 ? 's' : '') + (c ? ', ' + c + ' child' + (c > 1 ? 'ren' : '') : ''),
+    isStory: L.curExp() === 'mangrove' && !priv && day === 6 && a === 2 && c === 1 };
+})();
+</script>
+<script>(function () { var k = window.LKB; if (k.isStory) return; var rm = function (n) { return L.rm(n, 2); }, $ = function (i) { return document.getElementById(i); };
+  $('kDate').textContent = k.date; $('kTime').textContent = k.time; $('kGuests').textContent = k.guests;
+  $('kTotal2').textContent = rm(k.total); $('kFee').textContent = rm(k.fee); $('kPay').textContent = 'Pay ' + rm(k.total); $('kImpact').textContent = L.rm(k.impact, 0);
+  var X = L.exp[L.curExp()];
+  $('kLines').innerHTML = k.priv ? '<div class="kv"><span>Private, up to ' + String(X.group).split(/[–-]/).pop() + '</span><span>' + rm(X.priv) + '</span></div>' : '<div class="kv"><span>RM ' + X.price + ' × ' + k.a + ' adult' + (k.a > 1 ? 's' : '') + '</span><span>' + rm(k.a * X.price) + '</span></div>' + (k.c ? '<div class="kv"><span>RM ' + X.child + ' × ' + k.c + ' child' + (k.c > 1 ? 'ren' : '') + '</span><span>' + rm(k.c * X.child) + '</span></div>' : '');
+  $('kGbp').hidden = true;
+  if (k.deadline) { $('kDl').textContent = k.deadline; }
+})();</script>
+  <script>L.swapExp();</script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-checkout', [['Focus', 'Ticket with total + impact'], ['Total', 'RM 404.25 (incl. 5% service fee RM 19.25)'], ['Policy', 'Moderate · free until Thu, 3 Dec, 5:00 PM'], ['Methods', 'Card · FPX · e-wallet'], ['Confirmation', 'Instant after payment']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

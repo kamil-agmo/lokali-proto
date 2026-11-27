@@ -1,0 +1,18 @@
+/* Side menu: a panel that slides in from the left with the app's sections. Open with <button data-c-open="menu">.
+   <div class="c-drawer c-drawer--md|--ios" id="menu" hidden><nav class="c-drawer__panel" aria-label="Sections">…<a class="c-drawer__item is-on">…</a></nav></div> */
+.c-drawer { position: fixed; inset: 0; z-index: 45; background: rgba(0, 0, 0, .32); font-family: var(--c-font); animation: c-fade .25s both; }
+.c-drawer[hidden] { display: none; }
+.c-drawer__panel { position: absolute; top: 0; bottom: 0; left: 0; width: min(86%, 320px); overflow: auto; padding: calc(var(--c-sb) + 12px) 12px 24px; background: var(--c-bg); color: var(--c-ink); animation: c-slide .3s var(--c-ease) both; }
+.c-drawer__head { margin: 4px 16px 16px; font-size: 14px; font-weight: 600; color: var(--c-muted); }
+.c-drawer__item { display: flex; align-items: center; gap: 12px; padding: 0 16px; height: 56px; border-radius: 28px; color: inherit; text-decoration: none; font-size: 14px; font-weight: 500; }
+.c-drawer__item .c-badge-num { margin-left: auto; }
+.c-drawer.is-closing { animation: c-fade .2s reverse both; } .c-drawer.is-closing .c-drawer__panel { animation: c-slide .2s reverse both; }
+@keyframes c-slide { from { transform: translateX(-100%); } }
+/* Material 3 navigation drawer: tinted panel, rounded right edge, pill highlight on the current section */
+.c-drawer--md .c-drawer__panel { border-radius: 0 16px 16px 0; background: var(--c-surface-2); }
+.c-drawer--md .c-drawer__item.is-on { background: var(--c-accent-soft); color: var(--c-accent); font-weight: 700; }
+/* Apple (iOS 27 sidebar style): a floating glass panel inset from the edges, larger 17 pt rows, tinted current row */
+.c-drawer--ios .c-drawer__panel { top: 8px; bottom: 8px; left: 8px; border-radius: 34px; background: color-mix(in srgb, var(--c-bg) 94%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(30px); backdrop-filter: saturate(1.8) blur(30px); border: 1px solid var(--c-glass-edge); }
+.c-drawer--ios .c-drawer__item { height: 48px; border-radius: 14px; font-size: 17px; font-weight: 400; }
+.c-drawer--ios .c-drawer__item .c-ico { color: var(--c-accent); }
+.c-drawer--ios .c-drawer__item.is-on { background: var(--c-accent); color: var(--c-on-accent); } .c-drawer--ios .c-drawer__item.is-on .c-ico { color: inherit; }

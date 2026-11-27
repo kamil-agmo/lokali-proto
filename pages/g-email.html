@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Email</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+.mailbar { display: flex; justify-content: center; padding: 12px var(--s4) 8px; }
+.mailbar .segmented { width: 100%; }
+.mail .btn { min-height: 44px; }
+  </style>
+</head>
+<body class="m">
+<header class="appbar bordered">
+  <button class="icon-btn" data-go="g-confirmed" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <div class="appbar__title">Inbox</div>
+  <button class="icon-btn" aria-label="Archive"><i class="ph ph-archive" aria-hidden="true"></i></button>
+</header>
+<div class="mailbar"><div class="segmented" data-group><button class="active" data-panel="#m1">Confirmation</button><button data-panel="#m2">Reminder</button></div></div>
+
+<section id="m1">
+  <div class="mail-meta"><b>Lokali</b> &lt;bookings@lokali.my&gt;<br>To: aina.rahman@gmail.com · Wed, 2 Dec, 10:14 AM<br><b>You're booked: Mangrove &amp; fireflies, Sun 6 Dec</b></div>
+  <article class="mail">
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">LK-24817</span></div>
+    <img class="mail__hero" data-img="1773904594755-6c25ab2ef6c9" data-w="800" alt="">
+    <div class="mail__body">
+      <h2>Booking confirmed</h2>
+      <p>Hi Aina, you're going paddling with Pak Rahim. Here's everything you need.</p>
+      <table class="mail-table">
+        <tr><td>Experience</td><td><b>Mangrove &amp; fireflies by kampung boat</b></td></tr>
+        <tr><td>When</td><td>Sun, 6 Dec 2026, 5:00 – 8:30 PM<br><span class="muted">Arrive by 4:45 PM</span></td></tr>
+        <tr><td>Guests</td><td>2 adults, 1 child</td></tr>
+        <tr><td>Meeting point</td><td>Jeti Kampung Kuantan, Jalan Kuantan, 45000 Kuala Selangor</td></tr>
+        <tr><td>Host</td><td>Pak Rahim Osman · message in the Lokali app</td></tr>
+        <tr><td>Paid</td><td>RM 404.25 (incl. RM 19.25 service fee) · Visa •• 4242</td></tr>
+        <tr><td>Cancellation</td><td>Free until Thu, 3 Dec, 5:00 PM</td></tr>
+      </table>
+      <a class="btn btn--primary btn--block" href="g-booking.html" data-go="g-booking">Manage booking</a>
+      <p class="small muted">20% of the experience price (RM 77) goes to replanting mangroves in his village.</p>
+    </div>
+    <div class="mail__foot"><img src="../assets/habitat-logo.png" alt="The Habitat Group"><span>Lokali by The Habitat Group · Kuala Lumpur, Malaysia<br>You got this email because you booked on Lokali. Privacy notice · Help</span></div>
+  </article>
+</section>
+
+<section id="m2" hidden>
+  <div class="mail-meta"><b>Lokali</b> &lt;bookings@lokali.my&gt;<br>To: aina.rahman@gmail.com · Fri, 4 Dec, 5:00 PM<br><b>See you Sunday: Mangrove &amp; fireflies</b></div>
+  <article class="mail">
+    <div class="mail__head"><span class="wordmark" style="font-size: 15px"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span><span class="small muted">In 2 days</span></div>
+    <img class="mail__hero" data-img="1786717667687-2f05e422d6f9" data-w="800" alt="">
+    <div class="mail__body">
+      <h2>Your experience is in 2 days</h2>
+      <p>Hi Aina, Pak Rahim is getting the boats ready. A quick checklist:</p>
+      <table class="mail-table">
+        <tr><td>When</td><td>Sun, 6 Dec, 5:00 PM · arrive by 4:45 PM</td></tr>
+        <tr><td>Where</td><td>Jeti Kampung Kuantan, 45000 Kuala Selangor</td></tr>
+        <tr><td>Weather</td><td>31°C, light showers after 6 PM</td></tr>
+        <tr><td>Bring</td><td>Long sleeves, shoes that can get wet, water bottle, rain jacket</td></tr>
+        <tr><td>Respect</td><td>No flash near the fireflies; cover shoulders in the village</td></tr>
+      </table>
+      <div class="grid-2"><a class="btn btn--primary" href="#" data-sheet="maps">Directions</a><a class="btn btn--secondary" href="g-chat.html" data-go="g-chat">Message host</a></div>
+      <p class="small muted">Can't make it? Cancellation is now outside the free window (72 hours). <a href="g-booking.html" data-go="g-booking">Manage booking</a></p>
+    </div>
+    <div class="mail__foot"><img src="../assets/habitat-logo.png" alt="The Habitat Group"><span>Lokali by The Habitat Group · Kuala Lumpur, Malaysia</span></div>
+  </article>
+</section>
+<div style="height:24px"></div>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-email', [['Emails', 'Confirmation (after payment) · Reminder (48 h before)'], ['To', 'aina.rahman@gmail.com'], ['From', 'Lokali <bookings@lokali.my>']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

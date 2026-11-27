@@ -1,0 +1,17 @@
+/* Text field. Material: label inside, floats up (placeholder must be a space). Apple: label above a filled field. Root: .c-field .c-field--md|--ios. */
+.c-field { position: relative; display: block; font-family: var(--c-font); color: var(--c-ink); }
+.c-field input, .c-field textarea { width: 100%; border: 0; outline: 0; background: none; color: inherit; font: inherit; font-size: 16px; }
+.c-field__help { display: block; margin-top: 4px; font-size: 12px; color: var(--c-muted); }
+.c-field.is-error .c-field__help { color: var(--c-danger); }
+/* Material 3 outlined field: 56 dp, label floats into the border on focus/fill */
+.c-field--md input { height: 56px; padding: 0 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--c-muted); transition: box-shadow .15s; }
+.c-field--md input:focus { box-shadow: inset 0 0 0 2px var(--c-accent); }
+.c-field--md .c-field__label { position: absolute; left: 12px; top: 28px; transform: translateY(-50%); padding: 0 4px; background: var(--c-bg); color: var(--c-muted); font-size: 16px; pointer-events: none; transition: top .15s var(--c-ease), font-size .15s var(--c-ease), color .15s; }
+.c-field--md input:focus + .c-field__label, .c-field--md input:not(:placeholder-shown) + .c-field__label { top: 0; font-size: 12px; }
+.c-field--md input:focus + .c-field__label { color: var(--c-accent); }
+.c-field--md.is-error input { box-shadow: inset 0 0 0 2px var(--c-danger); } .c-field--md.is-error .c-field__label { color: var(--c-danger); }
+/* Apple (iOS 27): label above a soft filled field with rounder corners */
+.c-field--ios .c-field__label { display: block; margin: 0 0 6px 6px; font-size: 13px; font-weight: 500; color: var(--c-muted); }
+.c-field--ios input { height: 48px; padding: 0 16px; border-radius: 14px; background: color-mix(in srgb, var(--c-ink) 6%, var(--c-bg)); font-size: 17px; }
+.c-field--ios input:focus { box-shadow: 0 0 0 2px var(--c-accent); }
+.c-field--ios.is-error input { box-shadow: 0 0 0 1.5px var(--c-danger); }

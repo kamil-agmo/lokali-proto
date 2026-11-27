@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Moderation & disputes</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-moderation"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Moderation &amp; disputes</h1><p>Reports from guests and hosts, and disputes about a booking. Hidden content stays in the log; removed content is deleted.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-shield-warning" aria-hidden="true"></i>Open items</span><b><span class="hl">3 reports</span> · 1 dispute to resolve</b></div></div>
+        <div class="a-head__actions"><div class="ptabs" data-group>
+          <button class="active" data-panel="#p-rev">Reviews <em>2</em></button><button data-panel="#p-msg">Messages <em>1</em></button><button data-panel="#p-dis">Disputes <em>1</em></button>
+        </div></div>
+      </div>
+
+      <div id="p-rev" class="stack-lg">
+        <div class="a-card" id="r1">
+          <div class="a-card__head"><div class="row"><img class="avatar sm" src="https://images.unsplash.com/photo-1544168190-79c17527004f?w=100&q=70&auto=format&fit=crop" alt=""><div><b>Review by Marcus Hall</b><p class="small muted">Rainforest canopy walk &amp; hornbill watch · Kumar Selvaraj · posted 28 Nov</p></div></div><span class="badge badge--danger"><i class="ph ph-flag" aria-hidden="true"></i>Reported by host · Offensive language</span></div>
+          <div class="a-card__body stack">
+            <div class="stars-sm"><i class="ph-fill ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i> <span class="small muted">1.0</span></div>
+            <div class="quote flag">Total waste of a morning. The guide was ****** useless and we saw zero hornbills. Don't bother with this ***** — you'd see more birds in a car park.</div>
+            <p class="small muted">Host's report: "Insults and swearing. Hornbills are wild — we explain that sightings aren't guaranteed." · Guest booked LK-24611, attended, 2 guests.</p>
+          </div>
+          <div class="a-card__foot" style="justify-content:space-between"><span class="small muted">Policy: honest negative reviews stay; abuse does not.</span><div class="row"><button class="btn btn--secondary" data-act="Kept">Keep</button><button class="btn btn--secondary" data-act="Hidden from listing">Hide</button><button class="btn btn--danger" data-open="#rm">Remove</button></div></div>
+        </div>
+        <div class="a-card" id="r2">
+          <div class="a-card__head"><div class="row"><img class="avatar sm" src="https://images.unsplash.com/photo-1657830582172-b1eb2880f497?w=100&q=70&auto=format&fit=crop" alt=""><div><b>Review by Kavitha Rajan</b><p class="small muted">Nyonya kitchen: zero-waste cooking class · Jenny Tan · posted 30 Nov</p></div></div><span class="badge badge--warn"><i class="ph ph-flag" aria-hidden="true"></i>Reported by host · Not about the experience</span></div>
+          <div class="a-card__body stack">
+            <div class="stars-sm"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i><i class="ph ph-star"></i> <span class="small muted">3.0</span></div>
+            <div class="quote">Food and Jenny were wonderful. Three stars because the Grab from our hotel took 50 minutes and nobody warned us about Friday traffic in George Town.</div>
+            <p class="small muted">Suggested: keep. The complaint is honest and the host can reply publicly with a traffic tip.</p>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--primary" data-act="Kept">Keep</button><button class="btn btn--secondary" data-act="Hidden from listing">Hide</button><button class="btn btn--danger" data-open="#rm">Remove</button></div>
+        </div>
+      </div>
+
+      <div id="p-msg" class="a-card" hidden>
+        <div class="a-card__head"><div><h2 class="is-h3">Message thread · LK-24799</h2><p>Reported by guest Harith Zulkifli · "Host asked me to pay outside Lokali"</p></div><span class="badge badge--danger">Off-platform payment</span></div>
+        <div class="a-card__body stack">
+          <div class="quote"><b class="small">Harith · 1 Dec, 9:14 PM</b><br>Hi! Can we add one more friend to Thursday?</div>
+          <div class="quote flag"><b class="small">Host (Kinabalu Highland Treks) · 1 Dec, 9:40 PM</b><br>Sure, no need to book again — just bank in RM 150 to my Maybank 5143 8820 1197 and I'll add him.</div>
+          <div class="notice notice--warn"><i class="ph ph-warning" aria-hidden="true"></i><span>Off-platform payments not covered · Hide masks the account number and warns the host</span></div>
+        </div>
+        <div class="a-card__foot"><button class="btn btn--secondary" data-act="Kept">Keep</button><button class="btn btn--primary" data-act="Hidden and host warned">Hide and warn host</button><button class="btn btn--danger" data-open="#rm">Remove</button></div>
+      </div>
+
+      <div id="p-dis" class="a-split" hidden>
+        <div class="a-card">
+          <div class="a-card__head"><div><h3>Dispute · LK-24718</h3><p>Mengkuang weaving &amp; kampung lunch · Sun, 29 Nov · Hidayah Salleh (Seremban, AU)</p></div><span class="badge badge--warn">Open · 3 days</span></div>
+          <div class="a-card__body stack">
+            <div class="quote"><b class="small">Guest · 30 Nov</b><br>We arrived at 10:00 and the house was locked. We waited 40 minutes and left. The host replied the next day saying it was a family emergency.</div>
+            <div class="quote"><b class="small">Host (Siti Aminah Yusof) · 30 Nov</b><br>I'm so sorry — my mother was taken to hospital that morning. I sent a message at 8:30 AM but it may not have arrived.</div>
+            <div class="notice"><i class="ph ph-info" aria-hidden="true"></i><span>Host's 8:30 AM message failed (no signal) · treat as host cancellation: full refund, no payout</span></div>
+          </div>
+        </div>
+        <div class="a-card a-sticky">
+          <div class="a-card__head"><h3>Resolve</h3></div>
+          <div class="a-card__body stack">
+            <div data-radio>
+              <div class="radio-card active" data-value="full"><span class="dot"></span><div><b>Full refund to guest</b><p class="small muted">RM 99.75 incl. service fee · payout cancelled</p></div></div>
+              <div class="radio-card" data-value="part"><span class="dot"></span><div><b>Partial refund</b><p class="small muted">Set amount on the booking</p></div></div>
+              <div class="radio-card" data-value="none"><span class="dot"></span><div><b>No refund</b><p class="small muted">Release the payout to the host</p></div></div>
+            </div>
+            <div class="field"><label for="dn">Message to both</label><textarea class="textarea" id="dn">We've refunded your booking in full. Siti, we hope your mother is recovering.</textarea></div>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--secondary" data-toast="Opening LK-24718" data-toast-icon="ph-receipt">Open booking</button><button class="btn btn--primary" id="res">Resolve dispute</button></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="rm" role="dialog" aria-modal="true" aria-labelledby="rm-h">
+  <div class="a-modal__body"><h3 id="rm-h">Remove permanently?</h3><p class="muted">It is deleted for everyone and can't be restored. The author is emailed with the reason. Use Hide if you might need it later.</p>
+    <div class="field"><label for="rm-r">Reason</label><select class="select" id="rm-r"><option>Abusive or offensive</option><option>Personal or payment details</option><option>Spam or fake</option><option>Not about the experience</option></select></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--danger" id="rm-go">Remove</button></div>
+</div>
+<script>
+(function () {
+  var last = null;
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act], [data-open="#rm"]'); if (b) last = b.closest('.a-card');
+    if (b && b.dataset.act) done(last, b.dataset.act);
+  });
+  function done(card, txt) {
+    if (!card) return; var f = card.querySelector('.a-card__foot');
+    f.innerHTML = '<span class="badge badge--success"><i class="ph ph-check" aria-hidden="true"></i>' + txt + ' by Nurul Huda · just now</span><span class="grow"></span><button class="btn btn--ghost btn--sm">Undo</button>';
+    L.toast(txt + '. Logged in the activity history.');
+  }
+  document.getElementById('rm-go').addEventListener('click', function () { L.close(); done(last, 'Removed'); });
+  document.getElementById('res').addEventListener('click', function () { done(document.getElementById('res').closest('.a-card'), 'Resolved · full refund RM 99.75'); });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-moderation', [['Open', '2 reviews · 1 message · 1 dispute'], ['Decisions', 'Keep / Hide / Remove'], ['Dispute', 'LK-24718 · resolve with refund']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

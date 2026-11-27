@@ -1,0 +1,11 @@
+/* Snackbar (Material) / toast banner (Apple style). Call C.toast('Saved') or C.toast('Post deleted', { action: 'Undo', onAction: fn }). Styling follows <body data-c-toast="md|ios">. */
+.c-toast { position: fixed; z-index: 60; left: 50%; font-family: var(--c-font); display: flex; align-items: center; gap: 12px; animation: c-toast-in .3s var(--c-spring) both; }
+.c-toast.is-out { animation: c-toast-in .2s reverse both; }
+.c-toast button { border: 0; background: none; font: inherit; font-weight: 600; cursor: pointer; }
+/* Material 3: dark inverse surface, bottom, 4 dp corners, optional action */
+.c-toast--md { bottom: calc(96px + var(--c-safe-b)); transform: translateX(-50%); width: min(calc(100% - 32px), 560px); min-height: 48px; padding: 6px 8px 6px 16px; border-radius: 4px; background: #313033; color: #f4eff4; font-size: 14px; box-shadow: 0 3px 8px rgba(0, 0, 0, .2); }
+.c-toast--md span { flex: 1; } .c-toast--md button { color: color-mix(in srgb, var(--c-accent) 55%, white); padding: 0 8px; height: 36px; }
+@keyframes c-toast-in { from { opacity: 0; translate: 0 12px; } }
+/* Apple style: a glass capsule that drops in at the top, like a system banner */
+.c-toast--ios { top: calc(var(--c-sb) + 8px); transform: translateX(-50%); padding: 12px 20px; border-radius: 99px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine), 0 8px 24px rgba(0, 0, 0, .1); color: var(--c-ink); font-size: 15px; font-weight: 600; white-space: nowrap; }
+.c-toast--ios button { color: var(--c-accent); }

@@ -1,0 +1,13 @@
+/* Avatar and badges: a person's round photo (or initials), a stack of them, a count badge and a status dot.
+   <span class="c-avatar c-avatar--md|--ios"><img src="…" alt="Aina"><i class="c-status" aria-label="Online"></i></span>  <span class="c-avatar c-avatar--ios">KA</span>
+   <span class="c-stack"><span class="c-avatar …">…</span>…</span>   <span class="c-badge-num">3</span>   <span class="c-badge-dot" aria-label="New"></span> */
+.c-avatar { position: relative; flex: none; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--c-accent-soft); color: var(--c-accent); font: 600 16px/1 var(--c-font); }
+.c-avatar img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.c-status { position: absolute; right: -1px; bottom: -1px; width: 12px; height: 12px; border-radius: 50%; background: #22c55e; border: 2px solid var(--c-bg); }
+.c-stack { display: inline-flex; } .c-stack .c-avatar { width: 32px; height: 32px; font-size: 12px; border: 2px solid var(--c-bg); } .c-stack .c-avatar + .c-avatar { margin-left: -10px; }
+.c-badge-num { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--c-danger); color: #fff; font: 600 12px/1 var(--c-font); font-variant-numeric: tabular-nums; }
+.c-badge-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c-danger); }
+/* Material 3: 40 dp avatars, small badges (16 dp) */
+.c-avatar--md { width: 40px; height: 40px; } .c-avatar--md ~ .c-badge-num, .c-badge-num--md { min-width: 16px; height: 16px; font-size: 11px; padding: 0 4px; }
+/* Apple (iOS 27): a thin clear edge around photos (Liquid Glass edges) and iOS red badges */
+.c-avatar--ios img { box-shadow: 0 0 0 1px var(--c-glass-edge); } .c-avatar--ios { background: color-mix(in srgb, var(--c-ink) 10%, var(--c-bg)); color: var(--c-ink); }

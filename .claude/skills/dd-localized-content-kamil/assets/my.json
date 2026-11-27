@@ -1,0 +1,670 @@
+{
+ "market": "Malaysia",
+ "locale": "en-MY",
+ "currency": {
+  "symbol": "RM",
+  "format": "RM{amount}",
+  "decimals": 2
+ },
+ "names": {
+  "malay": {
+   "male": [
+    "Ahmad Faiz",
+    "Muhammad Haziq",
+    "Amirul Hakim",
+    "Danial",
+    "Syafiq",
+    "Aiman",
+    "Iskandar",
+    "Hafiz",
+    "Irfan",
+    "Zulhilmi",
+    "Adam",
+    "Luqman"
+   ],
+   "female": [
+    "Nur Aisyah",
+    "Aina",
+    "Farah",
+    "Sofea",
+    "Alya",
+    "Hanis",
+    "Balqis",
+    "Nadia",
+    "Liyana",
+    "Syazwani",
+    "Insyirah",
+    "Qistina"
+   ],
+   "father": [
+    "Ismail",
+    "Rahman",
+    "Hassan",
+    "Abdullah",
+    "Osman",
+    "Yusof",
+    "Kamal",
+    "Rosli",
+    "Azman",
+    "Ibrahim",
+    "Razak",
+    "Hamid"
+   ],
+   "link": {
+    "male": "bin",
+    "female": "binti"
+   }
+  },
+  "chinese": {
+   "surname": [
+    "Tan",
+    "Lim",
+    "Lee",
+    "Wong",
+    "Ng",
+    "Chong",
+    "Ong",
+    "Teh",
+    "Chan",
+    "Yap",
+    "Goh",
+    "Lau",
+    "Khoo",
+    "Cheah"
+   ],
+   "male": [
+    "Wei Jie",
+    "Kai Xiang",
+    "Zhi Hao",
+    "Jun Wei",
+    "Yong Sheng",
+    "Jia Le",
+    "Kelvin",
+    "Jason",
+    "Daniel",
+    "Marcus"
+   ],
+   "female": [
+    "Jia Hui",
+    "Mei Ling",
+    "Xin Yi",
+    "Hui Min",
+    "Pei Shan",
+    "Yi Ting",
+    "Michelle",
+    "Rachel",
+    "Joanne",
+    "Vivian"
+   ]
+  },
+  "indian": {
+   "male": [
+    "Arun",
+    "Ganesh",
+    "Prakash",
+    "Vikram",
+    "Suresh",
+    "Rajesh",
+    "Karthik",
+    "Naveen"
+   ],
+   "female": [
+    "Priya",
+    "Kavitha",
+    "Deepa",
+    "Shalini",
+    "Revathi",
+    "Anitha",
+    "Divya",
+    "Sangeetha"
+   ],
+   "father": [
+    "Muthu",
+    "Subramaniam",
+    "Raman",
+    "Krishnan",
+    "Selvam",
+    "Ramasamy",
+    "Gopal",
+    "Nair"
+   ],
+   "link": {
+    "male": "a/l",
+    "female": "a/p"
+   }
+  },
+  "east": {
+   "male": [
+    "Gabriel",
+    "Jerome",
+    "Edwin",
+    "Mohd Azri"
+   ],
+   "female": [
+    "Melissa",
+    "Grace",
+    "Stephanie",
+    "Nur Fatin"
+   ],
+   "surname": [
+    "anak Jugah",
+    "Lajim",
+    "anak Ngelai",
+    "Gimbang",
+    "Sulaiman",
+    "anak Belayong"
+   ]
+  }
+ },
+ "places": [
+  {
+   "area": "Bangsar",
+   "city": "Kuala Lumpur",
+   "state": "W.P. Kuala Lumpur",
+   "postcode": "59100",
+   "streets": [
+    "Jalan Telawi 3",
+    "Jalan Maarof",
+    "Lorong Kurau"
+   ],
+   "lat": 3.13,
+   "lng": 101.671
+  },
+  {
+   "area": "Mont Kiara",
+   "city": "Kuala Lumpur",
+   "state": "W.P. Kuala Lumpur",
+   "postcode": "50480",
+   "streets": [
+    "Jalan Kiara 3",
+    "Jalan Desa Kiara"
+   ],
+   "lat": 3.171,
+   "lng": 101.651
+  },
+  {
+   "area": "Cheras",
+   "city": "Kuala Lumpur",
+   "state": "W.P. Kuala Lumpur",
+   "postcode": "56000",
+   "streets": [
+    "Jalan Cerdas",
+    "Jalan Manis 4"
+   ],
+   "lat": 3.085,
+   "lng": 101.745
+  },
+  {
+   "area": "Setapak",
+   "city": "Kuala Lumpur",
+   "state": "W.P. Kuala Lumpur",
+   "postcode": "53300",
+   "streets": [
+    "Jalan Genting Kelang",
+    "Jalan Usahawan 2"
+   ],
+   "lat": 3.201,
+   "lng": 101.715
+  },
+  {
+   "area": "Damansara Utama",
+   "city": "Petaling Jaya",
+   "state": "Selangor",
+   "postcode": "47400",
+   "streets": [
+    "Jalan SS 21/37",
+    "Jalan SS 21/1"
+   ],
+   "lat": 3.136,
+   "lng": 101.62
+  },
+  {
+   "area": "SS15",
+   "city": "Subang Jaya",
+   "state": "Selangor",
+   "postcode": "47500",
+   "streets": [
+    "Jalan SS 15/4",
+    "Jalan SS 15/8"
+   ],
+   "lat": 3.076,
+   "lng": 101.587
+  },
+  {
+   "area": "Seksyen 7",
+   "city": "Shah Alam",
+   "state": "Selangor",
+   "postcode": "40000",
+   "streets": [
+    "Jalan Plumbum 7/102",
+    "Persiaran Kayangan"
+   ],
+   "lat": 3.073,
+   "lng": 101.49
+  },
+  {
+   "area": "Bandar Puteri",
+   "city": "Puchong",
+   "state": "Selangor",
+   "postcode": "47100",
+   "streets": [
+    "Jalan Puteri 2/4",
+    "Jalan Puteri 5/1"
+   ],
+   "lat": 3.023,
+   "lng": 101.616
+  },
+  {
+   "area": "Cyberjaya",
+   "city": "Cyberjaya",
+   "state": "Selangor",
+   "postcode": "63000",
+   "streets": [
+    "Persiaran Multimedia",
+    "Jalan Teknokrat 5"
+   ],
+   "lat": 2.922,
+   "lng": 101.652
+  },
+  {
+   "area": "George Town",
+   "city": "George Town",
+   "state": "Pulau Pinang",
+   "postcode": "10200",
+   "streets": [
+    "Lebuh Chulia",
+    "Lebuh Armenian",
+    "Jalan Burma"
+   ],
+   "lat": 5.416,
+   "lng": 100.333
+  },
+  {
+   "area": "Bayan Lepas",
+   "city": "Bayan Lepas",
+   "state": "Pulau Pinang",
+   "postcode": "11900",
+   "streets": [
+    "Jalan Mayang Pasir",
+    "Persiaran Bayan Indah"
+   ],
+   "lat": 5.295,
+   "lng": 100.26
+  },
+  {
+   "area": "Taman Molek",
+   "city": "Johor Bahru",
+   "state": "Johor",
+   "postcode": "81100",
+   "streets": [
+    "Jalan Molek 2/1",
+    "Jalan Molek 1/10"
+   ],
+   "lat": 1.524,
+   "lng": 103.788
+  },
+  {
+   "area": "Greentown",
+   "city": "Ipoh",
+   "state": "Perak",
+   "postcode": "30450",
+   "streets": [
+    "Jalan Dato Seri Ahmad Said",
+    "Persiaran Greentown 4"
+   ],
+   "lat": 4.6,
+   "lng": 101.095
+  },
+  {
+   "area": "Bandar Hilir",
+   "city": "Melaka",
+   "state": "Melaka",
+   "postcode": "75000",
+   "streets": [
+    "Jalan Merdeka",
+    "Jalan Taman Melaka Raya"
+   ],
+   "lat": 2.19,
+   "lng": 102.25
+  },
+  {
+   "area": "Likas",
+   "city": "Kota Kinabalu",
+   "state": "Sabah",
+   "postcode": "88400",
+   "streets": [
+    "Jalan Istiadat",
+    "Lorong Likas Indah"
+   ],
+   "lat": 5.999,
+   "lng": 116.1
+  },
+  {
+   "area": "Tabuan Jaya",
+   "city": "Kuching",
+   "state": "Sarawak",
+   "postcode": "93350",
+   "streets": [
+    "Jalan Wan Alwi",
+    "Lorong Tabuan Jaya 2"
+   ],
+   "lat": 1.53,
+   "lng": 110.38
+  }
+ ],
+ "phone_prefixes": [
+  "012",
+  "013",
+  "014",
+  "016",
+  "017",
+  "018",
+  "019",
+  "011"
+ ],
+ "email_domains": [
+  "gmail.com",
+  "yahoo.com",
+  "outlook.com",
+  "hotmail.com"
+ ],
+ "businesses": [
+  "Aircond Pro Services",
+  "Batik Lane",
+  "Bengkel Auto Jaya",
+  "Boba Bonda",
+  "Butik Seri Ayu",
+  "Dapur Kampung",
+  "Gadget Hub SS15",
+  "Kasut & Co.",
+  "Kedai Elektrik Ah Kow",
+  "Kedai Gunting Raja",
+  "Kedai Kopi Seng Huat",
+  "Kedai Runcit Hassan",
+  "Klinik Mesra",
+  "Kopitiam Lim",
+  "Mini Mart Jaya",
+  "Nasi Kandar Selera Utara",
+  "Pasar Mini Selasih",
+  "Restoran Sri Melur",
+  "TechPoint Bayan",
+  "Teh Tarik Corner",
+  "Warung Mak Teh"
+ ],
+ "catalog": {
+  "food": [
+   [
+    "Nasi lemak ayam goreng",
+    9.5,
+    15.9
+   ],
+   [
+    "Roti canai (2 keping)",
+    2.6,
+    4.5
+   ],
+   [
+    "Char kuey teow",
+    8.5,
+    14.9
+   ],
+   [
+    "Mee goreng mamak",
+    7.5,
+    12.9
+   ],
+   [
+    "Nasi kandar ayam",
+    10.5,
+    18.9
+   ],
+   [
+    "Laksa Penang",
+    8.0,
+    13.9
+   ],
+   [
+    "Satay ayam (10 cucuk)",
+    9.0,
+    16.0
+   ],
+   [
+    "Ayam penyet",
+    11.9,
+    17.9
+   ],
+   [
+    "Nasi kerabu",
+    9.0,
+    14.5
+   ],
+   [
+    "Wantan mee",
+    7.5,
+    11.9
+   ],
+   [
+    "Cendol",
+    3.5,
+    7.9
+   ],
+   [
+    "Kuih lapis (3 keping)",
+    3.0,
+    5.5
+   ]
+  ],
+  "drinks": [
+   [
+    "Teh tarik",
+    2.3,
+    4.5
+   ],
+   [
+    "Kopi O ais",
+    2.0,
+    4.2
+   ],
+   [
+    "Milo dinosaur",
+    4.5,
+    8.9
+   ],
+   [
+    "Teh O ais limau",
+    2.5,
+    4.9
+   ],
+   [
+    "Sirap bandung",
+    2.8,
+    4.9
+   ],
+   [
+    "Brown sugar boba",
+    9.9,
+    15.9
+   ]
+  ],
+  "grocery": [
+   [
+    "Beras wangi 5 kg",
+    18.9,
+    29.9
+   ],
+   [
+    "Telur gred A (30 biji)",
+    12.9,
+    17.9
+   ],
+   [
+    "Minyak masak 5 kg",
+    25.9,
+    34.9
+   ],
+   [
+    "Gardenia roti putih",
+    3.6,
+    4.9
+   ],
+   [
+    "Susu segar 1 L",
+    6.9,
+    9.9
+   ],
+   [
+    "Ayam segar 1 kg",
+    9.9,
+    13.9
+   ]
+  ],
+  "fashion": [
+   [
+    "Baju kurung moden",
+    89.0,
+    259.0
+   ],
+   [
+    "Kemeja batik lelaki",
+    69.0,
+    199.0
+   ],
+   [
+    "Tudung bawal",
+    19.9,
+    59.9
+   ],
+   [
+    "Kasut sukan",
+    129.0,
+    399.0
+   ],
+   [
+    "Beg galas",
+    59.0,
+    189.0
+   ]
+  ],
+  "electronics": [
+   [
+    "Earbuds wayarles",
+    99.0,
+    699.0
+   ],
+   [
+    "Power bank 20000 mAh",
+    59.0,
+    169.0
+   ],
+   [
+    "Telefon pintar",
+    899.0,
+    5299.0
+   ],
+   [
+    "Jam tangan pintar",
+    199.0,
+    1599.0
+   ],
+   [
+    "Kipas berdiri",
+    89.0,
+    259.0
+   ]
+  ],
+  "services": [
+   [
+    "Grab ke KLCC",
+    9.0,
+    32.0
+   ],
+   [
+    "Servis aircond",
+    80.0,
+    180.0
+   ],
+   [
+    "Potong rambut",
+    12.0,
+    45.0
+   ],
+   [
+    "Cuci kereta",
+    15.0,
+    40.0
+   ],
+   [
+    "Sewa bilik sebulan",
+    450.0,
+    1200.0
+   ],
+   [
+    "Sewa kondo sebulan",
+    1500.0,
+    4500.0
+   ]
+  ]
+ },
+ "plates": [
+  "W",
+  "B",
+  "J",
+  "P",
+  "A",
+  "S",
+  "Q",
+  "V",
+  "N"
+ ],
+ "messages": [
+  "Otw, 10 mins",
+  "Ok noted, thanks!",
+  "Can pick up at the lobby?",
+  "Dah sampai, kat depan pagar",
+  "Terima kasih!",
+  "Jumpa esok",
+  "Running late sikit, sorry",
+  "Boleh tukar ke pukul 3?",
+  "Sent the receipt just now",
+  "Nice, see you there",
+  "Parking penuh, I park depan kedai",
+  "Order dah siap"
+ ],
+ "shops": {
+  "food": [
+   "Kopitiam Lim",
+   "Warung Mak Teh",
+   "Restoran Sri Melur",
+   "Nasi Kandar Selera Utara",
+   "Dapur Kampung",
+   "Kedai Kopi Seng Huat"
+  ],
+  "drinks": [
+   "Kopitiam Lim",
+   "Kedai Kopi Seng Huat",
+   "Teh Tarik Corner",
+   "Boba Bonda"
+  ],
+  "grocery": [
+   "Kedai Runcit Hassan",
+   "Mini Mart Jaya",
+   "Pasar Mini Selasih"
+  ],
+  "fashion": [
+   "Butik Seri Ayu",
+   "Batik Lane",
+   "Kasut & Co."
+  ],
+  "electronics": [
+   "Gadget Hub SS15",
+   "Kedai Elektrik Ah Kow",
+   "TechPoint Bayan"
+  ],
+  "services": [
+   "Bengkel Auto Jaya",
+   "Klinik Mesra",
+   "Kedai Gunting Raja",
+   "Aircond Pro Services"
+  ]
+ }
+}

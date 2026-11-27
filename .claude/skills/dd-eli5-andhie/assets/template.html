@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F7F8FC;color:#111;font:15px/1.5 Helvetica,Arial,sans-serif}
+.hero{background:#E7EAF6;border-bottom:1.5px solid #111;padding:44px 16px 34px}
+.hero h1,.scene h2{font-family:Georgia,serif;font-weight:400;margin:0}
+.hero h1{font-size:32px;line-height:1.2;max-width:580px;margin:0 auto}
+main{max-width:580px;margin:0 auto;padding:28px 16px 48px;display:grid;gap:20px}
+.scene{background:#fff;border:1.5px solid #111;border-radius:4px;padding:18px 18px 16px}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#C42A1C;margin-bottom:4px}
+.scene h2{font-size:22px;line-height:1.25}
+.scene svg{display:block;width:100%;height:auto;margin:14px 0 8px;background:#F7F8FC;border-radius:3px}
+.cap{margin:0;color:#5F6272;font-size:14px}
+.cap b{color:#C42A1C;font-weight:600}
+svg text{font:11px Helvetica,Arial,sans-serif;fill:#5F6272;letter-spacing:.04em}
+.k{color:#111}.r{color:#C42A1C}
+.ln{stroke:#111;stroke-width:1.5;fill:none}.ln.r{stroke:#C42A1C}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<!-- The cast, by Andhie's rules: friendly glyphs drawn once, reused in every scene. currentColor = black (k) or red (r). -->
+<symbol id="person" viewBox="0 0 48 56"><path d="M12 16a12 12 0 0 1 24 0" fill="currentColor"/><circle cx="24" cy="19" r="11" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M13 14c4-6 18-6 22 0c-6-2-16-2-22 0Z" fill="currentColor"/><circle cx="20" cy="20" r="1.4" fill="currentColor"/><circle cx="28" cy="20" r="1.4" fill="currentColor"/><path d="M20 24.5q4 3 8 0" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M6 55c0-12 8-20 18-20s18 8 18 20Z" fill="#DDE2F2" stroke="currentColor" stroke-width="1.6"/><path d="M19 36l5 6l5-6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+<symbol id="doc" viewBox="0 0 48 56"><path d="M8 3h23l10 10v40H8Z" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M31 3v10h10" fill="#E7EAF6" stroke="currentColor" stroke-width="1.6"/><path d="M14 22h8M14 29h20M18 36h14M14 43h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="robot" viewBox="0 0 48 56"><path d="M24 10V4" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="3.5" r="2.5" fill="#C42A1C"/><rect x="4" y="18" width="4" height="10" rx="1.5" fill="currentColor"/><rect x="40" y="18" width="4" height="10" rx="1.5" fill="currentColor"/><rect x="8" y="10" width="32" height="26" rx="4" fill="#fff" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="21" r="3" fill="currentColor"/><circle cx="30" cy="21" r="3" fill="currentColor"/><rect x="17" y="28" width="14" height="3" rx="1.5" fill="currentColor"/><rect x="12" y="40" width="24" height="14" rx="3" fill="#DDE2F2" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="47" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+<symbol id="browser" viewBox="0 0 64 56"><rect x="2" y="6" width="60" height="44" rx="3" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M2 16h60" stroke="currentColor" stroke-width="1.6"/><circle cx="8" cy="11" r="1.6" fill="#C42A1C"/><circle cx="13" cy="11" r="1.6" fill="currentColor"/><circle cx="18" cy="11" r="1.6" fill="currentColor"/><rect x="24" y="9" width="32" height="4" rx="2" fill="#E7EAF6"/><rect x="8" y="22" width="22" height="14" rx="2" fill="#DDE2F2"/><path d="M36 24h20M36 30h16M8 42h48" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+<symbol id="phone" viewBox="0 0 48 56"><rect x="12" y="2" width="24" height="52" rx="5" fill="#fff" stroke="currentColor" stroke-width="1.6"/><rect x="20" y="5.5" width="8" height="3" rx="1.5" fill="currentColor"/><rect x="16" y="13" width="16" height="10" rx="2" fill="#DDE2F2"/><path d="M16 28h16M16 33h11M16 38h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M20 49h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="server" viewBox="0 0 48 56"><rect x="6" y="6" width="36" height="20" rx="3" fill="#fff" stroke="currentColor" stroke-width="1.6"/><rect x="6" y="30" width="36" height="20" rx="3" fill="#fff" stroke="currentColor" stroke-width="1.6"/><circle cx="13" cy="16" r="2" fill="#C42A1C"/><circle cx="13" cy="40" r="2" fill="currentColor"/><path d="M20 16h16M20 40h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="database" viewBox="0 0 48 56"><path d="M7 11v34c0 4 8 7 17 7s17-3 17-7V11" fill="#DDE2F2" stroke="currentColor" stroke-width="1.6"/><ellipse cx="24" cy="11" rx="17" ry="7" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M7 23c0 4 8 7 17 7s17-3 17-7M7 34c0 4 8 7 17 7s17-3 17-7" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+<symbol id="message" viewBox="0 0 48 56"><path d="M5 10h38a3 3 0 0 1 3 3v24a3 3 0 0 1-3 3H20l-9 9v-9H5a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3Z" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M11 20h26M11 27h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="lock" viewBox="0 0 48 56"><path d="M15 24v-7a9 9 0 0 1 18 0v7" fill="none" stroke="currentColor" stroke-width="2"/><rect x="9" y="24" width="30" height="26" rx="3" fill="#DDE2F2" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="35" r="3.2" fill="currentColor"/><path d="M24 37v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="key" viewBox="0 0 48 56"><circle cx="15" cy="28" r="9" fill="#DDE2F2" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="28" r="3" fill="#fff" stroke="currentColor" stroke-width="1.4"/><path d="M24 28h19M37 28v7M42 28v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="clock" viewBox="0 0 48 56"><circle cx="24" cy="29" r="19" fill="#fff" stroke="currentColor" stroke-width="1.6"/><path d="M24 17v12l8 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="24" cy="29" r="2" fill="#C42A1C"/><path d="M19 6h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="cloud" viewBox="0 0 64 56"><path d="M16 44a10 10 0 0 1-1-20a14 14 0 0 1 27-4a11 11 0 0 1 8 24Z" fill="#E7EAF6" stroke="currentColor" stroke-width="1.6"/><path d="M24 34h18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+<symbol id="b-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#C42A1C"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="b-cross" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#111"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="b-edit" viewBox="0 0 24 24"><path d="M5 19l2-6L16 4l4 4l-9 9Z" fill="#fff" stroke="#C42A1C" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 6l4 4" stroke="#C42A1C" stroke-width="1.8"/></symbol>
+<symbol id="b-new" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#C42A1C"/><path d="M12 7v10M7 12h10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#111"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#C42A1C"/></marker>
+</defs>
+</svg>
+<header class="hero"><h1>{{TITLE}}</h1></header>
+<main>
+{{SCENES}}
+</main>
+</body>
+</html>

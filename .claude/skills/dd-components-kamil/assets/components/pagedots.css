@@ -1,0 +1,8 @@
+/* Page indicator: dots that show which page of a carousel or onboarding you are on. <div class="c-dots c-dots--md|--ios" role="tablist" aria-label="Pages"><button class="c-dot is-on" aria-label="Page 1"></button>…</div> */
+.c-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px; }
+.c-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; cursor: pointer; transition: width .3s var(--c-spring), background .2s; }
+/* Material 3: the current page stretches into a short pill */
+.c-dots--md .c-dot { background: color-mix(in srgb, var(--c-ink) 22%, transparent); } .c-dots--md .c-dot.is-on { width: 24px; background: var(--c-accent); }
+/* Apple (iOS 27): small dots on a glass capsule; the current one is darker and slightly longer */
+.c-dots--ios { width: max-content; margin: 0 auto; padding: 8px 12px; gap: 7px; border-radius: 99px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); }
+.c-dots--ios .c-dot { width: 7px; height: 7px; background: color-mix(in srgb, var(--c-ink) 28%, transparent); } .c-dots--ios .c-dot.is-on { width: 16px; background: var(--c-ink); }

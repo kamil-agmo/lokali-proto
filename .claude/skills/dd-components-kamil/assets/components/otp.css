@@ -1,0 +1,8 @@
+/* Code input: one box per digit for a sign-in or verification code; typing moves to the next box and a pasted code fills them all.
+   <div class="c-otp c-otp--md|--ios" role="group" aria-label="Verification code"><input inputmode="numeric" maxlength="1" aria-label="Digit 1">…(6)</div> */
+.c-otp { display: flex; justify-content: center; gap: 8px; font-family: var(--c-font); }
+.c-otp input { width: 46px; height: 56px; border: 0; outline: 0; text-align: center; font: 600 24px/1 var(--c-font); color: var(--c-ink); font-variant-numeric: tabular-nums; caret-color: var(--c-accent); }
+/* Material 3: outlined boxes, the active one gets a thick accent outline */
+.c-otp--md input { border-radius: 8px; box-shadow: inset 0 0 0 1px var(--c-muted); background: none; } .c-otp--md input:focus { box-shadow: inset 0 0 0 2px var(--c-accent); }
+/* Apple (iOS 27): soft filled rounded boxes, the active one rings in your colour */
+.c-otp--ios input { border-radius: 14px; background: color-mix(in srgb, var(--c-ink) 7%, var(--c-bg)); } .c-otp--ios input:focus { box-shadow: 0 0 0 2px var(--c-accent); }

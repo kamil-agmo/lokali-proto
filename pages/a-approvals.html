@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Approvals</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-approvals"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Approvals</h1><p>Nothing goes live until it is reviewed here. Hosts get your notes by email and in their app.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-seal-check" aria-hidden="true"></i>Waiting for review</span><b><span class="hl">6 waiting</span> · oldest 2 days</b><button class="btn btn--accent" data-go="a-review"><i class="ph ph-arrow-right" aria-hidden="true"></i>Review oldest</button></div></div>
+        <div class="a-head__actions">
+          <div class="ptabs" data-group>
+            <button data-panel="#p-hosts">Host applications <em>3</em></button>
+            <button class="active" data-panel="#p-listings">Listings <em>3</em></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="a-grid c4">
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-hourglass" aria-hidden="true"></i></span>Waiting</span><span class="kpi__value">6</span><span class="small muted">Oldest 2 days</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-timer" aria-hidden="true"></i></span>Avg. review time</span><span class="kpi__value">19 h</span><span class="kpi__delta up">Within 2-day target</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-check-circle" aria-hidden="true"></i></span>Approved this month</span><span class="kpi__value">23</span><span class="small muted">9 hosts · 14 listings</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-arrow-counter-clockwise" aria-hidden="true"></i></span>Sent back for changes</span><span class="kpi__value">7</span><span class="small muted">Most common: photos</span></div>
+      </div>
+
+      <div class="a-card" id="p-listings">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search listings or hosts" aria-label="Search listings"></div>
+          <select class="select" aria-label="Category"><option>All categories</option><option>Nature &amp; eco-tours</option><option>Culture, Craft &amp; Heritage</option><option>Farm &amp; food</option><option>Retreats &amp; stays</option></select>
+          <select class="select" aria-label="Type"><option>New and edited</option><option>New listings</option><option>Edits to live listings</option></select>
+          <span class="grow"></span><span class="small muted">Oldest first</span>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Listing</th><th>Category</th><th>Type</th><th>Sections complete</th><th>Submitted</th><th>Policy</th><th></th></tr></thead>
+          <tbody id="lst"></tbody>
+        </table></div>
+      </div>
+
+      <div class="a-card" id="p-hosts" hidden>
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search applicants" aria-label="Search applicants"></div>
+          <select class="select" aria-label="Business type"><option>All business types</option><option>Tour operator</option><option>Village / homestay</option><option>NGO / social enterprise</option><option>Farm</option></select>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Applicant</th><th>Business</th><th>Location</th><th>Documents</th><th>Submitted</th><th></th></tr></thead>
+          <tbody id="hst"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<aside class="a-drawer" id="app-drawer" aria-label="Host application">
+  <div class="a-drawer__head"><img class="avatar" id="d-img" alt=""><div class="grow"><h2 class="is-h3" id="d-name">Applicant</h2><small class="muted" id="d-biz"></small></div><button class="icon-btn" data-close aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button></div>
+  <div class="a-drawer__body">
+    <div class="row wrap"><span class="badge badge--warn"><i class="ph ph-hourglass" aria-hidden="true"></i>Waiting for review</span><span class="badge">Self-serve sign-up</span></div>
+    <div><h3 class="is-h4 mt1">About</h3><p class="muted mt1" id="d-story"></p></div>
+    <dl class="dl">
+      <dt>Contact</dt><dd id="d-contact"></dd>
+      <dt>Business type</dt><dd id="d-type"></dd>
+      <dt>SSM number</dt><dd id="d-ssm"></dd>
+      <dt>Location</dt><dd id="d-loc"></dd>
+      <dt>Languages</dt><dd>English, Malay</dd>
+    </dl>
+    <div><h4>Documents</h4><div class="stack mt2" id="d-docs"></div></div>
+    <div class="field"><label for="d-note">Note to applicant</label><textarea class="textarea" id="d-note" placeholder="Sent to the host with the decision"></textarea><span class="hint">Required for Request changes and Reject</span></div>
+  </div>
+  <div class="a-drawer__foot">
+    <button class="btn btn--danger" data-open="#reject-modal">Reject</button>
+    <span class="grow"></span>
+    <button class="btn btn--secondary" data-close data-toast="Changes requested. The applicant has been emailed.">Request changes</button>
+    <button class="btn btn--primary" data-close data-toast="Host approved. They can now create listings.">Approve host</button>
+  </div>
+</aside>
+<div class="a-modal" id="reject-modal" role="dialog" aria-modal="true" aria-labelledby="rj-h">
+  <div class="a-modal__body"><h3 id="rj-h">Reject this application?</h3><p class="muted">The applicant is told by email with your note. They can apply again after 30 days.</p>
+    <div class="field"><label for="rj-r">Reason</label><select class="select" id="rj-r"><option>Not a sustainable experience</option><option>Missing or invalid documents</option><option>Duplicate account</option><option>Other</option></select></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--danger" data-close data-toast="Application rejected." data-toast-icon="ph-x-circle">Reject application</button></div>
+</div>
+<script>
+(function () {
+  var lst = [
+    ['Durian orchard walk & tasting', 'meiling', 'Farm & food', 'New', 14, '1 Dec · 1 day', false, 'Moderate', '1692965238920-847c8255e632'],
+    ['Songket weaving masterclass', 'siti', 'Culture, Craft & Heritage', 'New', 14, '1 Dec · 20 h', false, 'Flexible', '1707978932202-751b08324daf'],
+    ['Rainforest canopy walk & hornbill watch', 'kumar', 'Nature & eco-tours', 'Edit: price, itinerary', 14, '2 Dec · 5 h', false, 'Moderate', '1657463420259-1c92c609f89e']
+  ];
+  document.getElementById('lst').innerHTML = lst.map(function (r) {
+    var h = L.people[r[1]], full = r[4] === 14;
+    return '<tr data-go="a-review"><td><div class="who"><img src="' + L.img(r[8], 120) + '" alt=""><div><b>' + r[0] + '</b><small>' + h.name + '</small></div></div></td><td>' + r[2] + '</td><td>' + (r[3] === 'New' ? '<span class="badge badge--info">New listing</span>' : '<span class="badge">' + r[3] + '</span>') + '</td>' +
+      '<td><div class="row" style="gap:10px"><div class="progress" style="width:90px"><i style="width:' + (r[4] / 14 * 100) + '%;' + (full ? '' : 'background:var(--warn)') + '"></i></div><span class="small ' + (full ? 'muted' : 'strong') + '">' + r[4] + '/14</span></div></td>' +
+      '<td><span class="wait' + (r[6] ? ' late' : '') + '">' + r[5] + '</span></td><td>' + r[7] + '</td><td class="num"><button class="btn btn--secondary btn--sm">Review</button></td></tr>';
+  }).join('');
+  var hst = [
+    ['Faizal Rahman', 'Borneo Trails Collective', 'Tour operator', 'Kota Kinabalu, Sabah', 3, '30 Nov · 2 days', '1544168190-79c17527004f', 'faizal@borneotrails.my · +60 12-883 4410', '202301045512 (1503321-K)', 'Small-group treks with Dusun guides in the Crocker Range. Operating since 2016, MOTAC licensed.'],
+    ['Rosnah Ibrahim', 'Kak Ros Homestay', 'Village / homestay', 'Sungai Lembing, Pahang', 2, '1 Dec · 1 day', '1758600587839-56ba05596c69', 'rosnah.ibrahim@gmail.com · +60 19-552 0817', '—', 'Family homestay in an old tin-mining village; river picnics and kampung cooking.'],
+    ['Hafiz Zainal', 'Ulu Muda Forest Guides', 'NGO / social enterprise', 'Ulu Muda, Kedah', 3, '2 Dec · 6 h', '1762709412743-3395ed866302', 'hafiz@ulumudaguides.org · +60 13-410 2289', 'PPM-002-02-14082019', 'Community rangers protecting the Ulu Muda water catchment; guided wildlife walks fund patrols.']
+  ];
+  document.getElementById('hst').innerHTML = hst.map(function (r, i) {
+    return '<tr data-i="' + i + '" data-open="#app-drawer"><td><div class="who"><img class="round" src="' + L.img(r[6], 120) + '" alt=""><div><b>' + r[0] + '</b><small>' + r[2] + '</small></div></div></td><td>' + r[1] + '</td><td>' + r[3] + '</td>' +
+      '<td>' + (r[4] === 3 ? '<span class="badge badge--success"><i class="ph ph-check" aria-hidden="true"></i>3 of 3</span>' : '<span class="badge badge--warn"><i class="ph ph-warning" aria-hidden="true"></i>2 of 3 · licence missing</span>') + '</td>' +
+      '<td><span class="wait' + (i === 0 ? ' late' : '') + '">' + r[5] + '</span></td><td class="num"><button class="btn btn--secondary btn--sm">Review</button></td></tr>';
+  }).join('');
+  document.getElementById('hst').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr'); if (!tr) return; var r = hst[+tr.dataset.i];
+    document.getElementById('d-img').src = L.img(r[6], 120); document.getElementById('d-name').textContent = r[0];
+    document.getElementById('d-biz').textContent = r[1]; document.getElementById('d-story').textContent = r[9];
+    document.getElementById('d-contact').textContent = r[7]; document.getElementById('d-type').textContent = r[2];
+    document.getElementById('d-ssm').textContent = r[8]; document.getElementById('d-loc').textContent = r[3];
+    var docs = [['ph-identification-card', 'MyKad / passport', 'Verified'], ['ph-buildings', 'SSM business registration', r[8] === '—' ? 'Not registered (sole host)' : 'Uploaded 30 Nov'], ['ph-certificate', 'Tourism licence (MOTAC)', r[4] === 3 ? 'Uploaded' : 'Missing']];
+    document.getElementById('d-docs').innerHTML = docs.map(function (d) {
+      var bad = d[2] === 'Missing';
+      return '<div class="doc"><i class="ph ' + d[0] + '" aria-hidden="true"></i><div><b>' + d[1] + '</b><small>' + d[2] + '</small></div>' + (bad ? '<span class="badge badge--danger">Missing</span>' : '<button class="btn btn--ghost btn--sm">View</button>') + '</div>';
+    }).join('');
+  });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-approvals', [['Waiting', '6 (3 hosts · 3 listings)'], ['Target', 'Review within 2 working days'], ['Who can approve', 'Super admin, Operations']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

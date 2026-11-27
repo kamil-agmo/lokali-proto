@@ -1,0 +1,22 @@
+/* List rows. <ul class="c-list c-list--md|--ios"><li class="c-row"><span class="c-row__lead">…</span><span class="c-row__text"><b>Title</b><small>Sub</small></span><span class="c-row__trail">…</span></li></ul>
+   Apple adds the inset grouped look; give a row a link or button inside to make it tappable. */
+.c-list { list-style: none; margin: 0; padding: 0; font-family: var(--c-font); color: var(--c-ink); }
+.c-row { display: flex; align-items: center; gap: 16px; }
+.c-row__lead { flex: none; display: grid; place-items: center; color: var(--c-muted); }
+.c-row__lead img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.c-row__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.c-row__text b { font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .c-row__text small { color: var(--c-muted); }
+.c-row__trail { flex: none; color: var(--c-muted); display: flex; align-items: center; gap: 4px; }
+/* Material 3: full-bleed 56-72 dp rows, 16 px title, 14 px supporting text */
+.c-list--md .c-row { min-height: 56px; padding: 8px 16px; }
+.c-list--md .c-row__text b { font-size: 16px; line-height: 24px; } .c-list--md .c-row__text small { font-size: 14px; line-height: 20px; }
+.c-list--md .c-row:active { background: var(--c-accent-soft); }
+.c-list__header { margin: 24px 32px 6px; font-family: var(--c-font); font-size: 13px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .3px; }
+/* Apple (iOS 27): inset grouped list with large rounded corners, roomier rows, fine separators after the icon, chevrons */
+.c-list--ios { margin: 0 16px; border-radius: 26px; overflow: hidden; background: var(--c-bg); }
+.c-list--ios .c-row { position: relative; min-height: 52px; padding: 8px 16px; gap: 12px; }
+.c-list--ios .c-row + .c-row::before { content: ""; position: absolute; top: 0; right: 0; left: 16px; border-top: .5px solid var(--c-line); }
+.c-list--ios .c-row:has(.c-row__lead) + .c-row::before { left: 58px; }
+.c-list--ios .c-row__text b { font-size: 17px; line-height: 22px; } .c-list--ios .c-row__text small { font-size: 13px; line-height: 18px; }
+.c-list--ios .c-row__lead .c-ico { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px; background: var(--c-accent); color: #fff; font-size: 18px; }
+.c-list--ios .c-row:active { background: color-mix(in srgb, var(--c-ink) 6%, transparent); }

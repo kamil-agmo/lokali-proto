@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Search</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<script>try{if(sessionStorage.getItem('lk-slideup')){sessionStorage.removeItem('lk-slideup');document.body.classList.add('slide-up')}}catch(e){}</script>
+<style>@keyframes lkUp{from{transform:translateY(100%)}to{transform:none}} html{background:var(--bg)} @media (prefers-reduced-motion:reduce){body.slide-up{animation:none}}</style>
+<style>
+  .q-bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: calc(var(--sb) + 4px) 8px 4px; display: flex; align-items: center; gap: 4px; }
+  .q-bar h1 { font: 600 15px/22px var(--font); flex: 1; text-align: center; margin-right: 44px; }
+  .q-main { padding: 8px 16px 120px; display: flex; flex-direction: column; gap: 12px; }
+  .q-card { background: var(--surface); border-radius: 24px; padding: 16px; box-shadow: 0 6px 20px rgba(16,26,20,.07); }
+  .q-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; }
+  .q-head h2 { font: 600 20px/25px var(--font-display); }
+  .q-val { font-size: 15px; font-weight: 600; color: var(--primary); text-align: right; }
+  .q-val.is-none { color: var(--muted); font-weight: 500; }
+  button.q-card { width: 100%; text-align: left; border: 0; font: inherit; color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
+  button.q-card h2 { font: 600 15px/20px var(--font); color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+  button.q-card h2 .ph { font-size: 1.1em; color: var(--ink); }
+  .q-val .ph { font-size: 14px; color: var(--muted); margin-left: 4px; vertical-align: -1px; }
+  .q-field { display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 16px; margin-top: 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--bg); }
+  .q-field .ph { font-size: 20px; color: var(--primary); }
+  .q-field input { flex: 1; border: 0; background: none; font: 500 16px var(--font); color: var(--ink); outline: none; min-width: 0; }
+  .q-sugg { display: flex; align-items: center; gap: 12px; min-height: 56px; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); cursor: pointer; font: inherit; }
+  .q-sugg + .q-sugg { border-top: 1px solid var(--line); }
+  .q-sugg .ph, .q-sugg .ph-fill { font-size: 22px; width: 24px; flex: none; text-align: center; color: var(--primary); }
+  .q-sugg .ph-fill.nav { color: var(--accent-ink); }
+  .q-sugg b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .q-sugg small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+  .q-sugg[aria-pressed="true"] b { color: var(--primary); } .q-sugg[aria-pressed="true"]::after { content: "\2713"; margin-left: auto; font-weight: 600; color: var(--primary); }
+  .q-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .q-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font: 600 14px var(--font); color: var(--ink); cursor: pointer; }
+  .q-pill .ph { font-size: 18px; color: var(--primary); }
+  .q-pill[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; } .q-pill[aria-pressed="true"] .ph { color: #fff; }
+  .sheet h3 { font: 600 20px/25px var(--font-display); margin-bottom: 4px; }
+  .sh-foot { display: flex; gap: 8px; margin-top: 16px; } .sh-foot .btn--primary { flex: 1; }
+  .p-out { font: 600 15px/22px var(--font-display); color: var(--primary); text-align: right; white-space: nowrap; } #sh-price .histo { margin-top: 16px; }
+  .dual { position: relative; height: 32px; margin: 4px 0 8px; }
+  .dual input { position: absolute; inset: 0; width: 100%; appearance: none; -webkit-appearance: none; background: none; pointer-events: none; margin: 0; }
+  .dual input::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 2px solid var(--primary); box-shadow: 0 2px 6px rgba(0,0,0,.15); cursor: pointer; }
+  .dual input::-moz-range-thumb { pointer-events: auto; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 2px solid var(--primary); cursor: pointer; }
+  .dual .tr { position: absolute; left: 14px; right: 14px; top: 14px; height: 4px; border-radius: 2px; background: var(--line); } .dual .fl { position: absolute; top: 14px; height: 4px; background: var(--primary); }
+  /* DUPE: Where? and Category are always open, so their choice is already shown (tick / dark chip); no summary value beside the title */
+  #v-where, #v-cat { display: none !important; }
+  /* DUPE: one question at the top. The bar keeps only Close; "Where to?" (as on Home's search pill) is the page title */
+  html body.m .q-main #w-h { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; letter-spacing: -.02em !important; }
+  /* Price sheet, simplified: the slider and the Minimum / Maximum fields are the one place the numbers show (DUPE); no price graph */
+  #histo, #p-out { display: none !important; }
+  #sh-price .dual { margin-top: 20px; }
+</style>
+<header class="q-bar">
+  <button class="icon-btn" onclick="L.go(document.body.classList.contains('slide-up')?'g-results':'g-home')" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+  <h1 class="sr-only">Search</h1>
+</header>
+
+<main class="q-main">
+  <section class="q-card" aria-labelledby="w-h">
+    <div class="q-head"><h2 id="w-h">Where to?</h2><span class="q-val" id="v-where">Kuala Selangor</span></div>
+    <label class="q-field"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input id="loc" type="search" placeholder="Search places or experiences" aria-label="Search places or experiences" autocomplete="off"></label>
+    <div id="places" class="mt2"></div>
+  </section>
+
+  <button class="q-card" data-open="#sh-date"><h2 class="sec-h"><i class="ph ph-calendar-dots" aria-hidden="true"></i>When</h2><span class="q-val" id="v-date">Sun, 6 Dec<i class="ph ph-caret-right" aria-hidden="true"></i></span></button>
+  <button class="q-card" data-open="#sh-who"><h2 class="sec-h"><i class="ph ph-users-three" aria-hidden="true"></i>Who</h2><span class="q-val" id="v-who">2 adults, 1 child<i class="ph ph-caret-right" aria-hidden="true"></i></span></button>
+
+  <section class="q-card" aria-labelledby="c-h">
+    <div class="q-head"><h2 id="c-h" class="sec-h">Category</h2><span class="q-val" id="v-cat">Nature</span></div>
+    <div class="q-pills" id="cats"></div>
+  </section>
+
+  <section class="q-card" aria-labelledby="pr-h">
+    <div class="q-head"><h2 id="pr-h" class="sec-h"><i class="ph ph-coins" aria-hidden="true"></i>Price per adult</h2><span class="q-val is-none" id="v-price" hidden>Any price</span></div>
+    <div class="q-pills" id="prices" role="group" aria-label="Price per adult">
+      <button type="button" class="chip active" data-lo="0" data-hi="500" aria-pressed="true">Any price</button>
+      <button type="button" class="chip" data-lo="0" data-hi="150" aria-pressed="false">Under RM 150</button>
+      <button type="button" class="chip" data-lo="150" data-hi="300" aria-pressed="false">RM 150–300</button>
+      <button type="button" class="chip" data-lo="300" data-hi="500" aria-pressed="false">RM 300+</button>
+    </div>
+  </section>
+</main>
+
+<div class="cta-bar">
+  <button class="btn btn--ghost" id="clear">Clear all</button>
+  <button class="btn btn--primary grow" data-go="g-results" id="show" onclick="L.state.set('resFrom', 'search')" aria-live="polite"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span id="show-t">Show 18 experiences</span></button>
+</div>
+
+<div class="sheet" id="sh-date" role="dialog" aria-labelledby="sd-h" hidden>
+  <h3 id="sd-h" class="sheet-title">When</h3>
+  <div class="chips wrap mt2" id="dq"><button class="chip chip--soft" data-v="Any week">Any week</button><button class="chip chip--soft" data-v="This weekend">This weekend</button></div>
+  <div class="cal-head mt3"><button class="icon-btn" aria-label="Previous month"><i class="ph ph-caret-left" aria-hidden="true"></i></button><b>December 2026</b><button class="icon-btn" aria-label="Next month"><i class="ph ph-caret-right" aria-hidden="true"></i></button></div>
+  <div class="cal" id="cal"></div>
+  <div class="sheet-foot row-2"><button class="btn btn--ghost" id="d-clr">Clear</button><button class="btn btn--primary" id="d-ok" data-close>Done</button></div>
+</div>
+
+<div class="sheet" id="sh-who" role="dialog" aria-labelledby="sw-h" hidden>
+  <h3 id="sw-h" class="sheet-title">Who</h3>
+  <div class="guest-row"><div><b>Adults</b><small>Age 13+</small></div>
+    <div class="stepper" data-stepper data-min="1" data-max="15" id="st-a"><button data-dec aria-label="Fewer adults"><i class="ph ph-minus" aria-hidden="true"></i></button><output>2</output><button data-inc aria-label="More adults"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
+  <div class="guest-row"><div><b>Children</b><small>Age 5–12</small></div>
+    <div class="stepper" data-stepper data-min="0" data-max="10" id="st-c"><button data-dec aria-label="Fewer children"><i class="ph ph-minus" aria-hidden="true"></i></button><output>1</output><button data-inc aria-label="More children"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
+  <p class="hint mt2">Groups of 11 or more: <a href="g-corporate.html" data-go="g-corporate">send a group enquiry</a></p>
+  <div class="sheet-foot"><button class="btn btn--primary" data-close>Done</button></div>
+</div>
+
+<div class="sheet" id="sh-price" role="dialog" aria-labelledby="sp-h" hidden>
+  <div class="row-between" style="align-items:baseline;gap:12px"><h3 id="sp-h" class="sheet-title">Price per adult</h3><span class="p-out" id="p-out">RM 0 – RM 500+</span></div>
+  <div class="histo" aria-hidden="true" id="histo"></div>
+  <div class="dual"><span class="tr"></span><span class="fl" id="p-fl"></span>
+    <input type="range" id="p-min" min="0" max="500" step="10" value="0" aria-label="Minimum price">
+    <input type="range" id="p-max" min="0" max="500" step="10" value="500" aria-label="Maximum price"></div>
+  
+  <div class="grid-2 mt3">
+    <div class="field"><label for="pmin">Minimum</label><input class="input" id="pmin" inputmode="numeric" value="RM 0"></div>
+    <div class="field"><label for="pmax">Maximum</label><input class="input" id="pmax" inputmode="numeric" value="RM 500+"></div>
+  </div>
+  <div class="sheet-foot row-2"><button class="btn btn--ghost" id="p-clr">Clear</button><button class="btn btn--primary" data-close>Done</button></div>
+</div>
+  <script>
+  (function () {
+    function $(i) { return document.getElementById(i); }
+    var dateK = 'day';
+    function count() {
+      var pc = { '': 73, 'Near me': 14, 'Kuala Selangor': 40, 'Penang': 21, 'Sabah': 17, 'Pulau Tioman': 8, 'Terengganu': 11 }[where || ''] || 10;
+      var share = { nature: .5, culture: .3, farm: .25, retreat: .12 }, cs = 0, any = true;
+      document.querySelectorAll('#cats [aria-pressed="true"]').forEach(function (b) { cs += share[b.dataset.k]; any = false; });
+      var lo = +document.getElementById('p-min').value, hi = +document.getElementById('p-max').value, ps = ({ '0-500': 1, '0-150': .5, '150-300': .38, '300-500': .12 })[lo + '-' + hi] || Math.max(0, Math.min(1, (hi - lo) / 300 + .3)); /* share of experiences in each price band */
+      var a = +document.getElementById('st-a').querySelector('output').textContent + +document.getElementById('st-c').querySelector('output').textContent;
+      var n = Math.round(pc * (any ? 1 : cs) * ps * { any: 1, wknd: .8, day: .9 }[dateK] * (a > 8 ? .6 : 1));
+      document.getElementById('show-t').textContent = n ? 'Show ' + n + ' experience' + (n > 1 ? 's' : '') : 'No matches · widen filters';
+    }
+    function setVal(id, text, empty) { setTimeout(count); var el = $(id); el.innerHTML = text + (el.tagName === 'SPAN' && el.parentNode.tagName === 'BUTTON' ? '<i class="ph ph-caret-right" aria-hidden="true"></i>' : ''); el.classList.toggle('is-none', !!empty); }
+    /* where */
+    var places = [['Near me', 'Petaling Jaya · your current location', 'ph-fill ph-navigation-arrow nav'], ['Kuala Selangor', 'Selangor · 40 experiences', 'ph-fill ph-map-pin'], ['Penang', 'George Town, Penang Hill · 21', 'ph-fill ph-map-pin'], ['Sabah', 'Kinabatangan · 17', 'ph-fill ph-map-pin'], ['Pulau Tioman', 'Pahang · 8', 'ph-fill ph-map-pin'], ['Terengganu', 'Marang, K. Terengganu · 11', 'ph-fill ph-map-pin']];
+    var where = 'Kuala Selangor';
+    function drawPlaces() {
+      var v = $('loc').value.trim().toLowerCase();
+      $('places').innerHTML = places.filter(function (p) { return !v || (p[0] + p[1]).toLowerCase().indexOf(v) > -1; }).slice(0, 5).map(function (p) {
+        return '<button class="q-sugg" data-p="' + p[0] + '" aria-pressed="' + (p[0] === where) + '"><i class="' + p[2] + '" aria-hidden="true"></i><span><b>' + p[0] + '</b><small>' + p[1] + '</small></span></button>'; }).join('') || '<p class="small muted" style="padding:12px 0">No places match. Try Penang or Sabah.</p>';
+    }
+    $('loc').addEventListener('input', drawPlaces);
+    $('places').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (!b) return; where = b.dataset.p; setVal('v-where', where); drawPlaces(); });
+    drawPlaces();
+    /* when */
+    var cal = $('cal'), h = '';
+    ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach(function (d) { h += '<span class="dow">' + d + '</span>'; });
+    h += '<span aria-hidden="true"></span>';
+    for (var d = 1; d <= 31; d++) h += '<button' + (d < 2 ? ' disabled' : '') + (d === 2 ? ' class="today"' : '') + (d === 6 ? ' class="active"' : '') + ' aria-label="' + d + ' December">' + d + '</button>';
+    cal.innerHTML = h;
+    var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    function clearDq() { $('dq').querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); }); }
+    cal.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) return; cal.querySelectorAll('.active').forEach(function (x) { x.classList.remove('active'); }); b.classList.add('active'); clearDq(); dateK = 'day'; setVal('v-date', DOW[new Date(2026, 11, +b.textContent).getDay()] + ', ' + b.textContent + ' Dec'); });
+    $('dq').addEventListener('click', function (e) { var c = e.target.closest('.chip'); if (!c) return; clearDq(); c.classList.add('active'); dateK = c.dataset.v === 'Any week' ? 'any' : 'wknd'; cal.querySelectorAll('.active').forEach(function (x) { x.classList.remove('active'); }); setVal('v-date', c.dataset.v); });
+    $('d-clr').addEventListener('click', function () { clearDq(); cal.querySelectorAll('.active').forEach(function (x) { x.classList.remove('active'); }); dateK = 'any'; setVal('v-date', 'Add dates', true); });
+    /* who */
+    function who() { var a = +$('st-a').querySelector('output').textContent, c = +$('st-c').querySelector('output').textContent; setVal('v-who', a + ' adult' + (a > 1 ? 's' : '') + (c ? ', ' + c + ' child' + (c > 1 ? 'ren' : '') : '')); }
+    document.addEventListener('step', who);
+    /* category */
+    var short = { nature: 'Nature', culture: 'Culture', farm: 'Farm & food', retreat: 'Retreats' };
+    $('cats').innerHTML = L.cats.map(function (c, i) { return '<button class="q-pill" data-k="' + c.key + '" aria-pressed="' + (i === 0) + '"><i class="ph ' + c.icon + '" aria-hidden="true"></i>' + c.name + '</button>'; }).join('');
+    function cats() { var on = [].slice.call($('cats').querySelectorAll('[aria-pressed="true"]')).map(function (b) { return short[b.dataset.k]; }); setVal('v-cat', on.length ? (on.length > 2 ? on.length + ' selected' : on.join(', ')) : 'Any', !on.length); }
+    $('cats').addEventListener('click', function (e) { var b = e.target.closest('.q-pill'); if (!b) return; b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); cats(); });
+    /* price */
+    var bars = [3, 6, 9, 14, 11, 16, 12, 8, 7, 5, 4, 3, 2, 2, 1];
+    function price() {
+      var lo = +$('p-min').value, hi = +$('p-max').value; if (lo > hi - 10) { if (this === $('p-min')) lo = $('p-min').value = hi - 10; else hi = $('p-max').value = lo + 10; }
+      var t = 'RM ' + lo + ' – RM ' + hi + (hi >= 500 ? '+' : ''); $('p-out').textContent = t; setVal('v-price', t); if (document.activeElement !== $('pmin')) $('pmin').value = 'RM ' + lo; if (document.activeElement !== $('pmax')) $('pmax').value = 'RM ' + hi + (hi >= 500 ? '+' : '');
+      $('p-fl').style.left = 'calc(14px + (100% - 28px) * ' + lo / 500 + ')'; $('p-fl').style.right = 'calc(14px + (100% - 28px) * ' + (1 - hi / 500) + ')';
+      $('histo').innerHTML = bars.map(function (v, i) { var x = (i + .5) / bars.length * 500; return '<i style="height:' + v * 6 + '%"' + (x >= lo && x <= hi ? ' class="on"' : '') + '></i>'; }).join('');
+    }
+    $('p-min').addEventListener('input', price); $('p-max').addEventListener('input', price);
+    $('p-clr').addEventListener('click', function () { $('p-min').value = 0; $('p-max').value = 500; price(); setVal('v-price', 'Any price', true); });
+    function typed(inp, rng) { inp.addEventListener('input', function () { var n = parseInt(inp.value.replace(/\D/g, ''), 10); if (isNaN(n)) return; rng.value = Math.min(500, n); price.call(rng); }); inp.addEventListener('blur', function () { price(); }); }
+    typed($('pmin'), $('p-min'));
+    /* price chips: bands from Lokali's real prices; they set the range the count reads (slider and fields removed) */
+    $('prices').addEventListener('click', function (e) { var b = e.target.closest('[data-lo]'); if (!b) return;
+      this.querySelectorAll('[data-lo]').forEach(function (x) { var on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-pressed', on); });
+      $('p-min').value = b.dataset.lo; $('p-max').value = b.dataset.hi; price(); count(); }); typed($('pmax'), $('p-max'));
+    price(); setVal('v-price', 'Any price', true);
+    $('clear').addEventListener('click', function () {
+      where = ''; $('loc').value = ''; drawPlaces(); setVal('v-where', 'Anywhere', true);
+      $('d-clr').click(); $('p-clr').click(); $('prices').querySelector('[data-hi="500"][data-lo="0"]').click(); $('cats').querySelectorAll('[aria-pressed]').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); b.classList.remove('active', 'on'); }); cats();
+      L.toast && L.toast('Filters cleared');
+    });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-search', [['Flow', 'Airbnb-style: Where first, then When, Who, Category, Price'], ['Sheets', 'Dates, guests and price open from the bottom'], ['Selected values', 'Shown on the right of each row']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

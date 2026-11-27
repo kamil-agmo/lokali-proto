@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Host profile: 3 directions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 18px; } .sub { color: #6A6A6A; margin: 4px 0 20px; max-width: 980px; }
+  .wrap { display: flex; gap: 28px; align-items: flex-start; }
+  .col { width: 402px; flex: none; }
+  .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 10px; min-height: 54px; }
+  .col.rec > b { color: #D7263D; } .col.rec .ph { outline: 2px solid #D7263D; outline-offset: 4px; }
+
+  /* phone, drawn full length (no inner scroll) */
+  .ph { width: 402px; background: #fff; border-radius: 32px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); padding-bottom: 28px; }
+  .ic { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .pad { padding: 0 24px; }
+  .muted { color: #6A6A6A; }
+  .line { height: 1px; background: #EBEBEB; margin: 28px 24px; }
+  h2 { font-size: 18px; line-height: 24px; font-weight: 700; margin-bottom: 14px; }
+
+  /* hero portrait with name on it */
+  .hero { position: relative; height: 380px; background: #ddd center 30% / cover; color: #fff; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.7) 0, rgba(0,0,0,.25) 16%, transparent 30%, transparent 50%, rgba(0,0,0,.72)); }
+  .hero .back { position: absolute; z-index: 1; top: 54px; left: 12px; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; }
+  .hero .nm { position: absolute; z-index: 1; left: 24px; right: 24px; bottom: 22px; }
+  .hero h3 { font-size: 28px; line-height: 34px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .hero small { display: block; font-size: 15px; line-height: 20px; opacity: .92; }
+  .seal { width: 22px; height: 22px; flex: none; }
+
+  .msg { display: flex; align-items: center; justify-content: center; min-height: 48px; margin: 20px 24px 0; border: 1px solid #DDDDDD; border-radius: 999px; font-weight: 600; font-size: 15px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 22px 24px 0; }
+  .stats > div + div { border-left: 1px solid #EBEBEB; padding-left: 16px; }
+  .stats b { display: flex; align-items: center; gap: 4px; font-size: 22px; line-height: 28px; font-weight: 700; }
+  .stats span { font-size: 12px; line-height: 18px; color: #6A6A6A; }
+  .star { width: 16px; height: 16px; fill: #C9A21C; }
+
+  /* guest-said pills */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 14px; border: 1px solid #DDDDDD; border-radius: 999px; font-size: 13px; font-weight: 500; }
+  .pill i { font-style: normal; color: #6A6A6A; font-weight: 400; }
+  .gq { margin-top: 18px; font-size: 16px; line-height: 23px; font-weight: 500; }
+  .gq cite { display: block; margin-top: 6px; font-style: normal; font-size: 12px; color: #6A6A6A; font-weight: 400; }
+
+  /* Q&A rows */
+  .qa > div { display: flex; gap: 12px; padding: 14px 0; } .qa > div + div { border-top: 1px solid #EBEBEB; }
+  .qa small { display: block; font-size: 14px; line-height: 20px; font-weight: 600; }
+  .qa p { font-size: 15px; line-height: 22px; color: #3D3D3D; margin-top: 2px; }
+
+  /* his river: photo cards with his words */
+  .rv { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding: 0 24px; }
+  .rv figure { flex: 0 0 250px; }
+  .rv .im { height: 300px; border-radius: 26px; background: #ddd center / cover; position: relative; overflow: hidden; }
+  .rv .im span { position: absolute; left: 12px; top: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.94); font-size: 12px; font-weight: 600; color: #222; }
+  .rv figcaption { margin-top: 10px; font-size: 15px; line-height: 22px; color: #3D3D3D; }
+
+  /* timeline */
+  .tl { position: relative; padding-left: 26px; }
+  .tl::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: #EBEBEB; }
+  .tl > div { position: relative; padding-bottom: 20px; }
+  .tl > div::before { content: ""; position: absolute; left: -25px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #222; }
+  .tl > div.now::before { background: #D7263D; box-shadow: 0 0 0 4px #FDE8EA; }
+  .tl small { display: block; font-size: 12px; line-height: 18px; color: #6A6A6A; font-weight: 600; }
+  .tl b { display: block; font-size: 16px; line-height: 22px; margin-top: 2px; }
+  .tl p { font-size: 14px; line-height: 20px; color: #3A3A3A; margin-top: 2px; }
+  .tl .ti { margin-top: 10px; height: 120px; border-radius: 20px; background: #ddd center / cover; }
+  .big { display: grid; grid-template-columns: 1fr 1fr; margin-top: 6px; }
+  .big > div + div { border-left: 1px solid #EBEBEB; padding-left: 16px; }
+  .big b { display: block; font-size: 30px; line-height: 36px; font-weight: 800; }
+  .big span { font-size: 12px; color: #6A6A6A; }
+</style>
+</head>
+<body>
+<h1>Host profile: 3 directions</h1>
+<p class="sub">No video, no "I learned to paddle" quote. All three open on Pak Rahim's portrait with his name on it (like the photo top of Home), then Message and 3 numbers. What changes is the middle: what makes him worth meeting. Pills and dates are sample content.</p>
+<div class="wrap" id="w"></div>
+
+<script>
+function img(id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 800) + '&q=70&auto=format&fit=crop'; }
+var P = { rahim: '1763219069500-e4c9b49f308f', jetty: '1773904594755-6c25ab2ef6c9', dusk: '1786717667687-2f05e422d6f9', roots: '1784751449882-c2c28ca2dd78', night: '1644281264362-420bec9dbb73', teh: '1793490325386-39a4d28add10' };
+var I = {
+  back: '<svg class="ic" viewBox="0 0 256 256"><polyline points="160 208 80 128 160 48"/></svg>',
+  house: '<svg class="ic" viewBox="0 0 256 256"><path d="M40 216V112l88-72 88 72v104"/><path d="M104 216v-56h48v56"/></svg>',
+  spark: '<svg class="ic" viewBox="0 0 256 256"><path d="M128 32l20 76 76 20-76 20-20 76-20-76-76-20 76-20z"/></svg>',
+  chat: '<svg class="ic" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></svg>',
+  pin: '<svg class="ic" viewBox="0 0 256 256"><path d="M128 232s72-64 72-128a72 72 0 0 0-144 0c0 64 72 128 72 128z"/><circle cx="128" cy="104" r="24"/></svg>'
+};
+var SEAL = '<svg class="seal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2D8CFF"/><path d="M7.5 12.2l3 3 6-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var STAR = '<svg class="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>';
+
+var TOP = '<div class="hero" style="background-image:url(' + img(P.rahim, 900) + ')"><span class="back">' + I.back + '</span>' +
+  '<div class="nm"><h3>Pak Rahim' + SEAL + '</h3><small>Host since 2025 · Kuala Selangor</small><small>Speaks English, Malay</small></div></div>' +
+  '<a class="msg">Message Pak Rahim</a>' +
+  '<div class="stats"><div><b>312</b><span>Guests hosted</span></div><div><b>' + STAR + '4.96</b><span>Rating</span></div><div><b>1 hour</b><span>Reply time</span></div></div>';
+
+var PILLS = '<div class="pills"><span class="pill">Great storyteller <i>48</i></span><span class="pill">Patient with kids <i>31</i></span><span class="pill">Knows every bird <i>22</i></span><span class="pill">Always on time <i>19</i></span></div>';
+
+var QA = '<div class="qa">' +
+  '<div>' + I.house + '<span><small>Where I grew up</small><p>In a stilt house 200 metres from the jetty. My family has fished this river for three generations.</p></span></div>' +
+  '<div>' + I.spark + '<span><small>Why I started this</small><p>When the fireflies started to disappear, I wanted visitors to see them, and to pay to protect them.</p></span></div>' +
+  '<div>' + I.chat + '<span><small>Guests always ask me</small><p>"Do they ever switch off?" Yes, when it rains. I\'ll tell you the night before.</p></span></div>' +
+  '<div>' + I.pin + '<span><small>My favourite spot</small><p>The bend after the old jetty, where the river goes completely still.</p></span></div></div>';
+
+function card(id, tag, text) { return '<figure><div class="im" style="background-image:url(' + img(id, 600) + ')"><span>' + tag + '</span></div><figcaption>' + text + '</figcaption></figure>'; }
+
+var V = [
+  { t: 'A · Guests describe him', d: 'Portrait, numbers, then what guests say about him most (tags counted from reviews) and one review about him, then the Q&A as text rows. Closest to now.', rec: false,
+    body: '<div class="line"></div><div class="pad"><h2>What guests say about him</h2>' + PILLS +
+      '<p class="gq">"Pak Rahim knew the name of every bird we heard. My kids still copy his firefly whistle."<cite>Daniel · Ipoh, Nov 2026</cite></p></div>' +
+      '<div class="line"></div><div class="pad"><h2>Get to know Pak Rahim</h2>' + QA + '</div>' },
+  { t: 'B · His river, in photos (recommended)', d: 'The Q&A turns into swipeable photo cards: each answer sits on the place it\'s about. Less reading, more of his world. Guest tags below.', rec: true,
+    body: '<div class="line"></div><h2 class="pad">Pak Rahim\'s river</h2><div class="rv">' +
+      card(P.jetty, 'Where I grew up', 'A stilt house 200 metres from this jetty. Three generations of my family fished here.') +
+      card(P.night, 'Why I started', 'When the fireflies started to disappear, I wanted visitors to see them, and to pay to protect them.') +
+      card(P.dusk, 'My favourite spot', 'The bend after the old jetty, where the river goes completely still.') +
+      card(P.teh, 'Guests always ask', '"Do they ever switch off?" Yes, when it rains. I\'ll tell you the night before.') +
+      '</div><div class="line"></div><div class="pad"><h2>What guests say about him</h2>' + PILLS + '</div>' },
+  { t: 'C · His story on a timeline', d: 'His life on the river as dated steps, ending in what his guests have helped do. Ties him to Lokali\'s impact story.', rec: false,
+    body: '<div class="line"></div><div class="pad"><h2>His story on the river</h2><div class="tl">' +
+      '<div><small>1968</small><b>Born by the jetty</b><p>A stilt house 200 metres from the jetty; three generations of fishermen.</p></div>' +
+      '<div><small>2019</small><b>The fireflies start to fade</b><p>Engine boats and spotlights stress the berembang trees.</p><div class="ti" style="background-image:url(' + img(P.night, 700) + ')"></div></div>' +
+      '<div><small>2024</small><b>The village starts replanting</b><p>Paddle-only trips, no lights, groups of 10.</p></div>' +
+      '<div class="now"><small>Since 2025 on Lokali</small><b>Guests help pay for it</b><p>Part of every ticket buys mangrove seedlings.</p></div></div>' +
+      '<div class="big"><div><b>4,200</b><span>Mangroves replanted</span></div><div><b>20%</b><span>Of each ticket to replanting</span></div></div></div>' }
+];
+document.getElementById('w').innerHTML = V.map(function (v) {
+  return '<div class="col' + (v.rec ? ' rec' : '') + '"><b>' + v.t + '</b><p>' + v.d + '</p><div class="ph">' + TOP + v.body + '</div></div>';
+}).join('');
+</script>
+</body>
+</html>

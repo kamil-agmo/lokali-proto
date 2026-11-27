@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Teammate's version vs ours</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 14px/20px Inter, system-ui, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 18px; margin-bottom: 4px; } .sub { color: #6A6A6A; margin-bottom: 20px; }
+  .row { display: grid; grid-template-columns: 160px 260px 260px; gap: 20px; align-items: start; margin-bottom: 28px; }
+  .row h2 { font-size: 15px; } .row p { font-size: 12px; line-height: 17px; color: #6A6A6A; margin-top: 4px; }
+  .cell b { display: block; font-size: 12px; margin-bottom: 6px; }
+  .frame { width: 260px; height: 565px; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,.10); position: relative; }
+  .frame iframe { width: 402px; height: 874px; border: 0; transform: scale(.6468); transform-origin: 0 0; }
+  .none { display: grid; place-items: center; height: 100%; color: #6A6A6A; font-size: 13px; text-align: center; padding: 20px; }
+</style>
+</head>
+<body>
+<h1>Teammate's version (left) vs ours (right)</h1>
+<p class="sub">Live screens. Hers from "Lokali latest" (0.4.0 + her edits), ours at 0.20.1. Scroll inside each phone.</p>
+<div id="rows"></div>
+<script>
+  var HER = 'http://localhost:8771/pages/', OURS = 'http://localhost:8768/pages/';
+  var rows = [
+    ['g-home', 'Home', 'She did not change Home. Ours is the new D design.'],
+    ['g-listing', 'Experience page', 'Both changed it. Hers: softer cards, sheets, host profile link. Ours: white style, red Book now, plain facts.'],
+    ['g-host', 'Host profile', 'New screen from her. Opens from Meet your guide.', 'ours-none'],
+    ['g-reviews', 'All reviews', 'Hers: summary matches the listing, sort and filters.'],
+    ['g-book', 'Choose date', 'Hers: private boat only on free dates; choice carries to checkout.'],
+    ['g-checkout', 'Checkout', 'Hers: shows the chosen date and guests; fee sheet in the new sheet style.'],
+    ['g-corporate', 'Company enquiry', 'Hers: experience pre-filled when coming from a listing.']
+  ];
+  document.getElementById('rows').innerHTML = rows.map(function (r) {
+    var ours = r[3] === 'ours-none' ? '<div class="none">Not in ours</div>' : '<iframe loading="lazy" src="' + OURS + r[0] + '.html"></iframe>';
+    return '<div class="row"><div><h2>' + r[1] + '</h2><p>' + r[2] + '</p></div>' +
+      '<div class="cell"><b>Hers</b><div class="frame"><iframe loading="lazy" src="' + HER + r[0] + '.html"></iframe></div></div>' +
+      '<div class="cell"><b>Ours</b><div class="frame">' + ours + '</div></div></div>';
+  }).join('');
+</script>
+</body>
+</html>

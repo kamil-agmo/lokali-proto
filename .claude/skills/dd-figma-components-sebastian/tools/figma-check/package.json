@@ -1,0 +1,6 @@
+{
+  "name": "figma-check",
+  "private": true,
+  "description": "Offline checks for Figma clipboard payloads: decode (kiwi), validate, auto-layout simulation, re-render incl. instances",
+  "dependencies": { "kiwi-schema": "^0.5.0", "pako": "^2.1.0", "fzstd": "^0.1.1" }
+}

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Experience page: now vs proposed</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 14px/20px Inter, system-ui, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 18px; } .sub { color: #6A6A6A; margin: 4px 0 18px; }
+  .row { display: grid; grid-template-columns: 200px 300px 300px 300px; gap: 20px; align-items: start; margin-bottom: 26px; }
+  .row h2 { font-size: 15px; } .row p { font-size: 12px; line-height: 17px; color: #6A6A6A; margin-top: 4px; }
+  .cell b { display: block; font-size: 12px; margin-bottom: 6px; }
+  .f { width: 300px; height: 520px; overflow: hidden; background: #fff; border-radius: 26px; box-shadow: 0 10px 30px rgba(0,0,0,.10); }
+  .f iframe { width: 402px; height: 697px; border: 0; transform: scale(.7463); transform-origin: 0 0; }
+</style>
+</head>
+<body>
+<h1>Experience page: now vs proposed</h1>
+<p class="sub">Canopy (teammate's copy) · Now (live Airy page) · Proposed (the live page with the fixes applied only inside this mock; no project files changed). Each phone opens at the section being compared and still scrolls.</p>
+<div id="rows"></div>
+<script>
+/* Canopy lives only on the preview server; this also works when the page is opened from disk */
+var CANOPY = (location.protocol === 'file:' ? 'http://localhost:8768' : '') + '/_canopy/pages/g-listing.html';
+var ROWS = [
+  ['Top', 'Price shown 3 times (under the title, Price section, bottom bar) and duration twice (meta line + quick facts). Mustard "4 left" badge is a Canopy leftover.', null],
+  ['What to expect + story', 'Section icons before every title (Home has none). Dark night illustration among photos. "Read the full story" in green outline.', 'wte-h'],
+  ['Getting there', 'Google Maps / Waze buttons in green outline.', 's10'],
+  ['Groups, private & corporate', 'Green-tinted icon tiles on the rows.', 's18']
+];
+var FIX = [
+  '.h-ic { display: none !important; }',
+  '.hd-price { display: none !important; }',
+  '.btn.story-btn, .btn.gt-ob { border: 1px solid #EBEBEB !important; color: #222 !important; background: #fff !important; }',
+  '.bar-left { background: none !important; color: #D7263D !important; font-weight: 600 !important; padding: 0 !important; }',
+  '.list-row > .ph:first-child { background: #F7F7F7 !important; color: #222 !important; }',
+  '.wte-art { background: url(https://images.unsplash.com/photo-1644281264362-420bec9dbb73?w=400&q=60&auto=format&fit=crop) center / cover !important; } .wte-art > * { display: none !important; }'
+].join('\n');
+document.getElementById('rows').innerHTML = ROWS.map(function (r, i) {
+  return '<div class="row"><div><h2>' + r[0] + '</h2><p>' + r[1] + '</p></div>' +
+    '<div class="cell"><b>Canopy</b><div class="f"><iframe data-to="' + (r[2] || '') + '" src="' + CANOPY + '?c' + i + (r[2] ? '#' + r[2] : '') + '"></iframe></div></div>' +
+    '<div class="cell"><b>Now</b><div class="f"><iframe data-to="' + (r[2] || '') + '" src="../pages/g-listing.html?n' + i + '"></iframe></div></div>' +
+    '<div class="cell"><b>Proposed</b><div class="f"><iframe data-to="' + (r[2] || '') + '" data-fix="1" src="../pages/g-listing.html?p' + i + '"></iframe></div></div></div>';
+}).join('');
+document.querySelectorAll('iframe').forEach(function (f) {
+  f.addEventListener('load', function () {
+    try {
+      var d = f.contentDocument, w = f.contentWindow;
+      d.documentElement.classList.add('in-phone');
+      d.querySelectorAll('.reveal').forEach(function (e) { e.classList.add('in'); });
+      if (f.dataset.fix) {
+        var st = d.createElement('style'); st.textContent = FIX; d.head.appendChild(st);
+        d.querySelectorAll('.qs-i').forEach(function (q) { if (/3\.5 hours/.test(q.textContent)) q.style.display = 'none'; });
+      }
+      var to = f.dataset.to;
+      /* jump to the compared section; repeat because the page's own scripts and images move things while loading */
+      if (to) [600, 1400, 2600].forEach(function (t) { setTimeout(function () { var el = d.getElementById(to); if (el) w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - 110); }, t); });
+    } catch (e) {}
+  });
+});
+</script>
+</body>
+</html>

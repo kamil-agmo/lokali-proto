@@ -1,0 +1,20 @@
+/* Phone-first fit. Link this stylesheet LAST in every page's <head>, so these variables win over any earlier defaults.
+
+   --sb      the space a screen leaves at the top for the phone's status bar
+   --safe-b  the space fixed bars, sheets and floating buttons leave at the bottom (home indicator)
+
+   On a real phone the operating system draws the status bar and the home indicator, and tells the page how much room they take through
+   env(safe-area-inset-*). That needs <meta name="viewport" content="..., viewport-fit=cover">. Where the OS leaves no inset (an installed app whose
+   status bar has its own strip, a desktop browser) the fallback gap applies, so there is never a big empty band.
+   Inside a presenter shell's frame (html.in-phone) the shell draws a fake status bar and a home indicator, so use fixed stand-ins there. */
+:root { --sb: calc(env(safe-area-inset-top, 0px) + 12px); --safe-b: env(safe-area-inset-bottom, 0px); }
+html.in-phone { --sb: 62px; --safe-b: 34px; }
+
+/* How screens use them (adapt the numbers to your design):
+     .appbar  { height: calc(var(--sb) + 56px); padding-top: var(--sb); }        a fixed top bar: status-bar space + 56 px of bar
+     .page    { padding-top: calc(var(--sb) + 56px + 16px); }                    content starts below the bar
+     .tabbar  { padding-bottom: var(--safe-b); }                                 a bottom bar clears the home indicator
+     .sheet   { padding-bottom: calc(24px + var(--safe-b)); }
+   Use 100dvh (not 100vh) for full-height layouts: 100vh includes the browser toolbar that slides away, 100dvh follows it. */
+html { -webkit-text-size-adjust: 100%; }          /* stop phones enlarging text when the device turns */
+input, select, textarea { font-size: max(16px, 1em); }   /* iOS zooms into a field whose text is under 16 px */

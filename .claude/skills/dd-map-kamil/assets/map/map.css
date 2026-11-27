@@ -1,0 +1,71 @@
+/* dd-map-kamil · map.css · the map's box, controls, markers and popup, in the prototype's tokens.
+   Change the look with the --map-* tokens (set them on :root or on one .dd-map); they fall back to the kit's names
+   (--brand, --accent, --ink, --surface) and then to plain values. Dark: html.dark, or the system when html has no .light. */
+.dd-map {
+  --map-accent: var(--brand, var(--accent, #2563eb));
+  --map-on: #fff;
+  --map-ok: #1e8e3e; --map-bad: #d93025; --map-warn: #e37400; --map-muted: #5f6368;
+  --map-surface: var(--surface, #fff);
+  --map-ink: var(--ink, #0f172a);
+  --map-sub: var(--muted, #64748b);
+  --map-line: rgba(15, 23, 42, .12);
+  --map-radius: 16px;
+  --map-shadow: 0 2px 10px rgba(15, 23, 42, .18);
+  position: relative; overflow: hidden; min-height: 200px; border-radius: var(--map-radius);
+  background: #eeeeec; color: var(--map-ink); isolation: isolate;
+}
+html.dark .dd-map { --map-surface: #1f242b; --map-ink: #f1f5f9; --map-sub: #9aa4b2; --map-line: rgba(255, 255, 255, .14); --map-shadow: 0 2px 12px rgba(0, 0, 0, .5); background: #0e0e0e; }
+@media (prefers-color-scheme: dark) {
+  html:not(.light) .dd-map { --map-surface: #1f242b; --map-ink: #f1f5f9; --map-sub: #9aa4b2; --map-line: rgba(255, 255, 255, .14); --map-shadow: 0 2px 12px rgba(0, 0, 0, .5); background: #0e0e0e; }
+}
+.dd-map > .dd-map__gl, .dd-map__figma { position: absolute; inset: 0; }   /* MapLibre's own CSS makes its box relative: this wins */
+.dd-map__figma > svg, .dd-map__figma > img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block; }
+.dd-map .ms { font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Symbols Sharp'; font-weight: normal; font-style: normal; line-height: 1;
+  letter-spacing: normal; text-transform: none; white-space: nowrap; direction: ltr; -webkit-font-smoothing: antialiased; font-feature-settings: 'liga'; }
+
+/* controls: Material Symbols buttons, 44 px to tap */
+.dd-map__ctrls { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; flex-direction: column; gap: 8px; }
+.dd-map__grp { display: flex; flex-direction: column; border-radius: 14px; background: var(--map-surface); box-shadow: var(--map-shadow); overflow: hidden; }
+.dd-map__btn { width: 44px; height: 44px; display: grid; place-items: center; border: 0; padding: 0; background: transparent; color: var(--map-ink); cursor: pointer; }
+.dd-map__btn + .dd-map__btn { border-top: 1px solid var(--map-line); }
+.dd-map__btn .ms { font-size: 22px; transition: transform .2s; }
+.dd-map__btn:hover { background: color-mix(in srgb, var(--map-ink) 6%, transparent); }
+.dd-map__btn:focus-visible { outline: 2px solid var(--map-accent); outline-offset: -2px; }
+.dd-map__credit { position: absolute; z-index: 3; right: 8px; bottom: 6px; padding: 1px 6px; border-radius: 6px; font: 400 10px/16px system-ui, sans-serif;
+  background: color-mix(in srgb, var(--map-surface) 80%, transparent); color: var(--map-sub); }
+.dd-map__credit a { color: inherit; text-decoration: none; }
+.dd-map__msg { position: absolute; z-index: 4; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font: 500 14px/20px system-ui, sans-serif; color: var(--map-sub); background: var(--map-surface); }
+
+/* markers: a button at least 44 px wide, the visible part inside */
+.dd-mk { --mk: var(--map-accent); position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px;
+  padding: 0; border: 0; background: none; color: var(--mk); cursor: pointer; font: 700 13px/18px system-ui, sans-serif; transition: transform .15s; }
+.dd-mk--ok { --mk: var(--map-ok); } .dd-mk--bad { --mk: var(--map-bad); } .dd-mk--warn { --mk: var(--map-warn); } .dd-mk--muted { --mk: var(--map-muted); }
+.dd-mk__body { display: flex; align-items: center; justify-content: center; background: var(--mk); color: var(--map-on); box-shadow: var(--map-shadow); }
+.dd-mk__tail { display: block; width: 12px; height: 7px; margin-top: -1px; color: var(--mk); }
+.dd-mk:focus-visible { outline: none; } .dd-mk:focus-visible .dd-mk__body { outline: 3px solid var(--map-ink); outline-offset: 2px; }
+.dd-mk.is-on { z-index: 2; transform: scale(1.15); }
+.dd-mk--pin .dd-mk__body { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--map-on); }
+.dd-mk--pin .ms { font-size: 20px; }
+.dd-mk--label .dd-mk__body { height: 30px; padding: 0 12px; border-radius: 15px; white-space: nowrap; border: 2px solid var(--map-on); }
+.dd-mk--label:not(.is-on) .dd-mk__body { background: var(--map-surface); color: var(--map-ink); border-color: var(--map-surface); }
+.dd-mk--label:not(.is-on) .dd-mk__tail { color: var(--map-surface); }
+.dd-mk--photo .dd-mk__body { width: 42px; height: 42px; border-radius: 50%; padding: 2px; overflow: hidden; }
+.dd-mk--photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--map-surface); }
+.dd-mk--number, .dd-mk--dot, .dd-mk--me, .dd-mk--cluster { justify-content: center; }
+.dd-mk--number .dd-mk__body { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--map-on); }
+.dd-mk--dot .dd-mk__body { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--map-on); }
+.dd-mk--cluster .dd-mk__body { width: 40px; height: 40px; border-radius: 50%; border: 3px solid color-mix(in srgb, var(--mk) 35%, var(--map-on)); font-size: 14px; }
+.dd-mk--me { --mk: #1a73e8; pointer-events: none; }
+.dd-mk--me .dd-mk__body { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #fff; }
+.dd-mk__ring { position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--mk); opacity: .35; animation: dd-mk-pulse 2s ease-out infinite; }
+@keyframes dd-mk-pulse { to { transform: scale(3.2); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .dd-mk__ring { animation: none; transform: scale(2); opacity: .2; } .dd-mk { transition: none; } }
+
+/* popup: a small card in the tokens */
+.dd-map .maplibregl-popup-content { padding: 0; border-radius: 14px; background: var(--map-surface); box-shadow: var(--map-shadow); }
+.dd-map .maplibregl-popup-tip { border-top-color: var(--map-surface) !important; border-bottom-color: var(--map-surface) !important; }
+.dd-map__pop { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; font: 400 13px/18px system-ui, sans-serif; color: var(--map-ink); }
+.dd-map__pt { font-weight: 700; font-size: 14px; line-height: 20px; }
+.dd-map__ps { color: var(--map-sub); }
+.dd-map__pa { margin-top: 6px; align-self: flex-start; padding: 6px 12px; border-radius: 99px; background: var(--map-accent); color: var(--map-on); font-weight: 700; text-decoration: none; }
+.dd-map .maplibregl-cooperative-gesture-screen { font: 500 15px/22px system-ui, sans-serif; }

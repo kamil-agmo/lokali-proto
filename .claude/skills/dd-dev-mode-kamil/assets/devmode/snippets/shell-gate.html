@@ -1,0 +1,16 @@
+  <!-- Dev mode password gate -->
+  <div id="devgate" class="devgate" hidden>
+    <form class="devgate__card" role="dialog" aria-modal="true" aria-labelledby="dg-title" aria-describedby="dg-warn" autocomplete="off">
+      <div class="devgate__head">
+        <span class="devgate__icon" aria-hidden="true"><span class="mi">code</span></span>
+        <h2 id="dg-title">Developer mode</h2>
+      </div>
+      <div class="devgate__warn" id="dg-warn" role="alert">
+        <span class="devgate__warn-icon" aria-hidden="true"><span class="mi">warning</span></span>
+        <p><b>For developers only.</b> The Developer inspector shows how the prototype is built (sizes, spacing, tokens). It is meant for checking the build against the design, not for presenting. Continue only if you are a developer on this project.</p>
+      </div>
+      <label class="devgate__field"><span>Password</span><input id="dg-pass" type="password" autocomplete="off" spellcheck="false" placeholder="Enter dev password"></label>
+      <p class="devgate__err" id="dg-err" hidden>That password is not right.</p>
+      <div class="devgate__act"><button type="button" id="dg-cancel" class="devgate__btn devgate__btn--ghost">Cancel</button><button type="submit" class="devgate__btn">I am a developer, enable</button></div>
+    </form>
+  </div>

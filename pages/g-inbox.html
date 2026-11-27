@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Inbox</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+/* Inbox in Airy (27 Nov): one list, newest first; each thread says what it's about in a plain status line
+   (trip date / enquiry / past trip) instead of section headers, filter tabs and coloured badges */
+.thread { padding: 16px 24px !important; }
+.thread .top b { font-size: 15px; }
+.thread .top time { font-size: 12px; color: var(--muted) !important; font-weight: 400 !important; }
+.thread.unread .top time { color: var(--ink) !important; font-weight: 600 !important; }
+.thread .exp { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
+.thread .prev { font-size: 15px; line-height: 21px; margin-top: 2px; }
+.thread .st { display: block; margin-top: 6px; font-size: 12px; line-height: 17px; color: var(--muted); }
+.thread .st--up { color: var(--ink); font-weight: 600; }
+.udot { background: var(--brand) !important; }
+.ib-in { animation: ibIn .25s var(--ease); } @keyframes ibIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Inbox</div>
+<header class="lt"><h1>Inbox</h1></header>
+<a class="mode-note" id="hostNote" href="h-inbox.html" data-go="h-inbox" hidden><i class="ph ph-house-line" aria-hidden="true"></i><span class="grow">Guest messages · Hosting inbox</span><b>Switch</b></a>
+<script>if (L.state.get('hostStatus', 'none') === 'approved') document.getElementById('hostNote').hidden = false;</script>
+<main id="threads"></main>
+
+<nav class="tabbar" data-tabs="guest" data-active="g-inbox"></nav>
+  <script>
+  (function () {
+var T = [
+  /* [person, experience, last message, time, upcoming trip?, status line] — newest first */
+  ['rahim', 'mangrove', 'Please come at 4:45 so we can fit the life jackets.', '10:32 AM', true, 'Trip in 4 days · Sun, 6 Dec'],
+  ['jenny', 'nyonya', 'Any spice level I should know about? I can make it mild for you.', 'Yesterday', true, 'Trip · Sat, 19 Dec'],
+  ['kumar', 'canopy', 'You: Thank you Kumar, the hornbills were unreal.', 'Sat', false, 'Past trip · Sun, 22 Nov'],
+  ['meiling', 'paddy', 'Mei Ling: Yes, children are welcome in the field.', '14 Nov', false, 'Enquiry · not booked']
+];
+function row(t) {
+  var p = L.people[t[0].replace('-enq', '')], e = L.exp[t[1]];
+  return '<a class="thread' + (L.isUnread(t[0]) ? ' unread' : '') + '" href="g-chat.html" data-go="g-chat" data-thread="' + t[0] + '"><span class="av"><img class="avatar" src="' + L.img(p.img, 120) + '" alt=""><img class="thumb" src="' + L.img(e.img, 80) + '" alt=""></span>' +
+    '<span class="body"><span class="top"><b>' + p.name + '</b><time>' + t[3] + '</time></span><span class="exp">' + e.title + '</span><span class="prev" style="display:block">' + t[2] + '</span><span class="st' + (t[4] ? ' st--up' : '') + '">' + t[5] + '</span></span>' + (L.isUnread(t[0]) ? '<span class="udot" aria-label="Unread"></span>' : '') + '</a>';
+}
+  var sent = null; try { sent = sessionStorage.getItem('lk-enq-sent'); } catch (e) {}
+  /* one chat per host + experience: an enquiry to a host you've already booked joins the booking chat */
+  if (sent) { T[0][2] = 'You: ' + sent; T[0][3] = 'Just now'; }
+  var m = document.getElementById('threads'); m.innerHTML = T.map(row).join(''); m.classList.add('ib-in');
+  document.getElementById('threads').addEventListener('click', function (e) { var a = e.target.closest('[data-thread]'); if (a) try { sessionStorage.setItem('lk-thread', a.dataset.thread); } catch (x) {} }, true);
+  })();
+  </script>
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-inbox', [['Threads', '4, newest first'], ['Each row', 'Host, experience, last message, trip date or enquiry']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

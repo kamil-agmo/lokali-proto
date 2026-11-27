@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Bank details</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Bank details</h1>
+    <span class="spacer"></span>
+  </header>
+<section class="pad" style="padding-top:8px" aria-label="Payout account"><div class="card">
+    <span class="bal-label"><i class="ph-fill ph-bank" aria-hidden="true"></i>Payout account</span>
+    <p class="bal-amt">Maybank •• 4821</p>
+    <p class="sum-note">Every payout lands here about 24 hours after an experience ends.</p>
+  </div></section>
+  <section class="reveal pad stack-lg">
+    <div class="notice notice--success"><i class="ph-fill ph-seal-check" aria-hidden="true"></i><span><b>Verified</b> on Fri, 14 Mar 2025. Payouts are going to this account.</span></div>
+    <div class="field"><label for="bank">Bank</label>
+      <select class="select" id="bank"><option selected>Maybank</option><option>CIMB Bank</option><option>Public Bank</option><option>RHB Bank</option><option>Hong Leong Bank</option><option>AmBank</option><option>Bank Islam</option><option>Bank Rakyat</option><option>BSN</option><option>Agrobank</option></select>
+    </div>
+    <div class="field"><label for="hold">Account holder name</label><input class="input" id="hold" value="Abdul Rahim bin Osman"><span class="hint">Must match the name on your IC or SSM certificate.</span></div>
+    <div class="field"><label for="acc">Account number</label><input class="input" id="acc" value="1142 •••• 4821" inputmode="numeric"></div>
+    <div class="field"><label for="typ">Account type</label>
+      <div class="segmented" data-group><button class="active">Personal</button><button>Business</button></div>
+    </div>
+    <div class="notice notice--warn" id="warn" hidden><i class="ph ph-warning" aria-hidden="true"></i><span>Payouts pause until the new account is verified (about 1 working day)</span></div>
+    <div class="notice"><i class="ph ph-info" aria-hidden="true"></i><span>Payouts go to Malaysian bank accounts in MYR only. Lokali never asks for your online banking password.</span></div>
+  </section>
+  <div style="height:24px"></div>
+  <div class="cta-bar"><button class="btn btn--primary btn--block" id="save">Save</button></div>
+
+  <script>
+  (function () {
+    document.querySelectorAll('#bank, #hold, #acc').forEach(function (el) { el.addEventListener('input', function () { document.getElementById('warn').hidden = false; }); el.addEventListener('change', function () { document.getElementById('warn').hidden = false; }); });
+    document.getElementById('save').addEventListener('click', function () {
+      if (document.getElementById('warn').hidden) { L.toast('No changes'); return; }
+      L.toast('Saved. Verifying your new account.', 'ph-hourglass-medium');
+    });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bank', [["Bank", "Maybank •• 4821"], ["State", "Verified"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

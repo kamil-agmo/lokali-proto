@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Chat with host</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+.chat-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 10px; padding: var(--sb) 8px 8px; min-height: calc(var(--sb) + 52px); background: var(--bg); border-bottom: 1px solid var(--line); }
+.chat-av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+.chat-who { min-width: 0; } .chat-who b { display: flex; align-items: center; gap: 4px; font-size: 15px; line-height: 22px; font-weight: 600; color: var(--ink); } .chat-who b .ph-fill { font-size: 16px; color: #3BA4E8; }
+.chat-who span { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.pin-card { position: sticky; top: calc(var(--sb) + 52px); z-index: 19; display: flex; align-items: center; gap: 12px; margin: 12px 16px 0; padding: 12px; border-radius: var(--card-r, 24px); background: var(--surface); box-shadow: var(--card-shadow); color: var(--ink); }
+.pin-card img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; flex: none; }
+.pin-card b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .pin-card span { display: block; font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 2px; }
+.pin-card > .ph { font-size: 18px; color: var(--muted); }
+#msg.filled { animation: fillPulse .4s var(--ease); }
+@keyframes fillPulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 35%, transparent); } 100% { box-shadow: 0 0 0 8px transparent; } }
+/* the booking strip stays while messages scroll under it, so it is docked to the header: full width, solid white, hairline divider (a flat card sticking over the messages looked broken) */
+body.m .pin-card { margin: 0 !important; border-radius: 0 !important; padding: 10px 24px !important; background: var(--bg) !important; border-bottom: 1px solid var(--line); box-shadow: none !important; }
+body.m .pin-card img { width: 40px; height: 40px; border-radius: 10px; }
+.pin-book { flex: none; min-height: 36px !important; padding: 0 14px; font-size: 13px; }
+.chat-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 40px 24px 16px; text-align: center; font-size: 15px; line-height: 20px; color: var(--muted); }
+.chat-empty .ph-fill { font-size: 32px; color: var(--primary); }
+</style>
+<style>
+  /* safety reminder as a plain grey line, like the Booking confirmed line, not a coloured box */
+  .sys.sys--safe { background: none !important; padding: 4px 12px; font-size: 12px; line-height: 17px; color: var(--muted) !important; text-align: center; max-width: 280px; }
+  .sys.sys--safe .ph { font-size: 16px; flex: none; }
+</style>
+</head>
+<body class="m">
+<header class="appbar chat-bar">
+  <button class="icon-btn" data-go="g-inbox" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <img class="avatar chat-av" data-img="1763219069500-e4c9b49f308f" data-w="80" alt="">
+  <div class="grow chat-who"><b>Pak Rahim<i class="ph-fill ph-seal-check" role="img" aria-label="Identity verified"></i></b><span>Usually replies within an hour</span></div>
+  <button class="icon-btn" aria-label="More options" data-toast="Report or block options" data-toast-icon="ph-flag"><i class="ph ph-dots-three-vertical" aria-hidden="true"></i></button>
+</header>
+<a class="pin-card" href="g-booking.html" data-go="g-booking" aria-label="View booking: Mangrove and fireflies, Sunday 6 December, 5:00 PM, 3 guests"><img data-img="1773904594755-6c25ab2ef6c9" data-w="120" alt=""><div class="grow"><b>Mangrove &amp; fireflies</b><span>Sun, 6 Dec · 5:00 PM · 3 guests</span></div><i class="ph ph-caret-right" aria-hidden="true"></i></a>
+
+<main class="chat" id="chat">
+  <span class="bubble-time">Mon, 30 Nov</span>
+  <div class="bubble out">Hi Pak Rahim! Can our son Adam come? He's 7 and a confident swimmer.</div>
+  <div class="bubble out">One of us is vegetarian — is the kuih OK?</div>
+  <span class="bubble-time">Today</span>
+  <span class="sys"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Booking confirmed · Wed, 2 Dec</span>
+  <div class="bubble in">Selamat datang Aina! Yes, Adam is very welcome. We have child life jackets and stay close to the bank.</div>
+  <div class="bubble in">The kuih is fine too. My wife makes everything vegetarian except the fish crackers.</div>
+  <div class="bubble in">Please come at 4:45 so we can fit the life jackets. Look for the green boat shed next to the surau.</div>
+  <span class="sys sys--safe"><i class="ph ph-shield-check" aria-hidden="true"></i>Keep payments on Lokali. Never send money to a host directly.</span>
+</main>
+
+<div class="quick"><div class="chips" id="qr"><button class="chip" data-fill="We're running about 15 minutes late.">Running late</button></div></div>
+<form class="composer" id="cf">
+  <button type="button" class="icon-btn" aria-label="Add photo"><i class="ph ph-image" aria-hidden="true"></i></button>
+  <input class="input grow" id="msg" placeholder="Message Pak Rahim" aria-label="Message">
+  <button class="icon-btn filled" type="submit" aria-label="Send" style="background:var(--primary);color:#fff"><i class="ph-fill ph-paper-plane-right" aria-hidden="true"></i></button>
+</form>
+  <script>
+  (function () {
+var chat = document.getElementById('chat'), inp = document.getElementById('msg');
+/* one chat screen, four conversations: the inbox stores which thread was tapped */
+var TH = {
+  jenny: { host: 'jenny', reply: 'Usually replies within a few hours', exp: 'nyonya', pin: 'Sat, 19 Dec · 10:00 AM · 2 guests', pinToast: 'Opens your Nyonya booking',
+    msgs: [['t', 'Sun, 29 Nov'], ['sys', 'Booking confirmed · Sun, 29 Nov'], ['t', 'Yesterday'], ['in', 'Hi Aina, looking forward to cooking with you both!'], ['in', 'Any spice level I should know about? I can make it mild for you.']],
+    quick: [['Mild, please', 'Mild, please. We love flavour but not too much heat.'], ['Medium is fine', 'Medium is fine for us, thank you!'], ['Where do we meet?', 'Where do we meet on the day?']] },
+  kumar: { host: 'kumar', reply: 'Usually replies within a day', exp: 'canopy', pin: 'Completed · Sat, 28 Nov · 2 guests', pinGo: 'g-review', pinLabel: 'Leave a review',
+    msgs: [['t', 'Fri, 27 Nov'], ['in', 'See you at the Penang Hill lower station at 6:45 AM. Bring a light jacket.'], ['t', 'Sat, 28 Nov'], ['sys', 'Experience completed · Sat, 28 Nov'], ['in', 'Thank you for coming! Hope the hornbills made the early start worth it.'], ['out', 'Thank you Kumar, the hornbills were unreal.']],
+    quick: [['Thanks again!', 'Thanks again, Kumar!'], ['Reef trip?', 'Do you also run the reef restoration snorkel?']] },
+  'rahim-enq': { host: 'rahim', reply: 'Usually replies within an hour', exp: 'mangrove', pin: 'Enquiry · not booked yet', bookGo: 'g-book', enquiry: true, msgs: [],
+    empty: 'No messages yet · Pak Rahim replies within an hour',
+    quick: [['Suitable for kids?', 'Is it suitable for kids? Our son is 7.'], ['Book privately?', 'Can we book the boat privately?'], ['What if it rains?', 'What happens if it rains?']] },
+  meiling: { host: 'meiling', reply: 'Usually replies within a day', exp: 'paddy', pin: 'Enquiry · not booked yet', bookToast: 'Opens Paddy-to-plate farm day', enquiry: true,
+    msgs: [['t', 'Sat, 14 Nov'], ['out', 'Hi Mei Ling, are children welcome? Our son is 7.'], ['in', 'Yes, children are welcome in the field. We have small boots for them.']],
+    quick: [['Free dates in January?', 'Which dates are free in January?'], ['Is lunch halal?', 'Is the lunch halal?']] }
+};
+var key = 'rahim'; try { key = sessionStorage.getItem('lk-thread') || 'rahim'; } catch (e) {}
+L.markRead(key);
+var T = TH[key];
+var SENT = null; try { SENT = sessionStorage.getItem('lk-enq-sent'); } catch (e) {}
+if (T) {
+  var p = L.people[T.host], e = L.exp[T.exp];
+  var av = document.querySelector('.chat-av'); av.setAttribute('data-img', p.img); av.src = L.img(p.img, 80);
+  document.querySelector('.chat-who b').firstChild.textContent = p.name;
+  document.querySelector('.chat-who span').textContent = T.reply;
+  document.title = 'Lokali · Chat with ' + p.first;
+  var pc = document.querySelector('.pin-card');
+  pc.querySelector('img').setAttribute('data-img', e.img); pc.querySelector('img').src = L.img(e.img, 120); pc.querySelector('b').textContent = e.title; pc.querySelector('span').textContent = T.pin;
+  pc.setAttribute('aria-label', (T.pinLabel || 'View') + ': ' + e.title + ', ' + T.pin);
+  pc.removeAttribute('data-go');
+  if (T.pinGo) pc.setAttribute('data-go', T.pinGo); else if (T.pinToast) { pc.setAttribute('data-toast', T.pinToast); pc.setAttribute('data-toast-icon', 'ph-arrow-square-out'); }
+  if (T.enquiry) {
+    pc.classList.add('is-enquiry'); pc.removeAttribute('href'); pc.setAttribute('role', 'group');
+    var chev = pc.querySelector('.ph-caret-right'); if (chev) chev.remove();
+    var bk = document.createElement('button'); bk.className = 'btn btn--primary btn--sm pin-book'; bk.textContent = 'Book now';
+    if (T.bookGo) bk.setAttribute('data-go', T.bookGo); else { bk.setAttribute('data-toast', T.bookToast); bk.setAttribute('data-toast-icon', 'ph-arrow-square-out'); }
+    pc.appendChild(bk);
+  }
+  var warn = chat.lastElementChild.outerHTML;
+  chat.innerHTML = T.msgs.map(function (m) {
+    if (m[0] === 't') return '<span class="bubble-time">' + m[1] + '</span>';
+    if (m[0] === 'sys') return '<span class="sys"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>' + m[1] + '</span>';
+    return '<div class="bubble ' + m[0] + '">' + m[1] + '</div>';
+  }).join('') + (T.msgs.length ? '' : '<p class="chat-empty"><i class="ph-fill ph-chat-circle-dots" aria-hidden="true"></i>' + T.empty + '</p>') + warn;
+  document.getElementById('qr').innerHTML = T.quick.map(function (q) { return '<button class="chip" data-fill="' + q[1].replace(/"/g, '&quot;') + '">' + q[0] + '</button>'; }).join('');
+  inp.placeholder = 'Message ' + p.first;
+}
+if (key === 'rahim' && SENT) { var sb = document.createElement('div'); sb.className = 'bubble out'; sb.textContent = SENT; chat.insertBefore(sb, chat.lastElementChild); }
+function send(t) { if (!t) return; var ce = chat.querySelector('.chat-empty'); if (ce) ce.remove(); if (key === 'rahim' || key === 'rahim-enq') try { sessionStorage.setItem('lk-enq-sent', t); } catch (e) {} var b = document.createElement('div'); b.className = 'bubble out'; b.textContent = t; chat.insertBefore(b, chat.lastElementChild); inp.value = ''; window.scrollTo(0, document.body.scrollHeight); }
+document.getElementById('cf').addEventListener('submit', function (e) { e.preventDefault(); send(inp.value.trim()); });
+document.getElementById('qr').addEventListener('click', function (e) { var c = e.target.closest('[data-fill]'); if (!c) return; inp.value = c.getAttribute('data-fill'); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); inp.classList.remove('bump'); void inp.offsetWidth; inp.classList.add('filled'); setTimeout(function () { inp.classList.remove('filled'); }, 400); });
+window.addEventListener('load', function () { window.scrollTo(0, document.body.scrollHeight); });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-chat', [['With', 'Pak Rahim Osman'], ['Booking', 'LK-24817'], ['Contains', 'Pre-booking question + post-booking chat']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

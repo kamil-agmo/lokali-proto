@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Booking & guest list</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-bookings" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Guest list</h1>
+    <button class="icon-btn" aria-label="Print guest list" data-toast="Guest list sent to your email" data-toast-icon="ph-envelope-simple"><i class="ph ph-printer" aria-hidden="true"></i></button>
+  </header>
+<section class="pad" style="padding-top:8px" aria-label="Summary"><div class="card">
+    <span class="bal-label"><i class="ph-fill ph-calendar-check" aria-hidden="true"></i>Sun, 6 Dec 2026 · 5:00 – 8:30 PM</span>
+    <p class="t2 mt1">Mangrove &amp; fireflies</p>
+    <div class="sum-stats"><div><b>7 / 10</b>guests booked</div><div><b>1</b>vegetarian</div><div><b>RM 327</b>you earn</div></div>
+  </div></section>
+  <section class="reveal pad">
+
+    <div class="card mt4">
+      <div class="row-between"><b>7 of 10 spots booked</b><span class="badge badge--brand">3 left</span></div>
+      <div class="progress mt2"><i style="width:70%"></i></div>
+      <p class="small muted mt2">3 bookings · 6 adults, 1 child · closes automatically at 10</p>
+    </div>
+  </section>
+
+  <section class="reveal section">
+    <div class="section-head"><h2>Guests</h2><span class="small muted">Names, group size, dietary</span></div>
+    <div class="list" style="margin:0 var(--s4)">
+      <div class="guest hl">
+        <img class="avatar" data-img="1545266241-3516e2a6e016" data-w="120" alt="">
+        <div class="guest__body">
+          <div class="row-between"><b>Aina Rahman</b><span class="badge badge--accent">New</span></div>
+          <span class="small muted">LK-24817 · Petaling Jaya · booked Wed 2 Dec, 10:14 AM</span>
+          <span class="small">2 adults (Aina, Iskandar) · 1 child (Adam, 7)</span>
+          <span><span class="diet"><i class="ph ph-leaf" aria-hidden="true"></i>1 vegetarian</span></span>
+          <div class="row mt1"><button class="btn btn--tint btn--sm" data-go="h-chat"><i class="ph ph-chat-circle-dots" aria-hidden="true"></i>Message</button></div>
+        </div>
+      </div>
+      <div class="guest">
+        <span class="avatar">HS</span>
+        <div class="guest__body"><b>Farid Ismail</b><span class="small muted">LK-24799 · Alor Setar</span><span class="small">2 adults</span><span class="small muted">No dietary notes</span></div>
+      </div>
+      <div class="guest">
+        <span class="avatar">PN</span>
+        <div class="guest__body"><b>Priya Nair</b><span class="small muted">LK-24808 · Petaling Jaya</span><span class="small">2 adults</span><span><span class="diet"><i class="ph ph-check" aria-hidden="true"></i>Halal only</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal section">
+    <div class="section-head"><h2 class="sec-h">Earnings</h2><span class="small muted">Aina's booking</span></div>
+    <div class="card" style="margin:0 var(--s4)">
+      <div class="kv"><span>2 adults × RM 145</span><span>RM 290.00</span></div>
+      <div class="kv"><span>1 child × RM 95</span><span>RM 95.00</span></div>
+      <div class="kv"><span>Lokali commission (15%)</span><span>− RM 57.75</span></div>
+      <div class="kv total"><span>You receive</span><span>RM 327.25</span></div>
+      <p class="small muted mt2"><i class="ph ph-clock" aria-hidden="true"></i> Paid Mon, 7 Dec ~8:30 PM, about 24 hours after the experience ends.</p>
+    </div>
+  </section>
+
+  <section class="reveal section pad" style="padding-bottom:32px">
+    <button class="btn btn--danger btn--block" data-open="#cancel"><i class="ph ph-x-circle" aria-hidden="true"></i>Cancel slot</button>
+    <p class="small muted center mt2">For bad weather or emergencies. Guests get a full refund.</p>
+  </section>
+
+  <div class="sheet" id="cancel" role="dialog" aria-label="Cancel slot">
+    <h2 class="sheet-title">Cancel Sun 6 Dec, 5:00 PM?</h2>
+    <p class="muted mt2">All 3 bookings (7 guests) are cancelled and refunded 100%, including service fees. You won't be paid for this slot.</p>
+    <div class="field mt4"><label for="why">Reason (sent to guests)</label><select class="select" id="why"><option>Bad weather / high tide</option><option>Boat or equipment problem</option><option>Illness or emergency</option><option>Other</option></select></div>
+    <div class="notice notice--warn mt3"><i class="ph ph-warning" aria-hidden="true"></i><span>Frequent host cancellations are reviewed by the Lokali team.</span></div>
+    <div class="sheet-foot"><button class="btn btn--danger btn--block" data-close data-toast="Slot cancelled. Guests notified and refunded.">Cancel and refund</button>
+    <button class="btn btn--ghost btn--block" data-close>Keep slot</button></div>
+  </div>
+
+
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-booking', [["Slot", "Sun 6 Dec · 5:00 PM"], ["Booked", "7 / 10"], ["Payout (LK-24817)", "RM 327.25"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

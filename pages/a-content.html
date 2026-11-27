@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Content</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-content"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--secondary" data-go="g-home"><i class="ph ph-arrow-square-out" aria-hidden="true"></i>View site</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Content</h1><p>Homepage, categories and pages · changes go live on publish</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-layout" aria-hidden="true"></i>Live on the homepage</span><b><span class="hl">4 categories</span> · 5 featured listings</b></div></div>
+      </div>
+      <div class="tabs" data-group>
+        <button class="active" data-panel="#c-cat">Categories</button><button data-panel="#c-feat">Featured listings</button><button data-panel="#c-home">Homepage</button><button data-panel="#c-faq">FAQs</button><button data-panel="#c-fields">Listing fields</button>
+      </div>
+
+      <div id="c-cat" class="a-split">
+        <div class="a-card">
+          <div class="a-card__head"><div><h2 class="is-h3">Experience categories</h2><p>Order here is the order on the homepage and in filters</p></div><button class="btn btn--primary btn--sm" data-open="#addcat"><i class="ph ph-plus" aria-hidden="true"></i>Add category</button></div>
+          <div class="a-card__body"><ul class="sec-list" id="cats"></ul><p class="reorder-hint mt3"><i class="ph ph-hand-grabbing" aria-hidden="true"></i>Drag to reorder. Click a name to rename it.</p></div>
+        </div>
+        <div class="a-card">
+          <div class="a-card__head"><h3>Preview</h3></div>
+          <div class="a-card__body"><div id="pv" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div><p class="small muted mt3">As shown on the guest homepage.</p></div>
+        </div>
+      </div>
+
+      <div id="c-feat" class="a-card" hidden>
+        <div class="a-card__head"><div><h3>Featured this month</h3><p>Up to 8 · shown in this order on the homepage</p></div><span class="badge">5 of 8</span></div>
+        <div class="a-card__body"><div class="feat-grid" id="feat"></div></div>
+        <div class="a-card__foot"><button class="btn btn--primary" data-toast="Featured listings published">Publish</button></div>
+      </div>
+
+      <div id="c-home" class="a-split" hidden>
+        <div class="a-card">
+          <div class="a-card__head"><h3>Homepage hero</h3><span class="badge badge--success">Live</span></div>
+          <div class="a-card__body form-grid">
+            <div class="field span-2"><label for="hh">Headline</label><input class="input" id="hh" value="Travel that gives back."><span class="counter">23 / 50</span></div>
+            <div class="field span-2"><label for="hs">Subheading</label><input class="input" id="hs" value="Small-group experiences that are good for nature and the people who host them."></div>
+            <div class="field span-2"><label>Hero image</label><div class="doc"><img src="https://images.unsplash.com/photo-1786717667687-2f05e422d6f9?w=200&q=70&auto=format&fit=crop" alt="" style="width:72px;height:48px;border-radius:8px;object-fit:cover"><div><b>misty-river.jpg</b><small>1920 × 1280</small></div><button class="btn btn--secondary btn--sm">Replace</button></div></div>
+            <div class="field"><label for="sec2">Second row title</label><input class="input" id="sec2" value="Near Kuala Lumpur"></div>
+            <div class="field"><label for="sec2s">Second row shows</label><select class="select" id="sec2s"><option>Listings within 90 min of KL</option><option>Newest listings</option><option>Top rated</option></select></div>
+            <div class="field span-2"><label for="cb">Corporate banner</label><input class="input" id="cb" value="Team-building that gives back"></div>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--secondary">Discard</button><button class="btn btn--primary" data-toast="Homepage published">Publish</button></div>
+        </div>
+        <div class="a-card"><div class="a-card__head"><h3>Sections</h3></div><div class="a-card__body"><ul class="sec-list">
+          <li class="locked"><i class="ph ph-lock-simple faint" aria-hidden="true"></i><span class="grow">Hero + search</span></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Categories</span><button class="switch" role="switch" aria-checked="true" aria-label="Show categories"></button></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Featured this month</span><button class="switch" role="switch" aria-checked="true" aria-label="Show featured"></button></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Every Lokali experience</span><button class="switch" role="switch" aria-checked="true" aria-label="Show promise"></button></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Near Kuala Lumpur</span><button class="switch" role="switch" aria-checked="true" aria-label="Show second row"></button></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Corporate banner</span><button class="switch" role="switch" aria-checked="true" aria-label="Show corporate banner"></button></li>
+          <li draggable="true"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">Become a host</span><button class="switch" role="switch" aria-checked="true" aria-label="Show host banner"></button></li>
+        </ul></div></div>
+      </div>
+
+      <div id="c-faq" class="a-card" hidden>
+        <div class="a-card__head"><div><h3>FAQs</h3><p>Shown on Help and at checkout</p></div><button class="btn btn--primary btn--sm" data-toast="New question added" data-toast-icon="ph-plus"><i class="ph ph-plus" aria-hidden="true"></i>Add question</button></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th style="width:36px"></th><th>Question</th><th>Shown to</th><th>Updated</th><th></th></tr></thead>
+          <tbody id="faq"></tbody>
+        </table></div>
+      </div>
+
+      <div id="c-fields" class="a-card" hidden>
+        <div class="a-card__head"><div><h3>Listing fields</h3><p>The fields every host fills in, in guest-page order. Add fields later without a developer.</p></div><button class="btn btn--primary btn--sm" data-toast="New field added to the list. Set its section and type." data-toast-icon="ph-plus"><i class="ph ph-plus" aria-hidden="true"></i>Add field</button></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>#</th><th>Section</th><th>Fields</th><th>Required</th><th>Writing tip for hosts</th></tr></thead>
+          <tbody id="flds"></tbody>
+        </table></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="addcat" role="dialog" aria-modal="true" aria-labelledby="ac-h">
+  <div class="a-modal__body"><h3 id="ac-h">Add category</h3>
+    <div class="field"><label for="ac-n">Name</label><input class="input" id="ac-n" value="Marine &amp; islands"></div>
+    <div class="field"><label for="ac-i">Icon</label><select class="select" id="ac-i"><option value="ph-waves">Waves</option><option value="ph-mountains">Mountains</option><option value="ph-bicycle">Bicycle</option><option value="ph-fish">Fish</option></select></div>
+    <p class="hint">Shown on the homepage once 1 listing is live</p></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="ac-go">Add category</button></div>
+</div>
+<script>
+(function () {
+  var C = L.cats.map(function (c) { return { name: c.name, icon: c.icon, count: c.count }; });
+  var ul = document.getElementById('cats'), drag = null;
+  function draw() {
+    ul.innerHTML = C.map(function (c, i) { return '<li draggable="true" data-i="' + i + '"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><i class="ph ' + c.icon + '" style="color:var(--primary);font-size:20px" aria-hidden="true"></i><span class="grow" contenteditable="true" spellcheck="false" data-i="' + i + '">' + c.name + '</span><span class="small muted">' + c.count + ' listings</span>' + (c.count ? '' : '<span class="badge">Hidden until a listing is live</span>') + '</li>'; }).join('');
+    document.getElementById('pv').innerHTML = C.map(function (c) { return '<div class="cat"><i class="ph ' + c.icon + '" aria-hidden="true"></i>' + c.name + '</div>'; }).join('');
+  }
+  ul.addEventListener('dragstart', function (e) { drag = +e.target.closest('li').dataset.i; });
+  ul.addEventListener('dragover', function (e) { e.preventDefault(); });
+  ul.addEventListener('drop', function (e) { e.preventDefault(); var li = e.target.closest('li'); if (!li || drag === null) return; var m = C.splice(drag, 1)[0]; C.splice(+li.dataset.i, 0, m); drag = null; draw(); L.toast('Order saved. Live on the homepage.', 'ph-arrows-down-up'); });
+  ul.addEventListener('focusout', function (e) { var s = e.target.closest('[contenteditable]'); if (!s) return; var v = s.textContent.trim(); if (v && v !== C[+s.dataset.i].name) { C[+s.dataset.i].name = v; draw(); L.toast('Category renamed'); } });
+  ul.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.isContentEditable) { e.preventDefault(); e.target.blur(); } });
+  document.getElementById('ac-go').addEventListener('click', function () { C.push({ name: document.getElementById('ac-n').value, icon: document.getElementById('ac-i').value, count: 0 }); L.close(); draw(); L.toast('Category added'); });
+  draw();
+  document.getElementById('feat').innerHTML = L.featured.map(function (k, i) {
+    var e = L.exp[k]; return '<div class="feat"><span class="pos">' + (i + 1) + '</span><img src="' + L.img(e.img, 400) + '" alt=""><div><b>' + e.title + '</b><span class="muted">' + e.place + '</span><div class="row-between mt2"><span class="drag small"><i class="ph ph-dots-six-vertical" aria-hidden="true"></i>Drag</span><button class="btn btn--ghost btn--sm" data-toast="Removed from featured">Remove</button></div></div></div>';
+  }).join('') + '<div class="feat add" data-go="a-listings"><span><i class="ph ph-plus" style="font-size:24px" aria-hidden="true"></i><br>Add a live listing</span></div>';
+  var F = [['How do I know an experience is sustainable?', 'Guests'], ['When will I be charged?', 'Guests · checkout'], ['How do refunds work?', 'Guests · checkout'], ['Can I book for a company or school?', 'Guests'], ['When do hosts get paid?', 'Hosts'], ['What does Lokali charge hosts?', 'Hosts'], ['Can Lokali create my listing for me?', 'Hosts']];
+  document.getElementById('faq').innerHTML = F.map(function (f) { return '<tr><td><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i></td><td class="strong">' + f[0] + '</td><td>' + f[1] + '</td><td class="small muted">12 Nov 2026</td><td class="num"><button class="btn btn--ghost btn--sm" data-toast="Editor opens">Edit</button></td></tr>'; }).join('');
+  var FL = [['1', 'Hook', 'Title, one-line promise, photos (min 5), video', 'Yes (video optional)', 'Lead with what guests do, not where.'], ['2', 'Quick facts', 'Duration, group size, start times, languages, fitness, min age, Best season (new)', 'Yes', '—'], ['3', 'Story', 'Free text, 250 words', 'Yes', 'What would you tell a friend?'], ['4', 'Itinerary', 'Time + activity steps', 'Yes', '—'], ['5', 'Included / not included', 'Two checklists', 'Yes', '—'], ['6', 'Meet your guide', 'Photo, name, hometown, 4 prompts, video', 'Yes (video optional)', 'Personal, not a CV.'], ['7', 'Impact story', 'Short text', 'Yes', 'Use one number.'], ['8', 'Where your money goes', '% split, must total 100', 'Yes', '—'], ['10', 'Getting there', 'Map pin, directions, transport, parking, pickup', 'Yes', '—'], ['11', 'What to bring and wear', 'Checklist', 'Yes', '—'], ['12', 'Respect and etiquette', 'Dress, photos, wildlife, culture', 'Optional', '—'], ['13', 'Food and dietary', 'Halal, vegetarian, allergies', 'If food is served', '—'], ['14', 'Accessibility', 'Pick-list + notes', 'Yes', '—'], ['16', 'Price', 'Adult, child, private', 'Yes', '—'], ['17', 'Cancellation policy', 'Flexible / Moderate / Firm', 'Yes', '—'], ['18', 'Group, private, corporate', 'Private toggle, corporate link', 'Optional', '—'], ['20', 'FAQs', 'Question + answer pairs', 'Optional', '—']];
+  document.getElementById('flds').innerHTML = FL.map(function (f) { return '<tr data-go="a-listing"><td class="muted">' + f[0] + '</td><td class="strong">' + f[1] + '</td><td class="small">' + f[2] + '</td><td>' + (f[3].indexOf('Yes') === 0 ? '<span class="badge badge--brand">' + f[3] + '</span>' : '<span class="badge">' + f[3] + '</span>') + '</td><td class="small muted">' + f[4] + '</td></tr>'; }).join('');
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-content', [['Categories', '4 · drag to reorder'], ['Featured', '5 of 8 slots'], ['No developer needed', 'Categories, homepage, FAQs, listing fields'], ['Who can edit', 'Super admin, Content']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

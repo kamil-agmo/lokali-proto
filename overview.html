@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali · Overview</title>
+  <link rel="icon" type="image/svg+xml" href="assets/brand/mark-colour.svg">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+  <script src="shell.config.js"></script>
+  <script src="js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="css/lokali.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/lokali.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/data.js"></script>
+  <style>
+    .ov-hero { position: relative; border-radius: 22px; overflow: hidden; padding: 40px; color: #fff; background: linear-gradient(90deg, rgba(14, 30, 18, .86) 0%, rgba(14, 30, 18, .5) 55%, rgba(14, 30, 18, .1)), url('https://images.unsplash.com/photo-1581253563647-3ebad3c2f559?w=1600&q=70&auto=format&fit=crop') center / cover; min-height: 280px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .ov-hero h1 { color: #fff; font-size: 34px; line-height: 40px; max-width: 640px; }
+    .ov-hero p { color: rgba(255,255,255,.88); max-width: 600px; margin-top: 8px; font-size: 15px; line-height: 23px; }
+    .ov-hero .endorse { color: rgba(255,255,255,.8); margin-bottom: 18px; } .ov-hero .endorse img { height: 64px; }
+    .ov-hero .wordmark { color: #fff; font-size: 26px; }
+    .facts-row { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+    .facts-row div b { display: block; font: 800 22px/26px var(--font-display); color: #fff; } .facts-row div span { font-size: 12px; color: rgba(255,255,255,.75); }
+    .mod { display: flex; flex-direction: column; }
+    .mod__head { display: flex; gap: 14px; align-items: flex-start; padding: 20px; border-bottom: 1px solid var(--line); }
+    .mod__icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; flex: none; background: var(--primary-tint); color: var(--primary-strong); } .mod__icon .ph { font-size: 24px; }
+    .mod__head :is(h3, .is-h3) { font-size: 17px; } .mod__head p { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .mod__list { list-style: none; margin: 0; padding: 8px 10px 12px; columns: 2; column-gap: 8px; }
+    .mod__list li { break-inside: avoid; }
+    .mod__list a { display: flex; gap: 8px; align-items: center; padding: 7px 10px; border-radius: 8px; color: var(--ink); font-size: 13px; }
+    .mod__list a:hover { background: var(--bg); color: var(--primary); }
+    .mod__list a .ph { color: var(--faint); font-size: 16px; }
+    .mod__foot { margin-top: auto; padding: 12px 20px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+    .flow { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding: 4px 2px; }
+    .flow a { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 12px; font-size: 13px; line-height: 17px; position: relative; }
+    .flow a:hover { border-color: var(--primary); }
+    .flow a small { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+    .flow .arr { flex: none; width: 22px; display: grid; place-items: center; color: var(--faint); }
+    .flow-title { display: flex; align-items: center; gap: 8px; margin: 4px 0 10px; font-weight: 700; font-size: 14px; }
+    .flow-title .badge { font-weight: 600; }
+    .dec { display: grid; grid-template-columns: 32px 1fr; gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .dec:last-child { border-bottom: 0; }
+    .dec .n { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-ink); font-weight: 700; font-size: 13px; }
+    .dec b { font-size: 14px; } .dec p { grid-column: 2; color: var(--muted); font-size: 13px; line-height: 19px; }
+    .money { display: flex; height: 38px; border-radius: 10px; overflow: hidden; font-size: 12px; font-weight: 600; color: #fff; }
+    .money div { display: flex; align-items: center; justify-content: center; }
+    .q { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; } .q:last-child { border-bottom: 0; }
+    .q b { display: block; font-size: 14px; margin-bottom: 2px; } .q span { color: var(--muted); }
+  </style>
+</head>
+<body class="a">
+  <main class="a-main" style="padding-top: 28px">
+    <section class="ov-hero">
+      <span class="endorse"><img src="assets/habitat-logo.png" alt="The Habitat Group"></span>
+      <span class="wordmark"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span>
+      <h1 style="margin-top:10px">Book sustainable local experiences in Malaysia</h1>
+      <p>Phase 1 mobile web app. Tourists find and pay for experiences that are good for nature and local communities; hosts list them and are paid about 24 hours after each one; the Lokali team runs everything from an admin portal.</p>
+      <div class="facts-row">
+        <div><b>3</b><span>modules</span></div><div><b>55</b><span>screens</span></div><div><b>18</b><span>listing sections</span></div><div><b>1</b><span>booking story across all three</span></div>
+      </div>
+    </section>
+
+    <div class="a-grid c3">
+      <section class="a-card mod">
+        <div class="mod__head"><span class="mod__icon"><i class="ph ph-backpack" aria-hidden="true"></i></span><div><h2 class="is-h3">1 · Guest</h2><p>Mobile web · discover, book, pay, manage, review</p></div></div>
+        <ul class="mod__list" id="list-g"></ul>
+        <div class="mod__foot"><i class="ph ph-device-mobile" aria-hidden="true"></i>Shown in an iPhone frame · sign-in only at checkout</div>
+      </section>
+      <section class="a-card mod">
+        <div class="mod__head"><span class="mod__icon"><i class="ph ph-house-line" aria-hidden="true"></i></span><div><h3>2 · Host</h3><p>Mobile web · apply, list, schedule, run, get paid</p></div></div>
+        <ul class="mod__list" id="list-h"></ul>
+        <div class="mod__foot"><i class="ph ph-device-mobile" aria-hidden="true"></i>Built for low-digital hosts: one step at a time</div>
+      </section>
+      <section class="a-card mod">
+        <div class="mod__head"><span class="mod__icon"><i class="ph ph-gauge" aria-hidden="true"></i></span><div><h3>3 · Admin portal</h3><p>Desktop · approve, onboard, manage money and content</p></div></div>
+        <ul class="mod__list" id="list-a"></ul>
+        <div class="mod__foot"><i class="ph ph-desktop" aria-hidden="true"></i>Role-based: Super admin, Operations, Finance, Content</div>
+      </section>
+    </div>
+
+    <section class="a-card">
+      <div class="a-card__head"><div><h3>Key flows</h3><p>Click any step to open that screen. One booking (LK-24817) runs through all three modules.</p></div></div>
+      <div class="a-card__body stack-lg" id="flows"></div>
+    </section>
+
+    <div class="a-grid c2">
+      <section class="a-card">
+        <div class="a-card__head"><div><h3>Design decisions</h3><p>Why the screens look the way they do</p></div></div>
+        <div class="a-card__body" style="padding-top:4px">
+          <div class="dec"><span class="n">1</span><b>Browse freely, sign in at checkout</b><p>Tourists arrive from Google on a phone. Asking for an account before they see a listing loses them; sign-in appears only when they book.</p></div>
+          <div class="dec"><span class="n">2</span><b>One listing page, in the order guests decide</b><p>Hook → facts → story → impact → money → logistics → price & policy → reviews. On mobile a sticky bar replaces the desktop sticky booking box.</p></div>
+          <div class="dec"><span class="n">3</span><b>Trust signals before price</b><p>Impact badge on every card, "Where your money goes" bar, verified host, and the cancellation policy written in plain words beside the price.</p></div>
+          <div class="dec"><span class="n">4</span><b>No surprises at checkout or cancel</b><p>The guest service fee is its own line before paying. Cancelling shows the exact refund (policy × time left) before the guest confirms.</p></div>
+          <div class="dec"><span class="n">5</span><b>The host form mirrors the guest page</b><p>Same 18-section order, one section per step, prompts and examples so rural hosts never face a blank page. Required sections block Submit; drafts save anytime.</p></div>
+          <div class="dec"><span class="n">6</span><b>Admin is queue-first</b><p>The dashboard leads with what needs a person (approvals, disputes, holds, enquiries). Fees, policies, categories and content change without a developer.</p></div>
+          <div class="dec"><span class="n">7</span><b>Brand: endorsed by The Habitat Group</b><p>Earthy colours from thehabitat.my, set in Inter; Lokali gets its own leaf wordmark. Colours are tokens, so the palette can change in one place.</p></div>
+        </div>
+      </section>
+
+      <div class="stack-lg">
+        <section class="a-card">
+          <div class="a-card__head"><div><h3>Where a booking's money goes</h3><p>LK-24817 · 2 adults + 1 child · Mangrove & fireflies</p></div></div>
+          <div class="a-card__body stack">
+            <div class="money"><div style="flex:327.25;background:var(--primary)">Host RM 327.25</div><div style="flex:57.75;background:var(--olive)">15%</div><div style="flex:19.25;background:var(--accent);color:#2a2406">5%</div></div>
+            <div class="kv"><span>Guest pays (subtotal RM 385 + 5% service fee)</span><b>RM 404.25</b></div>
+            <div class="kv"><span>Lokali keeps (commission RM 57.75 + fee RM 19.25)</span><b>RM 77.00</b></div>
+            <div class="kv"><span>Host receives, ~24 h after the experience</span><b>RM 327.25</b></div>
+            <p class="xs muted">Rates are examples; both are set in Admin › Fees & policies.</p>
+          </div>
+        </section>
+        <section class="a-card">
+          <div class="a-card__head"><div><h3>Open questions for the client</h3><p>Designed with the suggested answer; full list in REQUIREMENTS.md</p></div></div>
+          <div class="a-card__body" style="padding-top:4px">
+            <div class="q"><b>The brief says four categories but lists three.</b><span>Assumed 4th: "Retreats & stays". Admin can rename.</span></div>
+            <div class="q"><b>Are multi-day retreats (deposit, balance later) in Phase 1?</b><span>Designed as a listing type with deposit; policies included.</span></div>
+            <div class="q"><b>Payouts: "weekly" (brief) or ~24 h after (Q&A)?</b><span>Designed for ~24 h after, per the latest answer.</span></div>
+            <div class="q"><b>If the host cancels, does the guest always get 100%?</b><span>Assumed yes, automatically, fee included.</span></div>
+            <div class="q"><b>Which admin roles are needed?</b><span>Assumed Super admin, Operations, Finance, Content.</span></div>
+            <div class="q"><b>Can one person be both a guest and a host?</b><span>Suggested: one account, two modes, switched from Account and Menu (Q13).</span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+<script>
+(function () {
+  var S = window.SHELL || { pages: {}, tree: [] };
+  function list(prefix, el) {
+    var ids = Object.keys(S.pages).filter(function (k) { return k.indexOf(prefix) === 0; });
+    document.getElementById(el).innerHTML = ids.map(function (id) {
+      return '<li><a href="index.html#' + id + '"><i class="ph ph-arrow-up-right" aria-hidden="true"></i>' + S.pages[id].title + '</a></li>';
+    }).join('');
+  }
+  list('g-', 'list-g'); list('h-', 'list-h'); list('a-', 'list-a');
+  var flows = [
+    ['Guest books an experience', 'Guest', [['g-home', 'Home'], ['g-results', 'Results'], ['g-listing', 'Experience page'], ['g-book', 'Date & guests'], ['g-signin', 'Sign in'], ['g-checkout', 'Checkout'], ['g-confirmed', 'Confirmed'], ['g-email', 'Email']]],
+    ['Guest cancels and sees the refund first', 'Guest', [['g-bookings', 'My bookings'], ['g-booking', 'Booking'], ['g-cancel', 'Refund preview'], ['a-booking', 'Admin sees refund']]],
+    ['Host joins and lists (self-serve)', 'Host', [['h-signup', 'Sign up'], ['h-status', 'In review'], ['a-approvals', 'Admin queue'], ['h-builder', 'Listing builder'], ['h-step-guide', 'Meet your guide'], ['h-step-price', 'Price & policy'], ['a-review', 'Admin review'], ['h-listings', 'Live']]],
+    ['Assisted onboarding (staff list for a host)', 'Admin', [['a-hosts', 'Hosts'], ['a-host', 'Create host'], ['a-listing', 'Create listing'], ['a-listings', 'Published']]],
+    ['Running an experience and getting paid', 'Host', [['h-calendar', 'Calendar'], ['h-slot', 'Add slots'], ['h-home', 'Today'], ['h-booking', 'Guest list'], ['h-chat', 'Message guest'], ['h-earnings', 'Payout ~24 h'], ['a-payouts', 'Admin payouts']]]
+  ];
+  document.getElementById('flows').innerHTML = flows.map(function (f) {
+    return '<div><div class="flow-title">' + f[0] + ' <span class="badge badge--brand">' + f[1] + '</span></div><div class="flow">' + f[2].map(function (s, i) {
+      var p = S.pages[s[0]] || {}; var who = s[0][0] === 'g' ? 'Guest' : s[0][0] === 'h' ? 'Host' : 'Admin';
+      return (i ? '<span class="arr" aria-hidden="true"><i class="ph ph-caret-right"></i></span>' : '') + '<a href="index.html#' + s[0] + '"><small>' + who + '</small>' + s[1] + '</a>';
+    }).join('') + '</div></div>';
+  }).join('');
+})();
+</script>
+  <script src="js/shared/credits-data.js"></script>
+  <script src="js/shared/credits-badge.js"></script>
+</body>
+</html>

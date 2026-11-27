@@ -1,0 +1,23 @@
+/* Large title that shrinks on scroll. <header class="c-large c-large--md|--ios"><div class="c-large__bar">…</div><h1 class="c-large__title">Title</h1></header>
+   JS sets --c-p (0 = expanded, 1 = collapsed) as the page scrolls. */
+.c-large { --c-p: 0; position: sticky; top: calc(-1 * var(--c-large-drop)); z-index: 15; font-family: var(--c-font); color: var(--c-ink); background: var(--c-bg); }
+.c-large__bar { position: sticky; top: 0; display: flex; align-items: center; gap: 4px; padding: var(--c-sb) 4px 0; }
+.c-large__small { flex: 1; text-align: center; margin: 0; opacity: var(--c-p); transition: opacity .15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-large__title { margin: 0; transform-origin: left bottom; }
+/* Material 3 large top app bar: 152 dp with a 28 px headline that shrinks to the 22 px small-bar title */
+.c-large--md { --c-large-drop: 88px; }
+.c-large--md .c-large__bar { height: calc(64px + var(--c-sb)); }
+.c-large--md .c-large__small { text-align: left; padding-left: 12px; font-size: 22px; }
+.c-large--md .c-large__title { padding: 0 16px 28px; font-size: 28px; line-height: 36px; font-weight: 400; opacity: calc(1 - var(--c-p)); transform: translateY(calc(var(--c-p) * -8px)); }
+.c-large--md.is-collapsed { background: var(--c-surface-2); }
+/* Apple (iOS 27): 34 pt bold large title under a transparent bar with glass buttons; it fades into the centred title and the edge blurs once collapsed */
+.c-large--ios { --c-large-drop: 52px; background: transparent; }
+.c-large--ios .c-large__bar { height: calc(52px + var(--c-sb)); padding-left: 12px; padding-right: 12px; gap: 8px; }
+.c-large--ios .c-large__small { font-size: 17px; font-weight: 600; position: absolute; left: 96px; right: 96px; bottom: 0; line-height: 52px; }
+.c-large--ios .c-large__title { padding: 2px 16px 8px; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: .4px; opacity: calc(1 - var(--c-p)); transform: scale(calc(1 - var(--c-p) * .12)); }
+/* no buttons in the bar (only the small title that appears on scroll): the large title moves up into that empty bar, so there is no
+   empty band above it; the small title still has the bar's height to appear in once the large one has scrolled away */
+.c-large--ios:not(:has(.c-large__bar .c-iconbtn, .c-large__bar button, .c-large__bar a)) { --c-large-drop: 12px; --c-large-fade: 52px; }   /* the header hides only the 12 px left above the title, so the bar keeps room for the small title */
+.c-large--ios:not(:has(.c-large__bar .c-iconbtn, .c-large__bar button, .c-large__bar a)) .c-large__title { margin-top: -40px; }
+.c-large--ios .c-iconbtn { width: 44px; height: 44px; color: var(--c-ink); background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); }
+.c-large--ios.is-collapsed { background: color-mix(in srgb, var(--c-bg) 80%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(20px); backdrop-filter: saturate(1.8) blur(20px); border-bottom: .5px solid var(--c-line); }

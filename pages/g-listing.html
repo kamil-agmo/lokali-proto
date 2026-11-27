@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali · Mangrove & fireflies</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/guest.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+.gal-dots { position: absolute; left: 0; right: 0; bottom: 30px; display: flex; justify-content: center; gap: 8px; }
+.gal-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.6); } .gal-dots i.on { background: #fff; }
+.gallery { cursor: pointer; }
+.thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px; }
+.thumbs img { aspect-ratio: 1; object-fit: cover; border-radius: 10px; width: 100%; }
+.title-blk { padding: var(--s5) var(--s4) 0; }
+.title-blk h1 { font-size: 22px; line-height: 28px; }
+.gallery { aspect-ratio: 4 / 3.2; }
+.gallery::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25) 0, transparent 25%, transparent 60%, rgba(10,20,14,.55)); pointer-events: none; }
+.gallery .stamp { position: absolute; z-index: 2; left: 16px; right: auto; bottom: 44px; width: 66px; height: 66px; font-size: 15px; }
+.title-blk h1 { font-size: 28px; line-height: 34px; letter-spacing: -.02em; }
+.focus-impact { margin: 20px 16px 0; border-radius: 24px; overflow: hidden; display: grid; grid-template-columns: 1fr 110px; background-color: var(--deep); color: #fff; }
+.focus-impact .t { padding: 16px; } .focus-impact .kicker { color: var(--accent); }
+.focus-impact b.big { display: block; font: 600 28px/34px var(--font-display); margin-top: 8px; } .focus-impact p { color: rgba(255,255,255,.75); font-size: 13px; line-height: 18px; margin-top: 8px; }
+.focus-impact [data-art] { height: 100%; min-height: 140px; }
+.money-card { border-radius: 24px; padding: 20px; background: var(--surface); border: 0; }
+.money-card .big { font: 600 28px/34px var(--font-display); color: var(--primary-strong); }
+.impact-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--r-full); background: var(--primary-tint); color: var(--primary-strong); font-size: 13px; font-weight: 600; }
+  .l-tags .badge { font-size: 12px; font-weight: 600; }
+.l-rate { display: flex; align-items: center; gap: 12px; }
+.l-score { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; line-height: 16px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); }
+.l-score .ph-fill { font-size: 14px; color: var(--star); } .l-score b { font: 600 14px/1 var(--font); color: var(--ink); } .l-score small { font-size: 15px; font-weight: 500; color: var(--muted); }
+.l-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--muted); }
+.l-facts span { display: inline-flex; align-items: center; gap: 6px; } .l-facts .ph-fill { font-size: 16px; }
+.l-head { position: fixed; z-index: 25; top: 0; left: 0; right: 0; background: var(--bg); box-shadow: 0 6px 16px rgba(16,26,20,.08); transform: translateY(-100%); transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.l-head.show { transform: none; }
+.l-head__bar { display: flex; align-items: center; gap: 4px; padding: var(--sb) 8px 0; min-height: calc(var(--sb) + 44px); }
+.l-head__bar .grow { flex: 1; } .l-head__bar .icon-btn { background: none; box-shadow: none; color: var(--ink); }
+.l-tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 0 12px; border-bottom: 1px solid var(--line); }
+.l-tabs::-webkit-scrollbar { display: none; }
+.l-tabs a { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; font-size: 15px; font-weight: 500; color: var(--ink); border-bottom: 3px solid transparent; white-space: nowrap; }
+.l-tabs a.on { color: var(--primary); font-weight: 600; border-bottom-color: var(--primary); }
+@media (prefers-reduced-motion: reduce) { .l-head { transition: none; } }
+.blk, [id^="s"] { scroll-margin-top: calc(var(--sb) + 100px); }
+.qf { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.qf-t { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 16px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+.qf-t > .ph-fill { font-size: 24px; color: var(--primary); margin-bottom: 8px; }
+.qf-t small { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.qf-t b { font: 600 22px/28px var(--font-display); color: var(--ink); } .qf-t b sup { font-size: 15px; }
+.qf-t span { font-size: 13px; line-height: 18px; color: var(--muted); }
+.qf-hero { grid-column: 1 / -1; background: var(--deep); border: 0; color: #fff; padding-right: 110px; }
+.qf-hero > .ph-fill { color: var(--accent); } .qf-hero small { color: rgba(255,255,255,.7); } .qf-hero b { color: #fff; font-size: 28px; line-height: 34px; } .qf-hero span { color: rgba(255,255,255,.8); }
+.qf-hero em { position: absolute; right: 16px; top: 16px; width: 80px; height: 80px; border-radius: 50%; display: grid; place-items: center; text-align: center; font: 600 15px/20px var(--font-display); font-style: normal; color: var(--deep); background: conic-gradient(var(--accent) 0 52%, rgba(255,255,255,.15) 52% 100%); }
+.qf-hero em::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--deep); } .qf-hero em { isolation: isolate; } .qf-hero em::after { content: "3.5 h"; position: absolute; color: #fff; z-index: 1; font: 600 16px/1 var(--font-display); }
+.qf-hero em { font-size: 0; }
+.qf-time { display: none; }
+.qf-dots { display: flex; gap: 3px; margin-top: 8px; } .qf-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); } .qf-dots i.on { background: var(--primary); }
+.qf-dots i:nth-child(n+3) { background: var(--primary-tint); }
+.qf-lvl { display: flex; gap: 4px; margin-top: 8px; } .qf-lvl i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); } .qf-lvl i.on { background: var(--success); }
+.qf-lang { display: flex; gap: 6px; margin-top: 6px; } .qf-lang span { font: 600 14px/1 var(--font-display); color: var(--primary-strong); background: var(--primary-tint); padding: 8px 10px; border-radius: 10px; }
+.qs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 4px 16px; scroll-padding-inline: 16px; }
+.qs::-webkit-scrollbar { display: none; }
+.qs-i { flex: none; display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 8px; row-gap: 2px; align-items: center; padding: 12px 16px; border-radius: 16px; background: var(--primary-tint); }
+.qs-i > .ph-fill { grid-row: 1 / 3; font-size: 20px; color: var(--primary); }
+.qs-i b { display: block; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.qs-i b .ph-fill { font-size: 16px; color: var(--primary); }
+.qs-i span { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--muted); white-space: nowrap; }
+.story-peek { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.story-btn { margin-top: 8px; padding: 0; min-height: 44px; text-decoration: none; background: transparent; border: 0; color: var(--primary); font-weight: 600; }
+.story-h { font: 600 20px/25px var(--font-display); }
+#sh-story { background: var(--bg); }
+.story-full p { margin-top: 12px; font: inherit; color: inherit; }
+.story-close { margin: 24px 0 0; background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+.inc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: stretch; } .inc-card { padding: 12px !important; } .inc-card li { font-size: 15px; }
+.inc-card { padding: 16px; border-radius: 20px; }
+.inc-card h3 { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.inc-card.yes { background: var(--success-tint); } .inc-card.yes h3 { color: var(--success); }
+.inc-card.no { background: var(--danger-tint); } .inc-card.no h3 { color: var(--danger); }
+.inc-card .ph-fill { font-size: 14px; } .inc-card.yes .ph-fill { color: var(--success); } .inc-card.no .ph-fill { color: var(--danger) !important; }
+.g-name { display: flex; align-items: center; gap: 6px; font-size: 16px; line-height: 21px; font-weight: 600; } .g-name .ph-fill { font-size: 18px; color: var(--primary); }
+.g-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--muted); } .g-meta .ph-fill { font-size: 16px; color: var(--primary); flex: none; }
+.g-head { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.g-msg { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--primary-tint); color: var(--primary); font-size: 22px; align-self: center; }
+.g-peek { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+#sh-guide { background: var(--bg); }
+.g-full p { margin-top: 16px; } .g-full small { display: block; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--olive); margin-bottom: 4px; }
+.g-head .avatar { width: 68px; height: 68px; flex: none; }
+.g-msg { background: none !important; border: 0 !important; box-shadow: none !important; font-size: 28px; }
+.g-peek { background: none !important; border: 0 !important; padding: 0 !important; border-radius: 0 !important; }
+.g-peek small, .g-full small { display: block; font: 600 16px/21px var(--font-display) !important; letter-spacing: 0 !important; text-transform: none !important; color: var(--ink) !important; margin-bottom: 4px; }
+.fade-peek { position: relative; max-height: 168px; overflow: hidden; }
+.fade-peek p + p { margin-top: 12px; }
+.fade-peek::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+.g-inline small { display: block; font: 600 16px/21px var(--font-display); color: var(--ink); margin-bottom: 4px; }
+.story-btn { display: flex !important; width: 100%; justify-content: center; margin-top: 12px; min-height: 48px; border: 1.5px solid var(--primary) !important; border-radius: var(--r); background: transparent; color: var(--primary); font-weight: 600; }
+.g-inline p + p { margin-top: 16px; } .g-full p { margin-top: 16px; }
+.g-msg { width: 48px; height: 48px; } .g-msg .ph-fill { font-size: 24px; }
+.g-name .ph-seal-check { color: #3BA4E8 !important; }
+.g-meta, .g-meta .ph-fill { color: #4A4F4A !important; }
+#sh-guide, #sh-story { padding-top: 0; padding-bottom: 0; }
+#sh-guide::before, #sh-story::before { display: none; }
+.sh-top { position: sticky; top: 0; z-index: 2; margin: 0 -16px; padding: 8px 16px 12px; background: var(--bg); text-align: left; }
+.sh-top::before { content: ""; display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 12px; }
+#sh-old .story-close { position: sticky; bottom: calc(var(--home) + 12px); z-index: 2; margin: 16px 0 0; background: var(--bg); box-shadow: 0 -12px 0 0 var(--bg), 0 calc(var(--home) + 12px) 0 0 var(--bg), 0 -16px 16px -8px rgba(0,0,0,.06); }
+.sh-foot-pad { height: calc(var(--home) + 12px); }
+.sh-bot { position: sticky; bottom: 0; z-index: 2; margin: 16px -16px 0; padding: 12px 16px calc(var(--home) + 12px); background: var(--bg); border-top: 1px solid var(--line); }
+.sh-bot .story-close { margin: 0; }
+.m-head { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+.m-sub { font-size: 15px; font-weight: 600; color: var(--olive); }
+.money-legend { gap: 12px !important; margin-top: 16px !important; }
+.money-legend .ml { display: grid !important; grid-template-columns: 12px 1fr 40px 72px; column-gap: 10px; align-items: start; font-size: 14px; line-height: 20px; }
+.money-legend .ml i { margin-top: 4px; }
+.money-legend .ml em { font-style: normal; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.money-legend .ml b { margin: 0 !important; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gt-map { position: relative; border-radius: 20px; overflow: hidden; background: var(--surface); }
+.gt-map svg { width: 100%; aspect-ratio: 2 / 1; height: auto; display: block; }
+.gt-label { padding: 12px 16px; }
+.gt-label b { display: block; font-size: 15px; line-height: 20px; } .gt-label span { display: flex; align-items: center; gap: 6px; font-size: 12px; line-height: 16px; color: var(--muted); } .gt-label .ph-fill { color: var(--primary); }
+.gt-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.gt-ob { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+.gt-meet { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px; font-size: 15px; line-height: 20px; } .gt-meet .ph-fill { font-size: 18px; color: var(--primary); margin-top: 1px; }
+.gt-h { font: 600 16px/21px var(--font-display); margin: 20px 0 12px; }
+.gt-ways { display: grid; gap: 8px; }
+.gt-w { display: flex; gap: 12px; align-items: center; padding: 12px 16px; border-radius: 16px; background: var(--surface); }
+.gt-w > .ph-fill { font-size: 22px; color: var(--primary); flex: none; }
+.gt-w b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .gt-w span { display: block; font-size: 12px; line-height: 16px; color: var(--muted); }
+.gt-label span .ph-fill { font-size: 12px; } .gt-logo { width: 20px; height: 20px; flex: none; } .gt-h { margin-top: 16px; }
+.wb { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.wb-t { display: flex; flex-direction: column; gap: 2px; padding: 16px; border-radius: 16px; background: var(--surface); }
+.wb-t > .ph-fill { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
+.wb-t b { font-size: 15px; line-height: 20px; font-weight: 600; } .wb-t span { font-size: 12px; line-height: 16px; color: var(--muted); }
+.et { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px 4px; scroll-padding-inline: 16px; }
+.et::-webkit-scrollbar { display: none; }
+.et-c { flex: none; width: 160px; display: flex; flex-direction: column; gap: 2px; padding: 16px; border-radius: 16px; background: var(--surface); }
+.et-tag { align-self: flex-start; font-size: 11px; line-height: 13px; font-weight: 600; padding: 2px 8px; border-radius: 999px; margin-bottom: 12px; }
+.et-c.do .et-tag { background: var(--success-tint); color: var(--success); } .et-c.dont .et-tag { background: var(--danger-tint); color: var(--danger); }
+.et-c > .ph-fill { font-size: 28px; margin-bottom: 8px; } .et-c.do > .ph-fill { color: var(--success); } .et-c.dont > .ph-fill { color: var(--danger); }
+.et-c b { font-size: 15px; line-height: 20px; font-weight: 600; } .et-s { font-size: 12px; line-height: 16px; color: var(--muted); }
+.fd { display: flex; flex-direction: column; gap: 16px; }
+.fd-i b { display: flex; align-items: center; gap: 8px; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--ink); }
+.fd-i b .ph-fill { font-size: 18px; color: var(--primary); }
+.fd-i span { display: block; margin-top: 2px; padding-left: 26px; font-size: 14px; line-height: 20px; color: var(--muted); }
+.fd-i.warn b, .fd-i.warn b .ph-fill { color: var(--warn); }
+
+/* v4 layout (25 Nov): curved hero, header with price, flat strips, sections as white cards */
+.gallery { aspect-ratio: 4 / 3; border-radius: 0; overflow: visible; } .gallery img { display: block; }
+.gal-dots { display: none !important; }
+/* hill-shaped page edge rising over the photo (26 Nov) */
+.gallery .hill { position: absolute; z-index: 3; left: 0; right: 0; bottom: -3px; width: 100%; height: 43px; display: block; fill: var(--bg); pointer-events: none; }
+.gallery::after { background: linear-gradient(180deg, rgba(0,0,0,.72) 0, rgba(0,0,0,.35) 22%, transparent 45%, rgba(10,20,14,.5)) !important; }
+.appbar--overlay .icon-btn { background: transparent !important; border: 0 !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; color: #fff !important; }
+.appbar--overlay .icon-btn .ph { font-size: 22px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
+.hero-imp { background: none !important; padding: 0 !important; color: #fff !important; font-size: 13px; text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.hero-imp .ph-fill { color: var(--accent); font-size: 16px; }
+.title-blk { padding-top: 4px !important; }
+.hero-tag { position: absolute; z-index: 4; left: 16px; bottom: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.22); -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4); color: #fff; font-size: 12px; line-height: 16px; font-weight: 600; }
+.hero-tag .ph { font-size: 16px; }
+.title-imp { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 14px; line-height: 20px; font-weight: 600; color: var(--primary-strong); }
+.title-imp .ph-fill { font-size: 16px; color: var(--accent-ink, var(--accent)); }
+.gallery .stamp { display: none; }
+.hero-imp { position: absolute; z-index: 4; left: 16px; bottom: 44px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--surface); font-size: 13px; line-height: 18px; font-weight: 600; color: var(--primary-strong); }
+.gallery__count { bottom: 40px !important; }
+.sheet-top { margin-top: 0 !important; border-radius: 0 !important; background: transparent !important; }
+.hd-price { margin-top: 12px; display: flex; align-items: baseline; gap: 6px; } .hd-price b { font: 600 22px/28px var(--font-display); color: var(--primary); } .hd-price span { font-size: 15px; color: var(--muted); }
+.hd-promise { margin-top: 8px; font-size: 15px; line-height: 20px; color: var(--ink); }
+.hd-more { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 15px; font-weight: 600; color: var(--primary); }
+.blk--flat { border-top: 0 !important; margin-top: 0 !important; padding-top: 16px !important; }
+.qs { display: grid !important; grid-template-columns: repeat(3, 1fr); margin: 0 !important; padding: 12px 0 !important; gap: 0 !important; border-radius: 16px; background: var(--primary-tint); overflow: visible !important; }
+.qs-i { display: flex !important; flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 8px 4px !important; background: none !important; border-radius: 0 !important; }
+.qs-i:nth-child(3n+2), .qs-i:nth-child(3n) { border-left: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
+.qs-i > .ph-fill { font-size: 22px !important; margin-bottom: 4px; }
+.qs-i b { font-size: 13px !important; line-height: 18px !important; } .qs-i span { font-size: 11px !important; line-height: 14px !important; }
+.qs { background: none !important; border-radius: 0 !important; padding: 4px 0 !important; } .qs-i { border-left: 0 !important; }
+.story-peek, .story-full p { margin: 0; font-size: 15px; line-height: 20px; }
+.story-more { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin-top: 4px; background: none; border: 0; font-size: 15px; font-weight: 600; color: var(--primary); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.story-more .ph { font-size: 16px; }
+.story-full p + p { margin-top: 12px; }
+.gtk { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.gtk li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; scroll-margin-top: calc(var(--sb) + 100px); }
+.gtk li > .ph { font-size: 24px; color: var(--ink); margin-top: 0; }
+.gtk h3 { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink); margin: 0; }
+.gtk p { margin: 2px 0 0; font-size: 15px; line-height: 20px; color: var(--muted); }
+.gtk .gtk-warn { color: var(--warn); font-weight: 500; }
+.wte { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.wte figure { margin: 0; } .wte img, .wte-art { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; overflow: hidden; display: block; }
+.wte-art svg, .it-art svg { width: 100%; height: 100%; display: block; }
+.wte figcaption { margin-top: 6px; font-size: 13px; line-height: 18px; font-weight: 600; }
+/* sections: no card border, separated by a bold 8px divider (26 Nov) */
+.sheet-top > .blk:not(.blk--flat), .sheet-top > section.blk:not(.blk--flat) { margin: 24px 0 0 !important; padding: 24px 16px 0 !important; border: 0 !important; border-top: 8px solid color-mix(in srgb, var(--ink) 6%, var(--bg)) !important; border-radius: 0; background: none; box-shadow: none; }
+.blk > h2 { display: flex; align-items: center; gap: 8px; }
+.h-ic { flex: none; display: inline-flex; align-items: center; width: auto; height: 1lh; background: none; color: var(--ink); font-size: 1em; }
+.h-ic .ph-fill, .h-ic .ph { font-size: 1.1em; display: block; }
+.fade-peek::after { background: linear-gradient(transparent, var(--bg)) !important; }
+.wb-t, .et-c, .gt-w { background: var(--surface) !important; }
+.money-card { padding: 0 !important; background: none !important; }
+.itl { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.it { position: relative; display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: start; }
+.it::before { content: ""; position: absolute; left: 6px; top: 18px; bottom: -20px; width: 2px; background: var(--primary-tint); } .it:last-child::before { display: none; }
+.it-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--primary); margin-top: 3px; position: relative; }
+.it b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .it small { display: block; font-size: 12px; line-height: 16px; color: var(--muted); margin-top: 2px; } .it p { font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 4px; }
+.it img, .it-art { width: 76px; height: 60px; border-radius: 12px; object-fit: cover; overflow: hidden; }
+.pr-safe { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px; font-size: 13px; color: var(--muted); } .pr-safe .ph-fill { color: var(--primary); }
+.sheet-top { padding-bottom: 16px; }
+.bar-when { display: block; color: #fff; min-width: 0; }
+.bar-price { display: flex; align-items: center; gap: 6px; } .bar-price .per { font-size: 13px; color: rgba(255,255,255,.7); }
+.bar-left { margin-left: 4px; padding: 2px 8px; border-radius: 999px; background: var(--accent); color: #1d2008; font-size: 11px; line-height: 14px; font-weight: 600; }
+.bar-date { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 13px; line-height: 18px; color: rgba(255,255,255,.75); white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
+.fd-i.no b, .fd-i.no b .ph-fill { color: var(--danger); }
+.bar-when, .bar-when * { text-decoration: none !important; } .bar-date { font-weight: 500; } .bar-chev { font-size: 12px; margin-left: 2px; }
+#sh-reviews { padding-top: 0; padding-bottom: 0; } #sh-reviews::before { display: none; }
+.rv-list { display: flex; flex-direction: column; } .rv { padding: 16px 0; border-top: 1px solid var(--line); } .rv:first-child { border-top: 0; padding-top: 4px; }
+.rv-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; } .rv-head b { font-size: 15px; line-height: 22px; font-weight: 600; }
+.rv-stars { display: inline-flex; gap: 2px; color: var(--star); font-size: 14px; } .rv small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 2px; } .rv p { margin-top: 8px; font-size: 15px; line-height: 20px; }
+.rv-more { text-align: center; font-size: 13px; color: var(--muted); padding: 8px 0 4px; }
+/* Calm pass (27 Nov): quick facts as two plain columns */
+.qs { grid-template-columns: 1fr 1fr !important; row-gap: 4px !important; column-gap: 16px !important; }
+.qs-i { flex-direction: row !important; align-items: center !important; text-align: left !important; gap: 8px !important; padding: 6px 0 !important; }
+.qs-i > .ph-fill { font-size: 18px !important; margin: 0 !important; color: var(--olive) !important; }
+.qs-i b { font-size: 15px !important; line-height: 20px !important; font-weight: 400 !important; color: var(--text) !important; }
+.sheet-top { position: relative; z-index: 4; margin-top: -2px !important; background: var(--bg) !important; } /* hides the photo edge under the hill */
+/* Good to know rows that open sheets (from the Canopy copy, 27 Nov) */
+.gtk-row { width: 100%; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 12px 0; background: none; border: 0; text-align: left; color: var(--ink); cursor: pointer; }
+.gtk-row > .ph:first-child, .gtk-row > .ph-fill:first-child { font-size: 24px; flex: none; color: var(--primary); }
+.gt-list .gtk-row { cursor: default; }
+.gtk-t { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.gtk-t b { font-size: 16px; line-height: 22px; font-weight: 600; }
+.gtk-t small { font-size: 14px; line-height: 18px; color: var(--muted); }
+.gtk-t small.warn { color: var(--warn); font-weight: 500; }
+.gtk-chev { font-size: 18px; color: var(--faint); flex: none; }
+body.m .sheet .sh-top .rules-h { font-size: 22px; line-height: 28px; font-weight: 700; margin: 0; }
+.rules-intro { margin: 0 0 8px; font-size: 15px; line-height: 20px; color: var(--muted); }
+.rules { list-style: none; margin: 0 0 8px; padding: 0; }
+.rules li { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+.rules li b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; }
+.rules li small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.rule-ic { width: 44px; height: 44px; flex: none; border-radius: 14px; background: var(--primary-tint); color: var(--primary-strong); display: grid; place-items: center; font-size: 22px; }
+.rules-warn { display: flex; gap: 10px; align-items: flex-start; margin: 8px 0 4px; padding: 12px; border-radius: 14px; background: var(--warn-tint); color: var(--warn); font-size: 14px; line-height: 20px; }
+.rules-warn .ph-fill { font-size: 20px; flex: none; } .rules-warn b { display: block; font-weight: 600; }
+/* Airy compact pieces (27 Nov) */
+.l-head__title { min-width: 0; text-align: center; font-size: 16px; line-height: 21px; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+.g-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.g-who { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; color: var(--ink); }
+.g-who .avatar { width: 56px; height: 56px; flex: none; }
+.g-who b { display: inline-flex; align-items: center; gap: 4px; font-size: 16px; line-height: 21px; font-weight: 600; } .g-who b .ph-fill { font-size: 16px; }
+.g-who small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.g-chev { font-size: 18px; color: var(--faint); margin-left: auto; }
+/* Airy section rhythm (27 Nov): thin line between sections like Home, 24 px page margin */
+.sheet-top > .blk:not(.blk--flat), .sheet-top > section.blk:not(.blk--flat) { margin: 28px 24px 0 !important; padding: 28px 0 0 !important; border-top: 1px solid var(--line) !important; background: transparent !important; }
+.sheet-top > .blk--flat, .sheet-top > .title-blk { padding-left: 24px !important; padding-right: 24px !important; }
+.gtk li { display: block !important; } /* rows that open sheets use the full width */
+/* Where your money goes, Price and cancellation, Reviews: layout from the Canopy copy, colours in Airy (27 Nov) */
+.mdon { --c1: #B87A2E; --c2: #5E9C76; --c3: #A9A190; }
+.mdon-from { margin: 0 0 16px; font-size: 15px; line-height: 20px; color: var(--muted); }
+.mdon-row { position: relative; display: grid; grid-template-columns: 128px 1fr; gap: 20px; align-items: center; }
+.mdon-ring { width: 128px; height: 128px; transform: rotate(0deg); }
+.mdon-ring circle { fill: none; stroke-width: 5; }
+.mdon-ring .trk { stroke: var(--sand); }
+.mdon-ring .seg { stroke-dasharray: 0 100; stroke-dashoffset: var(--off); transition: stroke-dasharray .9s var(--ease, ease-out); }
+.mdon-ring .s1 { stroke: var(--c1); }
+.mdon-ring .s2 { stroke: var(--c2); transition-delay: .25s; }
+.mdon-ring .s3 { stroke: var(--c3); transition-delay: .45s; }
+.mdon.in .seg, .mdon:not(.reveal) .seg { stroke-dasharray: calc(var(--len) - .8) calc(100 - var(--len) + .8); }
+.mdon-ring .seg { transition: none; }
+.mdon-mid { position: absolute; left: 0; top: 50%; width: 128px; transform: translateY(-50%); text-align: center; pointer-events: none; }
+.mdon-mid b { display: block; font-size: 24px; line-height: 28px; font-weight: 800; color: var(--ink); }
+.mdon-mid span { display: block; font-size: 12px; line-height: 16px; color: var(--muted); }
+.mdon-leg { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.mdon-leg li { display: flex; gap: 8px; align-items: flex-start; }
+.mdon-leg i { width: 10px; height: 10px; border-radius: 50%; flex: none; margin-top: 5px; }
+.mdon-leg .d1 { background: var(--c1); }
+.mdon-leg .d2 { background: var(--c2); }
+.mdon-leg .d3 { background: var(--c3); }
+.mdon-leg b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; color: var(--ink); }
+.mdon-leg span { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.pc-prices { list-style: none; margin: 0; padding: 0; }
+.pc-prices li { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; }
+.pc-prices li + li { border-top: 1px solid var(--line); }
+.pc-prices span { font-size: 17px; line-height: 22px; color: var(--ink); }
+.pc-prices small { font-size: 14px; color: var(--muted); }
+.pc-prices b { font-size: 20px; line-height: 26px; font-weight: 700; color: var(--primary); }
+.pc-note { margin: 4px 0 0; font-size: 13px; line-height: 18px; color: var(--muted); }
+.pc-head { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+.pc-head h3 { font-size: 17px; line-height: 22px; font-weight: 600; margin: 0; }
+.pc-pill { padding: 4px 12px; border-radius: 999px; background: var(--primary-tint); color: var(--primary-strong); font-size: 13px; line-height: 18px; font-weight: 600; }
+.pc-tl { --on: #5E9C76; --off: #A9A190; list-style: none; margin: 12px 0 0; padding: 0; }
+.pc-tl li { position: relative; padding: 0 0 16px 28px; }
+.pc-tl li:last-child { padding-bottom: 0; }
+.pc-tl li::before { content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--on); box-sizing: border-box; }
+.pc-tl li.end::before { background: var(--bg); border: 2px solid var(--off); }
+.pc-tl li::after { content: ""; position: absolute; left: 6px; top: 20px; bottom: -2px; width: 2px; background: var(--on); }
+.pc-tl li.last-on::after { background: var(--line); }
+.pc-tl li:last-child::after { display: none; }
+.pc-tl b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; color: var(--ink); }
+.pc-tl span { display: block; font-size: 14px; line-height: 20px; color: var(--muted); }
+.rq-list { margin-top: 16px; }
+.rq { display: flex; align-items: center; gap: 14px; padding: 12px 0; color: var(--ink); }
+.rq + .rq { border-top: 1px solid var(--line); }
+.rq img, .rq-ini { width: 44px; height: 44px; flex: none; border-radius: 50%; object-fit: cover; }
+.rq-ini { display: grid; place-items: center; background: var(--primary); color: #fff; font-size: 18px; font-weight: 600; }
+.rq-t { flex: 1; min-width: 0; }
+.rq-q { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px; line-height: 20px; }
+.rq-t small { display: block; margin-top: 2px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.rq-chev { font-size: 18px; color: var(--faint); flex: none; }
+.mdon { --c1: #37664A; --c2: #8FB59A; --c3: #D9D9D9; }
+.mdon-mid b { font-weight: 700; }
+.pc-prices span { font-size: 15px; } .pc-prices b { font-size: 16px; font-weight: 600; color: var(--ink); }
+.pc-pill { background: var(--sand); color: var(--ink); font-weight: 500; }
+.pc-tl { --on: #37664A; --off: #D9D9D9; }
+.rq-ini { background: var(--sand); color: var(--ink); }
+/* Earlier MIMS / DUPE fixes (27 Nov) */
+.h-ic { display: none !important; }                      /* Home's section titles have no icons */
+.hd-price { display: none !important; }                  /* price lives in the bottom bar and Price and cancellation */
+.btn.story-btn { border: 1px solid var(--line) !important; color: var(--ink) !important; background: #fff !important; }
+.bar-left { background: none !important; color: var(--brand) !important; font-weight: 600 !important; padding: 0 !important; }
+.list-row > .ph:first-child { background: var(--sand) !important; color: var(--ink) !important; }
+/* Getting there: the map is a button that opens a sheet with Google Maps / Waze (like Apple's "Open in") */
+button.gt-map { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+.map-big svg { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 20px; display: block; }
+/* What to expect: a row that scrolls, 2.5 photos visible */
+.wte { display: flex !important; gap: 10px !important; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; touch-action: pan-x pan-y; scrollbar-width: none; scroll-snap-type: x mandatory; margin-right: -24px; padding-right: 24px; }
+/* scrolled header: Back + full name + a More menu (Share, Save); inactive tabs muted, active in brand red */
+.l-head__bar { position: relative; }
+.l-head__title { text-align: left !important; padding: 0 4px 0 0 !important; }
+.l-tabs a { color: #6A6A6A !important; }
+#ltabs a.on { color: var(--brand) !important; border-color: transparent transparent var(--brand) !important; }
+.l-menu { position: absolute; right: 12px; top: calc(100% - 4px); z-index: 2; min-width: 168px; padding: 6px; background: #fff; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.14), 0 0 0 1px var(--line); }
+.l-menu[hidden] { display: none; }
+.l-menu button { width: 100%; min-height: 44px; display: flex; align-items: center; gap: 12px; padding: 0 12px; border: 0; background: none; border-radius: 10px; font: 500 15px/20px var(--font); color: var(--ink); text-align: left; cursor: pointer; }
+.l-menu button:hover, .l-menu button:focus-visible { background: #F7F7F7; }
+.l-menu .ph { font-size: 20px; }
+/* Reviews heading: overall rating on the right, star in the rating colour */
+.h-rate { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 15px; line-height: 20px; font-weight: 500; color: var(--muted); }
+.h-rate .ph-fill { font-size: 16px; color: var(--star); } .h-rate b { font-weight: 600; color: var(--ink); }
+.imp-line { display: flex; gap: 8px; margin-top: 16px; font-size: 15px; line-height: 22px; color: #3D3D3D; }
+.imp-line .ph-fill { flex: none; font-size: 18px; color: var(--primary); margin-top: 2px; }
+/* the row scrolls sideways, so the scroll-in reveal never fires for the later photos: show them as they are */
+.wte > .reveal { opacity: 1 !important; transform: none !important; }
+.wte::-webkit-scrollbar { display: none; } .wte figure { flex: 0 0 38%; scroll-snap-align: start; }
+/* What's included: no centre divider */
+.inc-wrap, .inc-wrap > * { border: 0 !important; box-shadow: none !important; } .inc-wrap::before, .inc-wrap::after { display: none !important; }
+/* small polish (27 Nov) */
+body.m .inc-card { border-left: 0 !important; padding-left: 0 !important; }      /* What's included: no vertical line */
+.list-row > .ph:first-child { background: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; color: var(--ink) !important; font-size: 22px !important; }  /* plain icons, no tile */
+.report { margin-top: 20px; }
+.report-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--muted); font: 400 13px/18px var(--font); cursor: pointer; }
+.report-link .ph { font-size: 15px; }
+/* What's included: one list, the title already says "included" (DUPE); exclusions in one quiet line */
+.inc-yes { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.inc-yes li { display: flex; align-items: center; gap: 6px; font-size: 15px; line-height: 21px; color: var(--text); }
+.inc-yes .ph-fill { color: var(--primary); font-size: 16px; flex: none; }
+.inc-not { margin-top: 14px; font-size: 13px; line-height: 18px; color: var(--muted); }
+/* Icon gaps, two only: icons inside text (14–16 px) 6 px; icons that lead a row (18–24 px) 12 px */
+.l-score { gap: 6px !important; } .l-score .ph-fill { margin-right: 0 !important; }
+.qs-i { gap: 12px !important; }
+.gtk-row { gap: 12px !important; }
+.blk .row:has(> .ph-fill:first-child), .imp-row, .imp-h { gap: 12px !important; }
+/* Groups row lines up with the page margin like every other section (no inner padding) */
+.blk .list { background: none !important; border: 0 !important; border-radius: 0 !important; }
+.blk .list-row { padding-left: 0 !important; padding-right: 0 !important; }
+.gt-w { padding: 10px 0 !important; border-radius: 0 !important; background: none !important; } /* How to get here: rows on the page margin, like Good to know */
+</style>
+</head>
+<body class="m">
+<div class="sheet" id="sh-cancel" role="dialog" aria-labelledby="cx-h" hidden>
+  <div class="sh-top"><h3 id="cx-h" class="sheet-title">Cancellation · Moderate</h3></div>
+  <ol class="pc-tl">
+      <li class="on"><b>Today</b><span>Book with free cancellation</span></li>
+      <li class="on last-on"><b>Thu, 3 Dec, 5:00 PM</b><span>Last chance for a full refund</span></li>
+      <li class="end"><b>Sun, 6 Dec, 5:00 PM</b><span>Experience starts. No refund after Thu.</span></li>
+    </ol>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Close</button></div>
+</div>
+<div class="sheet" id="sh-map" role="dialog" aria-labelledby="map-h" hidden>
+  <div class="sh-top"><h3 id="map-h" class="sheet-title">Kampung Kuantan jetty</h3></div>
+  <p class="small muted" style="margin:4px 0 12px">Jalan Kuantan, 45000 Kuala Selangor · exact spot shared after booking</p>
+  <div class="map-big" id="mapBig"></div>
+    <h3 class="gt-h">How to get here</h3>
+    <div class="gt-ways">
+      <div class="gt-w"><i class="ph-fill ph-car" aria-hidden="true"></i><div><b>Drive · 1 h 15 min</b><span>From KL. Free parking at the jetty.</span></div></div>
+      <div class="gt-w"><i class="ph-fill ph-bus" aria-hidden="true"></i><div><b>Bus 100</b><span>Shah Alam to Kuala Selangor town, then a 10-min taxi.</span></div></div>
+      <div class="gt-w"><i class="ph-fill ph-van" aria-hidden="true"></i><div><b>Pickup · RM 20 per car</b><span>From Kuala Selangor town. Ask the host.</span></div></div>
+    </div>
+  <div class="list mt3">
+    <a class="list-row" href="https://www.google.com/maps/search/?api=1&amp;query=Kampung+Kuantan+Kuala+Selangor" target="_blank" rel="noopener"><i class="ph ph-map-trifold" aria-hidden="true"></i><div class="list-row__text">Open in Google Maps</div><i class="ph ph-arrow-up-right chev" aria-hidden="true"></i></a>
+    <a class="list-row" href="https://waze.com/ul?q=Kampung%20Kuantan%20Kuala%20Selangor" target="_blank" rel="noopener"><i class="ph ph-navigation-arrow" aria-hidden="true"></i><div class="list-row__text">Open in Waze</div><i class="ph ph-arrow-up-right chev" aria-hidden="true"></i></a>
+  </div>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Close</button></div>
+</div>
+<div class="sheet rules-sheet" id="sh-s11" role="dialog" aria-labelledby="sh-s11-h" hidden>
+  <div class="sh-top"><h3 id="sh-s11-h" class="rules-h sheet-title">What to bring</h3></div>
+  <ul class="rules"><li><span class="rule-ic"><i class="ph ph-t-shirt" aria-hidden="true"></i></span><span><b>Long sleeves and trousers</b><small>Keeps mosquitoes off</small></span></li><li><span class="rule-ic"><i class="ph ph-sneaker" aria-hidden="true"></i></span><span><b>Shoes that can get wet</b><small>Sandals or old trainers</small></span></li><li><span class="rule-ic"><i class="ph ph-drop" aria-hidden="true"></i></span><span><b>A refillable water bottle</b><small>Refill at the jetty. No plastic.</small></span></li><li><span class="rule-ic"><i class="ph ph-cloud-rain" aria-hidden="true"></i></span><span><b>A light rain jacket</b><small>Showers can come quickly</small></span></li></ul>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="sheet rules-sheet" id="sh-s12" role="dialog" aria-labelledby="sh-s12-h" hidden>
+  <div class="sh-top"><h3 id="sh-s12-h" class="rules-h sheet-title">Etiquette</h3></div>
+  <ul class="rules"><li><span class="rule-ic"><i class="ph ph-camera-slash" aria-hidden="true"></i></span><span><b>No flash or torches</b><small>Light stops the fireflies blinking</small></span></li><li><span class="rule-ic"><i class="ph ph-speaker-low" aria-hidden="true"></i></span><span><b>Keep voices low</b><small>Sound carries on the water</small></span></li><li><span class="rule-ic"><i class="ph ph-hand" aria-hidden="true"></i></span><span><b>Don’t touch the trees</b><small>The fireflies live on the leaves</small></span></li><li><span class="rule-ic"><i class="ph ph-t-shirt" aria-hidden="true"></i></span><span><b>Cover up in the village</b><small>Shoulders and knees covered</small></span></li><li><span class="rule-ic"><i class="ph ph-sneaker" aria-hidden="true"></i></span><span><b>Shoes off indoors</b><small>Before entering a home</small></span></li></ul>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="sheet rules-sheet" id="sh-s13" role="dialog" aria-labelledby="sh-s13-h" hidden>
+  <div class="sh-top"><h3 id="sh-s13-h" class="rules-h sheet-title">Food and dietary</h3></div>
+  <div class="rules-warn"><i class="ph-fill ph-warning" aria-hidden="true"></i><span><b>Contains peanuts and coconut</b>Add allergies at booking</span></div>
+  <ul class="rules"><li><span class="rule-ic"><i class="ph ph-house" aria-hidden="true"></i></span><span><b>Served at Pak Rahim’s home</b><small>Teh tarik and kuih</small></span></li><li><span class="rule-ic"><i class="ph ph-seal-check" aria-hidden="true"></i></span><span><b>Halal kitchen</b><small>Prepared by the host family</small></span></li><li><span class="rule-ic"><i class="ph ph-leaf" aria-hidden="true"></i></span><span><b>Vegetarian on request</b><small>Ask when you book</small></span></li></ul>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="sheet rules-sheet" id="sh-s14" role="dialog" aria-labelledby="sh-s14-h" hidden>
+  <div class="sh-top"><h3 id="sh-s14-h" class="rules-h sheet-title">Accessibility</h3></div>
+  <ul class="rules"><li><span class="rule-ic"><i class="ph ph-wheelchair" aria-hidden="true"></i></span><span><b>Not wheelchair accessible</b><small>Boarding needs a step down into the boat</small></span></li><li><span class="rule-ic"><i class="ph ph-path" aria-hidden="true"></i></span><span><b>300 m walk</b><small>On a flat wooden boardwalk</small></span></li><li><span class="rule-ic"><i class="ph ph-toilet" aria-hidden="true"></i></span><span><b>Toilets</b><small>At the jetty and the host’s home</small></span></li><li><span class="rule-ic"><i class="ph ph-armchair" aria-hidden="true"></i></span><span><b>Seating</b><small>Boat seats have back support</small></span></li></ul>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="sheet" id="sh-guide" role="dialog" aria-labelledby="gd-h" hidden>
+  <div class="sh-top"><h3 id="gd-h" class="story-h">Meet your guide</h3></div>
+  <div class="mt3"><div class="g-head">
+      <img class="avatar xl" data-img="1763219069500-e4c9b49f308f" data-w="200" alt="Pak Rahim">
+      <div class="grow"><h3 class="g-name">Pak Rahim Osman<i class="ph-fill ph-seal-check" role="img" aria-label="Identity verified"></i></h3><p class="g-meta"><i class="ph-fill ph-map-pin" aria-hidden="true"></i>Kuala Selangor</p><p class="g-meta"><i class="ph-fill ph-translate" aria-hidden="true"></i>English, Malay</p></div>
+      
+    </div></div>
+  <div class="g-full"><p><small>Where I grew up</small>In a stilt house 200 metres from the jetty. I learned to paddle before I could ride a bicycle.</p><p><small>Why I started this</small>When the fireflies started to disappear, I wanted visitors to see them, and pay to protect them.</p><p><small>Something guests always ask me</small>"Do they ever switch off?" Yes, when it rains. I'll tell you the night before.</p><p><small>My favourite spot</small>The bend after the old jetty where the river goes completely still.</p></div>
+  <div class="video-thumb mt3"><img data-img="1773904594755-6c25ab2ef6c9" data-w="700" alt=""><span><i class="ph-fill ph-play-circle" aria-hidden="true"></i></span><em>Intro video · 0:48</em></div>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="sheet" id="sh-story" role="dialog" aria-labelledby="st-h" hidden>
+  <div class="sh-top"><h3 id="st-h" class="story-h sheet-title">The story</h3></div>
+  <div class="story-full"><p>As the sun sets, the river goes quiet. We paddle into the mangroves with no engines and no spotlights. Then the berembang trees begin to blink, thousands of fireflies flashing together in perfect time.</p><p>Colonies like this are rare, fewer than 20 remain worldwide, and paddling keeps them undisturbed. It's gentle enough for children and first-timers, and couples love the stillness.</p><p>Most guests go silent when the first tree lights up, and talk about it all the way back home.</p></div>
+  <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+</div>
+<div class="l-head" id="lhead" aria-hidden="true">
+  <div class="l-head__bar">
+    <button class="icon-btn" data-go="g-results" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button><span class="grow l-head__title">Mangrove &amp; fireflies by kampung boat</span>
+    <button class="icon-btn" id="lmore" aria-label="More" aria-haspopup="menu" aria-expanded="false" aria-controls="lmenu"><i class="ph ph-dots-three" aria-hidden="true"></i></button>
+    <div class="l-menu" id="lmenu" role="menu" hidden>
+      <button role="menuitem" data-toast="Link copied" data-toast-icon="ph-link"><i class="ph ph-export" aria-hidden="true"></i>Share</button>
+      <button role="menuitem" data-toast="Saved to your list" data-toast-icon="ph-heart"><i class="ph ph-heart" aria-hidden="true"></i>Save</button>
+    </div>
+  </div>
+  <nav class="l-tabs" id="ltabs" aria-label="Sections"><a href="#top" data-t="top">Overview</a><a href="#s4" data-t="s4">Itinerary</a><a href="#s8" data-t="s8">Impact</a><a href="#s16" data-t="s16">Price</a><a href="#s19" data-t="s19">Reviews</a></nav>
+</div>
+<header class="appbar appbar--overlay">
+  <button class="icon-btn" data-go="g-results" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <span class="grow"></span>
+  <button class="icon-btn" aria-label="Share" data-toast="Link copied" data-toast-icon="ph-link"><i class="ph ph-export" aria-hidden="true"></i></button>
+  <button class="icon-btn" aria-label="Save" data-toast="Saved to your list" data-toast-icon="ph-heart"><i class="ph ph-heart" aria-hidden="true"></i></button>
+</header>
+
+<!-- 1 Hook -->
+<div class="gallery" id="gal"><img id="galimg" alt="Mangrove trees with tangled roots in calm water"><div class="gal-dots" id="dots"></div><span class="gallery__count" id="gcount">1 / 5</span><span class="hero-tag"><i class="ph ph-tree-evergreen" aria-hidden="true"></i>Nature &amp; eco-tours</span><span class="stamp" role="img" aria-label="20% to mangrove replanting">20%<small>to trees</small></span><svg class="hill" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C70 34 140 36 220 22 C290 10 350 8 400 18 V40 H0Z"/></svg></div>
+<div class="sheet-top">
+  <div class="title-blk">
+        <h1>Mangrove &amp; fireflies by kampung boat</h1>
+    <p class="title-imp"><i class="ph-fill ph-leaf" aria-hidden="true"></i>20% of each ticket plants mangroves</p>
+    <div class="l-facts mt3"><span><i class="ph-fill ph-map-pin" aria-hidden="true"></i>Kuala Selangor, Selangor</span><span><i class="ph-fill ph-clock" aria-hidden="true"></i>3.5 hours</span></div>
+    <div class="l-rate mt2"><span class="l-score r-hi"><i class="ph-fill ph-star" aria-hidden="true"></i><b>4.96</b><small>/ 5</small></span><a href="#reviews" class="muted small" style="text-decoration:underline">128 reviews</a></div>
+    <div class="hd-price"><b>RM 145</b><span>/ adult</span></div>
+    <p class="hd-promise">Paddle the Selangor River at dusk and watch the mangroves light up.</p>
+  </div>
+
+
+  <!-- 2 Quick facts -->
+  <section class="blk blk--flat" aria-label="Quick facts">
+    <div class="qs" role="list"><div class="qs-i" role="listitem"><i class="ph-fill ph-users-three" aria-hidden="true"></i><b>2–10 guests</b></div><div class="qs-i" role="listitem"><i class="ph-fill ph-sun-horizon" aria-hidden="true"></i><b>5:00 PM daily</b></div><div class="qs-i" role="listitem"><i class="ph-fill ph-chat-circle-text" aria-hidden="true"></i><b>English, Malay</b></div><div class="qs-i" role="listitem"><i class="ph-fill ph-baby" aria-hidden="true"></i><b>Ages 5+</b></div><div class="qs-i" role="listitem"><i class="ph-fill ph-person-simple-walk" aria-hidden="true"></i><b>Easy</b></div></div>
+  </section>
+  <section class="blk blk--flat" aria-labelledby="wte-h">
+    <h2 id="wte-h" class="sec-h is-h3">What to expect</h2>
+    <div class="wte">
+      <figure><img data-img="1786717667687-2f05e422d6f9" data-w="300" alt="The Selangor River at dusk"><figcaption>Paddle at dusk</figcaption></figure>
+      <figure><img data-img="1784751449882-c2c28ca2dd78" data-w="300" alt="Mangrove roots in the water"><figcaption>Into the mangroves</figcaption></figure>
+      <figure><img data-img="1644281264362-420bec9dbb73" data-w="300" alt="The river at night"><figcaption>Fireflies light up</figcaption></figure>
+      <figure><img data-img="1793490325386-39a4d28add10" data-w="300" alt="Teh tarik in a glass"><figcaption>Teh tarik and kuih</figcaption></figure>
+      <figure><img data-img="1763219069500-e4c9b49f308f" data-w="300" alt="Pak Rahim in his boat"><figcaption>Stories from Pak Rahim</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 3 Narrative -->
+  <section class="blk" aria-labelledby="s3">
+    <h2 id="s3"><span class="h-ic"><i class="ph-fill ph-book-open-text" aria-hidden="true"></i></span>The story</h2>
+    <p class="story-peek">As the sun sets, the river goes quiet. We paddle into the mangroves with no engines and no spotlights.</p>
+    <button class="btn story-btn" data-open="#sh-story">Read the full story</button>
+  </section>
+
+  <!-- 4 Itinerary -->
+  <section class="blk" aria-labelledby="s4">
+    <h2 id="s4"><span class="h-ic"><i class="ph-fill ph-path" aria-hidden="true"></i></span>Itinerary</h2>
+    <ol class="itl"><li class="it"><span class="it-dot" aria-hidden="true"></span><div><b>Welcome at the kampung jetty</b><small>5:00 PM</small><p>Life jackets, safety talk, meet the boatmen.</p></div></li><li class="it"><span class="it-dot" aria-hidden="true"></span><div><b>Paddle into the mangroves</b><small>5:20 PM</small><p>Spot monitor lizards, kingfishers and silvered leaf monkeys.</p></div></li><li class="it"><span class="it-dot" aria-hidden="true"></span><div><b>Teh tarik and kuih at Pak Rahim's home</b><small>6:30 PM</small><p>Sunset over the river, stories of the village.</p></div></li><li class="it"><span class="it-dot" aria-hidden="true"></span><div><b>Fireflies on the berembang trees</b><small>7:15 PM</small><p>Lights off, voices low. The best part.</p></div></li><li class="it"><span class="it-dot" aria-hidden="true"></span><div><b>Back at the jetty</b><small>8:30 PM</small></div></li></ol>
+  </section>
+
+  <!-- 5 Included / not -->
+  <section class="blk" aria-labelledby="s5">
+    <h2 id="s5"><span class="h-ic"><i class="ph-fill ph-package" aria-hidden="true"></i></span>What's included</h2>
+    <ul class="inc inc-yes">
+      <li><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Boat, paddles, life jackets</li>
+      <li><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Teh tarik and kuih</li>
+      <li><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Natural insect repellent</li>
+      <li><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Local guide</li>
+    </ul>
+    <p class="inc-not">Not included: transport to the jetty · dinner · tips</p>
+  </section>
+
+  <!-- 6 Meet your guide -->
+  <section class="blk" aria-labelledby="s6">
+    <h2 id="s6"><span class="h-ic"><i class="ph-fill ph-user" aria-hidden="true"></i></span>Guide</h2>
+    <div class="g-row">
+      <a class="g-who" href="g-host.html" data-go="g-host" aria-label="Pak Rahim Osman, host profile"><img class="avatar lg" data-img="1763219069500-e4c9b49f308f" data-w="160" alt="">
+        <span class="grow"><b class="g-name">Pak Rahim Osman<i class="ph-fill ph-seal-check" role="img" aria-label="Identity verified"></i></b><small>Host since 2025</small></span><i class="ph ph-caret-right g-chev" aria-hidden="true"></i></a>
+      <a class="g-msg" href="g-chat.html" data-go="g-chat" aria-label="Message Pak Rahim" onclick="try{sessionStorage.setItem('lk-thread', 'rahim')}catch(e){}"><i class="ph-fill ph-chat-circle-dots" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <!-- 7 Impact story -->
+
+  <!-- 8 Where your money goes -->
+  <section class="blk" aria-labelledby="s8">
+    <h2 id="s8"><span class="h-ic"><i class="ph-fill ph-coins" aria-hidden="true"></i></span>Impact</h2>
+    <div class="mdon reveal">
+      <p class="mdon-from">From every RM 145 adult ticket</p>
+      <div class="mdon-row">
+        <svg class="mdon-ring" viewBox="0 0 42 42" role="img" aria-label="85% stays local: 65% to Pak Rahim's family and boatmen, 20% to mangrove replanting, 15% to Lokali">
+          <circle class="trk" cx="21" cy="21" r="15.915"/>
+          <circle class="seg s1" cx="21" cy="21" r="15.915" style="--len:65;--off:25"/>
+          <circle class="seg s2" cx="21" cy="21" r="15.915" style="--len:20;--off:-40"/>
+          <circle class="seg s3" cx="21" cy="21" r="15.915" style="--len:15;--off:-60"/>
+        </svg>
+        <div class="mdon-mid" aria-hidden="true"><b>85%</b><span>stays local</span></div>
+        <ul class="mdon-leg">
+          <li><i class="d1"></i><div><b>RM 94.25 · 65%</b><span>Pak Rahim's family and boatmen</span></div></li>
+          <li><i class="d2"></i><div><b>RM 29.00 · 20%</b><span>Mangrove replanting</span></div></li>
+          <li><i class="d3"></i><div><b>RM 21.75 · 15%</b><span>Lokali (bookings, payments, support)</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <p class="imp-line"><i class="ph-fill ph-leaf" aria-hidden="true"></i><span>Paddle-only, no lights, so the fireflies stay. The village has replanted 4,200 mangrove seedlings since 2024.</span></p>
+  </section>
+
+  <!-- 10 Getting there -->
+  <section class="blk" aria-labelledby="s10">
+    <h2 id="s10"><span class="h-ic"><i class="ph-fill ph-map-pin" aria-hidden="true"></i></span>Getting there</h2>
+    <button type="button" class="gt-map" data-open="#sh-map" aria-label="Open the map: Kampung Kuantan jetty, Kuala Selangor">
+      <svg viewBox="0 0 360 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="360" height="180" style="fill:var(--primary-tint)"/>
+        <path d="M0 120 C60 100 90 140 150 118 S250 70 360 92 V130 C260 110 220 160 150 150 S50 140 0 150Z" style="fill:var(--info-tint, #d6e9f0)"/>
+        <g style="fill:var(--olive)" opacity=".35"><circle cx="40" cy="40" r="14"/><circle cx="64" cy="58" r="10"/><circle cx="300" cy="140" r="16"/><circle cx="270" cy="40" r="12"/><circle cx="200" cy="30" r="9"/></g>
+        <path d="M150 118 C190 80 240 60 320 34" fill="none" stroke-width="2.5" stroke-dasharray="6 6" style="stroke:var(--primary)"/>
+        <circle cx="320" cy="34" r="6" style="fill:var(--ink)"/><text x="312" y="20" text-anchor="end" font-size="11" font-weight="600" style="fill:var(--ink);font-family:Inter,sans-serif">Kuala Lumpur</text>
+        <path d="M150 92 C162 92 166 106 150 122 C134 106 138 92 150 92Z" style="fill:var(--primary)"/><circle cx="150" cy="103" r="5" fill="#fff"/>
+      </svg>
+      <div class="gt-label"><b>Kampung Kuantan jetty · 1 h 15 min from KL</b><span><i class="ph-fill ph-lock-simple" aria-hidden="true"></i>Exact spot shared after booking</span></div></button>
+    
+  </section>
+
+  <!-- 11–14 Good to know: what to bring, etiquette, food, accessibility (merged 26 Nov) -->
+  <section class="blk" aria-labelledby="gtk-h">
+    <h2 id="gtk-h"><span class="h-ic"><i class="ph-fill ph-info" aria-hidden="true"></i></span>Good to know</h2>
+    <ul class="gtk">
+      <li id="s11"><button type="button" class="gtk-row" data-open="#sh-s11"><i class="ph-fill ph-t-shirt" aria-hidden="true"></i><span class="gtk-t"><b>What to bring</b><small>Clothing and essentials</small></span><i class="ph ph-caret-right gtk-chev" aria-hidden="true"></i></button></li>
+      <li id="s12"><button type="button" class="gtk-row" data-open="#sh-s12"><i class="ph-fill ph-hand-heart" aria-hidden="true"></i><span class="gtk-t"><b>Etiquette</b><small>How to respect the river and village</small></span><i class="ph ph-caret-right gtk-chev" aria-hidden="true"></i></button></li>
+      <li id="s13"><button type="button" class="gtk-row" data-open="#sh-s13"><i class="ph-fill ph-fork-knife" aria-hidden="true"></i><span class="gtk-t"><b>Food and dietary</b><small class="warn">Contains peanuts and coconut</small></span><i class="ph ph-caret-right gtk-chev" aria-hidden="true"></i></button></li>
+      <li id="s14"><button type="button" class="gtk-row" data-open="#sh-s14"><i class="ph-fill ph-wheelchair" aria-hidden="true"></i><span class="gtk-t"><b>Accessibility</b><small>Walking, boarding and facilities</small></span><i class="ph ph-caret-right gtk-chev" aria-hidden="true"></i></button></li>
+    </ul>
+  </section>
+  <!-- 16 Price / 17 Cancellation -->
+  <section class="blk" aria-labelledby="s16">
+    <h2 id="s16"><span class="h-ic"><i class="ph-fill ph-tag" aria-hidden="true"></i></span>Price and cancellation</h2>
+    <ul class="pc-prices">
+      <li><span>Adult <small>13+</small></span><b>RM 145</b></li>
+      <li><span>Child <small>5–12</small></span><b>RM 95</b></li>
+    </ul>
+    <p class="pc-note">Prices are in Malaysian ringgit (MYR). A 5% service fee is added at checkout.</p>
+    <ul class="gtk" style="margin-top:16px"><li id="s17"><button type="button" class="gtk-row" data-open="#sh-cancel"><i class="ph-fill ph-calendar-check" aria-hidden="true"></i><span class="gtk-t"><b>Free cancellation until Thu, 3 Dec, 5:00 PM</b><small>Moderate policy · see the dates</small></span><i class="ph ph-caret-right gtk-chev" aria-hidden="true"></i></button></li></ul>
+  </section>
+
+  <!-- 18 Group / private / corporate -->
+  <section class="blk" aria-labelledby="s18">
+    <h2 id="s18"><span class="h-ic"><i class="ph-fill ph-users-three" aria-hidden="true"></i></span>Groups and companies</h2>
+    <div class="list">
+      <a class="list-row" href="g-corporate.html" data-go="g-corporate" onclick="try{sessionStorage.setItem('lk-corp-exp', L.curExp())}catch(e){}"><i class="ph ph-buildings" aria-hidden="true"></i><div class="list-row__text">Plan a group or team day<small>11 or more people · custom quote within 2 working days</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></a>
+    </div>
+  </section>
+
+  <!-- 19 Reviews -->
+  <section class="blk" id="reviews" aria-labelledby="s19">
+    <h2 id="s19"><span class="h-ic"><i class="ph-fill ph-star" aria-hidden="true"></i></span>Reviews<span class="h-rate"><i class="ph-fill ph-star" aria-hidden="true"></i><b>4.96</b><small>(128)</small></span></h2>
+    <div class="rq-list">
+      <a class="rq" href="g-reviews.html" data-go="g-reviews"><img data-img="1701980889802-55ff39e2e973" data-w="100" alt=""><span class="rq-t"><span class="rq-q">“Silent paddling under thousands of blinking lights. My kids still talk about it.”</span><small>Daniel · Ipoh, Nov 2026</small></span><i class="ph ph-caret-right rq-chev" aria-hidden="true"></i></a>
+      <a class="rq" href="g-reviews.html" data-go="g-reviews"><img data-img="1613447895817-e617a4093f50" data-w="100" alt=""><span class="rq-t"><span class="rq-q">“Lovely, calm trip. Bring long sleeves, the mosquitoes are serious after 7 PM.”</span><small>Aisyah · Shah Alam, Oct 2026</small></span><i class="ph ph-caret-right rq-chev" aria-hidden="true"></i></a>
+    </div>
+    <button class="btn story-btn" data-go="g-reviews">Show all reviews</button>
+  </section>
+
+  <!-- 20 FAQs -->
+  <section class="blk blk--last" aria-labelledby="s20">
+    <h2 id="s20"><span class="h-ic"><i class="ph-fill ph-question" aria-hidden="true"></i></span>FAQs</h2>
+    <details class="faq"><summary>What if it rains?<i class="ph ph-caret-down" aria-hidden="true"></i></summary><p>Light rain is fine. In heavy rain the host moves you to another date or you get a full refund.</p></details>
+    <details class="faq"><summary>Is it safe for young children?<i class="ph ph-caret-down" aria-hidden="true"></i></summary><p>Yes, from age 5. Child life jackets are provided and boats stay close to the bank.</p></details>
+    <details class="faq"><summary>Can I take photos of the fireflies?<i class="ph ph-caret-down" aria-hidden="true"></i></summary><p>Without flash only. Most phones can't capture them — the host shares a long-exposure photo after the trip.</p></details>
+    <p class="report"><button type="button" class="report-link" data-toast="Thanks. Our team will review this listing." data-toast-icon="ph-flag"><i class="ph ph-flag" aria-hidden="true"></i><span>Report this listing</span></button></p>
+  </section>
+  <div style="height:16px"></div>
+</div>
+
+<div class="cta-bar">
+  <div class="grow bar-when" aria-label="RM 145 per adult, 4 spots left, Sunday 6 December at 5:00 PM"><div class="bar-price"><span class="price">RM 145</span><span class="per">/ adult</span><span class="bar-left">4 left</span></div><div class="bar-date"><i class="ph ph-calendar-check" aria-hidden="true"></i>Sun, 6 Dec · 5:00 PM</div></div>
+  <button class="btn btn--primary" data-go="g-book">Book now</button>
+</div>
+  <script>
+  (function () {
+var g = L.exp[L.curExp()].gallery, i = 0, img = document.getElementById('galimg');
+function show() { img.src = L.img(g[i], 900); document.getElementById('gcount').textContent = (i + 1) + ' / ' + g.length; document.getElementById('dots').innerHTML = g.map(function (_, j) { return '<i' + (j === i ? ' class="on"' : '') + '></i>'; }).join(''); }
+show();
+document.getElementById('gal').addEventListener('click', function () { i = (i + 1) % g.length; show(); });
+  })();
+  </script>
+<script>
+(function () {
+  var head = document.getElementById('lhead'), nav = document.getElementById('ltabs'), links = [].slice.call(nav.querySelectorAll('a')), lock = 0, cur = null;
+  var gal = document.getElementById('gal');
+  var secs = links.map(function (a) { if (a.dataset.t === 'top') return null; var h = document.getElementById(a.dataset.t); return h && (h.closest('section') || h); });
+  function setOn(a) { links.forEach(function (x) { x.classList.toggle('on', x === a); }); if (a) nav.scrollTo({ left: a.offsetLeft - 12, behavior: 'smooth' }); }
+  var smooth = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  nav.addEventListener('click', function (e) { var a = e.target.closest('a'); if (!a) return; e.preventDefault(); e.stopPropagation(); var i = links.indexOf(a); lock = Date.now(); setOn(a);
+    var top = secs[i] ? secs[i].getBoundingClientRect().top + scrollY - head.offsetHeight - 8 : gal.offsetHeight - head.offsetHeight + 1;
+    window.scrollTo({ top: top, behavior: smooth }); }, true);
+  function spy() {
+    var show = gal.getBoundingClientRect().bottom <= head.offsetHeight;
+    head.classList.toggle('show', show); head.setAttribute('aria-hidden', !show);
+    if (Date.now() - lock < 800) return;
+    var y = head.offsetHeight + 24, act = links[0];
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= y) act = links[i]; });
+    if (act !== cur) { cur = act; setOn(act); }
+  }
+  addEventListener('scroll', spy, { passive: true }); spy();
+})();
+</script>
+  <script>
+  L.swapExp();
+  (function () { var src = document.querySelector('.gt-map svg'), dst = document.getElementById('mapBig'); if (src && dst) dst.appendChild(src.cloneNode(true)); })();
+  (function () { var k = L.curExp(); if (k === 'mangrove') return; var e = L.exp[k];
+    /* only Mangrove & fireflies has every section written; others show their own facts and hide story-specific sections */
+    /* guide bio, guest reviews, FAQs and what's included are written about the mangrove trip */
+    document.querySelectorAll('#s6 ~ .fade-peek, .g-inline, .review, .rq-list, .faq, .inc-wrap').forEach(function (el) { el.hidden = true; });
+    ['s3', 's4', 's5', 's7', 's8', 's10', 's20', 'wte-h', 'gtk-h'].forEach(function (id) { var el = document.getElementById(id); if (el) { var sec = el.closest('section'); if (sec) sec.hidden = true; } });
+    var pr = document.querySelector('.hd-promise'); if (pr) pr.textContent = e.promise;
+    var ti = document.querySelector('.title-imp'); if (ti) ti.lastChild.nodeValue = e.impact;
+    document.querySelectorAll('.l-score b, .h-rate b').forEach(function (b) { b.textContent = e.rating.toFixed(2); }); var hc = document.querySelector('.h-rate small'); if (hc) hc.textContent = '(' + e.reviews + ')';
+    document.querySelectorAll('a[href="#reviews"]').forEach(function (a) { a.textContent = e.reviews + ' reviews'; });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-listing', [['Focus', 'Impact card + money split'], ['Listing', 'Mangrove & fireflies'], ['Host', 'Pak Rahim Osman'], ['Policy', 'Moderate (full refund ≥72 h)'], ['Sections', '18, in brief order'], ['Desktop', 'Booking box becomes sticky side card']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+<script>
+/* More menu in the scrolled header */
+(function () {
+  var b = document.getElementById('lmore'), m = document.getElementById('lmenu'), h = document.getElementById('lhead');
+  function set(o) { m.hidden = !o; b.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  b.addEventListener('click', function (e) { e.stopPropagation(); set(m.hidden); });
+  m.addEventListener('click', function () { setTimeout(function () { set(false); }, 0); });
+  document.addEventListener('click', function (e) { if (!m.hidden && !m.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) { set(false); b.focus(); } });
+  /* close it when the header slides away */
+  new MutationObserver(function () { if (!h.classList.contains('show')) set(false); }).observe(h, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+</body>
+</html>

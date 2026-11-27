@@ -1,0 +1,14 @@
+/* Notice banner: a message inside the page that stays until dealt with (offline, update available, verify your email), with 1-2 actions.
+   <div class="c-banner c-banner--md|--ios" role="status"><span class="c-ico">wifi_off</span><div><b>You're offline</b><p>Posts will send when you're back.</p></div><div class="c-banner__actions"><button>Dismiss</button><button class="is-main">Retry</button></div></div> */
+.c-banner { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: start; font-family: var(--c-font); color: var(--c-ink); }
+.c-banner > .c-ico { grid-row: span 2; color: var(--c-accent); margin-top: 2px; }
+.c-banner b { display: block; font-size: 15px; line-height: 20px; } .c-banner p { margin: 2px 0 0; color: var(--c-muted); font-size: 14px; line-height: 20px; }
+.c-banner__actions { grid-column: 2; display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.c-banner__actions button { border: 0; cursor: pointer; font: 500 14px/1 var(--c-font); color: var(--c-accent); background: none; }
+.c-banner[hidden] { display: none; }
+/* Material 3 banner: full width, tinted, a line underneath, text buttons */
+.c-banner--md { padding: 16px; background: var(--c-surface-2); border-bottom: 1px solid var(--c-line); } .c-banner--md .c-banner__actions button { height: 40px; padding: 0 12px; border-radius: 20px; }
+/* Apple (iOS 27): an inset rounded card with a clear edge and capsule buttons */
+.c-banner--ios { margin: 8px 16px; padding: 16px; border-radius: 26px; background: var(--c-bg); border: 1px solid var(--c-glass-edge); }
+.c-banner--ios .c-banner__actions button { height: 36px; padding: 0 16px; border-radius: 18px; background: color-mix(in srgb, var(--c-ink) 7%, transparent); color: var(--c-ink); font-size: 15px; }
+.c-banner--ios .c-banner__actions .is-main { background: var(--c-accent); color: var(--c-on-accent); }

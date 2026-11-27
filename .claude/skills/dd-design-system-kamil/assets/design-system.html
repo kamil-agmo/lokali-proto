@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design System</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <script src="../design-system.config.js"></script>
+  <!-- ds:app-styles (the app's own stylesheets, copied by install_ds.py, so colour swatches use the real tokens) -->
+  <!-- /ds:app-styles -->
+  <style>
+    /* Design System page (dd-design-system-kamil). Its own layout (ds- classes) on top of the app's tokens and font. */
+    html, body { margin: 0; padding: 0; }
+    body.ds { min-height: 100vh; background: #fff; color: #1f2937; -webkit-font-smoothing: antialiased; }
+    .ds h1 { margin: 0 0 4px; font-size: 28px; line-height: 34px; }
+    .ds-wrap { padding: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+    .ds-head { padding: 24px 24px 0; } .ds-head p { margin: 0; color: #6b7280; font-size: 14px; }
+    html.ds-panel .ds-head { display: none; }
+    .ds-sec h2 { margin: 0 0 8px; font-size: 12px; line-height: 16px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; }
+    .ds-box { background: #f6f6f8; border-radius: 16px; padding: 16px; font-size: 14px; line-height: 20px; }
+    .ds-box p { margin: 0; }
+    .ds-tip { font-size: 12px; color: #6b7280; margin-top: 12px !important; }
+    .ds-scale { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+    .ds-scale div { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #6b7280; }
+    .ds-scale i { display: block; background: #6366f1; }
+    .ds-rad i { width: 40px; height: 40px; background: #eef2ff; border: 2px solid #6366f1; }
+    .ds-sizes { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ds-sizes div { flex-direction: row; align-items: baseline; gap: 8px; }
+    .ds-sizes b { color: #111827; font-weight: 400; line-height: 1.2; }
+    .ds-sw { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+    .ds-sw div { font-size: 11px; color: #6b7280; word-break: break-all; }
+    .ds-sw i { display: block; height: 40px; border-radius: 10px; border: 1px solid rgba(0,0,0,.08); margin-bottom: 4px; }
+    .ds-rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .ds-rules li { display: flex; gap: 8px; }
+    .ds-rules li::before { flex: 0 0 auto; width: 20px; font-weight: 700; }
+    .ds-do li::before { content: "✓"; color: #16a34a; } .ds-dont li::before { content: "✕"; color: #dc2626; } .ds-xc li::before { content: "⚑"; color: #2563eb; }
+    .ds-xc code { font-size: 12px; color: #6b7280; }
+  </style>
+</head>
+<body class="ds">
+  <div class="ds-head"><h1 id="dsName">Design System</h1><p>The rules every screen follows.</p></div>
+  <main class="ds-wrap" id="ds"></main>
+  <script>
+  (function () {
+    if (/[?&]panel\b/.test(location.search)) document.documentElement.classList.add('ds-panel');
+    var S = window.DESIGN_SYSTEM || window.UI_STANDARD || {}, el = document.getElementById('ds'), h = '';
+    if (window.SHELL && SHELL.name) document.getElementById('dsName').textContent = SHELL.name + ': design system';
+    function esc(t) { return String(t).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+    function sec(title, inner) { h += '<section class="ds-sec"><h2>' + title + '</h2><div class="ds-box">' + inner + '</div></section>'; }
+    var RN = { spacing: 'Spacing', radius: 'Rounding', fontSize: 'Text size', fontWeight: 'Font weight', tap: 'Tap area', pureBlack: 'Black text' };
+    sec('Design style', '<p>' + esc(S.style || '') + '</p>');
+    if (S.theme) sec('Theme', '<p>' + esc(S.theme) + '</p>');
+    sec('Spacing: only these', '<div class="ds-scale">' + (S.spacing || []).filter(Number).map(function (v) { return '<div><i style="width:' + v + 'px;height:' + v + 'px"></i>' + v + '</div>'; }).join('') + '</div><p class="ds-tip">Padding, gaps and vertical margins.</p>');
+    sec('Corner rounding', '<div class="ds-scale ds-rad">' + (S.radius || []).map(function (v) { return '<div><i style="border-radius:' + (v === 'full' ? '50%' : v + 'px') + '"></i>' + v + '</div>'; }).join('') + '</div>');
+    sec('Text sizes and weights', '<div class="ds-scale ds-sizes">' + (S.fontSizes || []).map(function (v) { return '<div><b style="font-size:' + v + 'px">Aa</b>' + v + ' px</div>'; }).join('') + '</div><p class="ds-tip">Weights: ' + (S.fontWeights || []).join(', ') + '</p>');
+    if ((S.colors || []).length) { var cs = getComputedStyle(document.documentElement);
+      sec('Colours', '<div class="ds-sw">' + S.colors.map(function (c) { return '<div><i style="background:var(' + c[0] + ')"></i>' + esc(c[1] || c[0]) + '<br>' + esc(cs.getPropertyValue(c[0]).trim() || c[0]) + '</div>'; }).join('') + '</div>'); }
+    sec('Tap areas', '<p>At least ' + S.minTap + ' × ' + S.minTap + ' px on phone screens' + (S.minTapDesktop ? ', ' + S.minTapDesktop + ' px on desktop (mouse) screens' : '') + '. The tap area may be bigger than the visible control.</p>');
+    sec('Must do', '<ul class="ds-rules ds-do">' + (S.must || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>');
+    sec('Cannot do', '<ul class="ds-rules ds-dont">' + (S.cannot || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>');
+    if ((S.exceptions || []).length) sec('Approved exceptions', '<p class="ds-tip" style="margin:0 0 12px !important">Rules bent on purpose. Shown in blue by the Rules check, not as differences.</p><ul class="ds-rules ds-xc">' + S.exceptions.map(function (x) { return '<li><span><b>' + esc(RN[x.rule] || x.rule || 'Any rule') + '</b> · <code>' + esc(x.where) + '</code><br>' + esc(x.reason) + '</span></li>'; }).join('') + '</ul>');
+    el.innerHTML = h;
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Bookings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-bookings"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--secondary" data-toast="bookings_2026-11-02_2026-12-02.xlsx downloaded" data-toast-icon="ph-download-simple"><i class="ph ph-download-simple" aria-hidden="true"></i>Export</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Bookings</h1><p>Every booking across all hosts. Open one to cancel, refund or hold its payout.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-ticket" aria-hidden="true"></i>Next 30 days</span><b><span class="hl">412 upcoming</span> · 6 need action today</b></div></div>
+        <div class="a-head__actions">
+          <div class="ptabs" data-group id="st"><button class="active" data-value="all">All <em>1,080</em></button><button data-value="Upcoming">Upcoming <em>412</em></button><button data-value="Completed">Completed <em>644</em></button><button data-value="Cancelled">Cancelled <em>24</em></button></div>
+        </div>
+      </div>
+      <div class="a-card">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" id="q" placeholder="Ref, guest, listing or host" aria-label="Search bookings"></div>
+          <select class="select" aria-label="Experience date"><option>Experience date: next 30 days</option><option>Last 30 days</option><option>Custom range…</option></select>
+          <select class="select" aria-label="Category"><option>All categories</option><option>Nature &amp; eco-tours</option><option>Culture, Craft &amp; Heritage</option><option>Farm &amp; food</option><option>Retreats &amp; stays</option></select>
+          <select class="select" aria-label="Payment"><option>All payment methods</option><option>Card</option><option>FPX</option><option>E-wallet</option></select>
+          <button class="chip" data-toast="Filter added">More filters<i class="ph ph-funnel-simple" aria-hidden="true"></i></button>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Ref</th><th>Guest</th><th>Experience</th><th>Date &amp; time</th><th class="num">Guests</th><th class="num">Guest paid</th><th>Payment</th><th>Status</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+        <div class="pager"><span id="cnt">Showing 1–13 of 1,080</span><div class="row"><button class="btn btn--secondary btn--sm" disabled>Previous</button><button class="btn btn--secondary btn--sm">Next</button></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  var B = [
+    ['LK-24817', 'Aina Rahman', 'Petaling Jaya', 'mangrove', 'Sun, 6 Dec 2026 · 5:00 PM', '2 + 1 child', 404.25, 'Visa •• 4242', 'Upcoming', 'Confirmed'],
+    ['LK-24822', 'Daniel Wong', 'Ipoh', 'orangutan', 'Sun, 6 Dec 2026 · 7:00 AM', '2', 672, 'Mastercard •• 1180', 'Upcoming', 'Confirmed'],
+    ['LK-24809', 'Nur Aisyah Kamal', 'Shah Alam', 'batik', 'Sat, 5 Dec 2026 · 10:00 AM', '3', 378, 'FPX · Maybank2u', 'Upcoming', 'Confirmed'],
+    ['LK-24795', 'Harith Zulkifli', 'Kota Kinabalu', 'canopy', 'Fri, 4 Dec 2026 · 7:00 AM', '2', 378, 'Visa •• 9031', 'Upcoming', 'Confirmed'],
+    ['LK-24788', 'Priya Ramasamy', 'Petaling Jaya', 'nyonya', 'Thu, 3 Dec 2026 · 10:00 AM', '4', 882, "Touch 'n Go eWallet", 'Upcoming', 'Confirmed'],
+    ['LK-24771', 'Ong Mei Xin', 'Kuala Terengganu', 'reef', 'Thu, 3 Dec 2026 · 8:30 AM', '2', 546, 'Visa •• 7720', 'Upcoming', 'Host cancelled'],
+    ['LK-24760', 'Ahmad Faris', 'Kuantan', 'retreat', 'Sat, 12 Dec 2026 · 9:00 AM', '2', 913.50, 'FPX · CIMB Clicks', 'Upcoming', 'Deposit paid'],
+    ['LK-24742', 'Hannah Lee', 'Bintulu', 'mangrove', 'Tue, 1 Dec 2026 · 5:00 PM', '2', 304.50, 'Mastercard •• 5502', 'Completed', 'Completed'],
+    ['LK-24781', 'Wan family', 'Kuala Lumpur', 'mangrove', 'Tue, 1 Dec 2026 · 5:00 PM', '2 + 1 child', 404.25, 'FPX · Maybank2u', 'Completed', 'Completed'],
+    ['LK-24731', 'Tan Wei Jie', 'Ipoh', 'paddy', 'Mon, 30 Nov 2026 · 8:00 AM', '5', 840, 'GrabPay', 'Completed', 'Completed'],
+    ['LK-24718', 'Hidayah Salleh', 'Seremban', 'weaving', 'Sun, 29 Nov 2026 · 10:00 AM', '1', 99.75, 'Visa •• 3318', 'Completed', 'Disputed'],
+    ['LK-24705', 'Ganesh Pillai', 'Alor Setar', 'canopy', 'Sun, 29 Nov 2026 · 7:00 AM', '3', 567, 'Visa •• 6640', 'Cancelled', 'Cancelled · refunded'],
+    ['LK-24697', 'Farah Nadia', 'Johor Bahru', 'batik', 'Sat, 28 Nov 2026 · 2:00 PM', '2', 252, 'FPX · RHB Now', 'Completed', 'Completed']
+  ];
+  var badge = { 'Confirmed': 'badge--success', 'Deposit paid': 'badge--info', 'Completed': '', 'Host cancelled': 'badge--danger', 'Disputed': 'badge--warn', 'Cancelled · refunded': 'badge--danger' };
+  var tb = document.getElementById('rows'), filter = 'all', q = '';
+  function draw() {
+    var r = B.filter(function (b) { return (filter === 'all' || b[8] === filter || (filter === 'Cancelled' && /ancel/.test(b[9]))) && (!q || b.join(' ').toLowerCase().indexOf(q) > -1 || L.exp[b[3]].title.toLowerCase().indexOf(q) > -1); });
+    tb.innerHTML = r.length ? r.map(function (b) {
+      var e = L.exp[b[3]];
+      return '<tr data-go="a-booking"><td class="strong">' + b[0] + '</td><td><div class="who"><div><b>' + b[1] + '</b><small>' + b[2] + '</small></div></div></td>' +
+        '<td><div class="who"><img src="' + L.img(e.img, 120) + '" alt=""><div><b>' + e.title + '</b><small>' + L.people[e.host].name + '</small></div></div></td>' +
+        '<td class="nowrap">' + b[4] + '</td><td class="num">' + b[5] + '</td><td class="num">' + L.rm(b[6], 2) + '</td><td class="nowrap small">' + b[7] + '</td><td><span class="badge ' + badge[b[9]] + '">' + b[9] + '</span></td></tr>';
+    }).join('') : '<tr><td colspan="8"><div class="empty"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><b>No bookings match</b><span class="muted small">Try another ref, name or filter.</span></div></td></tr>';
+    document.getElementById('cnt').textContent = 'Showing ' + r.length + ' of ' + (filter === 'all' ? '1,080' : r.length);
+  }
+  document.getElementById('st').addEventListener('pick', function (e) { filter = e.detail; draw(); });
+  document.getElementById('q').addEventListener('input', function (e) { q = e.target.value.trim().toLowerCase(); draw(); });
+  draw();
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-bookings', [['Showing', '13 of 1,080 (last 30 days + upcoming)'], ['Confirmed', 'Instantly after payment'], ['Row opens', 'Booking detail & refund']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

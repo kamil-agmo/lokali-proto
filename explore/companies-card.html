@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Companies card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 15px/22px Inter, system-ui, sans-serif; color: #222; background: #F3F3F1; padding: 32px 24px 48px; }
+  .wrap { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+  .col { width: 360px; }
+  .col > h2 { font: 600 15px/20px Inter; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 14px; min-height: 36px; }
+  .phone { width: 360px; background: #fff; border-radius: 32px; overflow: hidden; padding: 0 0 26px; box-shadow: 0 20px 60px rgba(0,0,0,.10); }
+  .pad { padding: 0 22px; }
+  .sh { font: 700 18px/24px Inter; letter-spacing: -.01em; }
+  .ctx-band { height: 150px; position: relative; overflow: hidden; }
+  .ctx-band img { width: 100%; height: 100%; object-fit: cover; -webkit-mask-image: linear-gradient(#000 40%, transparent); mask-image: linear-gradient(#000 40%, transparent); filter: brightness(.8); }
+  .ctx-band span { position: absolute; left: 0; right: 0; top: 50px; text-align: center; color: #fff; font: 800 26px/30px Inter; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; padding: 0 20px; border-radius: 12px; font: 600 15px/1 Inter; border: 0; }
+  .btn-brand { background: #D7263D; color: #fff; }
+  .btn-white { background: #fff; color: #222; }
+  .kick { display: inline-block; font: 600 11px/14px Inter; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* A · text on photo */
+  .a { position: relative; aspect-ratio: 4 / 5; border-radius: 26px; overflow: hidden; }
+  .a img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .a::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.72)); }
+  .a .in { position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 20px; color: #fff; }
+  .a .kick { opacity: .9; }
+  .a h3 { font: 800 26px/30px Inter; letter-spacing: -.02em; margin-top: 6px; }
+  .a p { font-size: 13px; line-height: 18px; opacity: .92; margin: 6px 0 14px; }
+
+  /* B · photo on top, text below */
+  .b { border: 1px solid #EBEBEB; border-radius: 26px; overflow: hidden; }
+  .b img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .b .in { padding: 18px 18px 20px; }
+  .b .kick { color: #2F5D3A; }
+  .b h3 { font: 700 20px/25px Inter; letter-spacing: -.01em; margin-top: 4px; }
+  .b ul { list-style: none; padding: 0; margin: 10px 0 16px; display: grid; gap: 6px; font-size: 13px; line-height: 18px; color: #3D3D3D; }
+  .b li { display: flex; gap: 8px; align-items: center; } .b li .ph { color: #2F5D3A; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="col">
+    <h2>A · Photo card, text on photo</h2>
+    <p>Tall photo of a group outdoors, bold title in white, one line of facts and a white button. Reads as an offer.</p>
+    <div class="phone">
+      <div class="ctx-band"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=700&q=60&auto=format&fit=crop" alt=""><span>RM 412,800 · 8,240</span></div>
+      <div class="pad" style="margin-top:8px">
+        <div class="a"><img src="https://images.unsplash.com/photo-1618521715147-29e4b97e2ebd?w=700&q=70&auto=format&fit=crop" alt="">
+          <div class="in"><span class="kick">For companies</span><h3>Team days that give back</h3><p>Groups of 11 or more · custom quote within 2 working days</p><span class="btn btn-white">Plan a team day</span></div></div>
+      </div>
+      <div class="pad" style="margin-top:28px"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <h2>B · Photo on top, details below</h2>
+    <p>Wide photo, then title, three quick facts and a red button. Calmer, and explains what a team day includes.</p>
+    <div class="phone">
+      <div class="ctx-band"><img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=700&q=60&auto=format&fit=crop" alt=""><span>RM 412,800 · 8,240</span></div>
+      <div class="pad" style="margin-top:8px">
+        <div class="b"><img src="https://images.unsplash.com/photo-1618521715147-29e4b97e2ebd?w=700&q=70&auto=format&fit=crop" alt="">
+          <div class="in"><span class="kick">For companies</span><h3>Team days that give back</h3>
+            <ul><li><i class="ph ph-users-three"></i>Groups of 11 or more</li><li><i class="ph ph-plant"></i>Tree planting, reef, crafts or cooking</li><li><i class="ph ph-receipt"></i>One quote and invoice within 2 working days</li></ul>
+            <span class="btn btn-brand">Plan a team day</span></div></div>
+      </div>
+      <div class="pad" style="margin-top:28px"><div class="sh">More to explore</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

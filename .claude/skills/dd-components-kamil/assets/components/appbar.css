@@ -1,0 +1,21 @@
+/* App bar / navigation bar. <header class="c-appbar c-appbar--md|--ios"> with optional leading button, .c-appbar__title, trailing buttons (.c-iconbtn, .c-appbar__text, grouped in .c-appbar__group). */
+.c-appbar { position: sticky; top: 0; z-index: 15; display: flex; align-items: center; gap: 4px; padding: var(--c-sb) 4px 0; font-family: var(--c-font); color: var(--c-ink); }
+.c-appbar__title { flex: 1; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-iconbtn { width: 48px; height: 48px; display: grid; place-items: center; border: 0; background: none; color: inherit; border-radius: 50%; cursor: pointer; }
+.c-iconbtn:active { background: var(--c-accent-soft); }
+/* Material 3 small top app bar: 64 dp, left-aligned 22 px title, tonal when scrolled */
+.c-appbar--md { height: calc(64px + var(--c-sb)); background: var(--c-bg); transition: background .2s var(--c-ease); }
+.c-appbar--md .c-appbar__title { font-size: 22px; line-height: 28px; font-weight: 400; padding-left: 12px; }
+.c-appbar--md.is-scrolled { background: var(--c-surface-2); }
+/* Apple (iOS 27): the bar itself is transparent; buttons sit in glass circles (icons) or glass capsules (text), and grouped buttons share one capsule.
+   When the page scrolls, the scroll edge turns into a hard blur with a bottom line. */
+.c-appbar--ios { height: calc(52px + var(--c-sb)); padding-left: 12px; padding-right: 12px; gap: 8px; background: transparent; border-bottom: .5px solid transparent; }   /* the scroll edge switches on at once (iOS 27 hard blur) */
+.c-appbar--ios .c-appbar__title { position: absolute; left: 96px; right: 96px; bottom: 0; height: 52px; line-height: 52px; text-align: center; font-size: 17px; font-weight: 600; }
+.c-appbar--ios .c-iconbtn, .c-appbar--ios .c-appbar__text, .c-appbar__group { background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); color: var(--c-ink); }
+.c-appbar--ios .c-iconbtn { width: 44px; height: 44px; }
+.c-appbar--ios .c-iconbtn .c-ico { font-size: 22px; }
+.c-appbar--ios .c-appbar__text { height: 44px; padding: 0 16px; border-radius: 22px; font: 500 17px/22px var(--c-font); cursor: pointer; }
+.c-appbar--ios .c-appbar__text.is-main { background: var(--c-accent); border-color: transparent; color: var(--c-on-accent); font-weight: 600; }
+.c-appbar__group { display: flex; border-radius: 22px; } .c-appbar__group .c-iconbtn { background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.c-appbar--ios .c-appbar__spacer { flex: 1; }
+.c-appbar--ios.is-scrolled { background: color-mix(in srgb, var(--c-bg) 80%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(20px); backdrop-filter: saturate(1.8) blur(20px); border-bottom-color: var(--c-line); }

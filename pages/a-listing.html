@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Edit listing for host</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+  <style>
+    .ed-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+    @media (max-width: 1300px) { .ed-grid { grid-template-columns: 280px minmax(0, 1fr); } .ed-grid > :last-child { grid-column: 1 / -1; } }
+    .photo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .photo-grid > * { aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
+    .photo-grid img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-grid .add { border: 2px dashed var(--line); display: grid; place-items: center; color: var(--muted); font-size: 12px; text-align: center; cursor: pointer; background: var(--bg); }
+    .split-row { display: grid; grid-template-columns: 14px 1fr 90px 90px; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .split-row i.sw { width: 14px; height: 14px; border-radius: 4px; } .split-row .pc { text-align: right; }
+  </style>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-listing"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div>
+          <div class="crumbs"><a href="a-listings.html" data-go="a-listings">Listings</a><i class="ph ph-caret-right" aria-hidden="true"></i><span>Mangrove replanting morning</span></div>
+          <h1>Mangrove replanting morning</h1>
+          <p class="row wrap" style="gap:6px;margin-top:4px"><span class="badge badge--accent"><i class="ph ph-hand-heart" aria-hidden="true"></i>Editing for Pak Rahim Osman</span><span class="badge badge--danger">Changes requested · Tue 1 Dec</span><span class="small muted">Last saved 2 min ago by Nurul Huda</span></p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-hand-heart" aria-hidden="true"></i>Assisted onboarding</span><b>Editing for Pak Rahim · <span class="hl">2 fixes</span> left</b></div>
+        </div>
+        <div class="a-head__actions">
+          <button class="btn btn--secondary" data-go="a-review"><i class="ph ph-eye" aria-hidden="true"></i>Preview as guest</button>
+          <button class="btn btn--secondary" data-toast="Draft saved. Pak Rahim can see the changes.">Save</button>
+          <button class="btn btn--primary" id="pub" disabled title="Complete all required sections first">Publish for host</button>
+        </div>
+      </div>
+
+      <div class="ed-grid">
+        <div class="a-card">
+          <div class="a-card__head"><div><h2 class="is-h3">Sections</h2><p>Same order as the guest page</p></div><span class="badge badge--danger" id="miss">2 to fix</span></div>
+          <div class="a-card__body stack" style="gap:14px">
+            <div><p class="eyebrow">Required · fixed order</p><ul class="sec-list mt2" id="req"></ul></div>
+            <div><p class="eyebrow">Optional · drag to reorder</p><p class="reorder-hint mt1"><i class="ph ph-hand-grabbing" aria-hidden="true"></i>Order here is the order on the guest page</p><ul class="sec-list mt2" id="opt"></ul></div>
+            <div><p class="eyebrow">Automatic</p><ul class="sec-list mt2"><li class="locked"><span class="num">19</span><span class="grow">Reviews</span><span class="small muted">From guests</span></li></ul></div>
+          </div>
+        </div>
+
+        <div class="a-card" id="editor">
+          <div class="a-card__head"><div><h3 id="ed-title">8 · Where your money goes</h3><p id="ed-sub">Required · strongest trust signal for guests</p></div><span class="badge badge--danger" id="ed-badge">Missing</span></div>
+
+          <div class="a-card__body stack" id="ed-money">
+            <div class="tip"><i class="ph ph-lightbulb" aria-hidden="true"></i><span>Agreed with Pak Rahim by phone, 1 Dec · Lokali's share comes from the commission</span></div>
+            <div>
+              <div class="split-row small muted strong"><span></span><span>Goes to</span><span class="num">Share</span><span class="num">Of RM 85</span></div>
+              <div id="split"></div>
+              <div class="row-between mt3"><button class="btn btn--ghost btn--sm" data-toast="Row added"><i class="ph ph-plus" aria-hidden="true"></i>Add row</button><span class="strong" id="sum">Total 100%</span></div>
+            </div>
+            <div class="example"><p class="small strong">Guest preview</p><div class="money-bar mt2" id="bar"></div><div class="money-legend" id="leg"></div></div>
+          </div>
+
+          <div class="a-card__body stack" id="ed-hook" hidden>
+            <div class="form-grid">
+              <div class="field span-2"><label for="h1">Title</label><input class="input" id="h1" value="Mangrove replanting morning"></div>
+              <div class="field span-2"><label for="h2">One-line promise</label><input class="input" id="h2" value="Plant your own mangrove seedling with the village that has protected this river for 40 years."><span class="counter">93 / 120</span></div>
+            </div>
+            <div><div class="row-between"><span class="label">Photos <span class="req">*</span></span><span class="badge badge--danger">3 of 5 minimum</span></div>
+              <div class="photo-grid mt2">
+                <img src="https://images.unsplash.com/photo-1784751449611-ff8ac03ff234?w=300&q=70&auto=format&fit=crop" alt="Mangrove roots">
+                <img src="https://images.unsplash.com/photo-1777150895644-2ca253ee1c93?w=300&q=70&auto=format&fit=crop" alt="Planting a seedling">
+                <img src="https://images.unsplash.com/photo-1773904594755-6c25ab2ef6c9?w=300&q=70&auto=format&fit=crop" alt="Mangrove forest">
+                <div class="add" data-toast="Photo picker opens" data-toast-icon="ph-image"><span><i class="ph ph-plus" aria-hidden="true"></i><br>Add photo</span></div>
+                <div class="add" data-toast="Photo picker opens" data-toast-icon="ph-image"><span><i class="ph ph-plus" aria-hidden="true"></i><br>Add photo</span></div>
+              </div><p class="hint mt2">At least 5 · landscape · 1600 px wide</p></div>
+            <div class="field"><label>Short video (optional)</label><div class="doc"><i class="ph ph-video-camera" aria-hidden="true"></i><div><b>No video</b><small>MP4 up to 60 s</small></div><button class="btn btn--secondary btn--sm">Upload</button></div></div>
+          </div>
+
+          <div class="a-card__body stack" id="ed-generic" hidden>
+            <div class="field"><label for="gtxt" id="g-lab">Content</label><textarea class="textarea" id="gtxt" style="min-height:180px"></textarea><span class="hint">Staff edits are marked "Edited by Lokali" in the host's history.</span></div>
+          </div>
+          <div class="a-card__foot"><button class="btn btn--secondary" id="prev">Previous section</button><button class="btn btn--primary" id="next">Save and next</button></div>
+        </div>
+
+        <div class="stack-lg">
+          <div class="a-card">
+            <div class="a-card__head"><div><h3>Cancellation policy</h3><p>Host chose Moderate</p></div></div>
+            <div class="a-card__body stack">
+              <div class="field"><label for="pol">Policy for this listing</label>
+                <select class="select" id="pol"><option>Flexible · full refund 24 h+ before</option><option selected>Moderate (default) · full refund 72 h+ before</option><option>Firm · full refund 12 d+, 50% 5–12 d</option></select>
+                <span class="hint">Overriding emails the host. New bookings only.</span></div>
+            </div>
+          </div>
+          <div class="a-card">
+            <div class="a-card__head"><div><h3>Commission</h3><p>From host profile</p></div></div>
+            <div class="a-card__body"><div class="row-between"><span>15% · platform default</span><a class="small strong" href="a-host.html" data-go="a-host">Change for host</a></div></div>
+          </div>
+          <div class="a-card">
+            <div class="a-card__head"><div><h3>Listing fields</h3><p>Extra fields for all listings</p></div><button class="btn btn--secondary btn--sm" data-open="#addf"><i class="ph ph-plus" aria-hidden="true"></i>Add field</button></div>
+            <div class="a-card__body stack" style="gap:8px" id="fields">
+              <div class="doc"><i class="ph ph-sun" aria-hidden="true"></i><div><b>Best season to visit</b><small>Text · in Quick facts · optional</small></div><span class="badge badge--info">New</span></div>
+              <div class="doc"><i class="ph ph-baby" aria-hidden="true"></i><div><b>Suitable for children</b><small>Yes / no · in Quick facts · required</small></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="addf" role="dialog" aria-modal="true" aria-labelledby="af-h">
+  <div class="a-modal__body"><h3 id="af-h">Add a listing field</h3><p class="muted">Adds a field to every listing form without a developer. Hosts see it next time they edit.</p>
+    <div class="form-grid">
+      <div class="field span-2"><label for="af-n">Field name</label><input class="input" id="af-n" value="Leeches on the trail"></div>
+      <div class="field"><label for="af-t">Type</label><select class="select" id="af-t"><option>Yes / no</option><option>Short text</option><option>Long text</option><option>Checklist</option><option>Number</option></select></div>
+      <div class="field"><label for="af-s">Section</label><select class="select" id="af-s"><option>11 What to bring and wear</option><option>2 Quick facts</option><option>14 Accessibility</option></select></div>
+      <div class="field span-2"><label for="af-h2">Help text for hosts</label><input class="input" id="af-h2" value="Tell guests if they should bring leech socks."></div>
+    </div>
+    <div class="row-between"><span>Required for new listings</span><button class="switch" role="switch" aria-checked="false" aria-label="Required"></button></div>
+    <div class="row-between"><span>Show to guests on the listing page</span><button class="switch" role="switch" aria-checked="true" aria-label="Show to guests"></button></div>
+  </div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="af-go">Add field</button></div>
+</div>
+<script>
+(function () {
+  var REQ = [['1', 'Hook', 'bad', 'hook'], ['2', 'Quick facts', 'ok'], ['3', 'Story', 'ok'], ['4', 'Itinerary', 'ok'], ['5', 'Included / not included', 'ok'], ['6', 'Meet your guide', 'ok'], ['7', 'Impact story', 'ok'], ['8', 'Where your money goes', 'bad', 'money'], ['10', 'Getting there', 'ok'], ['11', 'What to bring and wear', 'ok'], ['14', 'Accessibility', 'ok'], ['16', 'Price', 'ok'], ['17', 'Cancellation policy', 'ok']];
+  var OPT = [['13', 'Food & dietary', 'ok', 'Required if food is served'], ['12', 'Respect & etiquette', 'empty', 'Encouraged for village trips'], ['18', 'Group, private & corporate', 'ok', ''], ['20', 'FAQs', 'empty', '']];
+  var TXT = { 'Story': 'When the 2004 tsunami reached our coast, the mangroves took the blow so our houses didn\'t. Since then our kampung replants every month…', 'Impact story': 'Every seedling is logged with the state forestry office; 1,800 planted since 2023 with an 81% survival rate.', 'FAQs': '', 'Respect & etiquette': '' };
+  function ic(s) { return s === 'ok' ? '<i class="ph-fill ph-check-circle" style="color:var(--success)" aria-label="Done"></i>' : s === 'bad' ? '<i class="ph-fill ph-warning-circle" style="color:var(--danger)" aria-label="Needs fixing"></i>' : '<i class="ph ph-circle-dashed faint" aria-label="Empty"></i>'; }
+  var req = document.getElementById('req'), opt = document.getElementById('opt');
+  req.innerHTML = REQ.map(function (r) { return '<li data-k="' + (r[3] || '') + '" data-n="' + r[0] + '" data-t="' + r[1] + '"' + (r[3] === 'money' ? ' class="active"' : '') + '><span class="num">' + r[0] + '</span><span class="grow">' + r[1] + '</span>' + ic(r[2]) + '</li>'; }).join('');
+  function drawOpt() { opt.innerHTML = OPT.map(function (r, i) { return '<li draggable="true" data-i="' + i + '" data-n="' + r[0] + '" data-t="' + r[1] + '"><i class="ph ph-dots-six-vertical drag" aria-hidden="true"></i><span class="grow">' + r[1] + (r[3] ? '<br><small class="muted">' + r[3] + '</small>' : '') + '</span>' + ic(r[2]) + '</li>'; }).join(''); }
+  drawOpt();
+  var dragI = null;
+  opt.addEventListener('dragstart', function (e) { var li = e.target.closest('li'); dragI = +li.dataset.i; li.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+  opt.addEventListener('dragover', function (e) { e.preventDefault(); });
+  opt.addEventListener('drop', function (e) { e.preventDefault(); var li = e.target.closest('li'); if (!li || dragI === null) return; var to = +li.dataset.i, m = OPT.splice(dragI, 1)[0]; OPT.splice(to, 0, m); dragI = null; drawOpt(); L.toast('Order saved. Guests see the new order.', 'ph-arrows-down-up'); });
+  opt.addEventListener('dragend', function () { drawOpt(); });
+  var all = function () { return Array.prototype.slice.call(document.querySelectorAll('#req li, #opt li')); };
+  function show(li) {
+    all().forEach(function (x) { x.classList.toggle('active', x === li); });
+    var k = li.dataset.k, t = li.dataset.t;
+    document.getElementById('ed-title').textContent = li.dataset.n + ' · ' + t;
+    document.getElementById('ed-money').hidden = k !== 'money'; document.getElementById('ed-hook').hidden = k !== 'hook'; document.getElementById('ed-generic').hidden = !!k;
+    var bad = !!li.querySelector('.ph-warning-circle'), empty = !!li.querySelector('.ph-circle-dashed');
+    var b = document.getElementById('ed-badge'); b.className = 'badge ' + (bad ? 'badge--danger' : empty ? '' : 'badge--success'); b.textContent = bad ? 'Missing' : empty ? 'Empty · optional' : 'Done';
+    document.getElementById('ed-sub').textContent = li.closest('#opt') ? 'Optional section' : k === 'money' ? 'Required · strongest trust signal for guests' : 'Required';
+    if (!k) { document.getElementById('g-lab').textContent = t; document.getElementById('gtxt').value = TXT[t] !== undefined ? TXT[t] : 'Filled in by the host. Edit to correct it.'; }
+  }
+  document.querySelector('.ed-grid').addEventListener('click', function (e) { var li = e.target.closest('#req li, #opt li'); if (li) show(li); });
+  function step(d) { var l = all(), i = l.indexOf(document.querySelector('.sec-list li.active')); var n = l[Math.max(0, Math.min(l.length - 1, i + d))]; if (n) show(n); }
+  document.getElementById('next').addEventListener('click', function () { L.toast('Section saved'); step(1); });
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  var S = [['Pak Rahim and his boatmen', 50, 'm1'], ['Kampung mangrove fund', 20, 'm2'], ['Seedlings, boots and boat fuel', 15, 'm3'], ['Lokali (bookings, payments, support)', 15, 'm4', true]];
+  function drawSplit() {
+    document.getElementById('split').innerHTML = S.map(function (s, i) {
+      return '<div class="split-row"><i class="sw ' + s[2] + '"></i><input class="input" value="' + s[0] + '" aria-label="Goes to"' + (s[3] ? ' disabled' : '') + '><input class="input pc" data-i="' + i + '" value="' + s[1] + '" aria-label="Share percent"' + (s[3] ? ' disabled' : '') + '><span class="num small">' + L.rm(85 * s[1] / 100, 2) + '</span></div>';
+    }).join('');
+    var tot = S.reduce(function (a, s) { return a + s[1]; }, 0), sum = document.getElementById('sum');
+    sum.textContent = 'Total ' + tot + '%'; sum.style.color = tot === 100 ? 'var(--success)' : 'var(--danger)';
+    document.getElementById('bar').innerHTML = S.map(function (s) { return '<i class="' + s[2] + '" style="width:' + s[1] + '%"></i>'; }).join('');
+    document.getElementById('leg').innerHTML = S.map(function (s) { return '<div><i class="' + s[2] + '"></i>' + s[0] + '<b>' + s[1] + '%</b></div>'; }).join('');
+  }
+  document.getElementById('split').addEventListener('change', function (e) { if (e.target.classList.contains('pc')) { S[+e.target.dataset.i][1] = Math.max(0, parseInt(e.target.value, 10) || 0); drawSplit(); } });
+  drawSplit();
+  document.getElementById('af-go').addEventListener('click', function () {
+    L.close(); var d = document.createElement('div'); d.className = 'doc';
+    d.innerHTML = '<i class="ph ph-check-square" aria-hidden="true"></i><div><b>' + document.getElementById('af-n').value + '</b><small>' + document.getElementById('af-t').value + ' · in ' + document.getElementById('af-s').value.replace(/^\d+ /, '') + ' · optional</small></div><span class="badge badge--info">New</span>';
+    document.getElementById('fields').appendChild(d); L.toast('Field added to every listing form.');
+  });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-listing', [['Listing', 'Mangrove replanting morning'], ['Editing for', 'Pak Rahim Osman (assisted)'], ['Required done', '12 of 14 → fix photos + money split'], ['Optional sections', 'Drag to reorder']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

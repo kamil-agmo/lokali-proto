@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Reviews</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Reviews</h1>
+    <span class="spacer"></span>
+  </header>
+
+  <section class="reveal pad" style="padding-top:8px">
+    <p class="sum-note" style="margin:0 0 12px">2 reviews are waiting for a reply. Replies show on the listing.</p>
+    <div class="card row" style="gap:20px;align-items:center">
+      <div class="center"><p class="bal-amt" style="margin:0;font-size:40px;line-height:44px">4.96</p><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p class="xs muted mt1">128 reviews</p></div>
+      <div class="rbars">
+        <span>5</span><span class="track"><i style="width:94%"></i></span>
+        <span>4</span><span class="track"><i style="width:5%"></i></span>
+        <span>3</span><span class="track"><i style="width:1%"></i></span>
+        <span>2</span><span class="track"><i style="width:0"></i></span>
+        <span>1</span><span class="track"><i style="width:0"></i></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabs mt4" data-group>
+    <button class="active" data-panel="#need">Needs a reply <span class="badge badge--danger">2</span></button>
+    <button data-panel="#done">Replied</button>
+  </div>
+
+  <section id="need" class="list" style="margin:var(--s4)">
+    <div class="review">
+      <div class="row"><span class="avatar sm">OB</span><div class="grow"><b>Hidayah Salleh</b><p class="xs muted">Mon, 30 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div></div>
+      <p class="mt2">Magical. Pak Rahim paddled us out in total silence and we just drifted under thousands of fireflies. His son explained how the mangroves protect the village from floods.</p>
+      <div class="row mt2" style="gap:8px"><img data-img="1773904594755-6c25ab2ef6c9" data-w="120" alt="Guest photo" style="width:56px;height:56px;border-radius:10px;object-fit:cover"><img data-img="1786717667687-2f05e422d6f9" data-w="120" alt="Guest photo" style="width:56px;height:56px;border-radius:10px;object-fit:cover"></div>
+      <button class="btn btn--tint btn--sm mt3" data-open="#reply" data-who="Hidayah"><i class="ph ph-arrow-bend-up-left" aria-hidden="true"></i>Reply</button>
+    </div>
+    <div class="review">
+      <div class="row"><span class="avatar sm">AF</span><div class="grow"><b>Ahmad Faiz</b><p class="xs muted">Mon, 30 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div></div>
+      <p class="mt2">Great guide and very peaceful. We wished we had a little more time with the fireflies.</p>
+      <button class="btn btn--tint btn--sm mt3" data-open="#reply" data-who="Ahmad"><i class="ph ph-arrow-bend-up-left" aria-hidden="true"></i>Reply</button>
+    </div>
+  </section>
+
+  <section id="done" class="list" style="margin:var(--s4)" hidden>
+    <div class="review">
+      <div class="row"><span class="avatar sm">LY</span><div class="grow"><b>Chong Li Ying</b><p class="xs muted">Sun, 22 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div></div>
+      <p class="mt2">Best thing we did in Malaysia. Loved that 20% goes to replanting.</p>
+      <div class="host-reply"><b>Reply from Pak Rahim</b>Thank you Li Ying! Come back in March, the trees you funded will be planted by then.</div>
+    </div>
+  </section>
+
+  <div class="sheet" id="reply" role="dialog" aria-label="Reply to review">
+    <h2 class="is-h3 sheet-title" id="replyTitle">Reply to Hidayah</h2>
+    <p class="small muted mt1">Replies are public</p>
+    <textarea class="textarea mt3" id="replyText" aria-label="Reply">Thank you Hidayah! My son Hafiz was happy to share. Hope to see you again on the river.</textarea>
+    
+    <div class="sheet-foot"><button class="btn btn--primary btn--block" id="post">Post reply</button></div>
+  </div>
+  <div style="height:24px"></div>
+
+  <script>
+  (function () {
+    var who = 'Hidayah';
+    document.querySelectorAll('[data-who]').forEach(function (b) { b.addEventListener('click', function () {
+      who = b.getAttribute('data-who');
+      document.getElementById('replyTitle').textContent = 'Reply to ' + who;
+      document.getElementById('replyText').value = who === 'Ahmad' ? 'Terima kasih Ahmad! Good point. We now stay a little longer at the firefly trees before paddling back.' : 'Thank you Hidayah! My son Hafiz was happy to share. Hope to see you again on the river.';
+    }); });
+    document.getElementById('post').addEventListener('click', function () {
+      var btn = document.querySelector('[data-who="' + who + '"]'), r = document.createElement('div');
+      r.className = 'host-reply'; r.innerHTML = '<b>Reply from Pak Rahim</b>'; r.appendChild(document.createTextNode(document.getElementById('replyText').value));
+      btn.replaceWith(r); L.close(); L.toast('Reply posted');
+    });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-reviews', [["Rating", "4.96 · 128 reviews"], ["Needs reply", "2"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

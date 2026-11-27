@@ -1,0 +1,11 @@
+/* Empty state: what a screen shows when there is nothing yet (no messages, no results), with one helpful action.
+   <div class="c-empty c-empty--md|--ios"><span class="c-empty__art"><span class="c-ico">inbox</span></span><h3>No messages yet</h3><p>When friends message you, it shows up here.</p><button class="c-btn …">Find friends</button></div> */
+.c-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 40px 24px; font-family: var(--c-font); color: var(--c-ink); }
+.c-empty h3 { margin: 8px 0 0; } .c-empty p { margin: 0 0 12px; max-width: 280px; color: var(--c-muted); }
+.c-empty__art { display: grid; place-items: center; color: var(--c-accent); }
+/* Material 3 Expressive: icon in a soft expressive shape, 22 px headline */
+.c-empty--md .c-empty__art { width: 96px; height: 96px; border-radius: 32% 68% 62% 38% / 42% 38% 62% 58%; background: var(--c-accent-soft); } .c-empty--md .c-empty__art .c-ico { font-size: 44px; }
+.c-empty--md h3 { font-size: 22px; line-height: 28px; font-weight: 400; } .c-empty--md p { font-size: 14px; line-height: 20px; }
+/* Apple (iOS 27, like ContentUnavailableView): large grey symbol, bold title, short text */
+.c-empty--ios .c-empty__art { color: var(--c-muted); } .c-empty--ios .c-empty__art .c-ico { font-size: 56px; }
+.c-empty--ios h3 { font-size: 22px; line-height: 28px; font-weight: 700; } .c-empty--ios p { font-size: 15px; line-height: 20px; }

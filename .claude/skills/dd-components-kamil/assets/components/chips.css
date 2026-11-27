@@ -1,0 +1,12 @@
+/* Chips: small rounded options to filter, pick or suggest. <div class="c-chips c-chips--md|--ios"><button class="c-chip" aria-pressed="true">Nearby</button>…</div> (aria-pressed = a filter that toggles) */
+.c-chips { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; scrollbar-width: none; font-family: var(--c-font); }
+.c-chips::-webkit-scrollbar { display: none; }
+.c-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; border: 0; cursor: pointer; font: inherit; color: var(--c-ink); white-space: nowrap; transition: background .2s, color .2s; }
+.c-chip .c-ico { font-size: 18px; }
+/* Material 3: 32 dp chips with 8 dp corners and an outline; a selected filter chip fills and shows a tick */
+.c-chips--md .c-chip { height: 32px; padding: 0 16px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--c-line); background: none; font-size: 14px; font-weight: 500; }
+.c-chips--md .c-chip[aria-pressed="true"] { background: var(--c-accent-soft); color: var(--c-accent); box-shadow: none; padding-left: 10px; }
+.c-chips--md .c-chip[aria-pressed="true"]::before { content: "check"; font-family: "Material Symbols Rounded"; font-size: 18px; line-height: 1; font-feature-settings: "liga"; }
+/* Apple (iOS 27): capsule filters; the selected one fills with your colour */
+.c-chips--ios .c-chip { height: 34px; padding: 0 16px; border-radius: 17px; background: color-mix(in srgb, var(--c-ink) 7%, transparent); font-size: 15px; font-weight: 500; }
+.c-chips--ios .c-chip[aria-pressed="true"] { background: var(--c-accent); color: var(--c-on-accent); }

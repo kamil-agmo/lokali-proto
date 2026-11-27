@@ -1,0 +1,10 @@
+/* Toolbar: a floating bar of actions for the current screen (edit, share, delete). <div class="c-toolbar c-toolbar--md|--ios" role="toolbar" aria-label="Photo actions"><button class="c-iconbtn" aria-label="Share"><span class="c-ico">ios_share</span></button>…</div> */
+.c-toolbar { position: fixed; z-index: 18; left: 50%; bottom: calc(16px + var(--c-safe-b)); transform: translateX(-50%); display: flex; align-items: center; gap: 4px; font-family: var(--c-font); color: var(--c-ink); }
+.c-toolbar .c-iconbtn { width: 48px; height: 48px; }
+/* Material 3 Expressive floating toolbar: a 64 dp pill on a tinted surface, the main action in a filled square-ish button */
+.c-toolbar--md { height: 64px; padding: 0 8px; border-radius: 32px; background: var(--c-surface-2); box-shadow: 0 3px 8px rgba(0, 0, 0, .15); }
+.c-toolbar--md .c-toolbar__main { width: 56px; height: 48px; border-radius: 16px; background: var(--c-accent); color: var(--c-on-accent); }
+/* Apple (iOS 27): a floating Liquid Glass capsule; the main action is a tinted glass circle */
+.c-toolbar--ios { height: 56px; padding: 0 6px; border-radius: 28px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine); }
+.c-toolbar--ios .c-iconbtn { width: 44px; height: 44px; }
+.c-toolbar--ios .c-toolbar__main { background: var(--c-accent); color: var(--c-on-accent); }

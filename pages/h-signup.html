@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Become a host</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+<style>
+/* sign-up motion (26 Nov) */
+@keyframes stepFwd { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes stepBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { animation: stepBack .38s var(--ease) both; }
+section.in-fwd > *, section.in-back > *, section:not([hidden]) > * { animation: rise .45s var(--ease) both; }
+section > *:nth-child(2) { animation-delay: .05s; } section > *:nth-child(3) { animation-delay: .1s; } section > *:nth-child(4) { animation-delay: .15s; } section > *:nth-child(5) { animation-delay: .2s; } section > *:nth-child(n+6) { animation-delay: .25s; }
+#stepTitle.swap { animation: rise .3s var(--ease); }
+#dots i { transition: background-color .4s var(--ease), transform .4s var(--spring); transform-origin: left; }
+#dots i.on { animation: fillSeg .45s var(--ease) both; } @keyframes fillSeg { from { transform: scaleX(.2); } to { transform: none; } }
+.photo-pick .cam { animation: camPing 1.6s ease-out .8s 2; } @keyframes camPing { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 45%, transparent); } 100% { box-shadow: 0 0 0 12px transparent; } }
+.upload.done > .ph-fill { animation: popOk .5s var(--spring) both; } @keyframes popOk { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+.upload:not(.done) { transition: transform .15s ease, border-color .3s; } .upload:not(.done):active { transform: scale(.98); }
+.upload.just-done { animation: doneFlash .6s ease; } @keyframes doneFlash { 0% { background: var(--primary-tint); } 100% { background: var(--surface); } }
+.list-row[data-edit] { transition: transform .15s ease, background-color .2s; } .list-row[data-edit]:active { transform: scale(.98); }
+@media (prefers-reduced-motion: reduce) { section, section > *, #stepTitle, #dots i, .photo-pick .cam, .upload > .ph-fill, .upload { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body class="m">
+<h1 class="sr-only">Become a Lokali host</h1>
+  <header class="appbar appbar--flow has-prog">
+    <button class="icon-btn" id="back" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <span class="appbar__title step-label" id="stepTitle">Step 1 of 4</span>
+    <button class="btn btn--ghost btn--sm" data-toast="Saved. Pick up where you left off any time." data-toast-icon="ph-floppy-disk">Save and exit</button>
+    <div class="steps-dots flow-dots" id="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+  </header>
+
+
+  <!-- Step 1 -->
+  <section id="s1" class="pad stack-lg mt4">
+    <div><span class="eyebrow">About you</span><h2 class="mt1 t2">Profile</h2></div>
+    <div class="row" style="gap:16px">
+      <div class="photo-pick" data-sheet="camera"><i class="ph ph-user" style="font-size:36px;color:var(--faint)" aria-hidden="true"></i><span class="cam"><i class="ph ph-camera" aria-hidden="true"></i></span></div>
+      <div class="grow"><b>Profile photo</b><p class="small muted">Clear photo of your face</p></div>
+    </div>
+    <div class="note-prefill row" style="gap:12px;align-items:flex-start;padding:12px;border-radius:var(--r);background:var(--success-tint);color:var(--success)"><i class="ph-fill ph-check-circle" aria-hidden="true" style="font-size:20px"></i><p class="small" style="color:inherit"><b>From your Lokali account</b></p></div>
+    <div class="field"><label for="n">Full name</label><input class="input" id="n" value="Aina binti Rahman"><span class="hint">Shown to guests as Kak Aina</span></div>
+    <div class="field"><label for="dn">Display name</label><input class="input" id="dn" value="Kak Aina"></div>
+    <div class="field"><label for="ph">Mobile number</label><div class="row"><select class="select" style="width:96px" aria-label="Country code"><option>+60</option></select><input class="input grow" id="ph" value="17-284 5306" inputmode="tel"></div><span class="hint">For booking alerts. Not shown to guests before they book.</span></div>
+    <div class="field"><label for="em">Email</label><input class="input" id="em" value="aina.dapurkampung@gmail.com" inputmode="email"></div>
+    <div class="field"><label for="story">Story</label>
+      <textarea class="textarea" id="story">I grew up in Sekinchan, between the paddy fields and the sea. I teach guests to cook kuih and nasi lemak the way my mother did, in our kampung kitchen.</textarea>
+      <div class="counter">30 / 120 words</div>
+    </div>
+    
+  </section>
+
+  <!-- Step 2 -->
+  <section id="s2" class="pad stack-lg mt4" hidden>
+    <div><span class="eyebrow">Business</span><h2 class="mt1 t2">Business type</h2></div>
+    <div data-radio>
+      <div class="radio-card active" data-value="biz"><span class="dot"></span><div><b>Registered business</b><p class="small muted">Sdn Bhd, enterprise or partnership with SSM</p></div></div>
+      <div class="radio-card" data-value="ngo"><span class="dot"></span><div><b>Community group or NGO</b><p class="small muted">Koperasi, village committee, ROS-registered society</p></div></div>
+      <div class="radio-card" data-value="ind"><span class="dot"></span><div><b>Independent guide</b><p class="small muted">Licensed nature or tourist guide</p></div></div>
+    </div>
+    <div class="field"><label for="bn">Business name</label><input class="input" id="bn" value="Dapur Kampung Aina Enterprise"></div>
+    <div class="field"><label for="ssm">SSM registration number</label><input class="input" id="ssm" value="202501061847 (003702519-W)"><span class="hint">12-digit new format. Found on your SSM certificate.</span></div>
+    <div class="field"><label for="st">State</label><select class="select" id="st"><option>Selangor</option><option>Penang</option><option>Sabah</option><option>Sarawak</option><option>Terengganu</option><option>Pahang</option></select></div>
+    <div class="field"><label for="addr">Business address</label><textarea class="textarea" id="addr" style="min-height:80px">No. 14, Jalan Parit 6, Sungai Leman, 45400 Sekinchan</textarea></div>
+    <div class="field"><label>Years running experiences</label><div class="chips wrap" data-group><button class="chip">Under 1</button><button class="chip active">1–3</button><button class="chip">4–10</button><button class="chip">10+</button></div></div>
+  </section>
+
+  <!-- Step 3 -->
+  <section id="s3" class="pad stack-lg mt4" hidden>
+    <div><span class="eyebrow">Documents</span><h2 class="mt1 t2">Documents</h2><p class="muted mt1">Phone photos accepted · seen by the Lokali team only</p></div>
+    <div>
+      <div class="upload done"><i class="ph-fill ph-check-circle" aria-hidden="true"></i><div class="grow"><b>SSM certificate</b><p class="small muted">ssm-cert.pdf · 1.2 MB</p></div><button class="btn btn--ghost btn--sm">Replace</button></div>
+      <div class="upload done"><i class="ph-fill ph-check-circle" aria-hidden="true"></i><div class="grow"><b>Tourism licence (MOTAC)</b><p class="small muted">KPL / licensed guide card · motac.jpg</p></div><button class="btn btn--ghost btn--sm">Replace</button></div>
+      <div class="upload" data-sheet="camera"><i class="ph ph-identification-card" aria-hidden="true"></i><div class="grow"><b>IC or passport <span class="req" style="color:var(--danger)">*</span></b><p class="small muted">Owner or main guide. Front and back.</p></div><i class="ph ph-upload-simple faint" aria-hidden="true"></i></div>
+      <div class="upload" data-sheet="camera"><i class="ph ph-shield-check" aria-hidden="true"></i><div class="grow"><b>Public liability insurance</b><p class="small muted">Optional · adds a badge to the listing</p></div><i class="ph ph-upload-simple faint" aria-hidden="true"></i></div>
+    </div>
+    <div class="notice"><i class="ph ph-lock-simple" aria-hidden="true"></i><span>Not shown to guests · stored under PDPA</span></div>
+  </section>
+
+  <!-- Step 4 -->
+  <section id="s4" class="pad stack-lg mt4" hidden>
+    <div><span class="eyebrow">Review</span><h2 class="mt1 t2">Check and submit</h2><p class="muted mt1">The Lokali team usually reviews applications within 2 working days.</p></div>
+    <div class="list">
+      <div class="list-row" data-edit="1"><i class="ph ph-user" aria-hidden="true"></i><div class="list-row__text">About you<small>Kak Aina · +60 17-284 5306</small></div><span class="btn btn--ghost btn--sm">Edit</span></div>
+      <div class="list-row" data-edit="2"><i class="ph ph-briefcase" aria-hidden="true"></i><div class="list-row__text">Business<small>Dapur Kampung Aina Enterprise · SSM 202501061847</small></div><span class="btn btn--ghost btn--sm">Edit</span></div>
+      <div class="list-row" data-edit="3"><i class="ph ph-files" aria-hidden="true"></i><div class="list-row__text">Documents<small>2 of 4 uploaded</small></div><span class="btn btn--ghost btn--sm">Edit</span></div>
+    </div>
+    <div class="check on" role="checkbox" aria-checked="true"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span class="small">I agree to the Lokali Host Terms and confirm my experiences follow the Lokali sustainability standards.</span></div>
+  </section>
+
+  <div style="height:16px"></div>
+
+  <div class="cta-bar">
+    <button class="btn btn--secondary" id="prev" hidden>Back</button>
+    <button class="btn btn--primary grow" id="next">Next: Business</button>
+  </div>
+
+  <script>
+  (function () {
+    var cur = 1, n = 4;
+    var titles = ['', 'Step 1 of 4', 'Step 2 of 4', 'Step 3 of 4', 'Step 4 of 4'];
+    function show(s) {
+      var dir = s >= cur ? 'fwd' : 'back'; cur = s;
+      for (var i = 1; i <= n; i++) document.getElementById('s' + i).hidden = i !== s;
+      var sec = document.getElementById('s' + s); sec.classList.remove('in-fwd', 'in-back'); void sec.offsetWidth; sec.classList.add('in-' + dir);
+      var st = document.getElementById('stepTitle'); st.classList.remove('swap'); void st.offsetWidth; st.classList.add('swap');
+      document.querySelectorAll('#dots i').forEach(function (d, i) { d.classList.toggle('on', i < s); });
+      document.getElementById('stepTitle').textContent = titles[s];
+      document.getElementById('prev').hidden = s === 1;
+      document.getElementById('next').textContent = s === n ? 'Submit application' : 'Next: ' + ['', 'Business', 'Documents', 'Review'][s];
+      window.scrollTo(0, 0);
+      if (window.ProtoEmbed) ProtoEmbed.report('h-signup', [['Step', s + ' of 4'], ['Route', 'Self-serve']]);
+    }
+    document.getElementById('next').addEventListener('click', function () {
+      if (cur < n) show(cur + 1); else { var ov = document.createElement('div'); ov.className = 'cel-overlay'; ov.setAttribute('role', 'status'); ov.innerHTML = '<div data-celebrate="medium"></div><h2 class="is-h1">Application sent</h2><p class="muted">We\'ll review it within 2 working days.</p>'; document.body.appendChild(ov); L.celebrate(ov.firstChild); L.state.set('hostStatus', 'review'); setTimeout(function () { L.go('h-status'); }, 2200); }
+    });
+    document.getElementById('prev').addEventListener('click', function () { show(cur - 1); });
+    var pending = null;
+    document.addEventListener('click', function (e) { var u = e.target.closest('.upload[data-sheet]'); if (u) pending = u; }, true);
+    document.addEventListener('click', function (e) {
+      var row = e.target.closest('.act-row'); if (!row || !pending) return;
+      var u = pending; pending = null;
+      var p = u.querySelector('p'); var name = u.querySelector('b').firstChild.textContent.trim();
+      u.removeAttribute('data-sheet'); u.classList.add('done', 'just-done');
+      var ic = u.querySelector('.ph, .ph-fill'); if (ic) ic.className = 'ph-fill ph-check-circle';
+      if (p) p.textContent = name.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$/, '') + '.jpg · just now';
+      var n2 = document.querySelectorAll('#s3 .upload.done').length, sum = document.querySelector('[data-edit="3"] small'); if (sum) sum.textContent = n2 + ' of 4 uploaded';
+    });
+    document.getElementById('back').addEventListener('click', function () { if (cur > 1) show(cur - 1); else L.go('h-intro'); });
+    document.querySelectorAll('[data-edit]').forEach(function (r) { r.addEventListener('click', function () { show(+r.getAttribute('data-edit')); }); });
+    var start = 0;
+    try { start = +(new URLSearchParams(location.search).get('step') || sessionStorage.getItem('hSignupStep') || 0); sessionStorage.removeItem('hSignupStep'); } catch (e) {}
+    if (start > 1 && start <= n) show(start);
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-signup', [["Step", "1 of 4"], ["Route", "Self-serve"], ["Drafts", "Saved on every step"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

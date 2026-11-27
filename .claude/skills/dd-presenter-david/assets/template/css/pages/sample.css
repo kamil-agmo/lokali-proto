@@ -1,0 +1,28 @@
+[hidden] { display: none !important; }   /* the hidden attribute must always win over a component's display value */
+/* Sample screen styles (replace with your own).
+   --sb is the space a screen leaves at the top for the phone's status bar. Inside the shell's frame (html.in-phone, added by embed.js) the shell draws a fake
+   status bar and island, so a screen leaves 62 px. Everywhere else the default below applies. Making it right on a real phone (the OS draws the status bar, so
+   the gap must come from the device's safe-area inset) is the dd-phone-install-kamil skill's job: it changes the default to calc(env(safe-area-inset-top, 0px) + 12px). */
+:root { --sb: 16px; --ink: #0f172a; --muted: #64748b; --line: #e2e8f0; --brand: #2563eb; --brand-bg: rgba(37, 99, 235, .12); --bg: #f8fafc; --bar: calc(var(--sb) + 56px); }
+html.in-phone { --sb: 62px; scrollbar-width: none; } html.in-phone::-webkit-scrollbar { display: none; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 14px/20px system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.app { max-width: 440px; min-height: 100vh; min-height: 100dvh; margin: 0 auto; padding: calc(var(--bar) + 16px) 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+.bar { position: fixed; z-index: 10; top: 0; left: 50%; transform: translateX(-50%); width: min(100%, 440px); height: var(--bar); padding: var(--sb) 16px 0; display: flex; align-items: center; gap: 12px; background: linear-gradient(to bottom, #fff, rgba(255,255,255,0)); }
+.bar h1 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 800; }
+.bar a { color: inherit; text-decoration: none; }
+.card { padding: 16px; border-radius: 20px; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.card h2 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; }
+.card p { margin: 0; color: var(--muted); }
+.meter { position: relative; height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.meter i { position: absolute; inset: 0 auto 0 0; width: 38%; border-radius: inherit; background: var(--brand); animation: fill 3s ease-in-out infinite alternate; }
+@keyframes fill { to { width: 86%; } }
+.pulse { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: #15803d; }
+.pulse::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: scale(1.5); opacity: .5; } }
+.btn { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 16px; border-radius: 16px; background: var(--brand); color: #fff; font: 700 16px/24px inherit; border: 0; text-decoration: none; cursor: pointer; }
+.btn--ghost { background: #f1f5f9; color: #334155; }
+.btn--danger { background: rgba(239, 68, 68, .1); color: #b91c1c; }
+.list { list-style: none; margin: 0; padding: 0; } .list li { padding: 12px 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; } .list li:first-child { border-top: 0; }
+.note { padding: 10px 12px; border-radius: 12px; background: #f8fafc; border: 1px dashed #cbd5e1; font-size: 12px; line-height: 18px; color: #475569; }
+img.logo { width: 56px; height: 56px; border-radius: 14px; }

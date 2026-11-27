@@ -1,0 +1,12 @@
+/* Button group: 2-5 joined buttons for picking one option (day / week / month) or grouping related actions.
+   <div class="c-bgroup c-bgroup--md|--ios" role="radiogroup" aria-label="Range"><button role="radio" aria-checked="true">Day</button>…</div> */
+.c-bgroup { display: inline-flex; gap: 2px; font-family: var(--c-font); }
+.c-bgroup button { border: 0; cursor: pointer; font: inherit; color: var(--c-ink); transition: background .2s, border-radius .3s var(--c-spring), color .2s; }
+/* Material 3 Expressive connected button group: inner corners small, outer corners round; the chosen one turns fully round and filled */
+.c-bgroup--md button { height: 40px; padding: 0 18px; background: var(--c-surface-2); font-size: 14px; font-weight: 500; border-radius: 8px; }
+.c-bgroup--md button:first-child { border-radius: 20px 8px 8px 20px; } .c-bgroup--md button:last-child { border-radius: 8px 20px 20px 8px; }
+.c-bgroup--md button[aria-checked="true"] { background: var(--c-accent); color: var(--c-on-accent); border-radius: 20px; }
+/* Apple (iOS 27): a glass capsule with separate capsule buttons inside; the chosen one fills */
+.c-bgroup--ios { padding: 4px; gap: 4px; border-radius: 99px; background: var(--c-glass); -webkit-backdrop-filter: var(--c-glass-blur); backdrop-filter: var(--c-glass-blur); border: 1px solid var(--c-glass-edge); }
+.c-bgroup--ios button { height: 36px; padding: 0 16px; border-radius: 18px; background: none; font-size: 15px; font-weight: 500; }
+.c-bgroup--ios button[aria-checked="true"] { background: var(--c-accent); color: var(--c-on-accent); font-weight: 600; }

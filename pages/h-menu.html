@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Menu</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+<div class="lt-bar" aria-hidden="true">Menu</div>
+<header class="lt"><h1>Menu</h1><p>Host since Mar 2025 · Kuala Selangor</p></header>
+<section class="pad" aria-label="Host profile"><div class="card">
+  <div class="row" style="gap:12px"><img class="avatar lg" data-img="1763219069500-e4c9b49f308f" data-w="160" alt=""><div class="grow"><b class="prof-name">Pak Rahim Osman</b><span class="bal-label"><i class="ph-fill ph-seal-check" aria-hidden="true"></i>Verified host</span></div></div>
+  <div class="sum-stats"><div><b>4.96</b>rating</div><div><b>312</b>guests hosted</div><div><b>410</b>seedlings funded</div></div>
+  <button class="btn btn--secondary btn--block mt4" data-toast="Opens your public host profile">View public profile</button>
+</div></section>
+
+
+  <div class="list-label">Money</div>
+  <div class="list" style="margin:0 var(--s4)">
+    <div class="list-row" data-go="h-earnings"><i class="ph ph-wallet" aria-hidden="true"></i><div class="list-row__text">Earnings<small>RM 327.25 arriving today</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="list-row" data-go="h-bank"><i class="ph ph-bank" aria-hidden="true"></i><div class="list-row__text">Bank details<small>Maybank •• 4821 · Verified</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+  </div>
+
+  <div class="list-label">Hosting</div>
+  <div class="list" style="margin:0 var(--s4)">
+    <div class="list-row" data-go="h-bookings"><i class="ph ph-ticket" aria-hidden="true"></i><div class="list-row__text">Bookings</div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="list-row" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div class="list-row__text">Reviews<small>4.96 · 2 need a reply</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="list-row"><i class="ph ph-seal-check" aria-hidden="true"></i><div class="list-row__text">Verified host since Mar 2025<small>Approved 12 Mar 2025</small></div></div>
+    <div class="list-row" data-toast="Opens profile editor"><i class="ph ph-user-circle" aria-hidden="true"></i><div class="list-row__text">Host profile<small>Photo, story, business details, documents</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+  </div>
+
+  <div class="list-label">Help</div>
+  <div class="list" style="margin:0 var(--s4)">
+    <div class="list-row" data-toast="Opens host help centre"><i class="ph ph-question" aria-hidden="true"></i><div class="list-row__text">Help & FAQs</div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="list-row" data-toast="Calling Lokali host support"><i class="ph ph-phone" aria-hidden="true"></i><div class="list-row__text">Call Lokali team<small>Mon–Sat, 9 AM – 6 PM · listing updates on request</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+  </div>
+
+  <div class="list" style="margin:var(--s5) var(--s4) var(--s6)">
+    <div class="list-row" data-go="g-home"><i class="ph ph-arrows-left-right" aria-hidden="true"></i><div class="list-row__text">Switch to guest<small>Trips and bookings</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    <div class="list-row" data-toast="Signed out" style="color:var(--danger)"><i class="ph ph-sign-out" style="color:var(--danger)" aria-hidden="true"></i><div class="list-row__text">Sign out</div></div>
+  </div>
+
+  <nav class="tabbar" data-tabs="host" data-active="h-menu"></nav>
+
+
+  <script>
+  (function () { /* compact title appears once the large title scrolls away */
+var bar = document.querySelector('.lt-bar'), h = document.querySelector('.lt h1');
+function f() { bar.classList.toggle('on', h.getBoundingClientRect().bottom < bar.offsetHeight); }
+addEventListener('scroll', f, { passive: true }); f();
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-menu', [["Host", "Pak Rahim Osman"], ["Status", "Verified"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

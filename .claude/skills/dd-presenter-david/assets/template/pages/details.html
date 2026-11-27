@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{NAME_HTML}}</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="stylesheet" href="../css/pages/sample.css">
+</head>
+<body>
+  <header class="bar"><a href="home.html" data-go="home" aria-label="Back to Home">← Home</a><h1>Details</h1></header>
+  <main class="app">
+    <section class="card"><h2>Items</h2><ul class="list"><li><span>First item</span><b>12</b></li><li><span>Second item</span><b>34</b></li><li><span>Third item</span><b>56</b></li></ul></section>
+    <a class="btn btn--ghost" href="home.html" data-go="home">Back to Home</a>
+  </main>
+  <script src="../js/shared/embed.js"></script>
+  <script>
+    if (window.ProtoEmbed) ProtoEmbed.report('details', [['Items', '3']]);
+    document.querySelectorAll('[data-go]').forEach(function (a) { a.addEventListener('click', function (e) { if (window.parent !== window && window.parent.location) { e.preventDefault(); window.parent.location.hash = a.dataset.go; } }); });
+  </script>
+</body>
+</html>

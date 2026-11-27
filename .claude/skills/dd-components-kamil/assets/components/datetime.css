@@ -1,0 +1,11 @@
+/* Date and time: the real date/time inputs (phones open their own wheel or calendar), styled per platform.
+   <label class="c-date c-date--md|--ios"><span class="c-date__label">Check-in</span><input type="date" value="2026-10-24"></label> (also type="time") */
+.c-date { display: block; font-family: var(--c-font); color: var(--c-ink); }
+.c-date input { border: 0; outline: 0; font: inherit; color: inherit; background: none; }
+/* Material 3: outlined field with a calendar icon */
+.c-date--md { position: relative; } .c-date--md input { width: 100%; height: 56px; padding: 0 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--c-muted); font-size: 16px; }
+.c-date--md .c-date__label { position: absolute; left: 12px; top: 0; transform: translateY(-50%); padding: 0 4px; background: var(--c-bg); font-size: 12px; color: var(--c-muted); }
+/* Apple (iOS 27): the compact style: a label on the left and the date in a soft grey capsule on the right */
+.c-date--ios { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 12px 0 16px; border-radius: 26px; background: var(--c-bg); }
+.c-date--ios .c-date__label { font-size: 17px; }
+.c-date--ios input { height: 34px; padding: 0 12px; border-radius: 17px; background: color-mix(in srgb, var(--c-ink) 8%, transparent); font-size: 17px; }

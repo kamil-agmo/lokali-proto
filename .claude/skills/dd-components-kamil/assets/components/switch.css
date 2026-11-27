@@ -1,0 +1,19 @@
+/* Switch (a styled checkbox). <label class="c-switch c-switch--md|--ios"><input type="checkbox" role="switch"><span class="c-switch__track"></span>Label</label> */
+.c-switch { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-family: var(--c-font); color: var(--c-ink); }
+.c-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.c-switch__track { position: relative; flex: none; transition: background .2s var(--c-ease), box-shadow .2s; }
+.c-switch__track::after { content: ""; position: absolute; top: 50%; border-radius: 50%; transition: transform .25s var(--c-spring), width .2s, height .2s, background .2s; }
+.c-switch input:focus-visible + .c-switch__track { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+/* Material 3: 52x32 outlined track, thumb grows when on */
+.c-switch--md .c-switch__track { width: 52px; height: 32px; border-radius: 16px; background: var(--c-surface-2); box-shadow: inset 0 0 0 2px var(--c-muted); }
+.c-switch--md .c-switch__track::after { left: 8px; width: 16px; height: 16px; margin-top: -8px; background: var(--c-muted); }
+.c-switch--md input:checked + .c-switch__track { background: var(--c-accent); box-shadow: none; }
+.c-switch--md input:checked + .c-switch__track::after { width: 24px; height: 24px; margin-top: -12px; transform: translateX(16px); background: var(--c-on-accent); }
+/* Apple (iOS 27): a wider capsule track with a pill-shaped thumb that stretches while pressed */
+.c-switch--ios .c-switch__track { width: 64px; height: 28px; border-radius: 14px; background: color-mix(in srgb, var(--c-ink) 14%, var(--c-bg)); }
+.c-switch--ios .c-switch__track::after { left: 2px; width: 38px; height: 24px; margin-top: -12px; border-radius: 12px; background: #fff; box-shadow: 0 0 0 .5px rgba(0, 0, 0, .06), 0 2px 6px rgba(0, 0, 0, .12); transition: transform .3s var(--c-spring), width .2s; }
+.c-switch--ios input:checked + .c-switch__track { background: var(--c-accent); }
+.c-switch--ios input:checked + .c-switch__track::after { transform: translateX(22px); }
+.c-switch--ios:active .c-switch__track::after { width: 44px; }
+.c-switch--ios:active input:checked + .c-switch__track::after { transform: translateX(16px); }
+.c-switch--ios input:disabled + .c-switch__track { opacity: .4; }

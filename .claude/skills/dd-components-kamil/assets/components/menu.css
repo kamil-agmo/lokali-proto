@@ -1,0 +1,14 @@
+/* Menu: a short list of actions that pops up from a button (sort, more options). Open with <button data-c-menu="sortMenu">.
+   <div class="c-menu c-menu--md|--ios" id="sortMenu" role="menu" hidden><button role="menuitem"><span class="c-ico">schedule</span>Newest</button>…<hr>…<button role="menuitem" class="is-danger">…</button></div> */
+.c-menu { position: fixed; z-index: 55; min-width: 200px; max-width: 280px; padding: 6px; font-family: var(--c-font); color: var(--c-ink); transform-origin: top right; animation: c-menu-in .2s var(--c-spring) both; }
+.c-menu[hidden] { display: none; }
+.c-menu button { display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.c-menu hr { border: 0; border-top: 1px solid var(--c-line); margin: 6px 0; }
+.c-menu .is-danger { color: var(--c-danger); }
+@keyframes c-menu-in { from { opacity: 0; transform: scale(.85); } }
+/* Material 3: tinted 4 dp-cornered card (Expressive: 16 dp), 48 dp rows */
+.c-menu--md { border-radius: 16px; background: var(--c-surface-2); box-shadow: 0 4px 16px rgba(0, 0, 0, .14); }
+.c-menu--md button { height: 48px; padding: 0 12px; border-radius: 10px; font-size: 14px; } .c-menu--md button:hover, .c-menu--md button:focus-visible { background: var(--c-accent-soft); outline: none; }
+/* Apple (iOS 27): a glass context menu with large corners; icons on the left (iOS 26+), 17 pt rows */
+.c-menu--ios { border-radius: 24px; background: color-mix(in srgb, var(--c-bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(30px); backdrop-filter: saturate(1.8) blur(30px); border: 1px solid var(--c-glass-edge); box-shadow: var(--c-glass-shine), 0 12px 40px rgba(0, 0, 0, .16); }
+.c-menu--ios button { height: 44px; padding: 0 12px; border-radius: 14px; font-size: 17px; } .c-menu--ios button:hover, .c-menu--ios button:focus-visible { background: color-mix(in srgb, var(--c-ink) 7%, transparent); outline: none; }

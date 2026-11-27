@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lokali · Experience page, full length: Canopy · Airy (now)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 400 14px/20px Inter, system-ui, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 18px; } .sub { color: #6A6A6A; margin: 4px 0 18px; max-width: 900px; }
+  .wrap { display: flex; gap: 28px; justify-content: center; align-items: flex-start; }
+  .col b { display: block; margin-bottom: 8px; font-size: 14px; }
+  .ph { width: 402px; border-radius: 32px; overflow: hidden; background: #fff; box-shadow: 0 12px 40px rgba(0,0,0,.12); }
+  iframe { display: block; width: 402px; height: 900px; border: 0; }
+</style>
+</head>
+<body>
+<h1>Experience page, full length</h1>
+<p class="sub">Canopy (teammate's copy) next to Airy as it is now (v0.29.0, the live page). Scroll the page to compare top to bottom.</p>
+<div class="wrap">
+  <div class="col"><b>Canopy</b><div class="ph"><iframe id="c"></iframe></div></div>
+  <div class="col"><b>Airy · now</b><div class="ph"><iframe id="n" src="../pages/g-listing.html?long-n"></iframe></div></div>
+</div>
+<script>
+document.getElementById('c').src = (location.protocol === 'file:' ? 'http://localhost:8768' : '') + '/_canopy/pages/g-listing.html?long-c';
+var FIX = [
+  '.h-ic { display: none !important; }',
+  '.hd-price { display: none !important; }',
+  '.btn.story-btn, .btn.gt-ob { border: 1px solid #EBEBEB !important; color: #222 !important; background: #fff !important; }',
+  '.bar-left { background: none !important; color: #D7263D !important; font-weight: 600 !important; padding: 0 !important; }',
+  '.list-row > .ph:first-child { background: #F7F7F7 !important; color: #222 !important; }',
+  '.wte-art { background: url(https://images.unsplash.com/photo-1644281264362-420bec9dbb73?w=400&q=60&auto=format&fit=crop) center / cover !important; } .wte-art > * { display: none !important; }'
+].join('\n');
+['c', 'n'].forEach(function (id) {
+  var f = document.getElementById(id);
+  f.addEventListener('load', function () {
+    try {
+      var d = f.contentDocument;
+      d.documentElement.classList.add('in-phone');
+      if (id === 'p') { var st = d.createElement('style'); st.textContent = FIX; d.head.appendChild(st); d.querySelectorAll('.qs-i').forEach(function (q) { if (/3\.5 hours/.test(q.textContent)) q.style.display = 'none'; }); }
+      function fit() {
+        d.querySelectorAll('.reveal').forEach(function (e) { e.classList.add('in'); });
+        d.querySelectorAll('img[loading="lazy"]').forEach(function (i) { i.loading = 'eager'; });
+        /* the floating header and bottom bar would sit in the middle of a long frame: pin them to the frame's own top and bottom */
+        var h = d.getElementById('lhead'); if (h) h.style.display = 'none';
+        var cta = d.querySelector('.cta-bar'); if (cta) { d.body.style.position = 'relative'; cta.style.position = 'absolute'; cta.style.bottom = '0'; }
+        var end = 0; [].forEach.call(d.body.children, function (el) { if (el.tagName === 'SCRIPT' || el.hidden) return; var r = el.getBoundingClientRect(); end = Math.max(end, r.bottom + f.contentWindow.scrollY); });
+        f.style.height = Math.ceil(end) + 'px';
+      }
+      setTimeout(fit, 800); setTimeout(fit, 2500);
+    } catch (e) { f.style.height = '5600px'; /* opened from disk: Canopy is cross-origin, so it gets a fixed height */ }
+  });
+});
+</script>
+</body>
+</html>

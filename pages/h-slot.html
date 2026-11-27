@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Add time slots</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-calendar" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Add time slots</h1>
+    <span class="spacer"></span>
+  </header>
+<section class="pad" style="padding-top:8px" aria-label="Summary"><div class="card">
+    <span class="bal-label"><i class="ph-fill ph-clock" aria-hidden="true"></i>Mangrove &amp; fireflies</span>
+    <p class="sum-note">Up to 10 guests per slot. A slot closes on its own when it is full.</p>
+  </div></section>
+  <section class="reveal pad stack-lg">
+    <div class="segmented" data-group>
+      <button class="active" data-panel="#rec">Recurring</button>
+      <button data-panel="#one">One-off</button>
+    </div>
+
+    <div id="rec" class="stack-lg">
+      <div class="field"><span class="label">Repeat on</span>
+        <div class="dow" data-group data-multi>
+          <button class="active" aria-pressed="true">M</button><button class="active" aria-pressed="true">T</button><button class="active" aria-pressed="true">W</button><button class="active" aria-pressed="true">T</button><button class="active" aria-pressed="true">F</button><button aria-pressed="false">S</button><button aria-pressed="false">S</button>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label for="t1">Start time</label><select class="select" id="t1"><option>4:30 PM</option><option selected>5:00 PM</option><option>5:30 PM</option></select></div>
+        <div class="field"><label for="d1">Duration</label><input class="input" id="d1" value="3.5 hours" readonly><span class="hint">From your listing</span></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label for="f1">Starts</label><input class="input" id="f1" type="date" value="2026-12-08"></div>
+        <div class="field"><label for="u1">Repeat until</label><input class="input" id="u1" type="date" value="2027-03-31"></div>
+      </div>
+    </div>
+
+    <div id="one" class="stack-lg" hidden>
+      <div class="field"><label for="od">Date</label><input class="input" id="od" type="date" value="2026-12-24"></div>
+      <div class="field"><label for="ot">Start time</label><select class="select" id="ot"><option selected>7:30 AM</option><option>9:00 AM</option><option>2:00 PM</option></select></div>
+      
+    </div>
+
+    <div class="card">
+      <div class="row-between"><div><b>Guests per slot</b><p class="small muted">Your listing allows 2–10</p></div>
+        <div class="stepper" data-stepper data-min="2" data-max="10"><button data-dec aria-label="Fewer"><i class="ph ph-minus" aria-hidden="true"></i></button><output>10</output><button data-inc aria-label="More"><i class="ph ph-plus" aria-hidden="true"></i></button></div>
+      </div>
+      <div class="divider"></div>
+      <div class="toggle-row"><div class="grow"><b>Close when full</b><p class="small muted">Always on. Guests can't book a full slot.</p></div><span class="switch" aria-checked="true" role="switch" aria-disabled="true" style="opacity:.6;pointer-events:none"></span></div>
+    </div>
+
+    <div class="notice"><i class="ph ph-calendar-check" aria-hidden="true"></i><span id="sum">Creates <b>82 slots</b>, Monday to Friday at 5:00 PM, 8 Dec 2026 – 31 Mar 2027. Blocked dates are skipped.</span></div>
+  </section>
+  <div style="height:24px"></div>
+  <div class="cta-bar"><button class="btn btn--secondary" data-go="h-calendar">Cancel</button><button class="btn btn--primary grow" id="save">Save slots</button></div>
+
+  <script>
+  (function () {
+    document.querySelector('.segmented').addEventListener('pick', function (e) {
+      document.getElementById('sum').innerHTML = e.detail === 'One-off' ? 'Creates <b>1 slot</b> on Thu, 24 Dec at 7:30 AM.' : 'Creates <b>82 slots</b>, Monday to Friday at 5:00 PM, 8 Dec 2026 – 31 Mar 2027. Blocked dates are skipped.';
+    });
+    document.getElementById('save').addEventListener('click', function () { L.toast('Slots added to your calendar'); setTimeout(function () { L.go('h-calendar'); }, 700); });
+  })();
+  </script>
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-slot', [["Type", "Recurring"], ["Capacity", "10"], ["Auto-close", "On when full"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

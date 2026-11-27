@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lokali Host · Earnings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/host.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="m">
+  <header class="appbar appbar--flow">
+    <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+    <h1 class="appbar__title">Earnings</h1>
+    <span class="spacer"></span>
+  </header>
+  <section class="pad" style="padding-top:8px;padding-bottom:16px" aria-label="December 2026 balance">
+    <div class="card">
+      <span class="bal-label"><i class="ph-fill ph-hand-coins" aria-hidden="true"></i>December 2026 earnings</span>
+      <div class="bal-amt"><span data-count="2446" data-prefix="RM ">RM 2,446</span><small>.30</small></div>
+      <p class="small muted">After Lokali commission (15%): RM 431.70</p>
+      <div class="bal-split"><div>Paid<b>RM 1,094.80</b></div><div>On the way<b>RM 1,351.50</b></div></div>
+      <p class="bal-next"><i class="ph ph-bank" aria-hidden="true"></i>Next payout today, 8:30 PM</p>
+    </div>
+  </section>
+
+  <div class="tabs mt3" data-group>
+    <button class="active" data-panel="#up">On the way</button>
+    <button data-panel="#paid">Paid</button>
+  </div>
+
+  <section id="up" class="list" style="margin:var(--s4)">
+    <div class="pay" data-toast="Payout scheduled: arrives in your Maybank account today"><span class="ic ic--brand" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Wan family</b><p class="xs muted">Tue 1 Dec · LK-24781</p></div><div class="pay__amt"><b>RM 327.25</b><span class="badge badge--info">Today ~8:30 PM</span></div></div><div class="pay" data-toast="Scheduled after today's experience"><span class="ic ic--brand" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Nur Aisyah Kamal</b><p class="xs muted">Wed 2 Dec · LK-24802</p></div><div class="pay__amt"><b>RM 327.25</b><span class="badge badge">Thu 3 Dec ~8:30 PM</span></div></div><div class="pay" data-toast="Scheduled after today's experience"><span class="ic ic--brand" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Daniel Wong</b><p class="xs muted">Wed 2 Dec · LK-24790</p></div><div class="pay__amt"><b>RM 246.50</b><span class="badge badge">Thu 3 Dec ~8:30 PM</span></div></div><div class="pay" data-toast="Scheduled after today's experience"><span class="ic ic--brand" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Haziq Azman</b><p class="xs muted">Wed 2 Dec · LK-24811</p></div><div class="pay__amt"><b>RM 123.25</b><span class="badge badge">Thu 3 Dec ~8:30 PM</span></div></div><div class="pay" data-open="#bd" style="background:color-mix(in srgb, var(--accent-tint) 55%, var(--surface))"><span class="ic ic--brand" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Aina Rahman</b><p class="xs muted">Sun 6 Dec · LK-24817</p></div><div class="pay__amt"><b>RM 327.25</b><span class="badge badge">Mon 7 Dec ~8:30 PM</span></div></div>
+  </section>
+
+  <section id="paid" class="list" style="margin:var(--s4)" hidden>
+    <div class="pay"><span class="ic ic--success" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-check" aria-hidden="true"></i></span><div class="grow"><b>Tue, 1 Dec</b><p class="xs muted">3 bookings from Mon 30 Nov</p></div><div class="pay__amt"><b>RM 1,094.80</b><span class="badge badge--success">Paid</span></div></div>
+    <div class="pay"><span class="ic ic--success" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-check" aria-hidden="true"></i></span><div class="grow"><b>Mon, 30 Nov</b><p class="xs muted">2 bookings from Sun 29 Nov</p></div><div class="pay__amt"><b>RM 820.25</b><span class="badge badge--success">Paid</span></div></div>
+    <div class="pay"><span class="ic ic--success" style="width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none"><i class="ph ph-check" aria-hidden="true"></i></span><div class="grow"><b>November total</b><p class="xs muted">41 bookings · commission RM 1,402.50</p></div><div class="pay__amt"><b>RM 7,947.50</b><span class="badge badge--success">Paid</span></div></div>
+    <button class="btn btn--ghost btn--block" data-toast="Statement sent to your email" data-toast-icon="ph-envelope-simple">Email me a statement</button>
+  </section>
+
+  <section class="reveal pad" style="padding-bottom:32px">
+    <div class="list"><div class="list-row" data-go="h-bank"><i class="ph ph-bank" aria-hidden="true"></i><div class="list-row__text">Paid to Maybank •• 4821<small>Abdul Rahim bin Osman · Verified</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div></div>
+  </section>
+
+  <div class="sheet" id="bd" role="dialog" aria-label="Payout breakdown">
+    <p class="small muted">LK-24817 · Aina Rahman</p>
+    <h2 class="mt1">RM 327.25</h2>
+    <p class="small muted">Mangrove & fireflies · Sun, 6 Dec, 5:00 – 8:30 PM</p>
+    <div class="mt4">
+      <div class="kv"><span>2 adults × RM 145</span><span>RM 290.00</span></div>
+      <div class="kv"><span>1 child × RM 95</span><span>RM 95.00</span></div>
+      <div class="kv"><span>Booking price</span><span>RM 385.00</span></div>
+      <div class="kv"><span>Lokali commission (15%)</span><span>− RM 57.75</span></div>
+      <div class="kv total"><span>You receive</span><span>RM 327.25</span></div>
+    </div>
+    <div class="card card--flat mt3"><ol class="vsteps" style="margin-bottom:-20px">
+      <li class="done"><span class="ic"><i class="ph ph-check" aria-hidden="true"></i></span><div><b>Guest paid</b><small>Wed, 2 Dec · held by Lokali</small></div></li>
+      <li><span class="ic"><i class="ph ph-boat" aria-hidden="true"></i></span><div><b>Experience ends</b><small>Sun, 6 Dec · 8:30 PM</small></div></li>
+      <li><span class="ic"><i class="ph ph-bank" aria-hidden="true"></i></span><div><b>Payout scheduled</b><small>Mon, 7 Dec ~8:30 PM (about 24 h after it ends)</small></div></li>
+    </ol></div>
+    <p class="xs muted mt3">The guest's 5% service fee (RM 19.25) goes to Lokali and is not part of your earnings.</p>
+    <div class="sheet-foot"><button class="btn btn--secondary btn--block" data-close>Got it</button></div>
+  </div>
+
+
+  <script src="../js/shared/embed.js"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-earnings', [["December", "RM 2,446.30"], ["Commission", "15% · RM 431.70"], ["LK-24817 payout", "RM 327.25 · Mon 7 Dec"]]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

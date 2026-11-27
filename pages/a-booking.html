@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Booking LK-24817</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-booking"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div>
+          <div class="crumbs"><a href="a-bookings.html" data-go="a-bookings">Bookings</a><i class="ph ph-caret-right" aria-hidden="true"></i><span>LK-24817</span></div>
+          <h1>Booking LK-24817 <span class="badge badge--success" id="stb" style="vertical-align:4px">Confirmed</span></h1>
+          <p>Booked Wed, 2 Dec 2026, 10:14 AM · paid by Visa •• 4242 · confirmed instantly</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-wallet" aria-hidden="true"></i>Guest paid RM 404.25</span><b>Host gets <span class="hl">RM 327.25</span> on Mon, 7 Dec</b></div>
+        </div>
+        <div class="a-head__actions">
+          <button class="btn btn--secondary" data-toast="Receipt sent to aina.rahman@gmail.com" data-toast-icon="ph-envelope-simple"><i class="ph ph-receipt" aria-hidden="true"></i>Resend receipt</button>
+          <button class="btn btn--secondary" data-open="#hold"><i class="ph ph-pause-circle" aria-hidden="true"></i>Hold payout</button>
+          <button class="btn btn--secondary" data-open="#cancel"><i class="ph ph-x-circle" aria-hidden="true"></i>Cancel for guest</button>
+          <button class="btn btn--primary" data-open="#refund"><i class="ph ph-arrow-u-up-left" aria-hidden="true"></i>Manual refund</button>
+        </div>
+      </div>
+
+      <div class="a-split">
+        <div class="stack-lg">
+          <div class="a-card">
+            <div class="a-card__body row" style="gap:16px;align-items:flex-start">
+              <img src="https://images.unsplash.com/photo-1773904594755-6c25ab2ef6c9?w=400&q=70&auto=format&fit=crop" alt="" style="width:140px;height:104px;border-radius:12px;object-fit:cover">
+              <div class="grow stack" style="gap:6px">
+                <h2 class="is-h3">Mangrove &amp; fireflies by kampung boat</h2>
+                <p class="muted">Kuala Selangor, Selangor · Nature &amp; eco-tours · Day experience</p>
+                <div class="stat-row mt2">
+                  <div><small>Date</small><b>Sun, 6 Dec 2026</b></div>
+                  <div><small>Time</small><b>5:00 – 8:30 PM</b></div>
+                  <div><small>Guests</small><b>2 adults, 1 child</b></div>
+                  <div><small>Slot</small><b>7 of 10 booked</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="a-grid c2">
+            <div class="a-card">
+              <div class="a-card__head"><h3>Guest</h3><button class="btn btn--ghost btn--sm" data-toast="Opened conversation (read-only for staff)" data-toast-icon="ph-chat-circle-dots">View messages</button></div>
+              <div class="a-card__body">
+                <div class="row"><img class="avatar" src="https://images.unsplash.com/photo-1545266241-3516e2a6e016?w=120&q=70&auto=format&fit=crop" alt=""><div><b>Aina Rahman</b><p class="small muted">Petaling Jaya · 3 bookings on Lokali</p></div></div>
+                <dl class="dl mt3"><dt>Email</dt><dd>aina.rahman@gmail.com</dd><dt>Phone</dt><dd>+44 7700 900 318</dd><dt>Dietary</dt><dd>1 vegetarian</dd><dt>Note to host</dt><dd>"Our son Adam is 7 and one of us is vegetarian — is the boat OK for him?"</dd></dl>
+              </div>
+            </div>
+            <div class="a-card">
+              <div class="a-card__head"><h3>Host</h3><button class="btn btn--ghost btn--sm" data-go="a-host">Open host</button></div>
+              <div class="a-card__body">
+                <div class="row"><img class="avatar" src="https://images.unsplash.com/photo-1763219069500-e4c9b49f308f?w=120&q=70&auto=format&fit=crop" alt=""><div><b>Pak Rahim Osman</b><p class="small muted">Kampung Kuantan, Kuala Selangor · Host since 2025</p></div></div>
+                <dl class="dl mt3"><dt>Phone</dt><dd>+60 13-347 2251</dd><dt>Payout to</dt><dd>Maybank •• 4821 <span class="badge badge--success">Verified</span></dd><dt>Commission</dt><dd>15% (platform default)</dd><dt>Rating</dt><dd>4.96 · 128 reviews</dd></dl>
+              </div>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card__head"><div><h3>Money</h3><p>Lokali holds the payment until the payout</p></div></div>
+            <div class="a-card__body a-grid c2" style="gap:32px">
+              <div>
+                <p class="eyebrow">Guest paid</p>
+                <div class="kv mt2"><span>2 adults × RM 145.00</span><span>RM 290.00</span></div>
+                <div class="kv"><span>1 child × RM 95.00</span><span>RM 95.00</span></div>
+                <div class="kv"><span>Guest service fee (5%)</span><span>RM 19.25</span></div>
+                <div class="kv total"><span>Total charged</span><span>RM 404.25</span></div>
+              </div>
+              <div>
+                <p class="eyebrow">Split</p>
+                <div class="kv mt2"><span>Experience price</span><span>RM 385.00</span></div>
+                <div class="kv"><span>Host commission (15%)</span><span>− RM 57.75</span></div>
+                <div class="kv total"><span>Host payout</span><span>RM 327.25</span></div>
+                <div class="kv"><span>Lokali keeps</span><span class="strong">RM 77.00</span></div>
+                <p class="small muted mt1">Commission RM 57.75 + service fee RM 19.25. Gateway fees not shown.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-lg">
+          <div class="a-card">
+            <div class="a-card__head"><h3>Cancellation policy</h3><span class="badge badge--brand">Moderate</span></div>
+            <div class="a-card__body stack" style="gap:8px">
+              <div class="kv"><span>Full refund</span><span>until Thu, 3 Dec, 5:00 PM</span></div>
+              <div class="kv"><span>No refund</span><span>after that (under 72 h)</span></div>
+              <div class="notice notice--success mt2"><i class="ph ph-check-circle" aria-hidden="true"></i><span>Cancelling now refunds Aina <b>RM 404.25</b> in full, service fee included</span></div>
+            </div>
+          </div>
+          <div class="a-card">
+            <div class="a-card__head"><h3>Timeline</h3></div>
+            <div class="a-card__body">
+              <ul class="timeline-a" id="tl">
+                <li><b>Guest messaged host</b><small>Mon, 30 Nov, 8:05 AM</small></li>
+                <li><b>Booked and paid</b><small>Wed, 2 Dec, 10:14 AM · Visa •• 4242 · RM 404.25</small></li>
+                <li><b>Confirmation email sent</b><small>To guest and host · Wed, 2 Dec, 10:14 AM</small></li>
+                <li class="future"><b>Reminder email</b><small>Fri, 4 Dec, 5:00 PM (48 h before)</small></li>
+                <li class="future"><b>Experience</b><small>Sun, 6 Dec, 5:00 – 8:30 PM</small></li>
+                <li class="future" id="tl-pay"><b>Payout to host · RM 327.25</b><small>Scheduled Mon, 7 Dec, ~8:30 PM (24 h after end)</small></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="refund" role="dialog" aria-modal="true" aria-labelledby="rf-h">
+  <div class="a-modal__body">
+    <h3 id="rf-h">Manual refund · LK-24817</h3>
+    <p class="muted">Use for exceptions outside the policy, such as a host cancellation or a dispute. The refund goes back to Visa •• 4242 in 5–10 working days.</p>
+    <div class="field"><label for="rf-reason">Reason</label><select class="select" id="rf-reason"><option>Host cancelled</option><option>Dispute</option><option>Goodwill</option></select></div>
+    <div class="form-grid">
+      <div class="field"><label for="rf-amt">Refund of experience price</label><div class="input-wrap"><span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600">RM</span><input class="input" id="rf-amt" value="385.00" style="padding-left:40px" inputmode="decimal"></div><span class="hint">Up to RM 385.00</span></div>
+      <div class="field"><label>Also refund service fee</label><div class="row" style="min-height:40px"><button class="switch" role="switch" aria-checked="true" id="rf-fee" aria-label="Refund service fee RM 19.25"></button><span class="small">RM 19.25</span></div></div>
+    </div>
+    <div class="field"><label for="rf-note">Internal note</label><textarea class="textarea" id="rf-note" placeholder="Visible to staff only">Host boat engine failure; offered Sat slot not possible.</textarea></div>
+    <div class="example"><div class="kv"><span>Guest gets back</span><b id="rf-total">RM 404.25</b></div><div class="kv"><span>Host payout after refund</span><b id="rf-host">RM 0.00</b></div></div>
+  </div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="rf-go">Refund RM 404.25</button></div>
+</div>
+<div class="a-modal" id="hold" role="dialog" aria-modal="true" aria-labelledby="hd-h">
+  <div class="a-modal__body"><h3 id="hd-h">Hold this payout?</h3><p class="muted">RM 327.25 to Pak Rahim will not be sent on Mon, 7 Dec until you release it. The host sees "On hold — Lokali is reviewing".</p>
+    <div class="field"><label for="hd-r">Reason</label><select class="select" id="hd-r"><option>Guest reported an issue</option><option>Dispute open</option><option>Bank details check</option><option>Other</option></select></div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" id="hd-go">Hold payout</button></div>
+</div>
+<div class="a-modal" id="cancel" role="dialog" aria-modal="true" aria-labelledby="cn-h">
+  <div class="a-modal__body"><h3 id="cn-h">Cancel this booking for the guest?</h3><p class="muted">The Moderate policy applies: it is more than 72 hours before start, so Aina gets a full refund of <b>RM 404.25</b>, including the service fee, automatically. Guest and host are emailed. This can't be undone.</p></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Keep booking</button><button class="btn btn--danger" id="cn-go">Cancel booking</button></div>
+</div>
+<script>
+(function () {
+  var amt = document.getElementById('rf-amt'), fee = document.getElementById('rf-fee');
+  function calc() {
+    var a = Math.min(385, Math.max(0, parseFloat(amt.value) || 0)), f = fee.getAttribute('aria-checked') === 'true' ? 19.25 : 0;
+    var hostLeft = Math.max(0, (385 - a) * 0.85);
+    document.getElementById('rf-total').textContent = L.rm(a + f, 2);
+    document.getElementById('rf-host').textContent = L.rm(hostLeft, 2);
+    document.getElementById('rf-go').textContent = 'Refund ' + L.rm(a + f, 2);
+  }
+  amt.addEventListener('input', calc); fee.addEventListener('change', calc);
+  document.getElementById('rf-go').addEventListener('click', function () {
+    L.close(); var s = document.getElementById('stb'); s.className = 'badge badge--danger'; s.textContent = 'Refunded';
+    L.toast('Refund of ' + document.getElementById('rf-total').textContent + ' started. Guest and host have been emailed.');
+  });
+  document.getElementById('hd-go').addEventListener('click', function () {
+    L.close(); var li = document.getElementById('tl-pay'); li.innerHTML = '<b>Payout on hold · RM 327.25</b><small>Held by Nurul Huda · release from Payouts</small>';
+    L.toast('Payout on hold. Release it from Payouts.', 'ph-pause-circle');
+  });
+  document.getElementById('cn-go').addEventListener('click', function () {
+    L.close(); var s = document.getElementById('stb'); s.className = 'badge badge--danger'; s.textContent = 'Cancelled';
+    L.toast('Booking cancelled. RM 404.25 refund started.');
+  });
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-booking', [['Ref', 'LK-24817'], ['Policy', 'Moderate · full refund until Thu 3 Dec, 5:00 PM'], ['Payout', 'RM 327.25 scheduled Mon 7 Dec ~8:30 PM']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

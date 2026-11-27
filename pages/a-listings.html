@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Listings</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-listings"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--primary" data-go="a-listing"><i class="ph ph-plus" aria-hidden="true"></i>Create listing</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Listings</h1><p>Every experience on Lokali. Feature it on the homepage, change its policy or edit it for the host.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-squares-four" aria-hidden="true"></i>Experiences</span><b><span class="hl">112 live</span> · 3 in review</b></div></div>
+        <div class="a-head__actions"><div class="ptabs" data-group id="t"><button class="active" data-value="all">All <em>131</em></button><button data-value="Live">Live <em>112</em></button><button data-value="In review">In review <em>3</em></button><button data-value="Changes requested">Changes requested <em>7</em></button><button data-value="Draft">Draft <em>9</em></button></div></div>
+      </div>
+      <div class="a-card">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search listing or host" aria-label="Search listings"></div>
+          <select class="select" aria-label="Category"><option>All categories</option><option>Nature &amp; eco-tours</option><option>Culture, Craft &amp; Heritage</option><option>Farm &amp; food</option><option>Retreats &amp; stays</option></select>
+          <select class="select" aria-label="Policy"><option>All policies</option><option>Flexible</option><option>Moderate</option><option>Firm</option></select>
+          <select class="select" aria-label="Type"><option>Day and retreat</option><option>Day experience</option><option>Multi-day retreat</option></select>
+          <span class="grow"></span>
+          <button class="btn btn--secondary btn--sm" data-open="#pol"><i class="ph ph-shield" aria-hidden="true"></i>Change policy</button>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Listing</th><th>Category</th><th>Type</th><th>Status</th><th>Policy</th><th class="num">Price</th><th class="num">Bookings (30 d)</th><th class="num">Rating</th><th>Homepage</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+        <div class="pager"><span>Showing 11 of 131</span><div class="row"><button class="btn btn--secondary btn--sm" disabled>Previous</button><button class="btn btn--secondary btn--sm">Next</button></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+<div class="a-modal" id="pol" role="dialog" aria-modal="true" aria-labelledby="pl-h">
+  <div class="a-modal__body"><h2 class="is-h3" id="pl-h">Change cancellation policy</h2><p class="muted">Applies to new bookings only. Existing bookings keep the policy they were booked with. The host is emailed.</p>
+    <div class="field"><label for="pl-l">Listing</label><select class="select" id="pl-l"><option>Mangrove &amp; fireflies by kampung boat</option><option>Nyonya kitchen: zero-waste cooking class</option><option>Reef restoration snorkel</option></select></div>
+    <div data-radio>
+      <div class="radio-card" data-value="Flexible"><span class="dot"></span><div><b>Flexible</b><p class="small muted">Full refund 24 hours or more before start</p></div></div>
+      <div class="radio-card active" data-value="Moderate"><span class="dot"></span><div><b>Moderate <span class="badge badge--brand">Default</span></b><p class="small muted">Full refund 72 hours or more before start</p></div></div>
+      <div class="radio-card" data-value="Firm"><span class="dot"></span><div><b>Firm</b><p class="small muted">Full refund 12+ days before; 50% from 5 to under 12 days</p></div></div>
+    </div></div>
+  <div class="a-modal__foot"><button class="btn btn--secondary" data-close>Cancel</button><button class="btn btn--primary" data-close data-toast="Policy updated. The host has been emailed.">Save policy</button></div>
+</div>
+<script>
+(function () {
+  var R = [
+    ['mangrove', 'Live', 64, true], ['nyonya', 'Live', 92, true], ['canopy', 'Live', 118, false], ['orangutan', 'Live', 38, true], ['batik', 'Live', 51, true],
+    ['reef', 'Live', 47, true], ['paddy', 'Live', 33, false], ['weaving', 'Live', 17, false], ['retreat', 'Live', 6, false],
+    [{ title: 'Mangrove replanting morning', img: '1784751449611-ff8ac03ff234', host: 'rahim', cat: 'nature', type: 'day', policy: 'Moderate', price: 85 }, 'Changes requested', 0, false],
+    [{ title: 'Kelip-kelip photography night', img: '1786717667687-2f05e422d6f9', host: 'rahim', cat: 'nature', type: 'day', policy: 'Moderate', price: 120 }, 'Draft', 0, false]
+  ];
+  var cats = {}; L.cats.forEach(function (c) { cats[c.key] = c.name; });
+  var st = { 'Live': 'badge--success', 'In review': 'badge--warn', 'Draft': '', 'Changes requested': 'badge--danger' };
+  var tb = document.getElementById('rows'), f = 'all';
+  function draw() {
+    tb.innerHTML = R.filter(function (r) { return f === 'all' || r[1] === f; }).map(function (r) {
+      var e = typeof r[0] === 'string' ? L.exp[r[0]] : r[0], live = r[1] === 'Live';
+      return '<tr data-go="' + (r[1] === 'In review' ? 'a-review' : 'a-listing') + '"><td><div class="who"><img src="' + L.img(e.img, 120) + '" alt=""><div><b>' + e.title + '</b><small>' + L.people[e.host].name + '</small></div></div></td>' +
+        '<td class="small">' + cats[e.cat] + '</td><td>' + (e.type === 'retreat' ? '<span class="badge badge--info">Retreat · deposit</span>' : '<span class="small">Day</span>') + '</td>' +
+        '<td><span class="badge ' + st[r[1]] + '">' + r[1] + '</span></td><td>' + e.policy + '</td><td class="num">' + L.rm(e.price) + '</td><td class="num">' + (r[2] || '—') + '</td>' +
+        '<td class="num">' + (e.rating ? '<span class="rating"><i class="ph-fill ph-star" aria-hidden="true"></i>' + e.rating.toFixed(2) + '</span>' : '<span class="faint">—</span>') + '</td>' +
+        '<td>' + (live ? '<button class="switch feat-sw" role="switch" aria-checked="' + r[3] + '" aria-label="Feature on homepage"></button>' : '<span class="faint small">Not live</span>') + '</td></tr>';
+    }).join('');
+  }
+  tb.addEventListener('click', function (e) { var sw = e.target.closest('.feat-sw'); if (!sw) return; e.stopPropagation(); var now = sw.getAttribute('aria-checked') !== 'true'; sw.setAttribute('aria-checked', now); L.toast(now ? 'Featured on the homepage' : 'Removed from the homepage', 'ph-star'); }, true);
+  document.getElementById('t').addEventListener('pick', function (e) { f = e.detail; draw(); });
+  draw();
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-listings', [['Listings', '112 live · 9 draft · 3 in review · 7 changes requested'], ['Featured on homepage', '5 (max 8)'], ['Policy', 'Staff can change any listing’s policy']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

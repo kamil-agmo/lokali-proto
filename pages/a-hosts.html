@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lokali Admin · Hosts</title>
+  <script src="../shell.config.js"></script>
+  <script src="../js/shared/lock-guard.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="../css/lokali.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/lokali.js"></script>
+  <script src="../js/art.js"></script>
+  <script src="../js/data.js"></script>
+</head>
+<body class="a">
+<div class="a-app">
+  <aside class="a-side" data-admin-nav="a-hosts"></aside>
+  <div class="a-body">
+    <header class="a-top">
+      <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search bookings, hosts, listings…" aria-label="Search"><kbd>⌘K</kbd></div>
+      <div class="a-top__actions">
+        <button class="icon-btn" aria-label="Notifications"><i class="ph ph-bell" aria-hidden="true"></i><span class="dot"></span></button>
+        <button class="btn btn--primary" data-go="a-host"><i class="ph ph-user-plus" aria-hidden="true"></i>Create host</button>
+      </div>
+    </header>
+    <main class="a-main">
+      <div class="a-head hero-deep bg-contour">
+        <div><h1>Hosts</h1><p>Self-serve operators and hosts the team onboards for them. Assisted hosts are managed by staff.</p><div class="a-focus"><span class="kicker"><i class="ph-fill ph-users-three" aria-hidden="true"></i>Hosts on Lokali</span><b><span class="hl">86 active</span> · 31 onboarded by staff</b></div></div>
+        <div class="a-head__actions"><div class="ptabs" data-group id="t"><button class="active" data-value="all">All <em>89</em></button><button data-value="Active">Active <em>86</em></button><button data-value="Applying">Applying <em>3</em></button><button data-value="Suspended">Suspended <em>0</em></button></div></div>
+      </div>
+      <div class="a-grid c4">
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-users-three" aria-hidden="true"></i></span>Active hosts</span><span class="kpi__value">86</span><span class="kpi__delta up">+9 this month</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-hand-heart" aria-hidden="true"></i></span>Assisted onboarding</span><span class="kpi__value">31</span><span class="small muted">36% of hosts · managed by staff</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-star" aria-hidden="true"></i></span>Avg. host rating</span><span class="kpi__value">4.91</span><span class="small muted">From 2,940 reviews</span></div>
+        <div class="a-card kpi reveal"><span class="kpi__label"><span class="itile"><i class="ph ph-bank" aria-hidden="true"></i></span>Bank not verified</span><span class="kpi__value">2</span><span class="small muted">Payouts held until verified</span></div>
+      </div>
+      <div class="a-card">
+        <div class="toolbar">
+          <div class="a-search"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input class="input" placeholder="Search name, business or state" aria-label="Search hosts"></div>
+          <select class="select" aria-label="Onboarding"><option>All onboarding</option><option>Self-serve</option><option>Assisted by staff</option></select>
+          <select class="select" aria-label="State"><option>All states</option><option>Selangor</option><option>Penang</option><option>Sabah</option><option>Terengganu</option><option>Pahang</option></select>
+        </div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Host</th><th>Business type</th><th>Onboarding</th><th class="num">Listings</th><th class="num">Bookings (30 d)</th><th class="num">Rating</th><th>Bank</th><th>Status</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table></div>
+        <div class="pager"><span>Showing 10 of 89</span><div class="row"><button class="btn btn--secondary btn--sm" disabled>Previous</button><button class="btn btn--secondary btn--sm">Next</button></div></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  var H = [
+    ['Pak Rahim Osman', 'Kampung Kuantan, Kuala Selangor', '1763219069500-e4c9b49f308f', 'Village / community', 'Assisted', 3, 64, 4.96, 'ok', 'Active'],
+    ['Kumar Selvaraj', 'Air Itam, Penang', '1531339413195-cc6c17163974', 'Tour operator', 'Self-serve', 3, 171, 4.89, 'ok', 'Active'],
+    ['Jenny Tan', 'George Town, Penang', '1773899337978-b8d83bd9b783', 'Cooking school', 'Self-serve', 1, 92, 4.97, 'ok', 'Active'],
+    ['Siti Aminah Yusof', 'Kuala Terengganu', '1586682643135-060f061868b6', 'Craft artisan', 'Assisted', 2, 68, 4.92, 'ok', 'Active'],
+    ['Jaineh Mosiun', 'Bilit, Kinabatangan, Sabah', '1731375817631-dff8d5db12fc', 'Village / community', 'Assisted', 1, 38, 4.98, 'bad', 'Active'],
+    ['Lim Mei Ling', 'Sekinchan, Selangor', '1758600587815-b654d1405e83', 'Farm', 'Self-serve', 2, 33, 4.85, 'ok', 'Active'],
+    ['Faizal Rahman', 'Kota Kinabalu, Sabah', '1544168190-79c17527004f', 'Tour operator', 'Self-serve', 0, 0, null, 'none', 'Applying'],
+    ['Rosnah Ibrahim', 'Sungai Lembing, Pahang', '1758600587839-56ba05596c69', 'Village / homestay', 'Self-serve', 0, 0, null, 'none', 'Applying'],
+    ['Hafiz Zainal', 'Ulu Muda, Kedah', '1762709412743-3395ed866302', 'NGO / social enterprise', 'Self-serve', 0, 0, null, 'none', 'Applying'],
+    ['Mak Esah Daud', 'Marang, Terengganu', '1668876220471-c91598757e65', 'Craft artisan', 'Assisted', 1, 12, 4.88, 'bad', 'Active']
+  ];
+  var tb = document.getElementById('rows'), f = 'all';
+  function draw() {
+    tb.innerHTML = H.filter(function (h) { return f === 'all' || h[9] === f; }).map(function (h) {
+      var bank = h[8] === 'ok' ? '<span class="badge badge--success"><i class="ph ph-check" aria-hidden="true"></i>Verified</span>' : h[8] === 'bad' ? '<span class="badge badge--warn">Not verified</span>' : '<span class="faint small">—</span>';
+      return '<tr data-go="a-host"><td><div class="who"><img class="round" src="' + L.img(h[2], 120) + '" alt=""><div><b>' + h[0] + '</b><small>' + h[1] + '</small></div></div></td><td>' + h[3] + '</td>' +
+        '<td>' + (h[4] === 'Assisted' ? '<span class="badge badge--accent"><i class="ph ph-hand-heart" aria-hidden="true"></i>Assisted by staff</span>' : '<span class="badge">Self-serve</span>') + '</td>' +
+        '<td class="num">' + h[5] + '</td><td class="num">' + h[6] + '</td><td class="num">' + (h[7] ? '<span class="rating"><i class="ph-fill ph-star" aria-hidden="true"></i>' + h[7].toFixed(2) + '</span>' : '<span class="faint">New</span>') + '</td>' +
+        '<td>' + bank + '</td><td><span class="badge ' + (h[9] === 'Active' ? 'badge--success' : 'badge--info') + '">' + h[9] + '</span></td></tr>';
+    }).join('');
+  }
+  document.getElementById('t').addEventListener('pick', function (e) { f = e.detail; draw(); });
+  draw();
+})();
+</script>
+<script src="../js/shared/embed.js"></script>
+<script>if (window.ProtoEmbed) ProtoEmbed.report('a-hosts', [['Hosts', '86 active · 3 applying'], ['Assisted onboarding', '31 hosts created by staff'], ['Row opens', 'Host profile']]);</script>
+  <script src="../js/shared/credits-data.js"></script>
+  <script src="../js/shared/credits-badge.js"></script>
+</body>
+</html>

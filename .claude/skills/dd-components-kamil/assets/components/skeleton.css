@@ -1,0 +1,8 @@
+/* Skeleton (loading placeholder). <div class="c-skel c-skel--md|--ios" style="height:16px;width:60%"></div>; .c-skel--round for avatars. */
+.c-skel { border-radius: 6px; background: var(--c-surface-2); position: relative; overflow: hidden; }
+.c-skel--round { border-radius: 50%; }
+/* Material: a shimmer sweeps across */
+.c-skel--md::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--c-bg) 60%, transparent), transparent); animation: c-shimmer 1.4s infinite; }
+@keyframes c-shimmer { to { transform: translateX(100%); } } @keyframes c-pulse { 50% { opacity: .45; } }
+/* Apple: placeholders gently pulse, like iOS redacted content */
+.c-skel--ios { animation: c-pulse 1.5s ease-in-out infinite; }

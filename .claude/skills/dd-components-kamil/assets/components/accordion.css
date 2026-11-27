@@ -1,0 +1,15 @@
+/* Expandable sections (accordion / disclosure): tap a row to show or hide its details. Uses <details>, so it works without JS.
+   <div class="c-acc c-acc--md|--ios"><details><summary>Question</summary><div class="c-acc__body">Answer</div></details>…</div> */
+.c-acc { font-family: var(--c-font); color: var(--c-ink); }
+.c-acc summary { display: flex; align-items: center; gap: 12px; list-style: none; cursor: pointer; }
+.c-acc summary::-webkit-details-marker { display: none; }
+.c-acc summary::after { content: "expand_more"; margin-left: auto; font-family: "Material Symbols Rounded"; font-size: 24px; line-height: 1; font-feature-settings: "liga"; color: var(--c-muted); transition: transform .25s var(--c-ease); }
+.c-acc details[open] summary::after { transform: rotate(180deg); }
+.c-acc__body { color: var(--c-muted); }
+/* Material 3: full-width rows split by lines, 16 px titles */
+.c-acc--md details { border-bottom: 1px solid var(--c-line); } .c-acc--md summary { min-height: 56px; padding: 0 16px; font-size: 16px; } .c-acc--md .c-acc__body { padding: 0 16px 16px; font-size: 14px; line-height: 20px; }
+/* Apple (iOS 27): inset group with large corners; the chevron points right and turns down when open */
+.c-acc--ios { margin: 0 16px; border-radius: 26px; overflow: hidden; background: var(--c-bg); }
+.c-acc--ios details + details { border-top: .5px solid var(--c-line); } .c-acc--ios summary { min-height: 52px; padding: 0 16px; font-size: 17px; }
+.c-acc--ios summary::after { content: "chevron_right"; font-size: 20px; color: var(--c-accent); } .c-acc--ios details[open] summary::after { transform: rotate(90deg); }
+.c-acc--ios .c-acc__body { padding: 0 16px 14px; font-size: 15px; line-height: 20px; }
