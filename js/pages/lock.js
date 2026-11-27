@@ -53,11 +53,11 @@
   });
   pw.addEventListener('input', function () { err.hidden = true; field.classList.remove('is-bad'); });
   function proceed() {
-    if (window.parent !== window) window.parent.postMessage({ type: S.prefix + ':unlocked' }, location.origin && location.origin !== 'null' ? location.origin : '*');
+    if (window.parent !== window) window.parent.postMessage({ type: S.prefix + ':unlocked' }, location.protocol !== 'file:' && location.origin && location.origin !== 'null' ? location.origin : '*');
     else location.replace('../' + S.pages[S.startPage].src);
   }
   window.addEventListener('message', function (e) {
-    if (e.source !== window.parent || (location.origin !== 'null' && e.origin !== location.origin)) return;
+    if (e.source !== window.parent || (location.protocol !== 'file:' && location.origin !== 'null' && e.origin !== location.origin)) return;
     if (e.data && e.data.type === S.prefix + ':nudge') { field.classList.remove('is-bad'); void field.offsetWidth; field.classList.add('is-bad'); pw.focus(); }
   });
   if (!(window.matchMedia && matchMedia('(pointer: coarse)').matches)) setTimeout(function () { pw.focus({ preventScroll: true }); }, 700);

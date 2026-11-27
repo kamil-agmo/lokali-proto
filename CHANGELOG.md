@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.33.4 · 2026-11-27
+- Fixed: opened from disk (index.html / admin.html as a file), the left menu stayed on the first screen while you tapped through the phone. The screens labelled their "I'm on this page" message with the wrong prefix and the shell rejected file:// messages; both fixed (js/shared/embed.js, js/shell/prototype.js, js/pages/lock.js). Checked on all 38 app screens, from disk and from a server.
+
 ## 0.33.3 · 2026-11-27
 - Presenter menu: the group holding the current screen always stays open, so the screen you are on (e.g. Booking details) is always visible and highlighted.
 - Handoff: CLAUDE.md (imports the working rules in .claude/rules), Design Department skills copied to .claude/skills, HANDOFF.md.

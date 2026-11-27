@@ -7,11 +7,12 @@
 (function () {
   'use strict';
   if (window.parent === window) return;
-  var P = 'proto'; try { P = window.parent.SHELL.prefix || P; } catch (e) {}
-  var TARGET = location.origin && location.origin !== 'null' ? location.origin : '*';   // the shell is same-origin; only fall back to * for file:// pages
+  var CFG = window.SHELL; try { CFG = window.parent.SHELL || CFG; } catch (e) {}   // opened from disk the parent can't be read, so use the page's own copy of shell.config.js
+  var P = (CFG && CFG.prefix) || 'proto';
+  var TARGET = location.protocol !== 'file:' && location.origin && location.origin !== 'null' ? location.origin : '*';   // the shell is same-origin; fall back to * for file:// pages (their origin reads "file://" but matches nothing)
   document.documentElement.classList.add('in-phone');
   // Appearance (presenter control): apply the stored light/dark choice and follow changes live
-  var TK = null; try { var A = window.parent.SHELL.appearance; if (A) TK = A.key || P + '-theme'; } catch (e) {}
+  var TK = null; var A = CFG && CFG.appearance; if (A) TK = A.key || P + '-theme';
   function theme() { var v = ''; try { v = localStorage.getItem(TK) || ''; } catch (e) {} var h = document.documentElement; h.classList.remove('light', 'dark'); if (v) h.classList.add(v); }
   if (TK) { theme(); window.addEventListener('storage', function (e) { if (e.key === TK) theme(); }); }   // the dd-desktop-kamil add-on swaps it for in-desktop on desktop pages
   function send(type, extra) { var m = { type: P + ':' + type }; for (var k in extra) m[k] = extra[k]; window.parent.postMessage(m, TARGET); }

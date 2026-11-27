@@ -124,7 +124,7 @@
   /* ---------- messages from the pages and the lock screen ---------- */
   // Only our own two iframes (the lock screen and the phone) may talk to the shell, and only from the same origin.
   window.addEventListener('message', function (e) {
-    if (location.origin !== 'null' && e.origin !== location.origin) return;
+    if (location.protocol !== 'file:' && location.origin !== 'null' && e.origin !== location.origin) return;   // opened from disk, origins read "null"; the source check below still limits it to our two iframes
     var m = e.data; if (!m || typeof m.type !== 'string' || m.type.indexOf(P + ':') !== 0) return;
     var t = m.type.slice(P.length + 1), fromLock = e.source === lockEl.contentWindow, fromScreen = e.source === frame.contentWindow;
     if (t === 'unlocked' && fromLock) { locked = false; lockUI(false); frame.setAttribute('src', S.pages[S.startPage].src); show(S.startPage); return; }
