@@ -15,6 +15,20 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Host Bank details in Airy (2 Dec): the account payouts go to and its status on top, then the fields to change it.
+   No balance-style card, no tinted info boxes; account type cut (no job in the brief). */
+.bk-main { padding: 8px 24px calc(var(--home, 0px) + 120px); }
+.bk-lbl { font-size: 13px; line-height: 18px; color: var(--muted); }
+.bk-acc { margin-top: 2px; font-size: 24px; line-height: 30px; font-weight: 700; color: var(--ink); }
+.bk-st { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.bk-st .ph-fill { font-size: 16px; color: var(--primary); }
+.bk-st.is-wait .ph-fill { color: var(--warn); }
+.bk-form { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 20px; }
+.bk-form h2 { margin: 0 0 -8px; }
+.bk-note { display: flex; gap: 8px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.bk-note .ph { flex: none; font-size: 16px; margin-top: 1px; }
+</style>
 </head>
 <body class="m">
   <header class="appbar appbar--flow">
@@ -22,38 +36,42 @@
     <h1 class="appbar__title">Bank details</h1>
     <span class="spacer"></span>
   </header>
-<section class="pad" style="padding-top:8px" aria-label="Payout account"><div class="card">
-    <span class="bal-label"><i class="ph-fill ph-bank" aria-hidden="true"></i>Payout account</span>
-    <p class="bal-amt">Maybank •• 4821</p>
-    <p class="sum-note">Every payout lands here about 24 hours after an experience ends.</p>
-  </div></section>
-  <section class="reveal pad stack-lg">
-    <div class="notice notice--success"><i class="ph-fill ph-seal-check" aria-hidden="true"></i><span><b>Verified</b> on Fri, 14 Mar 2025. Payouts are going to this account.</span></div>
-    <div class="field"><label for="bank">Bank</label>
-      <select class="select" id="bank"><option selected>Maybank</option><option>CIMB Bank</option><option>Public Bank</option><option>RHB Bank</option><option>Hong Leong Bank</option><option>AmBank</option><option>Bank Islam</option><option>Bank Rakyat</option><option>BSN</option><option>Agrobank</option></select>
-    </div>
-    <div class="field"><label for="hold">Account holder name</label><input class="input" id="hold" value="Abdul Rahim bin Osman"><span class="hint">Must match the name on your IC or SSM certificate.</span></div>
-    <div class="field"><label for="acc">Account number</label><input class="input" id="acc" value="1142 •••• 4821" inputmode="numeric"></div>
-    <div class="field"><label for="typ">Account type</label>
-      <div class="segmented" data-group><button class="active">Personal</button><button>Business</button></div>
-    </div>
-    <div class="notice notice--warn" id="warn" hidden><i class="ph ph-warning" aria-hidden="true"></i><span>Payouts pause until the new account is verified (about 1 working day)</span></div>
-    <div class="notice"><i class="ph ph-info" aria-hidden="true"></i><span>Payouts go to Malaysian bank accounts in MYR only. Lokali never asks for your online banking password.</span></div>
+<main class="bk-main">
+  <section aria-label="Payout account">
+    <p class="bk-lbl">Payouts go to</p>
+    <p class="bk-acc" id="accNow">CIMB •• 3307</p>
+    <p class="bk-st" id="st"><i class="ph-fill ph-seal-check" aria-hidden="true"></i><span>Verified on Fri, 20 Nov · about 24 h after each class</span></p>
   </section>
-  <div style="height:24px"></div>
-  <div class="cta-bar"><button class="btn btn--primary btn--block" id="save">Save</button></div>
+
+  <section class="bk-form" aria-labelledby="chg-h">
+    <h2 id="chg-h">Change account</h2>
+    <div class="field"><label for="bank">Bank</label>
+      <select class="select" id="bank"><option>Maybank</option><option selected>CIMB Bank</option><option>Public Bank</option><option>RHB Bank</option><option>Hong Leong Bank</option><option>AmBank</option><option>Bank Islam</option><option>Bank Rakyat</option><option>BSN</option><option>Agrobank</option></select>
+    </div>
+    <div class="field"><label for="hold">Account holder name</label><input class="input" id="hold" value="Aina Rahman" autocomplete="name"><span class="hint">Must match the name on your IC.</span></div>
+    <div class="field"><label for="acc">Account number</label><input class="input" id="acc" value="7064 •••• 3307" inputmode="numeric"></div>
+    <div class="notice notice--warn" id="warn" hidden><i class="ph ph-warning" aria-hidden="true"></i><span>Payouts pause until the new account is verified, about 1 working day.</span></div>
+    <p class="bk-note"><i class="ph ph-shield-check" aria-hidden="true"></i><span>Malaysian bank accounts in MYR only. Lokali never asks for your online banking password.</span></p>
+  </section>
+</main>
+  <div class="cta-bar"><button class="btn btn--primary btn--block" id="save" disabled>Save</button></div>
 
   <script>
   (function () {
-    document.querySelectorAll('#bank, #hold, #acc').forEach(function (el) { el.addEventListener('input', function () { document.getElementById('warn').hidden = false; }); el.addEventListener('change', function () { document.getElementById('warn').hidden = false; }); });
-    document.getElementById('save').addEventListener('click', function () {
-      if (document.getElementById('warn').hidden) { L.toast('No changes'); return; }
+    var save = document.getElementById('save'), warn = document.getElementById('warn');
+    function dirty() { warn.hidden = false; save.disabled = false; }
+    document.querySelectorAll('#bank, #hold, #acc').forEach(function (el) { el.addEventListener('input', dirty); el.addEventListener('change', dirty); });
+    save.addEventListener('click', function () {   /* the result shows on this screen: new account on top, waiting for verification */
+      var b = document.getElementById('bank').value.replace(' Bank', ''), n = document.getElementById('acc').value.replace(/\s/g, '').slice(-4);
+      document.getElementById('accNow').textContent = b + ' •• ' + n;
+      var st = document.getElementById('st'); st.classList.add('is-wait'); st.innerHTML = '<i class="ph-fill ph-hourglass-medium" aria-hidden="true"></i><span>Verifying, about 1 working day. Payouts wait until then.</span>';
+      warn.hidden = true; save.disabled = true; window.scrollTo({ top: 0, behavior: 'smooth' });
       L.toast('Saved. Verifying your new account.', 'ph-hourglass-medium');
     });
   })();
   </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bank', [["Bank", "Maybank •• 4821"], ["State", "Verified"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-bank', [["Account", "CIMB •• 3307 · Aina Rahman"], ["State", "Verified · Fri 20 Nov"], ["Payouts", "About 24 h after each class"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

@@ -15,69 +15,112 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Host Chat in Airy (2 Dec), the guest Chat pattern from the host side: header with the guest, a booking strip docked under it
+   (full width, white, hairline: it stays while messages scroll), one plain safety line, short saved replies above the composer. */
+.chat-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 10px; padding: var(--sb) 8px 8px; min-height: calc(var(--sb) + 52px); background: var(--bg); border-bottom: 1px solid var(--line); }
+.chat-av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; display: grid; place-items: center; background: var(--sand); color: var(--ink); font-size: 14px; font-weight: 600; }
+.chat-who { min-width: 0; } .chat-who b { display: block; font-size: 15px; line-height: 22px; font-weight: 600; color: var(--ink); }
+.chat-who span { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+body.m .pin-card { position: sticky; top: calc(var(--sb) + 52px); z-index: 19; display: flex; align-items: center; gap: 12px; margin: 0 !important; padding: 10px 24px !important; border-radius: 0 !important; background: var(--bg) !important; border-bottom: 1px solid var(--line); box-shadow: none !important; color: var(--ink); text-decoration: none; }
+body.m .pin-card img { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex: none; }
+.pin-card b { display: block; font-size: 15px; line-height: 20px; font-weight: 600; } .pin-card span { display: block; font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 2px; }
+.pin-card > .ph { font-size: 18px; color: var(--muted); }
+.chat { padding: 12px 24px calc(var(--home, 0px) + 140px) !important; }
+.sys { align-self: center; display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; border-radius: 999px; font-size: 12px; line-height: 16px; font-weight: 600; }
+.sys .ph-fill { font-size: 16px; color: var(--primary); }
+/* safety reminder as a plain grey line, as in the guest Chat */
+body.m .sys.sys--safe { background: none !important; padding: 4px 12px; font-size: 12px; line-height: 17px; font-weight: 400; color: var(--muted) !important; text-align: center; max-width: 280px; }
+.sys.sys--safe .ph { font-size: 16px; flex: none; }
+.saved { position: fixed; z-index: 30; left: 50%; transform: translateX(-50%); width: min(100%, 440px); bottom: calc(var(--home, 0px) + 68px); padding: 8px 0; background: linear-gradient(transparent, var(--bg) 30%); }
+.saved .chips { padding: 0 24px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .saved .chips::-webkit-scrollbar { display: none; }
+#msg.filled { animation: fillPulse .4s var(--ease); }
+@keyframes fillPulse { 0% { box-shadow: 0 0 0 0 rgba(34,34,34,.25); } 100% { box-shadow: 0 0 0 8px transparent; } }
+@media (prefers-reduced-motion: reduce) { #msg.filled { animation: none; } }
+</style>
 </head>
 <body class="m">
-<h1 class="sr-only">Chat with Aina Rahman</h1>
-  <header class="appbar chat-bar">
-    <button class="icon-btn" data-go="h-inbox" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <img class="avatar chat-av" data-img="1545266241-3516e2a6e016" data-w="80" alt="">
-    <div class="grow chat-who"><b>Aina Rahman</b><span>Usually replies within an hour</span></div>
-    <button class="icon-btn" aria-label="Call guest" data-toast="Aina Rahman · +44 7700 900 318" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i></button>
-  </header>
-  <a class="pin-card" href="h-booking.html" data-go="h-booking">
-    <img data-img="1773904594755-6c25ab2ef6c9" data-w="120" alt="">
-    <div class="grow"><b>Sun, 6 Dec · 5:00 PM</b><span>LK-24817 · 2 adults, 1 child · 1 vegetarian</span></div>
-    <span class="badge badge--success">Confirmed</span>
-  </a>
-  <div class="chat" id="chat">
-    <span class="bubble-time">Mon, 30 Nov · 9:40 PM</span>
-    <div class="bubble in">Hi Pak Rahim! We'd like to come on Sunday, 2 adults and our son Adam (7). Can he join?</div>
-    <div class="bubble in">One of us is vegetarian — is the kuih OK?</div>
-    <span class="bubble-time">Wed, 2 Dec · 9:05 AM</span>
-    <div class="bubble out">Hello Aina! Yes, Adam is very welcome. Children 5–12 join with an adult, and we have child life jackets. The kuih is vegetarian too.</div>
-    <span class="bubble-time">10:14 AM · Aina booked LK-24817</span>
-  </div>
-  <div class="saved">
-    <div class="chips" data-group id="saved">
-      <button class="chip chip--soft" data-value="jackets"><i class="ph ph-lifebuoy" aria-hidden="true"></i>Life jackets</button>
-      <button class="chip chip--soft" data-value="dir"><i class="ph ph-map-pin" aria-hidden="true"></i>Directions</button>
-      <button class="chip chip--soft" data-value="bring"><i class="ph ph-backpack" aria-hidden="true"></i>What to bring</button>
-      <button class="chip chip--soft" data-value="rain"><i class="ph ph-cloud-rain" aria-hidden="true"></i>Rain plan</button>
-    </div>
-  </div>
-  <div class="composer">
-    <button class="icon-btn" aria-label="Add photo" data-sheet="camera"><i class="ph ph-image" aria-hidden="true"></i></button>
-    <input class="input grow" id="msg" placeholder="Message Aina" aria-label="Message">
-    <button class="icon-btn filled" id="send" aria-label="Send" style="background:var(--primary);color:#fff"><i class="ph-fill ph-paper-plane-right" aria-hidden="true"></i></button>
-  </div>
+<header class="appbar chat-bar">
+  <button class="icon-btn" data-go="h-inbox" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <img class="chat-av" data-img="1613447895817-e617a4093f50" data-w="80" alt="">
+  <div class="grow chat-who"><h1 class="sr-only">Chat with Nur Aisyah Kamal</h1><b>Nur Aisyah Kamal</b><span>Guest · Shah Alam</span></div>
+  <button class="icon-btn" aria-label="Call guest" data-toast="Nur Aisyah Kamal · +60 12-418 2290" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i></button>
+</header>
+<a class="pin-card" href="h-booking.html" data-go="h-booking" aria-label="View booking LK-24852: Saturday 5 December, 9:00 AM, 2 adults and 1 child"><img data-img="1679541946014-a47f1ec0dc1a" data-w="120" alt=""><div class="grow"><b>Sat, 5 Dec · 9:00 AM</b><span>2 adults, 1 child · LK-24852</span></div><i class="ph ph-caret-right" aria-hidden="true"></i></a>
 
+<main class="chat" id="chat">
+  <span class="bubble-time">Tue, 1 Dec</span>
+  <span class="sys"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>Booking confirmed · Tue, 1 Dec</span>
+  <div class="bubble in">Hi Aina! We're coming on Saturday, two of us and our son Irfan, he's 6.</div>
+  <span class="bubble-time">Today, 9:12 AM</span>
+  <div class="bubble in">Irfan is allergic to peanuts. Is any of the kuih made with peanuts?</div>
+  <span class="sys sys--safe"><i class="ph ph-shield-check" aria-hidden="true"></i>Keep payments and changes on Lokali so guests stay protected.</span>
+</main>
+
+<div class="saved"><div class="chips" id="qr"></div></div>
+<form class="composer" id="cf">
+  <button type="button" class="icon-btn" aria-label="Add photo" data-sheet="camera"><i class="ph ph-image" aria-hidden="true"></i></button>
+  <input class="input grow" id="msg" placeholder="Message Aisyah" aria-label="Message">
+  <button class="icon-btn filled" type="submit" aria-label="Send"><i class="ph-fill ph-paper-plane-right" aria-hidden="true"></i></button>
+</form>
   <script>
   (function () {
-    var T = {
-      jackets: 'We have child life jackets on the boat. Adam sits in the middle with you.',
-      dir: 'Meet at Jeti Kampung Kuantan, Jalan Kuantan, 45000 Kuala Selangor. Park beside the surau, 2 min walk. Come 15 min early.',
-      bring: 'Repellent is provided. Wear shoes that can get wet. No flash photos, the fireflies are sensitive to light.',
-      rain: 'If there is heavy rain we move you to the next day or refund 100%. I will message you by 2 PM on the day.'
-    };
-    var chat = document.getElementById('chat'), msg = document.getElementById('msg');
-    document.getElementById('saved').addEventListener('pick', function (e) { msg.value = T[e.detail] || ''; msg.focus(); });
-    function send() {
-      if (!msg.value.trim()) return;
-      var b = document.createElement('div'); b.className = 'bubble out'; b.textContent = msg.value; chat.appendChild(b);
-      msg.value = ''; window.scrollTo(0, document.body.scrollHeight);
-      if (chat.querySelectorAll('.out').length === 2) setTimeout(function () {
-        var r = document.createElement('div'); r.className = 'bubble in'; r.textContent = 'Perfect, thank you! See you Sunday.'; chat.appendChild(r); window.scrollTo(0, document.body.scrollHeight);
-      }, 1200);
-    }
-    document.getElementById('send').addEventListener('click', send);
-    msg.addEventListener('keydown', function (e) { if (e.key === 'Enter') send(); });
-    var note = document.createElement('p'); note.className = 'xs faint center'; note.style.margin = '8px 24px 0';
-    note.innerHTML = '<i class="ph ph-shield-check" aria-hidden="true"></i> Keep payments and changes on Lokali so guests stay protected.';
-    chat.insertBefore(note, chat.firstChild);
+var chat = document.getElementById('chat'), inp = document.getElementById('msg');
+var DIR = ['Directions', 'We meet at Taman Komuniti SS3, Jalan SS 3/37, Petaling Jaya. Park along the road; the garden gate is beside the community hall.'];
+var BRING = ['What to bring', 'Bring a hat and shoes that can get muddy. Aprons and boxes for your kuih are provided.'];
+/* one chat screen, four conversations: the Inbox stores which thread was tapped */
+var TH = {
+  aisyah: { name: 'Nur Aisyah Kamal', first: 'Aisyah', img: L.people.aisyah.img, sub: 'Guest · Shah Alam', pin: ['Sat, 5 Dec · 9:00 AM', '2 adults, 1 child · LK-24852'], phone: '+60 12-418 2290', keep: true,
+    quick: [['No peanuts', 'None of the three kuih has peanuts, and I\'ll keep the peanut topping off the table on Saturday. Irfan is safe with us.'], DIR, BRING],
+    reply: 'Thank you Aina, that\'s a relief! See you Saturday.' },
+  hafiz: { name: 'Hafiz Ismail', first: 'Hafiz', ini: 'HI', sub: 'Guest', pin: ['Sat, 5 Dec · 9:00 AM', '1 adult · LK-24861'], phone: '+60 17-302 5518',
+    msgs: [['t', 'Today, 8:20 AM'], ['sys', 'Booking confirmed · Wed, 2 Dec'], ['in', 'Hi Aina, just booked! I\'m vegetarian, is that OK?'], ['t', '8:41 AM'], ['out', 'Yes, all three kuih are vegetarian. See you Saturday!']],
+    quick: [DIR, BRING] },
+  priya: { name: 'Priya Nair', first: 'Priya', ini: 'PN', sub: 'Guest', pin: ['Sat, 5 Dec · 9:00 AM', '2 adults · LK-24858'], phone: '+60 16-775 0142',
+    msgs: [['t', 'Tue, 1 Dec'], ['sys', 'Booking confirmed · Tue, 1 Dec'], ['in', 'Is there parking near the garden?'], ['out', 'Yes, along Jalan SS 3/37, right by the garden gate.']],
+    quick: [BRING, ['Rain plan', 'If it rains we steam under the garden shelter, so the class still runs.']] },
+  farah: { name: 'Farah Hanim', first: 'Farah', ini: 'FH', sub: 'Guest', enquiry: true,
+    msgs: [['t', 'Mon, 30 Nov'], ['in', 'Hi Aina, do you have a class on Sat 12 Dec? We\'d be 5 adults.'], ['out', 'Yes, every Saturday at 9:00 AM, and 12 Dec is open.']],
+    quick: [['Private group', 'For a group of 5 you can also book the whole class privately for RM 480.'], DIR] }
+};
+var key = 'aisyah'; try { key = sessionStorage.getItem('lk-h-thread') || 'aisyah'; } catch (e) {}
+var T = TH[key] || TH.aisyah;
+try { var r = JSON.parse(sessionStorage.getItem('lk-h-read') || '[]'); if (r.indexOf(key) < 0) { r.push(key); sessionStorage.setItem('lk-h-read', JSON.stringify(r)); } } catch (e) {}
+if (!T.keep) {
+  var bar = document.querySelector('.chat-bar'), av = bar.querySelector('.chat-av');
+  if (T.img) { av.src = L.img(T.img, 80); } else { var sp = document.createElement('span'); sp.className = 'chat-av'; sp.setAttribute('aria-hidden', 'true'); sp.textContent = T.ini; av.replaceWith(sp); }
+  bar.querySelector('.chat-who b').textContent = T.name; bar.querySelector('.chat-who span').textContent = T.sub; bar.querySelector('h1').textContent = 'Chat with ' + T.name;
+  var call = bar.querySelector('[aria-label="Call guest"]'); if (T.phone) call.setAttribute('data-toast', T.name + ' · ' + T.phone); else call.remove();
+  var pc = document.querySelector('.pin-card');
+  if (T.enquiry) {   /* not booked: the strip names the listing they asked about and does not open a booking */
+    pc.removeAttribute('href'); pc.removeAttribute('data-go'); pc.setAttribute('role', 'group'); pc.setAttribute('aria-label', 'Enquiry about Kuih morning in a PJ community garden, not booked');
+    pc.querySelector('b').textContent = 'Kuih morning in a PJ community garden'; pc.querySelector('span').textContent = 'Enquiry · not booked'; pc.querySelector('.ph-caret-right').remove();
+  } else {
+    pc.querySelector('b').textContent = T.pin[0]; pc.querySelector('span').textContent = T.pin[1]; pc.setAttribute('aria-label', 'View booking: ' + T.pin[0] + ', ' + T.pin[1]);
+  }
+  var warn = chat.lastElementChild.outerHTML;
+  chat.innerHTML = T.msgs.map(function (m) {
+    if (m[0] === 't') return '<span class="bubble-time">' + m[1] + '</span>';
+    if (m[0] === 'sys') return '<span class="sys"><i class="ph-fill ph-check-circle" aria-hidden="true"></i>' + m[1] + '</span>';
+    return '<div class="bubble ' + m[0] + '">' + m[1] + '</div>';
+  }).join('') + warn;
+  document.title = 'Lokali Host · Chat with ' + T.first;
+}
+inp.placeholder = 'Message ' + T.first;
+document.getElementById('qr').innerHTML = T.quick.map(function (q) { return '<button type="button" class="chip" data-fill="' + q[1].replace(/"/g, '&quot;') + '">' + q[0] + '</button>'; }).join('');
+var sent = 0;
+function add(cls, t) { var b = document.createElement('div'); b.className = 'bubble ' + cls; b.textContent = t; chat.insertBefore(b, chat.lastElementChild); window.scrollTo(0, document.body.scrollHeight); }
+function send(t) {
+  if (!t) return; add('out', t); inp.value = ''; sent++;
+  if (sent === 1 && T.reply) setTimeout(function () { add('in', T.reply); }, 1200);
+}
+document.getElementById('cf').addEventListener('submit', function (e) { e.preventDefault(); send(inp.value.trim()); });
+document.getElementById('qr').addEventListener('click', function (e) { var c = e.target.closest('[data-fill]'); if (!c) return; inp.value = c.getAttribute('data-fill'); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); inp.classList.add('filled'); setTimeout(function () { inp.classList.remove('filled'); }, 400); });
+window.addEventListener('load', function () { window.scrollTo(0, document.body.scrollHeight); });
   })();
   </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-chat', [["Guest", "Aina Rahman"], ["Booking", "LK-24817"], ["Saved replies", "4"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-chat', [["Guest", "Nur Aisyah Kamal"], ["Booking", "LK-24852 · Sat 5 Dec, 9:00 AM"], ["About", "Son Irfan's peanut allergy"], ["Saved replies", "3"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

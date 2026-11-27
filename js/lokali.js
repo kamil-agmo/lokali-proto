@@ -99,6 +99,8 @@
 
   /* guest chat read-state (session): unread threads become read when opened */
   L.UNREAD = ['rahim', 'jenny'];
+  /* host inbox (Aina hosting): Nur Aisyah's thread starts unread; h-chat marks it read in lk-h-read */
+  L.hunread = function () { var r = []; try { r = JSON.parse(sessionStorage.getItem('lk-h-read') || '[]'); } catch (e) {} return ['aisyah'].filter(function (k) { return r.indexOf(k) < 0; }).length; };
   L.readSet = function () { try { return JSON.parse(sessionStorage.getItem('lk-read') || '[]'); } catch (e) { return []; } };
   L.markRead = function (k) { var r = L.readSet(); if (r.indexOf(k) < 0) { r.push(k); try { sessionStorage.setItem('lk-read', JSON.stringify(r)); } catch (e) {} } };
   L.isUnread = function (k) { return L.UNREAD.indexOf(k) > -1 && L.readSet().indexOf(k) < 0; };
@@ -110,7 +112,7 @@
     ],
     host: [
       ['h-home', 'Today', 'ph-sun-horizon'], ['h-calendar', 'Calendar', 'ph-calendar-blank'], ['h-listings', 'Listings', 'ph-squares-four'],
-      ['h-inbox', 'Inbox', 'ph-chat-circle-dots', 1], ['h-menu', 'Menu', 'ph-list']
+      ['h-inbox', 'Inbox', 'ph-chat-circle-dots', 'HUNREAD'], ['h-menu', 'Menu', 'ph-list']
     ]
   };
   var ADMIN = [
@@ -139,7 +141,7 @@
     nav.setAttribute('aria-label', 'Main');
     nav.innerHTML = set.map(function (t) {
       var on = t[0] === act;
-      return '<a href="' + t[0] + '.html" data-go="' + t[0] + '" aria-label="' + t[1] + '"' + (on ? ' class="active" aria-current="page"' : '') + '><i class="' + (on ? 'ph-fill ' : 'ph ') + t[2] + '" aria-hidden="true"></i><span class="lbl">' + t[1] + '</span>' + (function (n) { n = n === 'GUNREAD' ? L.unread() : n; return n ? '<span class="count" aria-label="' + n + ' unread">' + n + '</span>' : ''; })(t[3]) + '</a>';
+      return '<a href="' + t[0] + '.html" data-go="' + t[0] + '" aria-label="' + t[1] + '"' + (on ? ' class="active" aria-current="page"' : '') + '><i class="' + (on ? 'ph-fill ' : 'ph ') + t[2] + '" aria-hidden="true"></i><span class="lbl">' + t[1] + '</span>' + (function (n) { n = n === 'GUNREAD' ? L.unread() : n === 'HUNREAD' ? L.hunread() : n; return n ? '<span class="count" aria-label="' + n + ' unread">' + n + '</span>' : ''; })(t[3]) + '</a>';
     }).join('');
     document.body.classList.add('has-tabbar');
     /* sliding pill: an indicator travels from the previous tab's spot to the new one */

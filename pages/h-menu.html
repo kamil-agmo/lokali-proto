@@ -15,44 +15,94 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Host Menu in Airy (2 Dec), like the guest Account: her photo with the verified-host tick, 3 numbers, then open sections
+   with hairlines and plain grey icons (no green tiles, no uppercase labels). Switch to guest changes the whole app, so it
+   gets the soft block with her photo, as Switch to hosting does on Account. */
+.mn { padding: 0 24px calc(var(--home, 0px) + 110px); }
+.mn-id { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+.mn-me { position: relative; flex: none; width: 72px; height: 72px; }
+.mn-me img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; display: block; background: var(--sand); }
+.mn-me .ph-fill { position: absolute; right: -3px; bottom: -1px; font-size: 24px; color: #1D9BF0; background: #fff; border-radius: 50%; }
+.mn-id b { display: block; font-size: 20px; line-height: 25px; font-weight: 700; color: var(--ink); }
+.mn-id small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.mn-view { margin-top: 20px; }
+.mn-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+.mn-stats > div + div { border-left: 1px solid var(--line); padding-left: 16px; }
+.mn-stats b { display: flex; align-items: center; gap: 4px; font-size: 22px; line-height: 28px; font-weight: 700; color: var(--ink); }
+.mn-stats b .ph-fill { font-size: 18px; color: var(--star); }
+.mn-stats span { font-size: 12px; line-height: 17px; color: var(--muted); }
+.mn-sec { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.mn-sec h2 { margin-bottom: 4px; }
+.mn .list { background: none !important; border: 0 !important; border-radius: 0 !important; overflow: visible; }
+.mn .list-row { padding: 12px 0 !important; min-height: 56px; color: var(--ink); text-decoration: none; }
+.mn .list-row > .ph:first-child { width: auto !important; height: auto !important; background: none !important; border-radius: 0 !important; font-size: 22px !important; color: var(--ink) !important; }
+.mn .list-row__text { font-size: 15px; } .mn .list-row__text small { font-size: 12px; line-height: 17px; }
+/* Switch to guest: soft grey block, her photo, small pill */
+.mn-switch .list { background: #F7F7F7 !important; border-radius: 20px !important; }
+.mn-switch .list-row { padding: 14px 16px !important; gap: 14px; }
+.mn-switch img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex: none; }
+.mn-switch .list-row__text { font-size: 16px !important; line-height: 21px; font-weight: 600; }
+.mn-switch .list-row__text small { font-size: 13px !important; line-height: 18px !important; margin-top: 2px; }
+.mn-switch .go { flex: none; display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink); font-size: 13px; font-weight: 600; }
+.mn-foot { margin-top: 28px; text-align: center; font-size: 12px; color: var(--muted); }
+</style>
 </head>
 <body class="m">
 <div class="lt-bar" aria-hidden="true">Menu</div>
-<header class="lt"><h1>Menu</h1><p>Host since Mar 2025 · Kuala Selangor</p></header>
-<section class="pad" aria-label="Host profile"><div class="card">
-  <div class="row" style="gap:12px"><img class="avatar lg" data-img="1763219069500-e4c9b49f308f" data-w="160" alt=""><div class="grow"><b class="prof-name">Pak Rahim Osman</b><span class="bal-label"><i class="ph-fill ph-seal-check" aria-hidden="true"></i>Verified host</span></div></div>
-  <div class="sum-stats"><div><b>4.96</b>rating</div><div><b>312</b>guests hosted</div><div><b>410</b>seedlings funded</div></div>
-  <button class="btn btn--secondary btn--block mt4" data-toast="Opens your public host profile">View public profile</button>
-</div></section>
-
-
-  <div class="list-label">Money</div>
-  <div class="list" style="margin:0 var(--s4)">
-    <div class="list-row" data-go="h-earnings"><i class="ph ph-wallet" aria-hidden="true"></i><div class="list-row__text">Earnings<small>RM 327.25 arriving today</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="list-row" data-go="h-bank"><i class="ph ph-bank" aria-hidden="true"></i><div class="list-row__text">Bank details<small>Maybank •• 4821 · Verified</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+<header class="lt"><h1>Menu</h1></header>
+<main class="mn">
+  <div class="mn-id">
+    <span class="mn-me"><img data-img="1545266241-3516e2a6e016" data-w="160" alt=""><i class="ph-fill ph-seal-check" role="img" aria-label="Verified host"></i></span>
+    <div><b>Aina Rahman</b><small>Host since Nov 2026 · Petaling Jaya</small></div>
+  </div>
+  <button class="btn btn--secondary btn--block mn-view" data-toast="Opens your public host profile" data-toast-icon="ph-user-circle">View public profile</button>
+  <div class="mn-stats" role="list">
+    <div role="listitem"><b><i class="ph-fill ph-star" aria-hidden="true"></i>5.0</b><span>3 reviews</span></div>
+    <div role="listitem"><b>11</b><span>Guests hosted</span></div>
+    <div role="listitem"><b>42</b><span>Meals given</span></div>
   </div>
 
-  <div class="list-label">Hosting</div>
-  <div class="list" style="margin:0 var(--s4)">
-    <div class="list-row" data-go="h-bookings"><i class="ph ph-ticket" aria-hidden="true"></i><div class="list-row__text">Bookings</div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="list-row" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div class="list-row__text">Reviews<small>4.96 · 2 need a reply</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="list-row"><i class="ph ph-seal-check" aria-hidden="true"></i><div class="list-row__text">Verified host since Mar 2025<small>Approved 12 Mar 2025</small></div></div>
-    <div class="list-row" data-toast="Opens profile editor"><i class="ph ph-user-circle" aria-hidden="true"></i><div class="list-row__text">Host profile<small>Photo, story, business details, documents</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-  </div>
+  <section class="mn-sec">
+    <h2>Money</h2>
+    <div class="list">
+      <a class="list-row" href="h-earnings.html" data-go="h-earnings"><i class="ph ph-wallet" aria-hidden="true"></i><div class="list-row__text">Earnings<small>RM 408 on Sun, 6 Dec</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></a>
+      <a class="list-row" href="h-bank.html" data-go="h-bank"><i class="ph ph-bank" aria-hidden="true"></i><div class="list-row__text">Bank details<small>CIMB •• 3307 · Verified</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></a>
+    </div>
+  </section>
 
-  <div class="list-label">Help</div>
-  <div class="list" style="margin:0 var(--s4)">
-    <div class="list-row" data-toast="Opens host help centre"><i class="ph ph-question" aria-hidden="true"></i><div class="list-row__text">Help & FAQs</div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="list-row" data-toast="Calling Lokali host support"><i class="ph ph-phone" aria-hidden="true"></i><div class="list-row__text">Call Lokali team<small>Mon–Sat, 9 AM – 6 PM · listing updates on request</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-  </div>
+  <section class="mn-sec">
+    <h2>Hosting</h2>
+    <div class="list">
+      <a class="list-row" href="h-bookings.html" data-go="h-bookings"><i class="ph ph-ticket" aria-hidden="true"></i><div class="list-row__text">Bookings<small>Next: Sat, 5 Dec · 6 of 8 guests</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></a>
+      <a class="list-row" href="h-reviews.html" data-go="h-reviews"><i class="ph ph-star" aria-hidden="true"></i><div class="list-row__text">Reviews<small>1 needs a reply</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></a>
+      <div class="list-row" data-toast="Opens your host profile" data-toast-icon="ph-user-circle"><i class="ph ph-user-circle" aria-hidden="true"></i><div class="list-row__text">Host profile<small>Photo, story, contact, documents</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    </div>
+  </section>
 
-  <div class="list" style="margin:var(--s5) var(--s4) var(--s6)">
-    <div class="list-row" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i><div class="list-row__text">Switch to guest<small>Trips and bookings</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
-    <div class="list-row" data-toast="Signed out" style="color:var(--danger)"><i class="ph ph-sign-out" style="color:var(--danger)" aria-hidden="true"></i><div class="list-row__text">Sign out</div></div>
-  </div>
+  <section class="mn-sec">
+    <h2>Help</h2>
+    <div class="list">
+      <div class="list-row" data-toast="Opens host help" data-toast-icon="ph-question"><i class="ph ph-question" aria-hidden="true"></i><div class="list-row__text">Help &amp; FAQs</div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+      <div class="list-row" data-toast="Calling the Lokali team" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i><div class="list-row__text">Call the Lokali team<small>Mon–Sat, 9 AM – 6 PM</small></div><i class="ph ph-caret-right chev" aria-hidden="true"></i></div>
+    </div>
+  </section>
+
+  <section class="mn-sec mn-switch">
+    <div class="list">
+      <a class="list-row" href="g-home.html" data-switch="guest"><img data-img="1545266241-3516e2a6e016" data-w="120" alt=""><div class="list-row__text">Switch to guest<small>Your trips and bookings</small></div><span class="go">Switch</span></a>
+    </div>
+  </section>
+
+  <section class="mn-sec">
+    <div class="list">
+      <a class="list-row" href="g-home.html" data-go="g-home"><i class="ph ph-sign-out" aria-hidden="true"></i><div class="list-row__text">Sign out</div></a>
+    </div>
+  </section>
+  <p class="mn-foot">Lokali by The Habitat Group · v1.0</p>
+</main>
 
   <nav class="tabbar" data-tabs="host" data-active="h-menu"></nav>
-
 
   <script>
   (function () { /* compact title appears once the large title scrolls away */
@@ -62,7 +112,7 @@ addEventListener('scroll', f, { passive: true }); f();
   })();
   </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-menu', [["Host", "Pak Rahim Osman"], ["Status", "Verified"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-menu', [["Host", "Aina Rahman · verified, since 20 Nov 2026"], ["Numbers", "5.0 · 11 guests · 42 meals"], ["Money", "RM 408 on Sun 6 Dec · CIMB •• 3307"], ["Mode", "Switch to guest"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

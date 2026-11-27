@@ -15,81 +15,78 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Host Reviews in Airy (2 Dec), same look as the guest All reviews page. 3 reviews: no bars, no tabs (all 5 stars, a handful of rows).
+   The one without a reply comes first with a small Reply pill; posted replies sit under their review. */
+.rs { padding: 8px 24px 16px; }
+.rs-score b { display: block; font-size: 30px; line-height: 34px; font-weight: 700; color: var(--ink); }
+.rs-score .stars { display: flex; gap: 2px; color: var(--star); font-size: 14px; margin-top: 4px; }
+.rs-score small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 4px; }
+.rvl { padding: 0 24px calc(var(--home, 0px) + 32px); }
+.rvi { padding: 16px 0; border-top: 1px solid var(--line); }
+.rvi-head { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; }
+.rvi-head img, .rvi-head .ini { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.rvi-head .ini { display: grid; place-items: center; background: var(--sand); color: var(--ink); font-weight: 600; font-size: 15px; }
+.rvi-head b { display: block; font-size: 15px; line-height: 22px; font-weight: 600; } .rvi-head small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); }
+.rvi-stars { display: flex; gap: 2px; color: var(--star); font-size: 13px; }
+.rvi p { margin-top: 10px; font-size: 15px; line-height: 22px; color: var(--text); }
+.rvi-reply { margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: var(--surface); font-size: 15px; line-height: 20px; }
+.rvi-reply b { display: block; font-size: 13px; line-height: 18px; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.rvi-todo { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; font-size: 13px; line-height: 18px; color: var(--muted); }
+.rvi-todo .btn { flex: none; min-height: 32px !important; padding: 0 14px; font-size: 13px; position: relative; }
+.rvi-todo .btn::after { content: ""; position: absolute; inset: -6px 0; } /* 44 px tap */
+.rvi.is-new { animation: rvIn .3s var(--ease); } @keyframes rvIn { from { opacity: .4; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .rvi.is-new { animation: none; } }
+</style>
 </head>
 <body class="m">
-  <header class="appbar appbar--flow">
-    <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
-    <h1 class="appbar__title">Reviews</h1>
-    <span class="spacer"></span>
-  </header>
+<header class="appbar appbar--flow">
+  <button class="icon-btn" data-go="h-menu" aria-label="Back"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+  <h1 class="appbar__title">Reviews</h1>
+  <span class="spacer"></span>
+</header>
 
-  <section class="reveal pad" style="padding-top:8px">
-    <p class="sum-note" style="margin:0 0 12px">2 reviews are waiting for a reply. Replies show on the listing.</p>
-    <div class="card row" style="gap:20px;align-items:center">
-      <div class="center"><p class="bal-amt" style="margin:0;font-size:40px;line-height:44px">4.96</p><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div><p class="xs muted mt1">128 reviews</p></div>
-      <div class="rbars">
-        <span>5</span><span class="track"><i style="width:94%"></i></span>
-        <span>4</span><span class="track"><i style="width:5%"></i></span>
-        <span>3</span><span class="track"><i style="width:1%"></i></span>
-        <span>2</span><span class="track"><i style="width:0"></i></span>
-        <span>1</span><span class="track"><i style="width:0"></i></span>
-      </div>
-    </div>
-  </section>
+<section class="rs" aria-label="Rating summary">
+  <div class="rs-score"><b>5.0</b><span class="stars" aria-label="5.0 out of 5"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span><small>3 reviews · Kuih morning in a PJ community garden</small></div>
+</section>
 
-  <div class="tabs mt4" data-group>
-    <button class="active" data-panel="#need">Needs a reply <span class="badge badge--danger">2</span></button>
-    <button data-panel="#done">Replied</button>
-  </div>
+<main class="rvl" id="list"></main>
 
-  <section id="need" class="list" style="margin:var(--s4)">
-    <div class="review">
-      <div class="row"><span class="avatar sm">OB</span><div class="grow"><b>Hidayah Salleh</b><p class="xs muted">Mon, 30 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div></div>
-      <p class="mt2">Magical. Pak Rahim paddled us out in total silence and we just drifted under thousands of fireflies. His son explained how the mangroves protect the village from floods.</p>
-      <div class="row mt2" style="gap:8px"><img data-img="1773904594755-6c25ab2ef6c9" data-w="120" alt="Guest photo" style="width:56px;height:56px;border-radius:10px;object-fit:cover"><img data-img="1786717667687-2f05e422d6f9" data-w="120" alt="Guest photo" style="width:56px;height:56px;border-radius:10px;object-fit:cover"></div>
-      <button class="btn btn--tint btn--sm mt3" data-open="#reply" data-who="Hidayah"><i class="ph ph-arrow-bend-up-left" aria-hidden="true"></i>Reply</button>
-    </div>
-    <div class="review">
-      <div class="row"><span class="avatar sm">AF</span><div class="grow"><b>Ahmad Faiz</b><p class="xs muted">Mon, 30 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph ph-star"></i></div></div>
-      <p class="mt2">Great guide and very peaceful. We wished we had a little more time with the fireflies.</p>
-      <button class="btn btn--tint btn--sm mt3" data-open="#reply" data-who="Ahmad"><i class="ph ph-arrow-bend-up-left" aria-hidden="true"></i>Reply</button>
-    </div>
-  </section>
+<div class="sheet" id="reply" role="dialog" aria-labelledby="replyTitle">
+  <h2 class="sheet-title" id="replyTitle">Reply to Daniel</h2>
+  <p class="small muted mt1">Your reply shows under the review on your listing.</p>
+  <textarea class="textarea mt3" id="replyText" rows="4" aria-label="Your reply">Thank you, Daniel! Your kids were great at picking pandan. Hope to see you all at the next harvest.</textarea>
+  <div class="sheet-foot"><button class="btn btn--primary btn--block" id="post">Post reply</button></div>
+</div>
 
-  <section id="done" class="list" style="margin:var(--s4)" hidden>
-    <div class="review">
-      <div class="row"><span class="avatar sm">LY</span><div class="grow"><b>Chong Li Ying</b><p class="xs muted">Sun, 22 Nov · Mangrove & fireflies</p></div><div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div></div>
-      <p class="mt2">Best thing we did in Malaysia. Loved that 20% goes to replanting.</p>
-      <div class="host-reply"><b>Reply from Pak Rahim</b>Thank you Li Ying! Come back in March, the trees you funded will be planted by then.</div>
-    </div>
-  </section>
-
-  <div class="sheet" id="reply" role="dialog" aria-label="Reply to review">
-    <h2 class="is-h3 sheet-title" id="replyTitle">Reply to Hidayah</h2>
-    <p class="small muted mt1">Replies are public</p>
-    <textarea class="textarea mt3" id="replyText" aria-label="Reply">Thank you Hidayah! My son Hafiz was happy to share. Hope to see you again on the river.</textarea>
-    
-    <div class="sheet-foot"><button class="btn btn--primary btn--block" id="post">Post reply</button></div>
-  </div>
-  <div style="height:24px"></div>
-
-  <script>
-  (function () {
-    var who = 'Hidayah';
-    document.querySelectorAll('[data-who]').forEach(function (b) { b.addEventListener('click', function () {
-      who = b.getAttribute('data-who');
-      document.getElementById('replyTitle').textContent = 'Reply to ' + who;
-      document.getElementById('replyText').value = who === 'Ahmad' ? 'Terima kasih Ahmad! Good point. We now stay a little longer at the firefly trees before paddling back.' : 'Thank you Hidayah! My son Hafiz was happy to share. Hope to see you again on the river.';
-    }); });
-    document.getElementById('post').addEventListener('click', function () {
-      var btn = document.querySelector('[data-who="' + who + '"]'), r = document.createElement('div');
-      r.className = 'host-reply'; r.innerHTML = '<b>Reply from Pak Rahim</b>'; r.appendChild(document.createTextNode(document.getElementById('replyText').value));
-      btn.replaceWith(r); L.close(); L.toast('Reply posted');
-    });
-  })();
-  </script>
+<script>
+(function () {
+  var R = L.hosting.reviews;   /* Daniel Wong (no reply yet), Chloe Lim, Suresh Kumar */
+  function stars(n) { var h = ''; for (var k = 0; k < 5; k++) h += '<i class="' + (k < n ? 'ph-fill' : 'ph') + ' ph-star" aria-hidden="true"></i>'; return '<span class="rvi-stars" aria-label="' + n + ' out of 5 stars">' + h + '</span>'; }
+  function ini(n) { return n.split(' ').map(function (w) { return w[0]; }).join('').slice(0, 2); }
+  function item(r, i) {
+    var p = r.who && L.people[r.who];
+    return '<article class="rvi" id="rv' + i + '"><div class="rvi-head">' + (p ? '<img src="' + L.img(p.img, 96) + '" alt="">' : '<span class="ini" aria-hidden="true">' + ini(r.name) + '</span>') +
+      '<div><b>' + r.name + '</b><small>' + r.date.replace('Nov', 'November') + '</small></div>' + stars(r.stars) + '</div><p>' + r.text + '</p>' +
+      (r.reply ? '<div class="rvi-reply"><b>Your reply</b>' + r.reply + '</div>'
+               : '<div class="rvi-todo"><span>No reply yet</span><button class="btn btn--secondary btn--sm" data-open="#reply" data-i="' + i + '">Reply</button></div>') + '</article>';
+  }
+  var order = R.map(function (r, i) { return i; }).sort(function (a, b) { return (R[a].reply ? 1 : 0) - (R[b].reply ? 1 : 0); });
+  var list = document.getElementById('list');
+  list.innerHTML = order.map(function (i) { return item(R[i], i); }).join('');
+  var cur = 0;
+  list.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (!b) return; cur = +b.getAttribute('data-i'); document.getElementById('replyTitle').textContent = 'Reply to ' + R[cur].name.split(' ')[0]; }, true);
+  document.getElementById('post').addEventListener('click', function () {
+    var t = document.getElementById('replyText').value.trim(); if (!t) return;
+    var box = document.querySelector('#rv' + cur + ' .rvi-todo'), r = document.createElement('div');
+    r.className = 'rvi-reply'; r.innerHTML = '<b>Your reply</b>'; r.appendChild(document.createTextNode(t));
+    if (box) box.replaceWith(r); document.getElementById('rv' + cur).classList.add('is-new');
+    L.close(); L.toast('Reply posted');
+  });
+})();
+</script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-reviews', [["Rating", "4.96 · 128 reviews"], ["Needs reply", "2"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-reviews', [["Rating", "5.0 · 3 reviews"], ["Needs a reply", "1 · Daniel Wong"], ["Replied", "Chloe Lim, Suresh Kumar"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>

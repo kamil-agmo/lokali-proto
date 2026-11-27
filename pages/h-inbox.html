@@ -15,46 +15,59 @@
   <script src="../js/lokali.js?v=0.36.0"></script>
   <script src="../js/art.js?v=0.36.0"></script>
   <script src="../js/data.js?v=0.36.0"></script>
+<style>
+/* Host Inbox in Airy (2 Dec), same pattern as the guest Inbox: one list, newest first, each thread says what it is about
+   in a plain status line (booking date and group, or enquiry). No filters or badges: 4 threads need none.
+   One listing only, so the listing thumbnail and title per row were cut (they said the same thing four times). */
+.thread { display: flex; gap: 12px; align-items: flex-start; padding: 16px 24px !important; color: var(--ink); cursor: pointer; text-decoration: none; }
+.thread + .thread { border-top: 1px solid var(--line); }
+.thread .av { flex: none; width: 48px; height: 48px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: var(--sand); color: var(--ink); font-size: 15px; font-weight: 600; }
+.thread .body { flex: 1; min-width: 0; }
+.thread .top { display: flex; justify-content: space-between; gap: 8px; }
+.thread .top b { font-size: 15px; line-height: 21px; font-weight: 600; }
+.thread .top time { flex: none; font-size: 12px; line-height: 21px; color: var(--muted); }
+.thread.unread .top time { color: var(--ink); font-weight: 600; }
+.thread .prev { display: block; font-size: 15px; line-height: 21px; margin-top: 2px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thread.unread .prev { color: var(--ink); font-weight: 600; }
+.thread .st { display: block; margin-top: 6px; font-size: 12px; line-height: 17px; color: var(--muted); }
+.thread .st--up { color: var(--ink); font-weight: 600; }
+.udot { width: 10px; height: 10px; border-radius: 50%; background: var(--brand); flex: none; margin-top: 6px; }
+/* guest-mode messages: one plain line, like the guest Inbox's note */
+.mode-note { margin: 4px 24px 8px !important; }
+.mode-note i { color: var(--muted) !important; }
+.mode-note b { color: var(--ink) !important; }
+.ib-in { animation: ibIn .25s var(--ease); } @keyframes ibIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ib-in { animation: none; } }
+</style>
 </head>
 <body class="m">
 <div class="lt-bar" aria-hidden="true">Inbox</div>
-<header class="lt"><h1>Inbox</h1><p>1 unread · 1 enquiry · replying within an hour gets more bookings</p></header>
-<a class="mode-note" href="g-inbox.html" data-go="g-inbox"><i class="ph ph-suitcase-rolling" aria-hidden="true"></i><span class="grow">Own trips · Guest inbox</span><b>Switch</b></a>
+<header class="lt"><h1>Inbox</h1></header>
+<a class="mode-note" href="g-inbox.html" data-switch="guest" data-switch-to="g-inbox"><i class="ph ph-suitcase-rolling" aria-hidden="true"></i><span class="grow" id="gNote">Messages about your own trips</span><b>Switch</b></a>
+<main id="threads" style="padding-bottom:calc(var(--home, 0px) + 110px)"></main>
 
-  <div class="chips mt4" data-group id="filt">
-    <button class="chip active" data-value="all">All</button>
-    <button class="chip" data-value="unread">Unread <span class="badge badge--danger" style="padding:0 8px">1</span></button>
-    <button class="chip" data-value="enq">Enquiries <span class="badge" style="padding:0 8px">1</span></button>
-  </div>
-  <div class="list mt4" style="margin-inline:var(--s4)" id="threads">
-    <div class="thread" data-k="booked" data-go="h-chat">
-      <div class="av-wrap"><img class="avatar" data-img="1545266241-3516e2a6e016" data-w="120" alt=""><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
-      <div class="thread__body"><div class="row-between"><b>Aina Rahman</b><span class="xs faint">9:05 AM</span></div><span class="xs muted">Booked · Sun, 6 Dec · LK-24817</span><p>You: Hello Aina! Yes, Adam is very welcome…</p></div>
-    </div>
-    <div class="thread" data-k="enq" data-go="h-chat">
-      <div class="av-wrap"><span class="avatar">JL</span><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
-      <div class="thread__body"><div class="row-between"><b>Jason Lim</b><span class="xs faint">Yesterday</span></div><span class="xs"><span class="badge badge--info" style="padding:0 8px">Enquiry · not booked</span></span><p>You: Yes, a private boat for 4 is RM 980. Want me to…</p></div>
-    </div>
-    <div class="thread" data-k="booked" data-go="h-chat">
-      <div class="av-wrap"><img class="avatar" data-img="1613447895817-e617a4093f50" data-w="120" alt=""><img class="mini" data-img="1773904594755-6c25ab2ef6c9" data-w="60" alt=""></div>
-      <div class="thread__body"><div class="row-between"><b>Nur Aisyah Kamal</b><span class="xs faint">Mon</span></div><span class="xs muted">Booked · Today, 5:00 PM</span><p>Terima kasih Pak Rahim, see you at the jetty.</p></div>
-    </div>
-    <div class="thread unread" data-k="unread lokali" data-go="h-listings">
-      <div class="av-wrap"><span class="avatar" style="background:var(--primary);color:#fff"><i class="ph-fill ph-leaf" aria-hidden="true"></i></span></div>
-      <div class="thread__body"><div class="row-between"><b>Lokali team</b><span class="xs faint">Yesterday</span></div><span class="xs muted">About: Mangrove replanting morning</span><p>2 changes needed before going live</p></div>
-      <span class="ud" aria-label="Unread"></span>
-    </div>
-  </div>
-  <div class="empty" id="none" hidden><i class="ph ph-chat-circle" aria-hidden="true"></i><b>Nothing here</b><p class="small muted">Messages from guests show up here.</p></div>
-  <nav class="tabbar" data-tabs="host" data-active="h-inbox"></nav>
-
+<nav class="tabbar" data-tabs="host" data-active="h-inbox"></nav>
   <script>
   (function () {
-    document.getElementById('filt').addEventListener('pick', function (e) {
-      var f = e.detail, n = 0;
-      document.querySelectorAll('#threads .thread').forEach(function (t) { var show = f === 'all' || t.getAttribute('data-k').indexOf(f) > -1; t.hidden = !show; if (show) n++; });
-      document.getElementById('none').hidden = n > 0;
-    });
+/* [thread key, name, photo id or initials, last message, time, booked?, status line] — newest first. Prototype "today" = Wed 2 Dec. */
+var T = [
+  ['aisyah', 'Nur Aisyah Kamal', L.people.aisyah.img, 'Irfan is allergic to peanuts. Is any of the kuih made with peanuts?', '9:12 AM', true, 'Booked · Sat, 5 Dec · 3 guests'],
+  ['hafiz', 'Hafiz Ismail', 'HI', 'You: Yes, all three kuih are vegetarian. See you Saturday!', '8:41 AM', true, 'Booked · Sat, 5 Dec · 1 guest'],
+  ['priya', 'Priya Nair', 'PN', 'You: Yes, along Jalan SS 3/37, right by the garden gate.', 'Tue', true, 'Booked · Sat, 5 Dec · 2 guests'],
+  ['farah', 'Farah Hanim', 'FH', 'You: Yes, every Saturday at 9:00 AM, and 12 Dec is open.', 'Mon', false, 'Enquiry · not booked']
+];
+var read = []; try { read = JSON.parse(sessionStorage.getItem('lk-h-read') || '[]'); } catch (e) {}
+function unread(k) { return k === 'aisyah' && read.indexOf(k) < 0; }   /* matches the tab bar's 1 */
+function row(t) {
+  var av = t[2].length > 3 ? '<img class="av" src="' + L.img(t[2], 120) + '" alt="">' : '<span class="av" aria-hidden="true">' + t[2] + '</span>';
+  return '<a class="thread' + (unread(t[0]) ? ' unread' : '') + '" href="h-chat.html" data-go="h-chat" data-thread="' + t[0] + '">' + av +
+    '<span class="body"><span class="top"><b>' + t[1] + '</b><time>' + t[4] + '</time></span><span class="prev">' + t[3] + '</span><span class="st' + (t[5] ? ' st--up' : '') + '">' + t[6] + '</span></span>' +
+    (unread(t[0]) ? '<span class="udot" aria-label="Unread"></span>' : '') + '</a>';
+}
+var m = document.getElementById('threads'); m.innerHTML = T.map(row).join(''); m.classList.add('ib-in');
+m.addEventListener('click', function (e) { var a = e.target.closest('[data-thread]'); if (a) try { sessionStorage.setItem('lk-h-thread', a.dataset.thread); } catch (x) {} }, true);
+/* her guest-mode inbox: say how many unread wait there, from the guest read-state */
+var g = L.unread ? L.unread() : 0; if (g) document.getElementById('gNote').textContent = 'Your own trips · ' + g + ' unread';
   })();
   </script>
   <script>
@@ -65,7 +78,7 @@ addEventListener('scroll', f, { passive: true }); f();
   })();
   </script>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-inbox', [["Unread", "1"], ["Enquiries", "1 (before booking)"]]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-inbox', [["Threads", "4, newest first"], ["Unread", "1 · Nur Aisyah (peanut allergy)"], ["Enquiries", "1 · Farah Hanim"]]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>
   <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>
