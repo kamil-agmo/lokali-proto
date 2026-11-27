@@ -14,15 +14,15 @@
   L.people = {
     // hosts
     rahim:  { name: 'Pak Rahim Osman', first: 'Rahim', img: '1763219069500-e4c9b49f308f', home: 'Kampung Kuantan, Kuala Selangor', since: 2025, lang: 'English, Malay' },
-    siti:   { name: 'Siti Aminah Yusof', first: 'Siti', img: '1586682643135-060f061868b6', home: 'Kuala Terengganu', since: 2025, lang: 'English, Malay' },
+    siti:   { name: 'Siti Aminah Yusof', first: 'Siti', img: '1586682643135-060f061868b6', home: 'Marang, Terengganu', since: 2025, lang: 'English, Malay' },
     kumar:  { name: 'Kumar Selvaraj', first: 'Kumar', img: '1531339413195-cc6c17163974', home: 'Air Itam, Penang', since: 2024, lang: 'English, Malay, Tamil' },
     meiling:{ name: 'Lim Mei Ling', first: 'Mei Ling', img: '1758600587815-b654d1405e83', home: 'Sekinchan, Selangor', since: 2025, lang: 'English, Mandarin, Malay' },
-    jenny:  { name: 'Jenny Tan', first: 'Jenny', img: '1773899337978-b8d83bd9b783', home: 'George Town, Penang', since: 2025, lang: 'English, Hokkien' },
+    jenny:  { name: 'Jenny Tan', first: 'Jenny', img: '1773899337978-b8d83bd9b783', home: 'Balik Pulau, Penang', since: 2025, lang: 'English, Hokkien' },
     jaineh: { name: 'Jaineh Mosiun', first: 'Jaineh', img: '1731375817631-dff8d5db12fc', home: 'Bilit, Kinabatangan, Sabah', since: 2025, lang: 'English, Malay, Kadazan' },
     vinod:  { name: 'Vinod Raj', first: 'Vinod', img: '1638368349569-e49499196d9f', home: 'Kampung Juara, Pulau Tioman', since: 2025, lang: 'English, Malay, Tamil' },
     rusli:  { name: 'Bah Rusli', first: 'Rusli', img: '1776612977754-42c61550a89f', home: 'Pulau Banding, Royal Belum', since: 2025, lang: 'Malay, Temiar' },
     // guests
-    aina:   { name: 'Aina Rahman', first: 'Aina', img: '1545266241-3516e2a6e016', home: 'Petaling Jaya', since: 2026, lang: 'English, Malay' },   // guest, and since 20 Nov 2026 also a host (host mode)
+    aina:   { name: 'Aina Rahman', first: 'Aina', img: '1545266241-3516e2a6e016', home: 'Petaling Jaya', hosts: 'Kampung Sungai Lui, Hulu Langat', since: 2026, lang: 'English, Malay' },   // guest (lives in PJ); since 20 Nov 2026 also hosts on her grandmother's farm (host mode)
     daniel: { name: 'Daniel Wong', first: 'Daniel', img: '1701980889802-55ff39e2e973', home: 'Ipoh' },
     aisyah: { name: 'Nur Aisyah Kamal', first: 'Aisyah', img: '1613447895817-e617a4093f50', home: 'Shah Alam' }
   };
@@ -30,18 +30,18 @@
     mangrove: { id: 'mangrove', title: 'Mangrove & fireflies by kampung boat', promise: 'Paddle the Selangor River at dusk and watch the mangroves light up.', cat: 'nature', place: 'Kuala Selangor, Selangor',
       img: '1773904594755-6c25ab2ef6c9', gallery: ['1773904594755-6c25ab2ef6c9', '1779399642977-7c6bfd7bc472', '1589556183130-530470785fab', '1784751449882-c2c28ca2dd78', '1646513378626-23493fccf7c9', '1786717667687-2f05e422d6f9'],
       price: 145, child: 95, priv: 980, rating: 4.96, reviews: 128, duration: '3.5 hours', group: '2–10', host: 'rahim', policy: 'Moderate', type: 'day', impact: '20% of each ticket plants mangroves', lang: 'English, Malay' },
-    batik: { id: 'batik', title: 'Hand-drawn batik with a Terengganu artisan', promise: 'Wax, dye and take home a piece you made with Kak Siti.', cat: 'culture', place: 'Kuala Terengganu',
+    batik: { id: 'batik', title: 'Natural-dye batik in a kampung', promise: 'Dye cloth with leaves and bark from the village, then wax your own piece with Kak Siti.', cat: 'culture', place: 'Marang, Terengganu',
       img: '1762111908768-f49f42610859', gallery: ['1762111908768-f49f42610859', '1695306441929-0082158cfc27', '1761516659766-c092d4b1209d', '1604973104381-870c92f10343', '1743210343060-97602cbcc04d'],
-      price: 120, child: 80, priv: 720, rating: 4.92, reviews: 86, duration: '3 hours', group: '1–8', host: 'siti', policy: 'Flexible', type: 'day', impact: 'Keeps a 3rd-generation craft alive' },
+      price: 120, child: 80, priv: 720, rating: 4.92, reviews: 86, duration: '3 hours', group: '1–8', host: 'siti', policy: 'Flexible', type: 'day', impact: 'Plant dyes only, nothing toxic in the river' },
     canopy: { id: 'canopy', title: 'Rainforest canopy walk & hornbill watch', promise: 'Walk a 130-million-year-old forest with a naturalist at first light.', cat: 'nature', place: 'Penang Hill, Penang',
       img: '1786530876393-8ad44d32e2de', gallery: ['1786530876393-8ad44d32e2de', '1657463420259-1c92c609f89e', '1592080231635-58456a85c693', '1698802933641-b185747ae391', '1760044604355-458eef15ac64'],
       price: 180, child: 120, priv: 1150, rating: 4.89, reviews: 214, duration: '4 hours', group: '2–12', host: 'kumar', policy: 'Moderate', type: 'day', impact: '15% of each ticket aids research' },
     paddy: { id: 'paddy', title: 'Paddy-to-plate farm day', promise: 'Plant rice knee-deep in the field, then eat what the farm grows.', cat: 'farm', place: 'Sekinchan, Selangor',
       img: '1595974482597-4b8da8879bc5', gallery: ['1595974482597-4b8da8879bc5', '1505471768190-275e2ad7b3f9', '1530507629858-e4977d30e9e0', '1633410195091-bd66114cef5f', '1528693404014-b13ebe6e723e'],
       price: 160, child: 90, priv: 950, rating: 4.85, reviews: 63, duration: '5 hours', group: '2–15', host: 'meiling', policy: 'Moderate', type: 'day', impact: 'Supports 6 local family farms' },
-    nyonya: { id: 'nyonya', title: 'Nyonya kitchen: zero-waste cooking class', promise: 'Cook four Peranakan dishes and learn to waste nothing.', cat: 'farm', place: 'George Town, Penang',
+    nyonya: { id: 'nyonya', title: 'Wild herb walk & Nyonya farm lunch', promise: 'Walk a nutmeg and durian orchard, pick wild herbs, then cook a Nyonya lunch from them.', cat: 'farm', place: 'Balik Pulau, Penang',
       img: '1722995690313-9ef561d30143', gallery: ['1722995690313-9ef561d30143', '1679541946014-a47f1ec0dc1a', '1778439800378-6f67fd8ec219', '1789475387509-8e62ba3beb09', '1658218615053-955e8af55947'],
-      price: 210, child: 140, priv: 1300, rating: 4.97, reviews: 152, duration: '4 hours', group: '2–8', host: 'jenny', policy: 'Firm', type: 'day', impact: 'Leftovers go to a community farm' },
+      price: 210, child: 140, priv: 1300, rating: 4.97, reviews: 152, duration: '4 hours', group: '2–8', host: 'jenny', policy: 'Firm', type: 'day', impact: 'Kitchen scraps compost back into the orchard' },
     reef: { id: 'reef', title: 'Reef restoration snorkel', promise: 'Help plant coral fragments on a living reef nursery.', cat: 'nature', place: 'Pulau Tioman, Pahang',
       img: '1708649290066-5f617003b93f', gallery: ['1708649290066-5f617003b93f', '1637308109237-4ea1a7dd22f5', '1682686581663-179efad3cd2f', '1651871756929-09d7bde4e97d', '1637308107080-82cf40953742'],
       price: 260, child: 180, priv: 1600, rating: 4.9, reviews: 97, duration: '5 hours', group: '2–8', host: 'vinod', policy: 'Moderate', type: 'day', impact: '25% of each ticket regrows the reef' },
@@ -57,23 +57,23 @@
   };
   /* Aina's own listing (host mode, 27 Nov): she books Pak Rahim's mangrove trip as a guest and hosts this class as a host.
      Photos reuse food / farm photo IDs already in this file (swap for kuih photos when browsing for photos). */
-  L.exp.kuih = { id: 'kuih', title: 'Kuih morning in a PJ community garden', promise: 'Pick pandan and banana leaves in a city garden, then steam three kinds of kuih.', cat: 'farm', place: 'Petaling Jaya, Selangor',
-    img: '1679541946014-a47f1ec0dc1a', gallery: ['1679541946014-a47f1ec0dc1a', '1505471768190-275e2ad7b3f9', '1778439800378-6f67fd8ec219', '1530507629858-e4977d30e9e0', '1658218615053-955e8af55947'],
-    price: 85, child: 55, priv: 480, rating: 5.0, reviews: 3, duration: '2.5 hours', group: '2–8', host: 'aina', policy: 'Flexible', type: 'day', impact: 'Leftover kuih go to a PJ food bank', lang: 'English, Malay', when: 'Saturdays 9:00 AM' };
+  L.exp.kuih = { id: 'kuih', title: 'Forest-edge farm walk & kuih morning', promise: 'Walk the forest edge of a kampung farm, pick pandan and banana leaves, then steam kuih from the harvest.', cat: 'farm', place: 'Hulu Langat, Selangor',
+    img: '1505471768190-275e2ad7b3f9', gallery: ['1505471768190-275e2ad7b3f9', '1530507629858-e4977d30e9e0', '1658218615053-955e8af55947', '1778439800378-6f67fd8ec219', '1679541946014-a47f1ec0dc1a'],
+    price: 85, child: 55, priv: 480, rating: 5.0, reviews: 3, duration: '2.5 hours', group: '2–8', host: 'aina', policy: 'Flexible', type: 'day', impact: '10% plants native trees on the forest edge', lang: 'English, Malay', when: 'Saturdays 9:00 AM' };
   /* Aina as a host: approved Fri 20 Nov 2026; classes Sat 21 Nov (4 guests) and Sat 28 Nov (7 guests); next Sat 5 Dec 9:00–11:30 AM.
      Money: 15% commission; payout ~24 h after each class. */
   L.hosting = {
-    host: 'aina', exp: 'kuih', approved: 'Fri, 20 Nov 2026', place: 'Taman Komuniti SS3, Jalan SS 3/37, 47300 Petaling Jaya',
+    host: 'aina', exp: 'kuih', approved: 'Fri, 20 Nov 2026', place: 'Kebun Nenek, Kampung Sungai Lui, 43100 Hulu Langat',
     next: { ref: 'LK-24852', date: 'Sat, 5 Dec', time: '9:00 – 11:30 AM', guests: 6, cap: 8, allergy: '1 peanut allergy', gross: 480, commission: 72, payout: 408, payoutDate: 'Sun, 6 Dec' },
     guests: [ // Sat 5 Dec
       { name: 'Nur Aisyah Kamal', who: 'aisyah', ref: 'LK-24852', adults: 2, children: 1, note: 'Son is allergic to peanuts', paid: 225, booked: 'Tue, 1 Dec' },
       { name: 'Priya Nair', ref: 'LK-24858', adults: 2, children: 0, note: '', paid: 170, booked: 'Tue, 1 Dec' },
       { name: 'Hafiz Ismail', ref: 'LK-24861', adults: 1, children: 0, note: 'Vegetarian', paid: 85, booked: 'Wed, 2 Dec' } ],
     past: [ { date: 'Sat, 28 Nov', guests: 7, gross: 565, payout: 480.25, paid: 'Sun, 29 Nov' }, { date: 'Sat, 21 Nov', guests: 4, gross: 340, payout: 289, paid: 'Sun, 22 Nov' } ],
-    reviews: [ { name: 'Daniel Wong', who: 'daniel', date: 'Nov 2026', stars: 5, text: 'Picking pandan in the middle of PJ, then eating kuih we steamed ourselves. My kids loved it.', reply: '' },
+    reviews: [ { name: 'Daniel Wong', who: 'daniel', date: 'Nov 2026', stars: 5, text: 'Walking the forest edge, picking pandan, then eating kuih we steamed ourselves. My kids loved it.', reply: '' },
       { name: 'Chloe Lim', date: 'Nov 2026', stars: 5, text: 'Aina explains every step and sends you home with a recipe card. Lovely morning.', reply: 'Thank you, Chloe! See you at the next harvest.' },
-      { name: 'Suresh Kumar', date: 'Nov 2026', stars: 5, text: 'Good to know the leftovers go to the food bank. Small group, very relaxed.', reply: 'Thanks Suresh, 42 meals so far!' } ],
-    bank: 'CIMB •• 3307', paidNov: 769.25, mealsGiven: 42 };
+      { name: 'Suresh Kumar', date: 'Nov 2026', stars: 5, text: 'Good to know part of it plants trees on the forest edge. Small group, very relaxed.', reply: 'Thanks Suresh, 42 trees so far!' } ],
+    bank: 'CIMB •• 3307', paidNov: 769.25, treesPlanted: 42 };
 
   // The booking that runs through the whole prototype (guest books it, host sees it, admin manages it)
   L.booking = { ref: 'LK-24817', exp: 'mangrove', guest: 'aina', date: 'Sun, 6 Dec 2026', time: '5:00 PM – 8:30 PM', adults: 2, children: 1,
@@ -91,8 +91,8 @@
       Firm:     { full: '60 days or more before start', partial: '50% at 30–59 days', none: 'Under 30 days', default: true }
     }
   };
-  L.stamps = { mangrove: ['20%', 'to trees'], batik: ['3rd', 'gen craft'], canopy: ['15%', 'research'], paddy: ['6', 'farms'], nyonya: ['0', 'waste'],
-    reef: ['25%', 'to reef'], orangutan: ['2', 'rangers'], weaving: ['100%', 'weavers'], retreat: ['10%', 'guides'], kuih: ['42', 'meals'] };
+  L.stamps = { mangrove: ['20%', 'to trees'], batik: ['0', 'toxic dye'], canopy: ['15%', 'research'], paddy: ['6', 'farms'], nyonya: ['100%', 'composted'],
+    reef: ['25%', 'to reef'], orangutan: ['2', 'rangers'], weaving: ['100%', 'weavers'], retreat: ['10%', 'guides'], kuih: ['42', 'trees'] };
   /* heart on cards: toggles red and shows a toast, without opening the card */
   document.addEventListener('click', function (ev) {
     var b = ev.target.closest && ev.target.closest('.exp-card__fav'); if (!b) return;

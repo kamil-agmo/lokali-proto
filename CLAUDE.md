@@ -11,6 +11,7 @@ The user's rules win over any skill. Commands the user types: **THINK**, **MIMS*
 @.claude/rules/mims.md
 @.claude/rules/dupe.md
 @.claude/rules/flow-logic.md
+@.claude/rules/eco-listings.md
 @.claude/rules/cptr.md
 @.claude/rules/read-intent.md
 @.claude/rules/airy-style.md

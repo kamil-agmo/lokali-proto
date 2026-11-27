@@ -13,7 +13,7 @@ State as of 27 Nov 2026, version **0.37.0** (see `CHANGELOG.md` for every change
 
 Live link: https://kamil-agmo.github.io/lokali-proto/ (repo kamil-agmo/lokali-proto; push main, GitHub Pages deploys in ~1 min; run tools/stamp-version.py after each version bump).
 
-Host mode (since 0.37.0): Aina is also a host, of "Kuih morning in a PJ community garden"; switch with the Hosting pill on guest Home (approved hosts) or Switch to guest on host Today. Pak Rahim stays the admin's assisted-onboarding host.
+Host mode (since 0.37.0): Aina is also a host, of "Forest-edge farm walk & kuih morning" on her grandmother's farm in Hulu Langat (no listing is set in a city); switch with the Hosting pill on guest Home (approved hosts) or Switch to guest on host Today. Pak Rahim stays the admin's assisted-onboarding host.
 
 
 Pak Rahim's **Mangrove & fireflies by kampung boat** (Kuala Selangor) is the only fully written experience; guest Aina Rahman books it for Sun 6 Dec. Every test path should lead there (Home → Featured → experience page → Book now → checkout → confirmed → My bookings → chat).

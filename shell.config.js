@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "Booking platform · Prototype v1",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.37.0",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.38.0",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/habitat-logo.png",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: null,           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
@@ -103,10 +103,10 @@ window.SHELL = {
       parts: ["4 threads: Nur Aisyah (peanut allergy, unread), Hafiz, Priya, Farah (enquiry)", "Plain status line per thread, no filters", "Link to her guest-mode messages"] },
     'h-chat': { group: 'Host', title: 'Chat with guest', src: 'pages/h-chat.html', desc: "Chat with Nur Aisyah Kamal about her son's peanut allergy before the Sat 5 Dec class, from the host side.",
       parts: ["Guest header with call", "Booking strip docked under it: Sat, 5 Dec · 9:00 AM · LK-24852", "Booking confirmed line and the allergy question", "Saved replies: No peanuts, Directions, What to bring"] },
-    'h-reviews': { group: 'Host', title: 'Reviews', src: 'pages/h-reviews.html', desc: "Reviews of the kuih morning, with public replies. Daniel's still needs one.",
+    'h-reviews': { group: 'Host', title: 'Reviews', src: 'pages/h-reviews.html', desc: "Reviews of the forest-edge farm morning, with public replies. Daniel's still needs one.",
       parts: ["5.0 · 3 reviews", "Daniel Wong first, with Reply", "Chloe and Suresh with her replies", "Reply sheet: replies are public on the listing"] },
     'h-listings': { group: 'Host', title: 'My listings', src: 'pages/h-listings.html', desc: "Aina's listings: her live kuih class and one draft.",
-      parts: ["Live: Kuih morning in a PJ community garden (★ 5.0, RM 85, next Sat 5 Dec 6 of 8) → builder", "Preview as guest → guest listing in preview", "Draft: Pandan dye workshop, 6 of 11 required", "New listing"] },
+      parts: ["Live: Forest-edge farm walk & kuih morning (★ 5.0, RM 85, next Sat 5 Dec 6 of 8) → builder", "Preview as guest → guest listing in preview", "Draft: Pandan dye workshop, 6 of 11 required", "New listing"] },
     'h-builder': { group: 'Host', title: 'Listing builder', src: 'pages/h-builder.html', desc: "The guided listing builder: 14 sections in the order guests see them, each done / required / optional. Live listings open here to edit; drafts show progress, Save draft and Submit for review.",
       parts: ["Live view: Preview as guest, edits go back to review", "14 sections with what's done or missing", "Draft: progress line, required checks block Submit", "Meet your guide and Price and policy open their steps"] },
     'h-step-guide': { group: 'Host', title: 'Builder: Meet your guide', src: 'pages/h-step-guide.html', desc: "Builder section 6: personal prompts so a host never faces a blank page, shown with Aina's answers.",
@@ -118,7 +118,7 @@ window.SHELL = {
     'h-bank': { group: 'Host', title: 'Bank details', src: 'pages/h-bank.html', desc: "The Malaysian bank account payouts go to, and how to change it.",
       parts: ["CIMB •• 3307, verified Fri 20 Nov", "Bank, holder name, account number", "Payouts pause until a new account is verified"] },
     'h-menu': { group: 'Host', title: 'Menu', src: 'pages/h-menu.html', desc: "Aina's host profile and everything else for hosting: money, bookings, reviews, help, switch to guest.",
-      parts: ["Her photo with the verified tick; 5.0 · 11 guests · 42 meals", "Money: Earnings, Bank details", "Hosting: Bookings, Reviews, Host profile", "Help", "Switch to guest, Sign out"] },
+      parts: ["Her photo with the verified tick; 5.0 · 11 guests · 42 trees planted", "Money: Earnings, Bank details", "Hosting: Bookings, Reviews, Host profile", "Help", "Switch to guest, Sign out"] },
 
     /* ---------- Admin portal (desktop) ---------- */
     'a-login': { group: 'Admin', title: 'Admin sign in', src: 'pages/a-login.html', device: 'desktop', desc: 'Staff sign-in; access depends on role.', parts: ['Email + password', 'Forgot password', 'Brand panel'] },

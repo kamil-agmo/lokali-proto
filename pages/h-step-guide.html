@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Builder: Meet your guide</title>
-  <script src="../shell.config.js?v=0.37.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
+  <script src="../shell.config.js?v=0.38.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
-  <script src="../js/lokali.js?v=0.37.0"></script>
-  <script src="../js/art.js?v=0.37.0"></script>
-  <script src="../js/data.js?v=0.37.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
+  <script src="../js/lokali.js?v=0.38.0"></script>
+  <script src="../js/art.js?v=0.38.0"></script>
+  <script src="../js/data.js?v=0.38.0"></script>
 <style>
 /* Meet your guide in Airy (27 Nov): Aina's photo and name, 4 personal prompts as open fields split by hairlines, an example on each empty one.
    Cut: boxed prompt cards, the header Save (same as the bottom button) and the bottom Back (same as the header Back). */
@@ -62,7 +62,7 @@ html body.m .cta-bar .btn { flex: 1; }
     </div>
     <div class="sg-fields">
       <div class="field"><label for="gn">Name guests see</label><input class="input" id="gn" value="Aina"></div>
-      <div class="field"><label for="ht">Hometown</label><input class="input" id="ht" value="Petaling Jaya, Selangor"></div>
+      <div class="field"><label for="ht">Hometown</label><input class="input" id="ht" value="Hulu Langat, Selangor"></div>
     </div>
 
     <section class="sg-sec" aria-labelledby="pr-h">
@@ -73,7 +73,7 @@ html body.m .cta-bar .btn { flex: 1; }
 
     <section class="sg-sec" aria-labelledby="vd-h">
       <h2 id="vd-h">Intro video</h2>
-      <p>Optional. A 30-second hello from the garden.</p>
+      <p>Optional. A 30-second hello from the farm.</p>
       <div class="sg-vid" data-sheet="video" role="button" tabindex="0"><i class="ph ph-video-camera" aria-hidden="true"></i><div class="grow"><b>Record a hello</b><small>Up to 60 seconds</small></div><span class="sg-pill">Add</span></div>
     </section>
   </main>
@@ -83,8 +83,8 @@ html body.m .cta-bar .btn { flex: 1; }
   (function () {
     /* [prompt, Aina's answer, example shown on an empty prompt] */
     var P = [
-      ['Where I grew up', 'In SS3, two streets from this garden. My grandmother sold kuih at the Sunday pasar pagi, and I was her helper.', ''],
-      ['Why I started this', 'The garden grows more pandan than we can use. Teaching kuih keeps the old recipes alive, and the leftovers feed families at the food bank.', ''],
+      ['Where I grew up', 'In Kampung Sungai Lui, on this farm at the forest edge. My grandmother sold kuih at the Sunday pasar pagi, and I was her helper.', ''],
+      ['Why I started this', 'The farm grows more pandan than we can use. Teaching kuih keeps the old recipes alive, and the leftovers feund native trees we plant on the forest edge.', ''],
       ['Something guests always ask me', 'Why is my kuih lapis not in neat layers? Patience: one thin layer at a time, and never open the steamer early.', ''],
       ['My favourite spot', '', 'The bench under the banana trees, where we unwrap the first kuih together.']
     ];
@@ -100,9 +100,9 @@ html body.m .cta-bar .btn { flex: 1; }
     document.getElementById('save').addEventListener('click', function () { L.toast('Saved'); setTimeout(function () { if (L.navPrev() === 'h-builder') L.back(); else L.go('h-builder'); }, 600); /* lands on the builder without stacking it twice */ });
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.37.0"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-guide', [["Listing", "Kuih morning in a PJ community garden"], ["Section", "6 of 14 · Meet your guide"], ["Prompts", "3 of 4 answered (3 needed)"], ["Video", "Optional"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
+  <script src="../js/shared/embed.js?v=0.38.0"></script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('h-step-guide', [["Listing", "Forest-edge farm walk &amp; kuih morning"], ["Section", "6 of 14 · Meet your guide"], ["Prompts", "3 of 4 answered (3 needed)"], ["Video", "Optional"]]);</script>
+  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
 </body>
 </html>

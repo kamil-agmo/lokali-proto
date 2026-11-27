@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Become a host</title>
-  <script src="../shell.config.js?v=0.37.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
+  <script src="../shell.config.js?v=0.38.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
-  <script src="../js/lokali.js?v=0.37.0"></script>
-  <script src="../js/art.js?v=0.37.0"></script>
-  <script src="../js/data.js?v=0.37.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
+  <script src="../js/lokali.js?v=0.38.0"></script>
+  <script src="../js/art.js?v=0.38.0"></script>
+  <script src="../js/data.js?v=0.38.0"></script>
 <style>
 /* Sign-up in Airy (27 Nov): one title per step, open fields, plain rows, no tinted boxes; Aina's guest details filled in (Q13) */
 .su { padding: 16px 24px 24px; }
@@ -80,7 +80,7 @@ section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { a
       <div class="field"><label for="ph">Mobile number</label><input class="input" id="ph" value="+60 17-284 5306" inputmode="tel" autocomplete="tel"><span class="hint">For booking alerts. Guests can't see it.</span></div>
       <div class="field"><label for="em">Email</label><input class="input" id="em" value="aina.rahman@gmail.com" inputmode="email" autocomplete="email"></div>
       <div class="field"><label for="story">Your story</label>
-        <textarea class="textarea" id="story" rows="5">I grew up in PJ helping my grandmother make kuih for the Sunday pasar pagi. Now I volunteer at our SS3 community garden, where we grow pandan, banana and butterfly pea.</textarea>
+        <textarea class="textarea" id="story" rows="5">I grew up spending weekends on my grandmother's farm in Kampung Sungai Lui, helping her make kuih for the Sunday pasar pagi. Now I look after the farm at the forest edge, where we grow pandan, banana and butterfly pea.</textarea>
         <div class="counter" id="storyN">33 / 120 words</div>
       </div>
     </div>
@@ -96,10 +96,10 @@ section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { a
         <div data-value="ngo" role="radio" aria-checked="false"><span class="dot"></span><div><b>Community group or NGO</b><small>Koperasi, residents' association, registered society</small></div></div>
         <div data-value="ind" role="radio" aria-checked="false"><span class="dot"></span><div><b>Licensed guide</b><small>MOTAC nature or tourist guide</small></div></div>
       </div>
-      <div class="field"><label for="bn">Business name</label><input class="input" id="bn" value="Dapur Kuih Aina"></div>
+      <div class="field"><label for="bn">Business name</label><input class="input" id="bn" value="Kebun Nenek Aina"></div>
       <div class="field"><label for="ssm">SSM registration number</label><input class="input" id="ssm" value="202603112458"><span class="hint">12 digits, on your SSM certificate</span></div>
-      <div class="field"><label for="addr">Where you'll host</label><textarea class="textarea" id="addr" rows="2">Taman Komuniti SS3, Jalan SS 3/37, 47300 Petaling Jaya</textarea><span class="hint">Shown to guests only after they book</span></div>
-      <div class="field"><label for="idea">Your first experience</label><input class="input" id="idea" value="Kuih morning in a PJ community garden"><span class="hint">You'll build the full listing once approved</span></div>
+      <div class="field"><label for="addr">Where you'll host</label><textarea class="textarea" id="addr" rows="2">Kebun Nenek, Kampung Sungai Lui, 43100 Hulu Langat</textarea><span class="hint">Shown to guests only after they book</span></div>
+      <div class="field"><label for="idea">Your first experience</label><input class="input" id="idea" value="Forest-edge farm walk &amp; kuih morning"><span class="hint">You'll build the full listing once approved</span></div>
     </div>
   </section>
 
@@ -124,7 +124,7 @@ section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { a
     <div class="su-body">
       <div class="su-rows">
         <div class="su-row" data-edit="1"><i class="ph ph-user" aria-hidden="true"></i><div class="grow"><b>About you</b><small>Aina Rahman · +60 17-284 5306</small></div><span class="su-pill">Edit</span></div>
-        <div class="su-row" data-edit="2"><i class="ph ph-storefront" aria-hidden="true"></i><div class="grow"><b>Your business</b><small>Dapur Kuih Aina · Petaling Jaya</small></div><span class="su-pill">Edit</span></div>
+        <div class="su-row" data-edit="2"><i class="ph ph-storefront" aria-hidden="true"></i><div class="grow"><b>Your business</b><small>Kebun Nenek Aina · Hulu Langat</small></div><span class="su-pill">Edit</span></div>
         <div class="su-row" data-edit="3"><i class="ph ph-files" aria-hidden="true"></i><div class="grow"><b>Documents</b><small id="docSum">2 of 4 added · IC still needed</small></div><span class="su-pill">Edit</span></div>
       </div>
       <div class="su-terms on" id="terms" role="checkbox" aria-checked="true" tabindex="0"><span class="box"><i class="ph ph-check" aria-hidden="true"></i></span><span>I agree to the Lokali Host Terms and the Lokali sustainability standards.</span></div>
@@ -133,7 +133,7 @@ section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { a
 
   <div class="cta-bar"><button class="btn btn--primary" id="next">Next</button></div>
 
-  <script src="../js/shared/embed.js?v=0.37.0"></script>
+  <script src="../js/shared/embed.js?v=0.38.0"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-signup', [["Step", "1 of 4"], ["Applicant", "Aina Rahman"], ["Filled in", "Name, mobile, email from her account"]]);</script>
   <script>
   (function () {
@@ -181,7 +181,7 @@ section.in-fwd { animation: stepFwd .38s var(--ease) both; } section.in-back { a
     if (start > 1 && start <= n) show(start);
   })();
   </script>
-  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
 </body>
 </html>

@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Chat with guest</title>
-  <script src="../shell.config.js?v=0.37.0"></script>
-  <script src="../js/shared/lock-guard.js?v=0.37.0"></script>
+  <script src="../shell.config.js?v=0.38.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.38.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.37.0">
-  <link rel="stylesheet" href="../css/host.css?v=0.37.0">
-  <script src="../js/lokali.js?v=0.37.0"></script>
-  <script src="../js/art.js?v=0.37.0"></script>
-  <script src="../js/data.js?v=0.37.0"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.38.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.38.0">
+  <script src="../js/lokali.js?v=0.38.0"></script>
+  <script src="../js/art.js?v=0.38.0"></script>
+  <script src="../js/data.js?v=0.38.0"></script>
 <style>
 /* Host Chat in Airy (2 Dec), the guest Chat pattern from the host side: header with the guest, a booking strip docked under it
    (full width, white, hairline: it stays while messages scroll), one plain safety line, short saved replies above the composer. */
@@ -46,7 +46,7 @@ body.m .sys.sys--safe { background: none !important; padding: 4px 12px; font-siz
   <div class="grow chat-who"><h1 class="sr-only">Chat with Nur Aisyah Kamal</h1><b>Nur Aisyah Kamal</b><span>Guest · Shah Alam</span></div>
   <button class="icon-btn" aria-label="Call guest" data-toast="Nur Aisyah Kamal · +60 12-418 2290" data-toast-icon="ph-phone"><i class="ph ph-phone" aria-hidden="true"></i></button>
 </header>
-<a class="pin-card" href="h-booking.html" data-go="h-booking" aria-label="View booking LK-24852: Saturday 5 December, 9:00 AM, 2 adults and 1 child"><img data-img="1679541946014-a47f1ec0dc1a" data-w="120" alt=""><div class="grow"><b>Sat, 5 Dec · 9:00 AM</b><span>2 adults, 1 child · LK-24852</span></div><i class="ph ph-caret-right" aria-hidden="true"></i></a>
+<a class="pin-card" href="h-booking.html" data-go="h-booking" aria-label="View booking LK-24852: Saturday 5 December, 9:00 AM, 2 adults and 1 child"><img data-img="1505471768190-275e2ad7b3f9" data-w="120" alt=""><div class="grow"><b>Sat, 5 Dec · 9:00 AM</b><span>2 adults, 1 child · LK-24852</span></div><i class="ph ph-caret-right" aria-hidden="true"></i></a>
 
 <main class="chat" id="chat">
   <span class="bubble-time">Tue, 1 Dec</span>
@@ -66,7 +66,7 @@ body.m .sys.sys--safe { background: none !important; padding: 4px 12px; font-siz
   <script>
   (function () {
 var chat = document.getElementById('chat'), inp = document.getElementById('msg');
-var DIR = ['Directions', 'We meet at Taman Komuniti SS3, Jalan SS 3/37, Petaling Jaya. Park along the road; the garden gate is beside the community hall.'];
+var DIR = ['Directions', 'We meet at Kebun Nenek, Kampung Sungai Lui, Hulu Langat. Park on the kampung road, by the farm gate.'];
 var BRING = ['What to bring', 'Bring a hat and shoes that can get muddy. Aprons and boxes for your kuih are provided.'];
 /* one chat screen, four conversations: the Inbox stores which thread was tapped */
 var TH = {
@@ -77,8 +77,8 @@ var TH = {
     msgs: [['t', 'Today, 8:20 AM'], ['sys', 'Booking confirmed · Wed, 2 Dec'], ['in', 'Hi Aina, just booked! I\'m vegetarian, is that OK?'], ['t', '8:41 AM'], ['out', 'Yes, all three kuih are vegetarian. See you Saturday!']],
     quick: [DIR, BRING] },
   priya: { name: 'Priya Nair', first: 'Priya', ini: 'PN', sub: 'Guest', pin: ['Sat, 5 Dec · 9:00 AM', '2 adults · LK-24858'], phone: '+60 16-775 0142',
-    msgs: [['t', 'Tue, 1 Dec'], ['sys', 'Booking confirmed · Tue, 1 Dec'], ['in', 'Is there parking near the garden?'], ['out', 'Yes, along Jalan SS 3/37, right by the garden gate.']],
-    quick: [BRING, ['Rain plan', 'If it rains we steam under the garden shelter, so the class still runs.']] },
+    msgs: [['t', 'Tue, 1 Dec'], ['sys', 'Booking confirmed · Tue, 1 Dec'], ['in', 'Is there parking at the farm?'], ['out', 'Yes, on the kampung road, right by the farm gate.']],
+    quick: [BRING, ['Rain plan', 'If it rains we steam under the farm shelter, so the morning still runs.']] },
   farah: { name: 'Farah Hanim', first: 'Farah', ini: 'FH', sub: 'Guest', enquiry: true,
     msgs: [['t', 'Mon, 30 Nov'], ['in', 'Hi Aina, do you have a class on Sat 12 Dec? We\'d be 5 adults.'], ['out', 'Yes, every Saturday at 9:00 AM, and 12 Dec is open.']],
     quick: [['Private group', 'For a group of 5 you can also book the whole class privately for RM 480.'], DIR] }
@@ -93,8 +93,8 @@ if (!T.keep) {
   var call = bar.querySelector('[aria-label="Call guest"]'); if (T.phone) call.setAttribute('data-toast', T.name + ' · ' + T.phone); else call.remove();
   var pc = document.querySelector('.pin-card');
   if (T.enquiry) {   /* not booked: the strip names the listing they asked about and does not open a booking */
-    pc.removeAttribute('href'); pc.removeAttribute('data-go'); pc.setAttribute('role', 'group'); pc.setAttribute('aria-label', 'Enquiry about Kuih morning in a PJ community garden, not booked');
-    pc.querySelector('b').textContent = 'Kuih morning in a PJ community garden'; pc.querySelector('span').textContent = 'Enquiry · not booked'; pc.querySelector('.ph-caret-right').remove();
+    pc.removeAttribute('href'); pc.removeAttribute('data-go'); pc.setAttribute('role', 'group'); pc.setAttribute('aria-label', 'Enquiry about Forest-edge farm walk &amp; kuih morning, not booked');
+    pc.querySelector('b').textContent = 'Forest-edge farm walk &amp; kuih morning'; pc.querySelector('span').textContent = 'Enquiry · not booked'; pc.querySelector('.ph-caret-right').remove();
   } else {
     pc.querySelector('b').textContent = T.pin[0]; pc.querySelector('span').textContent = T.pin[1]; pc.setAttribute('aria-label', 'View booking: ' + T.pin[0] + ', ' + T.pin[1]);
   }
@@ -119,9 +119,9 @@ document.getElementById('qr').addEventListener('click', function (e) { var c = e
 window.addEventListener('load', function () { window.scrollTo(0, document.body.scrollHeight); });
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.37.0"></script>
+  <script src="../js/shared/embed.js?v=0.38.0"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-chat', [["Guest", "Nur Aisyah Kamal"], ["Booking", "LK-24852 · Sat 5 Dec, 9:00 AM"], ["About", "Son Irfan's peanut allergy"], ["Saved replies", "3"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.37.0"></script>
-  <script src="../js/shared/credits-badge.js?v=0.37.0"></script>
+  <script src="../js/shared/credits-data.js?v=0.38.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.38.0"></script>
 </body>
 </html>
