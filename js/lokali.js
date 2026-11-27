@@ -29,8 +29,49 @@
     if (!id) return;
     var embedded = false; try { embedded = window.parent !== window && !!window.parent.SHELL; } catch (e) {}
     if (embedded && !window.parent.SHELL.pages[id]) { window.open(new URL((id.indexOf('a-') === 0 ? 'admin.html' : 'index.html') + '#' + id, window.parent.location.href).href, '_blank', 'noopener'); return; }   // the page lives in the other link (index.html / admin.html)
+    try { sessionStorage.setItem('lk-nav-intent', id); } catch (e) {}   /* marks an in-app move, so the next page joins the back history */
     if (embedded) window.parent.location.hash = id; else location.href = id + '.html';
   };
+
+  /* Back follows the path actually taken (27 Nov, flow-logic rule): each screen reached inside the app is added to a history;
+     a Back / Close with data-go returns to the previous screen in it, and only falls back to its data-go when there is none
+     (opened from the presenter menu or directly). Tab bar taps start a new history at that tab. */
+  (function () {
+    var me = (location.pathname.split('/').pop() || '').replace(/\.html$/, ''); if (!me) return;
+    function get() { try { return JSON.parse(sessionStorage.getItem('lk-nav') || '[]'); } catch (e) { return []; } }
+    function put(a) { try { sessionStorage.setItem('lk-nav', JSON.stringify(a.slice(-30))); } catch (e) {} }
+    var intent = null; try { intent = sessionStorage.getItem('lk-nav-intent'); sessionStorage.removeItem('lk-nav-intent'); } catch (e) {}
+    var ref = (document.referrer.split('#')[0].split('?')[0].split('/').pop() || '').replace(/\.html$/, '');
+    var fromPage = /^[gha]-/.test(ref) && document.referrer.indexOf('/pages/') > -1;
+    var st = get();
+    if (intent === 'back:' + me) { while (st.length && st[st.length - 1] !== me) st.pop(); if (!st.length) st = [me]; }
+    else if (intent === 'root:' + me) st = [me];
+    else if (intent === me || fromPage) { if (st[st.length - 1] !== me) st.push(me); }
+    else st = [me];                                   /* presenter menu, reload or direct open */
+    /* one-off steps leave the history once passed: Back from Checkout goes to Choose date, not Sign in;
+       a finished booking or application never leads Back into its form */
+    var DONE = { 'g-checkout': ['g-signin'], 'g-confirmed': ['g-book', 'g-signin', 'g-checkout'], 'h-status': ['h-intro', 'h-signup'] };
+    if (DONE[me]) st = st.filter(function (x, i) { return i === st.length - 1 || DONE[me].indexOf(x) < 0; });
+    put(st);
+    L.navPrev = function () { var a = get(); return a.length > 1 ? a[a.length - 2] : null; };
+    L.back = function (fallback) {                    /* go to the previous screen in the history, else to fallback */
+      var prev = L.navPrev(); if (!prev) { if (fallback) L.go(fallback); return; }
+      var a = get(); a.pop(); put(a);
+      try { sessionStorage.setItem('lk-nav-intent', 'back:' + prev); } catch (e2) {}
+      var embedded = false; try { embedded = window.parent !== window && !!window.parent.SHELL; } catch (e3) {}
+      if (embedded) window.parent.location.hash = prev; else location.href = prev + '.html';
+    };
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[aria-label="Back"], [aria-label="Close"]'); if (!b) return;
+      var fixed = b.getAttribute('data-go') || ((b.getAttribute('onclick') || '').indexOf('L.go(') > -1 ? '*' : null); if (!fixed) return;
+      if (!L.navPrev()) return;                       /* no history: the button's own target runs */
+      e.preventDefault(); e.stopPropagation(); L.back();
+    }, true);
+    document.addEventListener('click', function (e) {   /* tab bar: a new history starts at that tab */
+      var t = e.target.closest && e.target.closest('.tabbar [data-go]'); if (!t) return;
+      setTimeout(function () { try { sessionStorage.setItem('lk-nav-intent', 'root:' + t.getAttribute('data-go')); } catch (e2) {} }, 0);
+    }, true);
+  })();
   /* Host mode switch (27 Nov, suggestion extending Q13): a one-second "Switching to …" moment, then the other mode's first screen.
      Switching to guest marks the account as an approved host, so guest Home shows the Hosting pill. */
   L.switchMode = function (to) {
@@ -39,7 +80,7 @@
     ov.innerHTML = '<span class="mode-switch__me"><img src="' + L.img(host ? '1763219069500-e4c9b49f308f' : '1545266241-3516e2a6e016', 200) + '" alt=""><i class="ph-fill ph-seal-check" aria-hidden="true"></i></span><b>' + (host ? 'Switching to hosting' : 'Switching to guest') + '</b><small>' + (host ? 'Listings, bookings and earnings' : 'Trips and bookings') + '</small><span class="mode-switch__bar"><i></i></span>';
     if (!host) L.state.set('hostStatus', 'approved');
     document.body.appendChild(ov); requestAnimationFrame(function () { ov.classList.add('is-in'); });
-    setTimeout(function () { L.go(host ? 'h-home' : 'g-home'); }, 1000);
+    setTimeout(function () { var to = host ? 'h-home' : 'g-home'; L.go(to); try { sessionStorage.setItem('lk-nav-intent', 'root:' + to); } catch (e) {} }, 1000);
   };
   document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('[data-switch]'); if (!b) return; e.preventDefault(); e.stopPropagation(); L.switchMode(b.getAttribute('data-switch')); }, true);
   L.img = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 800) + '&q=70&auto=format&fit=crop'; };
