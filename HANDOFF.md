@@ -35,7 +35,7 @@ Pak Rahim's **Mangrove & fireflies by kampung boat** (Kuala Selangor) is the onl
 2. **Admin styling** — deliberately left for last; do it only when the user asks.
 3. **Old mocks** `explore/listing-long.html`, `listing-fixes.html`, `search-ideas.html` change pages inside iframes, so they only work through a local server; rebuild them self-contained if used again (mock rules).
 4. **Public GitHub repo `axttd/lokali-compare`** (compare pages) — the user planned to delete it.
-5. **Presenter menu green** in `js/shell/theme.js` still uses the old green #2F5D3A (presenter frame only).
+5. ~~Presenter menu green~~ fixed in 0.46.2 (logo green).
 6. **Brand rose vs action red**: the logo's rose (#C56969) isn't used in the app; action buttons stay #D7263D for contrast (decided 27 Nov).
 
 ## References

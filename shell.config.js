@@ -3,13 +3,13 @@
    The password is checked in the browser, so it is a soft gate: it keeps casual visitors out, it is not security. */
 window.SHELL = {
   name: "Lokali",
-  tag: "Booking platform · Prototype v1",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.46.1",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
-  logo: "assets/habitat-logo.png",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
-  logoLock: null,           // logo for the lock screen's dark background (a light or white version); null uses `logo`
+  tag: "by The Habitat Group · Prototype",                      // the subtitle under the logo (or the name) in the left card; '' hides it
+  version: "0.46.2",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  logo: "assets/brand/lockup-humanist-green.svg",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
+  logoLock: "assets/brand/lockup-humanist-white.svg",           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
   theme: {
-    accent: "#2F5D3A",              // the colour the shell highlights and the lock screen glow/tint come from: use the prototype's brand colour
+    accent: "#37664A",              // the colour the shell highlights and the lock screen glow/tint come from: use the prototype's brand colour
     // accentStrong: '#1d4ed8',         // optional: the darker shade for text on tints (default: derived from accent)
     // lockBg: '#0b1b2b',               // optional: the lock screen's dark background (default: a dark tint of the accent)
     // font: '"Inter", system-ui, sans-serif',  // optional: font for the shell and lock screen (default: the system font)

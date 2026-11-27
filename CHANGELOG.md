@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.46.2 · 2026-11-27
+- Presenter (app and admin): the left card shows the Lokali logo, mark + wordmark (assets/brand/lockup-humanist-green.svg; white version for the lock screen), with "by The Habitat Group · Prototype" under it (was only The Habitat Group logo, so testers never saw the product's own brand). Presenter green is now the logo green #37664A / #1C522C (was the old #2F5D3A; handoff item 5).
+
 ## 0.46.1 · 2026-11-27
 - Admin on ultrawide screens: the whole portal (sidebar + content) is capped at 1680 px and centred, with a slightly darker page around it; content keeps its 1440 px cap, also when a page is opened on its own.
 

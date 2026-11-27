@@ -3,7 +3,7 @@
   'use strict';
   var r = document.documentElement.style;
   r.setProperty('--bg', '#F3F3F1'); r.setProperty('--panel', '#FFFFFF'); r.setProperty('--ink', '#222222'); r.setProperty('--muted', '#6A6A6A'); r.setProperty('--line', '#EBEBEB');
-  r.setProperty('--accent', '#2F5D3A'); r.setProperty('--accent-strong', '#1F4128');
+  r.setProperty('--accent', '#37664A'); r.setProperty('--accent-strong', '#1C522C');
   r.setProperty('--font', '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif');
   var st = document.createElement('style');
   st.textContent = '@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");' +
