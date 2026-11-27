@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.0 · 2026-11-27
+- Host mode (suggestion, Q13; from explore/host-mode.html, options B + 2 + 3):
+  - Guest Home: a Hosting pill top-right of the cover (her photo, verified tick, red dot when something waits), shown to approved hosts only. It appears after Switch to guest, or Account › host demo › Approved.
+  - Switching either way shows a one-second moment: photo, "Switching to hosting" / "Switching to guest", progress line (L.switchMode in js/lokali.js; any element with data-switch="host|guest").
+  - Host Today: top line "Hosting · Wed, 2 Dec" in eco green; the profile photo there became a "Switch to guest" pill (Menu tab still opens the profile).
+  - Account (approved) and host Menu › Switch to guest use the same moment.
+  - Not changed: guest mode is Aina, host mode is Pak Rahim (story decision still open).
+
 ## 0.35.2 · 2026-11-27
 - Mock: explore/host-mode.html, where an approved host switches to hosting (Account only / Hosting pill on the Home cover / strip under search) and how host mode shows (tab bar only / switch moment / "Hosting" label + Switch to guest). Suggestion, extends Q13.
 

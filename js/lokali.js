@@ -31,6 +31,17 @@
     if (embedded && !window.parent.SHELL.pages[id]) { window.open(new URL((id.indexOf('a-') === 0 ? 'admin.html' : 'index.html') + '#' + id, window.parent.location.href).href, '_blank', 'noopener'); return; }   // the page lives in the other link (index.html / admin.html)
     if (embedded) window.parent.location.hash = id; else location.href = id + '.html';
   };
+  /* Host mode switch (27 Nov, suggestion extending Q13): a one-second "Switching to …" moment, then the other mode's first screen.
+     Switching to guest marks the account as an approved host, so guest Home shows the Hosting pill. */
+  L.switchMode = function (to) {
+    var host = to === 'host', ov = document.createElement('div');
+    ov.className = 'mode-switch'; ov.setAttribute('role', 'status');
+    ov.innerHTML = '<span class="mode-switch__me"><img src="' + L.img(host ? '1763219069500-e4c9b49f308f' : '1545266241-3516e2a6e016', 200) + '" alt=""><i class="ph-fill ph-seal-check" aria-hidden="true"></i></span><b>' + (host ? 'Switching to hosting' : 'Switching to guest') + '</b><small>' + (host ? 'Listings, bookings and earnings' : 'Trips and bookings') + '</small><span class="mode-switch__bar"><i></i></span>';
+    if (!host) L.state.set('hostStatus', 'approved');
+    document.body.appendChild(ov); requestAnimationFrame(function () { ov.classList.add('is-in'); });
+    setTimeout(function () { L.go(host ? 'h-home' : 'g-home'); }, 1000);
+  };
+  document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('[data-switch]'); if (!b) return; e.preventDefault(); e.stopPropagation(); L.switchMode(b.getAttribute('data-switch')); }, true);
   L.img = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + (w || 800) + '&q=70&auto=format&fit=crop'; };
   L.rm = function (n, dp) { var d = dp === undefined ? (n % 1 ? 2 : 0) : dp; return 'RM ' + Number(n).toLocaleString('en-MY', { minimumFractionDigits: d, maximumFractionDigits: d }); };
   L.toast = function (msg, icon) {

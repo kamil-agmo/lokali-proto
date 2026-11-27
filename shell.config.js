@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "Booking platform · Prototype v1",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.35.2",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.36.0",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/habitat-logo.png",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: null,           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
@@ -40,7 +40,7 @@ window.SHELL = {
   pages: {
     /* ---------- Guest: discover ---------- */
     'g-home': { group: 'Guest', title: 'Home', src: 'pages/g-home.html', desc: 'Where tourists start: search, browse the four categories and featured experiences. Browsing needs no account.',
-      parts: ['Search pill (where · when · who)', 'Category chips', 'Featured this month (admin-picked, mangrove first)', 'Impact so far (suggestion, Q14)', 'More to explore', 'Team days banner (corporate enquiry)', 'Tab bar'] },
+      parts: ['Hosting pill, top right: approved hosts only, red dot when something waits (suggestion, Q13; shows after Switch to guest or Account › Approved)', 'Search pill (where · when · who)', 'Category chips', 'Featured this month (admin-picked, mangrove first)', 'Impact so far (suggestion, Q14)', 'More to explore', 'Team days banner (corporate enquiry)', 'Tab bar'] },
     'g-search': { group: 'Guest', title: 'Search & filters', src: 'pages/g-search.html', desc: 'Airbnb-style search: Where first, then When, Who, Category and Price. Dates, guests and price open in bottom sheets; each choice shows on the right of its row.',
       parts: ['Where with place suggestions', 'When (bottom sheet)', 'Who (bottom sheet)', 'Category pills, pick several', 'Price range (bottom sheet)', 'Show N experiences'] },
     'g-results': { group: 'Guest', title: 'Results (list ⇄ map)', src: 'pages/g-results.html', desc: 'Search results as a list with a Map / List switch; filters stay one tap away.',
@@ -78,7 +78,7 @@ window.SHELL = {
     'g-corporate': { group: 'Guest', title: 'Corporate enquiry', src: 'pages/g-corporate.html', desc: 'For companies booking team-building or CSR: an enquiry form; Lokali replies with a quote offline.',
       parts: ['Why book with Lokali for teams', 'Company + contact', 'Group size, preferred dates, budget', 'Interests', 'Preferred area, experience, anything else (suggestion, Q17)', 'Send enquiry + sent state'] },
     'g-account': { group: 'Guest', title: 'Account', src: 'pages/g-account.html', desc: 'Her profile in the Host profile style: trip photo, round photo, Edit profile, trips / reviews / given back, Become a host (highlighted), settings, help, and Delete account set apart (PDPA).',
-      parts: ['Trip photo + round profile photo', 'Edit profile', 'Trips taken, review written, given back', 'Become a host (highlighted)', 'Settings', 'Help', 'Download data, Sign out', 'Delete account (danger, set apart)'] },
+      parts: ['Trip photo + round profile photo', 'Edit profile', 'Trips taken, review written, given back', 'Become a host (highlighted); when approved: Switch to hosting', 'Settings', 'Help', 'Download data, Sign out', 'Delete account (danger, set apart)'] },
 
     /* ---------- Host ---------- */
     'h-intro': { group: 'Become a host', title: 'Intro', src: 'pages/h-intro.html', desc: 'A welcome screen before sign-up: animated illustration of a host on the river, what the 4 steps are, and an Okay button.', parts: ['Animated host illustration', '4 steps preview', 'Okay → step 1'] },
@@ -87,7 +87,7 @@ window.SHELL = {
     'h-status': { group: 'Become a host', title: 'Application status', src: 'pages/h-status.html', desc: 'What happens after applying: in review, changes requested with the admin note, approved.',
       parts: ['Status timeline', 'Admin note (changes requested)', 'Fix and resubmit', 'Start your first listing (when approved)'] },
     'h-home': { group: 'Host', title: 'Today', src: 'pages/h-home.html', desc: "The host's home: today's and upcoming bookings, payouts on the way and things to do.",
-      parts: ['Greeting + next experience', "Today's guests", 'Upcoming bookings', 'Payout on the way', 'To-dos (reply, finish listing)', 'Tab bar'] },
+      parts: ['"Hosting · Wed, 2 Dec" label + Switch to guest pill (suggestion, Q13)', 'Greeting + next experience', "Today's guests", 'Upcoming bookings', 'Payout on the way', 'To-dos (reply, finish listing)', 'Tab bar'] },
     'h-calendar': { group: 'Host', title: 'Calendar', src: 'pages/h-calendar.html', desc: 'Month view of every slot: booked, open, full and blocked dates. Tap a day to manage it.',
       parts: ['Listing picker', 'Month grid with slot dots', 'Day sheet: slots, capacity, block date', 'Add slot button'] },
     'h-slot': { group: 'Host', title: 'Add time slots', src: 'pages/h-slot.html', desc: 'Recurring or one-off slots with a capacity; slots close automatically when full.',
@@ -116,7 +116,7 @@ window.SHELL = {
     'h-bank': { group: 'Host', title: 'Bank details', src: 'pages/h-bank.html', desc: 'The Malaysian bank account payouts go to.',
       parts: ['Bank picker', 'Account holder + number', 'Verification state'] },
     'h-menu': { group: 'Host', title: 'Menu', src: 'pages/h-menu.html', desc: 'Everything else for hosts: profile, earnings, reviews, bank details, help, switch to guest.',
-      parts: ['Host profile', 'Earnings, reviews, bank details', 'Help', 'Switch to guest'] },
+      parts: ['Host profile', 'Earnings, reviews, bank details', 'Help', 'Switch to guest (with the switch moment)'] },
 
     /* ---------- Admin portal (desktop) ---------- */
     'a-login': { group: 'Admin', title: 'Admin sign in', src: 'pages/a-login.html', device: 'desktop', desc: 'Staff sign-in; access depends on role.', parts: ['Email + password', 'Forgot password', 'Brand panel'] },

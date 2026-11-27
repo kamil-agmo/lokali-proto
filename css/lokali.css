@@ -1021,3 +1021,20 @@ body.m .lt { padding: calc(var(--sb) + 44px) 24px 8px !important; }
 .wordmark__img { display: block; height: 1.35em; width: auto; }
 /* Eco green from the Lokali logo (27 Nov): leaves #37664A, wordmark #1C522C. Red stays for actions. */
 :root { --primary: #37664A; --primary-strong: #1C522C; --primary-tint: #E8F0EA; }
+
+/* Host mode switch (27 Nov): the one-second moment between modes, and the pills that start it (top-right in both modes) */
+.mode-switch { position: fixed; inset: 0; z-index: 200; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; opacity: 0; transition: opacity .2s ease; }
+.mode-switch.is-in { opacity: 1; }
+.mode-switch__me { position: relative; width: 96px; height: 96px; margin-bottom: 8px; } .mode-switch__me img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.mode-switch__me .ph-seal-check { position: absolute; right: -2px; bottom: -2px; font-size: 30px; color: #1D9BF0; background: #fff; border-radius: 50%; }
+.mode-switch b { font-size: 18px; line-height: 24px; font-weight: 700; color: var(--ink); } .mode-switch small { font-size: 13px; line-height: 18px; color: var(--muted); }
+.mode-switch__bar { width: 120px; height: 3px; margin-top: 8px; border-radius: 2px; background: var(--line); overflow: hidden; } .mode-switch__bar i { display: block; width: 0; height: 100%; background: var(--ink); animation: modebar .9s ease forwards; }
+@keyframes modebar { to { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .mode-switch { transition: none; } .mode-switch__bar i { animation: none; width: 100%; } }
+.mode-pill { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px 0 3px; border: 0; border-radius: 999px; background: #fff; color: var(--ink) !important; font: 600 14px/1 var(--font); cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.12); }
+.mode-pill__me { position: relative; width: 34px; height: 34px; flex: none; } .mode-pill__me img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
+.mode-pill__me .ph-seal-check { position: absolute; right: -4px; bottom: -4px; font-size: 16px; color: #1D9BF0; background: #fff; border-radius: 50%; }
+.mode-pill__dot { position: absolute; top: -1px; right: -1px; width: 12px; height: 12px; border-radius: 50%; background: var(--brand); border: 2px solid #fff; }
+.mode-pill--plain { min-height: 36px; padding: 0 14px; gap: 6px; border: 1px solid var(--line); box-shadow: none; font-size: 13px; }
+.mode-pill--plain .ph { font-size: 16px; }
+.mode-pill::after { content: ""; position: absolute; inset: -4px 0; } /* 44 px tap height */

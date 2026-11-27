@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Home</title>
-  <script src="../shell.config.js?v=0.35.2"></script>
-  <script src="../js/shared/lock-guard.js?v=0.35.2"></script>
+  <script src="../shell.config.js?v=0.36.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.36.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.35.2">
-  <script src="../js/lokali.js?v=0.35.2"></script>
-  <script src="../js/art.js?v=0.35.2"></script>
-  <script src="../js/data.js?v=0.35.2"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.36.0">
+  <script src="../js/lokali.js?v=0.36.0"></script>
+  <script src="../js/art.js?v=0.36.0"></script>
+  <script src="../js/data.js?v=0.36.0"></script>
   <style>
     .hero { padding: calc(var(--sb) + 4px) 16px 56px; display: flex; flex-direction: column; }
     .hero .top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
@@ -162,12 +162,17 @@
     <img class="cover__img" id="coverImg" alt="">
     <div class="top">
       <span class="row" style="gap:12px"><span class="wordmark"><i class="ph-fill ph-leaf" aria-hidden="true"></i>lokali</span></span>
-      <button class="icon-btn" aria-label="Notifications" data-toast="No new notifications" data-toast-icon="ph-bell"><i class="ph ph-bell" aria-hidden="true"></i></button>
+      <span class="row" style="gap:4px">
+        <!-- Hosting pill (27 Nov, suggestion extending Q13): approved hosts only; red dot = something waits in hosting -->
+        <button class="mode-pill" id="hostPill" data-switch="host" aria-label="Switch to hosting, 4 things to do" hidden><span class="mode-pill__me"><img data-img="1545266241-3516e2a6e016" data-w="120" alt=""><i class="ph-fill ph-seal-check" aria-hidden="true"></i></span>Hosting<span class="mode-pill__dot" aria-hidden="true"></span></button>
+        <button class="icon-btn" aria-label="Notifications" data-toast="No new notifications" data-toast-icon="ph-bell"><i class="ph ph-bell" aria-hidden="true"></i></button>
+      </span>
     </div>
     <div class="copy">
       <h1 class="display">Small trips, real impact<span class="firefly" aria-hidden="true"></span></h1>
     </div>
   </header>
+  <script>if (L.state.get('hostStatus', 'none') === 'approved') document.getElementById('hostPill').hidden = false;</script>
 
   <div class="search-wrap">
     <a class="search-pill" href="g-search.html" data-go="g-search" aria-label="Search experiences">
@@ -269,9 +274,9 @@
       io.observe(row);
     })();
   </script>
-  <script src="../js/shared/embed.js?v=0.35.2"></script>
+  <script src="../js/shared/embed.js?v=0.36.0"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-home', [['Focus', 'Hero message: small trips, real impact'], ['Signed in', 'No (browsing is open)'], ['Impact', 'Live counters'], ['Categories', '4 chips, from admin › Content']]);</script>
-  <script src="../js/shared/credits-data.js?v=0.35.2"></script>
-  <script src="../js/shared/credits-badge.js?v=0.35.2"></script>
+  <script src="../js/shared/credits-data.js?v=0.36.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>
 </html>

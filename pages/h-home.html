@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Today</title>
-  <script src="../shell.config.js?v=0.35.2"></script>
-  <script src="../js/shared/lock-guard.js?v=0.35.2"></script>
+  <script src="../shell.config.js?v=0.36.0"></script>
+  <script src="../js/shared/lock-guard.js?v=0.36.0"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.35.2">
-  <link rel="stylesheet" href="../css/host.css?v=0.35.2">
-  <script src="../js/lokali.js?v=0.35.2"></script>
-  <script src="../js/art.js?v=0.35.2"></script>
-  <script src="../js/data.js?v=0.35.2"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.36.0">
+  <link rel="stylesheet" href="../css/host.css?v=0.36.0">
+  <script src="../js/lokali.js?v=0.36.0"></script>
+  <script src="../js/art.js?v=0.36.0"></script>
+  <script src="../js/data.js?v=0.36.0"></script>
 <style>
 .host-hero { padding: calc(var(--sb) + 8px) 16px 56px; border-radius: 0 0 28px 28px; }
 .host-hero .display { color: #fff; }
@@ -22,13 +22,14 @@
 .host-stats div { padding: 12px 12px; border-radius: 16px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); }
 .host-stats b { display: block; font: 600 15px/22px var(--font-display); color: #fff; } .host-stats small { font-size: 11px; color: rgba(255,255,255,.7); }
 .next-card { box-shadow: 0 14px 34px rgba(10,20,14,.18); }
+  body .host-hero .host-kicker, body .host-hero .host-kicker .ph-fill { color: var(--primary-strong) !important; } /* host mode label (27 Nov) */
 </style>
 </head>
 <body class="m">
   <header class="host-hero hero-deep bg-contour">
     <div class="row-between" style="position:relative;z-index:1">
-      <span class="kicker" style="color:var(--accent)"><i class="ph-fill ph-sun-horizon" aria-hidden="true"></i>Wed, 2 Dec</span>
-      <img class="avatar" data-img="1763219069500-e4c9b49f308f" data-w="120" alt="Profile" data-go="h-menu" style="cursor:pointer;border:2px solid var(--accent)">
+      <span class="kicker host-kicker"><i class="ph-fill ph-house-line" aria-hidden="true"></i>Hosting · Wed, 2 Dec</span>
+      <button class="mode-pill mode-pill--plain" data-switch="guest"><i class="ph ph-arrows-left-right" aria-hidden="true"></i>Switch to guest</button>
     </div>
     <h1 class="display" style="margin-top:16px;font-size: 28px;line-height: 34px">Selamat pagi,<br><span class="hl">Rahim</span></h1>
     <div class="host-stats">
@@ -93,9 +94,9 @@
     document.getElementById('nextImg').style.backgroundImage = 'url(' + L.img(L.exp.mangrove.img, 800) + ')';
   })();
   </script>
-  <script src="../js/shared/embed.js?v=0.35.2"></script>
+  <script src="../js/shared/embed.js?v=0.36.0"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-home', [["Focus", "Next experience + to-dos"], ["Host", "Pak Rahim Osman"], ["Today's slot", "6 of 10 booked"], ["To do", "4 items"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.35.2"></script>
-  <script src="../js/shared/credits-badge.js?v=0.35.2"></script>
+  <script src="../js/shared/credits-data.js?v=0.36.0"></script>
+  <script src="../js/shared/credits-badge.js?v=0.36.0"></script>
 </body>
 </html>
