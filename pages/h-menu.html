@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali Host · Menu</title>
-  <script src="../shell.config.js?v=0.46.3"></script>
-  <script src="../js/shared/lock-guard.js?v=0.46.3"></script>
+  <script src="../shell.config.js?v=0.46.4"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.46.3">
-  <link rel="stylesheet" href="../css/host.css?v=0.46.3">
-  <script src="../js/lokali.js?v=0.46.3"></script>
-  <script src="../js/art.js?v=0.46.3"></script>
-  <script src="../js/data.js?v=0.46.3"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.4">
+  <link rel="stylesheet" href="../css/host.css?v=0.46.4">
+  <script src="../js/lokali.js?v=0.46.4"></script>
+  <script src="../js/art.js?v=0.46.4"></script>
+  <script src="../js/data.js?v=0.46.4"></script>
 <style>
 /* Host Menu in Airy (2 Dec), like the guest Account: her photo with the verified-host tick, 3 numbers, then open sections
    with hairlines and plain grey icons (no green tiles, no uppercase labels). Switch to guest changes the whole app, so it
@@ -24,11 +24,11 @@
 .mn-hero > img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mn-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.45) 0, transparent 35%, transparent 70%, rgba(10,20,14,.3)); pointer-events: none; }
 .mn-hero .hill { position: absolute; z-index: 2; left: 0; right: 0; bottom: -3px; width: 100%; height: 43px; display: block; fill: var(--bg); pointer-events: none; }
-.mn-id { display: flex; align-items: flex-end; gap: 16px; margin-top: -44px; }
+.mn-id { display: flex; align-items: flex-end; gap: 16px; margin-top: -44px; margin-bottom: 38px; }   /* 18 px the name hangs below the photo + the usual 20 px gap (margins collapse) */
 .mn-me { position: relative; flex: none; width: 104px; height: 104px; }
 .mn-me img { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; display: block; background: var(--sand); border: 4px solid var(--bg); box-shadow: 0 6px 18px rgba(0,0,0,.14); }
 .mn-me .ph-fill { position: absolute; right: -3px; bottom: -1px; font-size: 24px; color: #1D9BF0; background: #fff; border-radius: 50%; }
-html body.m .mn-name { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; color: var(--ink); margin: 0; } .mn-id > div { padding-bottom: 4px; }
+html body.m .mn-name { font-size: 28px !important; line-height: 34px !important; font-weight: 700 !important; color: var(--ink); margin: 0; } .mn-id > div { padding-bottom: 4px; margin-bottom: -18px; }   /* name clears the curved photo edge (27 Nov) */
 .mn-id small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
 .mn-view { margin-top: 20px; }
 .mn-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
@@ -130,9 +130,9 @@ html body.m .mn-name { font-size: 28px !important; line-height: 34px !important;
 
   <nav class="tabbar" data-tabs="host" data-active="h-menu"></nav>
 
-  <script src="../js/shared/embed.js?v=0.46.3"></script>
+  <script src="../js/shared/embed.js?v=0.46.4"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('h-menu', [["Host", "Aina Rahman · verified, since 20 Nov 2026"], ["Numbers", "5.0 · 11 guests · 42 trees"], ["Money", "RM 408 on Sun 6 Dec · CIMB •• 3307"], ["Mode", "Switch to guest"]]);</script>
-  <script src="../js/shared/credits-data.js?v=0.46.3"></script>
-  <script src="../js/shared/credits-badge.js?v=0.46.3"></script>
+  <script src="../js/shared/credits-data.js?v=0.46.4"></script>
+  <script src="../js/shared/credits-badge.js?v=0.46.4"></script>
 </body>
 </html>

@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lokali · Pak Rahim</title>
-  <script src="../shell.config.js?v=0.46.3"></script>
-  <script src="../js/shared/lock-guard.js?v=0.46.3"></script>
+  <script src="../shell.config.js?v=0.46.4"></script>
+  <script src="../js/shared/lock-guard.js?v=0.46.4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-  <link rel="stylesheet" href="../css/lokali.css?v=0.46.3">
-  <link rel="stylesheet" href="../css/guest.css?v=0.46.3">
-  <script src="../js/lokali.js?v=0.46.3"></script>
-  <script src="../js/art.js?v=0.46.3"></script>
-  <script src="../js/data.js?v=0.46.3"></script>
+  <link rel="stylesheet" href="../css/lokali.css?v=0.46.4">
+  <link rel="stylesheet" href="../css/guest.css?v=0.46.4">
+  <script src="../js/lokali.js?v=0.46.4"></script>
+  <script src="../js/art.js?v=0.46.4"></script>
+  <script src="../js/data.js?v=0.46.4"></script>
 <style>
   /* Host profile, direction A (27 Nov): background photo of his river with the experience page's hill mask,
      round profile photo overlapping it, then Message, numbers, what guests say about him, Q&A. Airy sizes from Home.
@@ -28,9 +28,9 @@
   .appbar--overlay .icon-btn .ph { font-size: 22px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
 
   .hp-main { position: relative; z-index: 3; padding: 0 24px 40px; }
-  .hp-id { display: flex; align-items: flex-end; gap: 16px; margin-top: -44px; }
+  .hp-id { display: flex; align-items: flex-end; gap: 16px; margin-top: -44px; margin-bottom: 38px; }   /* 18 px the name hangs below the photo + the usual 20 px gap (margins collapse) */
   .hp-pic { width: 104px; height: 104px; flex: none; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); box-shadow: 0 6px 18px rgba(0,0,0,.14); background: var(--sand); }
-  .hp-id > div { padding-bottom: 4px; min-width: 0; }
+  .hp-id > div { padding-bottom: 4px; margin-bottom: -18px; min-width: 0; }   /* name clears the curved photo edge (27 Nov) */
   .hp-id h1 { font-size: 28px; line-height: 34px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
   .hp-id h1 .ph-fill { font-size: 20px; color: #2D8CFF; }
   .hp-id small { display: block; font-size: 12px; line-height: 17px; color: var(--muted); }
@@ -98,9 +98,9 @@
   </section>
 </main>
 
-<script src="../js/shared/embed.js?v=0.46.3"></script>
+<script src="../js/shared/embed.js?v=0.46.4"></script>
 <script>if (window.ProtoEmbed) ProtoEmbed.report('g-host', [['Opens from', 'Experience page › Guide'], ['Layout', 'River photo with hill mask, round photo overlapping, Message, numbers, guest tags, Q&A'], ['Status', 'Suggestion, not in the brief']]);</script>
-<script src="../js/shared/credits-data.js?v=0.46.3"></script>
-<script src="../js/shared/credits-badge.js?v=0.46.3"></script>
+<script src="../js/shared/credits-data.js?v=0.46.4"></script>
+<script src="../js/shared/credits-badge.js?v=0.46.4"></script>
 </body>
 </html>

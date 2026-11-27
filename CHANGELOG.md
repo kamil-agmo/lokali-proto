@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.46.4 · 2026-11-27
+- Text under a curved photo edge starts at least 16 px below it (it touched the curve):
+  - Host profile, Account, host Menu: the name and its lines sit 18 px lower beside the round photo (the photo still overlaps the cover), with the usual 20 px before the button below.
+  - Experience page, host guest list, Become a host slides, Meet your guide: 16–20 px above the first text. Booking details already had it (17 px).
+
 ## 0.46.3 · 2026-11-27
 - Fixed: the Experience page opened with "The story" sheet spread across the top (its text and Close button showing over the photo). The sheet's opening tag and title had been lost; restored. Checked every page: no other loose sheet parts, all tags balanced.
 
