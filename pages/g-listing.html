@@ -650,6 +650,33 @@ document.getElementById('gal').addEventListener('click', function () { i = (i + 
     document.querySelectorAll('a[href="#reviews"]').forEach(function (a) { a.textContent = e.reviews + ' reviews'; });
   })();
   </script>
+  <script>
+  /* Facts written for the mangrove trip, set from the open experience's data (27 Nov): category tag, host since, schedule */
+  (function () {
+    var k = L.curExp(); if (k === 'mangrove') return; var e = L.exp[k], c = L.cats.filter(function (x) { return x.key === e.cat; })[0], h = L.people[e.host] || {};
+    var tag = document.querySelector('.hero-tag'); if (tag && c) tag.innerHTML = '<i class="ph ' + c.icon + '" aria-hidden="true"></i>' + c.name;
+    document.querySelectorAll('.g-name + small, small').forEach(function (sm) { if (/^Host since \d{4}$/.test(sm.textContent.trim()) && h.since) sm.textContent = 'Host since ' + h.since; });
+    if (e.when) { var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n; while ((n = w.nextNode())) if (n.nodeValue.indexOf('5:00 PM daily') > -1) n.nodeValue = n.nodeValue.replace('5:00 PM daily', e.when); }
+  })();
+  /* Her own listing (27 Nov, Q13: a host can't book her own listing).
+     Preview (from host Listings / builder): a docked "Preview" strip, no Book bar.
+     Found in Explore as a guest: the bar says "Your listing" with Edit listing (switches to hosting, opens the builder). */
+  (function () {
+    var e = L.exp[L.curExp()]; if (!e || e.host !== 'aina') return;
+    var preview = L.state.get('preview', false); L.state.set('preview', false);
+    var bar = document.querySelector('.cta-bar');
+    if (preview && bar) {
+      bar.innerHTML = '<i class="ph ph-eye own-i" aria-hidden="true"></i><div class="grow"><b class="own-t">Preview</b><div class="xs muted">How guests see your listing · booking is off</div></div><button class="btn btn--secondary" type="button" id="closePreview">Close preview</button>';
+      document.getElementById('closePreview').addEventListener('click', function () { L.back('h-builder'); });
+    } else if (bar) {
+      bar.innerHTML = '<div class="grow"><b class="own-t">Your listing</b><div class="xs muted">Booking is off for your own listing</div></div><button class="btn btn--secondary" data-switch="host" data-switch-to="h-builder">Edit listing</button>';
+    }
+  })();
+  </script>
+  <style>
+    .own-i { font-size: 24px; color: var(--muted); }
+    .own-t { font-size: 16px; font-weight: 600; color: var(--ink); }
+  </style>
   <script src="../js/shared/embed.js?v=0.36.0"></script>
   <script>if (window.ProtoEmbed) ProtoEmbed.report('g-listing', [['Focus', 'Impact card + money split'], ['Listing', 'Mangrove & fireflies'], ['Host', 'Pak Rahim Osman'], ['Policy', 'Moderate (full refund ≥72 h)'], ['Sections', '18, in brief order'], ['Desktop', 'Booking box becomes sticky side card']]);</script>
   <script src="../js/shared/credits-data.js?v=0.36.0"></script>

@@ -22,7 +22,7 @@
     vinod:  { name: 'Vinod Raj', first: 'Vinod', img: '1638368349569-e49499196d9f', home: 'Kampung Juara, Pulau Tioman', since: 2025, lang: 'English, Malay, Tamil' },
     rusli:  { name: 'Bah Rusli', first: 'Rusli', img: '1776612977754-42c61550a89f', home: 'Pulau Banding, Royal Belum', since: 2025, lang: 'Malay, Temiar' },
     // guests
-    aina:   { name: 'Aina Rahman', first: 'Aina', img: '1545266241-3516e2a6e016', home: 'Petaling Jaya' },
+    aina:   { name: 'Aina Rahman', first: 'Aina', img: '1545266241-3516e2a6e016', home: 'Petaling Jaya', since: 2026, lang: 'English, Malay' },   // guest, and since 20 Nov 2026 also a host (host mode)
     daniel: { name: 'Daniel Wong', first: 'Daniel', img: '1701980889802-55ff39e2e973', home: 'Ipoh' },
     aisyah: { name: 'Nur Aisyah Kamal', first: 'Aisyah', img: '1613447895817-e617a4093f50', home: 'Shah Alam' }
   };
@@ -55,6 +55,26 @@
       img: '1581253563647-3ebad3c2f559', gallery: ['1581253563647-3ebad3c2f559', '1721151599824-ca38a4b73292', '1495434350527-8f3d63bf008f', '1698802933641-b185747ae391', '1592080231635-58456a85c693'],
       price: 1450, child: 980, priv: 9800, rating: 4.95, reviews: 28, duration: '3 days', group: '4–12', host: 'rusli', policy: 'Firm', type: 'retreat', deposit: 0.3, impact: 'Pays local Orang Asli guides' }
   };
+  /* Aina's own listing (host mode, 27 Nov): she books Pak Rahim's mangrove trip as a guest and hosts this class as a host.
+     Photos reuse food / farm photo IDs already in this file (swap for kuih photos when browsing for photos). */
+  L.exp.kuih = { id: 'kuih', title: 'Kuih morning in a PJ community garden', promise: 'Pick pandan and banana leaves in a city garden, then steam three kinds of kuih.', cat: 'farm', place: 'Petaling Jaya, Selangor',
+    img: '1679541946014-a47f1ec0dc1a', gallery: ['1679541946014-a47f1ec0dc1a', '1505471768190-275e2ad7b3f9', '1778439800378-6f67fd8ec219', '1530507629858-e4977d30e9e0', '1658218615053-955e8af55947'],
+    price: 85, child: 55, priv: 480, rating: 5.0, reviews: 3, duration: '2.5 hours', group: '2–8', host: 'aina', policy: 'Flexible', type: 'day', impact: 'Leftover kuih go to a PJ food bank', lang: 'English, Malay', when: 'Saturdays 9:00 AM' };
+  /* Aina as a host: approved Fri 20 Nov 2026; classes Sat 21 Nov (4 guests) and Sat 28 Nov (7 guests); next Sat 5 Dec 9:00–11:30 AM.
+     Money: 15% commission; payout ~24 h after each class. */
+  L.hosting = {
+    host: 'aina', exp: 'kuih', approved: 'Fri, 20 Nov 2026', place: 'Taman Komuniti SS3, Jalan SS 3/37, 47300 Petaling Jaya',
+    next: { ref: 'LK-24852', date: 'Sat, 5 Dec', time: '9:00 – 11:30 AM', guests: 6, cap: 8, allergy: '1 peanut allergy', gross: 480, commission: 72, payout: 408, payoutDate: 'Sun, 6 Dec' },
+    guests: [ // Sat 5 Dec
+      { name: 'Nur Aisyah Kamal', who: 'aisyah', ref: 'LK-24852', adults: 2, children: 1, note: 'Son is allergic to peanuts', paid: 225, booked: 'Tue, 1 Dec' },
+      { name: 'Priya Nair', ref: 'LK-24858', adults: 2, children: 0, note: '', paid: 170, booked: 'Tue, 1 Dec' },
+      { name: 'Hafiz Ismail', ref: 'LK-24861', adults: 1, children: 0, note: 'Vegetarian', paid: 85, booked: 'Wed, 2 Dec' } ],
+    past: [ { date: 'Sat, 28 Nov', guests: 7, gross: 565, payout: 480.25, paid: 'Sun, 29 Nov' }, { date: 'Sat, 21 Nov', guests: 4, gross: 340, payout: 289, paid: 'Sun, 22 Nov' } ],
+    reviews: [ { name: 'Daniel Wong', who: 'daniel', date: 'Nov 2026', stars: 5, text: 'Picking pandan in the middle of PJ, then eating kuih we steamed ourselves. My kids loved it.', reply: '' },
+      { name: 'Chloe Lim', date: 'Nov 2026', stars: 5, text: 'Aina explains every step and sends you home with a recipe card. Lovely morning.', reply: 'Thank you, Chloe! See you at the next harvest.' },
+      { name: 'Suresh Kumar', date: 'Nov 2026', stars: 5, text: 'Good to know the leftovers go to the food bank. Small group, very relaxed.', reply: 'Thanks Suresh, 42 meals so far!' } ],
+    bank: 'CIMB •• 3307', paidNov: 769.25, mealsGiven: 42 };
+
   // The booking that runs through the whole prototype (guest books it, host sees it, admin manages it)
   L.booking = { ref: 'LK-24817', exp: 'mangrove', guest: 'aina', date: 'Sun, 6 Dec 2026', time: '5:00 PM – 8:30 PM', adults: 2, children: 1,
     subtotal: 385, fee: 19.25, total: 404.25, commission: 57.75, payout: 327.25, method: 'Visa •• 4242', status: 'Confirmed',
@@ -72,7 +92,7 @@
     }
   };
   L.stamps = { mangrove: ['20%', 'to trees'], batik: ['3rd', 'gen craft'], canopy: ['15%', 'research'], paddy: ['6', 'farms'], nyonya: ['0', 'waste'],
-    reef: ['25%', 'to reef'], orangutan: ['2', 'rangers'], weaving: ['100%', 'weavers'], retreat: ['10%', 'guides'] };
+    reef: ['25%', 'to reef'], orangutan: ['2', 'rangers'], weaving: ['100%', 'weavers'], retreat: ['10%', 'guides'], kuih: ['42', 'meals'] };
   /* heart on cards: toggles red and shows a toast, without opening the card */
   document.addEventListener('click', function (ev) {
     var b = ev.target.closest && ev.target.closest('.exp-card__fav'); if (!b) return;
