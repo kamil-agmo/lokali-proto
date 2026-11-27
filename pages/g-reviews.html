@@ -16,17 +16,19 @@
   <script src="../js/art.js"></script>
   <script src="../js/data.js"></script>
   <style>
-    .rs { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; padding: 8px 16px 16px; }
+    .rs { padding: 8px 24px 16px; }
     .rs-score b { display: block; font: 600 34px/41px var(--font-display); color: var(--ink); }
     .rs-score .stars { display: flex; gap: 2px; color: var(--star); font-size: 14px; margin-top: 2px; }
     .rs-score small { display: block; font-size: 13px; line-height: 18px; color: var(--muted); margin-top: 4px; }
-    .rs-bars { display: grid; grid-template-columns: 12px 1fr 28px; gap: 6px 8px; align-items: center; font-size: 12px; line-height: 16px; color: var(--muted); }
-    .rs-bars .t { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; } .rs-bars .t i { display: block; height: 100%; background: var(--primary); border-radius: 3px; }
-    .rs-bars span:last-child, .rs-bars .n { text-align: right; }
-    .rv-tools { padding: 0 16px 8px; }
-    .rv-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 12px -16px 0; padding: 0 16px; }
-    .rv-chips::-webkit-scrollbar { display: none; }
-    .rvl { padding: 0 16px 32px; }
+    .rv-tools { padding: 0 24px 8px; }
+    /* Airy (27 Nov): Home-style pills like My bookings; sort is one choice, With photos a toggle after a thin divider */
+    .rv-pills { display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -24px; padding: 0 24px; }
+    .rv-pills::-webkit-scrollbar { display: none; }
+    .rv-sort, #filt { display: flex; gap: 8px; }
+    .rv-pills button { flex: none; min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; }
+    .rv-pills button.active, .rv-pills button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .rv-div { flex: none; width: 1px; height: 20px; background: var(--line); }
+    .rvl { padding: 0 24px 32px; }
     .rvi { padding: 16px 0; border-top: 1px solid var(--line); }
     .rvi-head { display: grid; grid-template-columns: 40px 1fr auto; gap: 12px; align-items: center; }
     .rvi-head img, .rvi-head .ini { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
@@ -50,18 +52,10 @@
 
 <section class="rs" aria-label="Rating summary">
   <div class="rs-score"><b>4.96</b><span class="stars" aria-label="4.96 out of 5"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></span><small>128 reviews</small></div>
-  <div class="rs-bars" aria-hidden="true">
-    <span>5</span><span class="t"><i style="width:97%"></i></span><span class="n">124</span>
-    <span>4</span><span class="t"><i style="width:2.3%"></i></span><span class="n">3</span>
-    <span>3</span><span class="t"><i style="width:.8%"></i></span><span class="n">1</span>
-    <span>2</span><span class="t"><i style="width:0"></i></span><span class="n">0</span>
-    <span>1</span><span class="t"><i style="width:0"></i></span><span class="n">0</span>
-  </div>
 </section>
 
 <div class="rv-tools">
-  <div class="segmented" id="sort" role="tablist" aria-label="Sort reviews"><button class="active" role="tab" aria-selected="true" data-s="new">Newest</button><button role="tab" aria-selected="false" data-s="high">Highest</button><button role="tab" aria-selected="false" data-s="low">Lowest</button></div>
-  <div class="rv-chips" id="filt"><button class="chip" aria-pressed="false" data-f="photos"><i class="ph ph-image" aria-hidden="true"></i>With photos</button><button class="chip" aria-pressed="false" data-f="kids">Families</button><button class="chip" aria-pressed="false" data-f="reply">Host replied</button></div>
+  <div class="rv-pills"><div class="rv-sort" id="sort" role="tablist" aria-label="Sort reviews"><button class="active" role="tab" aria-selected="true" data-s="new">Newest</button><button role="tab" aria-selected="false" data-s="high">Highest</button><button role="tab" aria-selected="false" data-s="low">Lowest</button></div><span class="rv-div" aria-hidden="true"></span><div id="filt"><button aria-pressed="false" data-f="photos">With photos</button></div></div>
 </div>
 
 <main class="rvl" id="list" aria-live="polite"></main>
@@ -81,7 +75,7 @@
   var sort = 'new', f = {}, shown = 6;
   function stars(s) { var h = ''; for (var k = 0; k < 5; k++) h += '<i class="' + (k < s ? 'ph-fill' : 'ph') + ' ph-star" aria-hidden="true"></i>'; return '<span class="rvi-stars" aria-label="' + s + ' out of 5 stars">' + h + '</span>'; }
   function draw() {
-    var list = R.filter(function (r) { return (!f.photos || r.photos) && (!f.kids || r.kids) && (!f.reply || r.reply); });
+    var list = R.filter(function (r) { return (!f.photos || r.photos); });
     list.sort(function (a, b) { return sort === 'high' ? b.s - a.s || b.d - a.d : sort === 'low' ? a.s - b.s || b.d - a.d : b.d - a.d; });
     var total = list.length, h = list.slice(0, shown).map(function (r) {
       return '<article class="rvi"><div class="rvi-head">' + (r.img ? '<img src="' + L.img(r.img, 100) + '" alt="">' : '<span class="ini" aria-hidden="true">' + r.n[0] + '</span>') + '<div><b>' + r.n + '</b><small>' + r.from + ' · ' + r.when + '</small></div>' + stars(r.s) + '</div>' +
@@ -91,7 +85,7 @@
     if (!total) h = '<p class="rv-empty">No reviews match. <button class="btn btn--sm btn--secondary" id="clr">Clear filters</button></p>';
     else if (total > shown) h += '<button class="btn btn--secondary rv-more" id="more">Show more reviews</button>';
     var m = document.getElementById('list'); m.innerHTML = h;
-    var c = document.getElementById('clr'); if (c) c.onclick = function () { f = {}; document.querySelectorAll('#filt .chip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); draw(); };
+    var c = document.getElementById('clr'); if (c) c.onclick = function () { f = {}; document.querySelectorAll('#filt button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); draw(); };
     var mo = document.getElementById('more'); if (mo) mo.onclick = function () { shown += 6; draw(); };
   }
   document.getElementById('sort').addEventListener('click', function (e) { var b = e.target.closest('[data-s]'); if (!b) return; this.querySelectorAll('button').forEach(function (x) { var on = x === b; x.classList.toggle('active', on); x.setAttribute('aria-selected', on); }); sort = b.dataset.s; draw(); });
@@ -100,7 +94,7 @@
 })();
 </script>
   <script src="../js/shared/embed.js"></script>
-  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-reviews', [['Opens from', 'Experience page › Show all 128 reviews'], ['Sort', 'Newest, highest, lowest'], ['Filters', 'With photos, families, host replied']]);</script>
+  <script>if (window.ProtoEmbed) ProtoEmbed.report('g-reviews', [['Opens from', 'Experience page › Show all 128 reviews'], ['Sort', 'Newest, highest, lowest'], ['Filter', 'With photos']]);</script>
   <script src="../js/shared/credits-data.js"></script>
   <script src="../js/shared/credits-badge.js"></script>
 </body>

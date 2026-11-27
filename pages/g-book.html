@@ -25,8 +25,6 @@
 <main class="pad stack-lg" style="padding-top:8px;padding-bottom:16px">
   <section class="card" aria-label="Selected slot">
     <div class="bk-sum"><img data-img="1773904594755-6c25ab2ef6c9" data-w="200" alt=""><div><b>Mangrove &amp; fireflies by kampung boat</b><div class="small muted">3.5 hours · Kuala Selangor</div></div></div>
-    <div class="row-between sum-sep"><span class="card-row__label"><i class="ph-fill ph-calendar-check" aria-hidden="true"></i>Date</span><span class="card-val" id="sumdate">Sun, 6 Dec</span></div>
-    <p class="sum-note">Full slots close automatically. Prices in MYR.</p>
   </section>
 
   <section class="card reveal" aria-labelledby="d-h">
@@ -38,7 +36,7 @@
   </section>
 
   <section class="card reveal" aria-labelledby="t-h">
-    <h3 id="t-h" style="margin-bottom:12px">Time · <span id="dlabel">Sun, 6 Dec</span></h3>
+    <h2 class="is-h3" id="t-h" style="margin-bottom:12px">Time</h2>
     <div data-radio id="slots">
       <button class="slot full" id="am" data-value="am" disabled aria-disabled="true"><i class="ph ph-sun" aria-hidden="true"></i><div><b>7:30 AM – 10:30 AM</b><small>Weekend morning paddle</small></div><span class="left">Full</span></button>
       <button class="slot radio-card active" data-value="pm" aria-checked="true" style="margin-top:8px"><i class="ph ph-sun-horizon" aria-hidden="true"></i><div><b>5:00 PM – 8:30 PM</b><small>Sunset + fireflies</small></div><span class="left">4 spots left</span></button>
@@ -46,7 +44,7 @@
   </section>
 
   <section class="card reveal" aria-labelledby="g-h">
-    <h3 id="g-h">Guests</h3>
+    <h2 class="is-h3" id="g-h">Guests</h2>
     <div class="guest-row"><div><b>Adults</b><small>Age 13+ · RM 145</small></div>
       <div class="stepper" data-stepper data-min="1" data-max="4" id="ad"><button data-dec aria-label="Fewer adults"><i class="ph ph-minus" aria-hidden="true"></i></button><output>2</output><button data-inc aria-label="More adults"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
     <div class="guest-row"><div><b>Children</b><small>Age 5–12 · RM 95</small></div>
@@ -54,12 +52,12 @@
     <div class="guest-row priv-fixed" id="privFixed" hidden><span class="itile sm"><i class="ph-fill ph-boat" aria-hidden="true"></i></span><div class="grow"><b>Private boat</b><small>Whole boat, up to 10 · RM 980</small></div><a href="g-book.html" class="small strong" id="privOff" aria-label="Change to a shared boat">Change</a></div>
     <div class="guest-row" id="privRow"><div class="grow"><b>Book privately</b><small>Whole boat, up to 10 · RM 980. Not available on Sun, 6 Dec: 6 guests already booked.</small></div>
       <button class="switch" role="switch" aria-checked="false" aria-disabled="true" aria-label="Book privately, not available on this date" id="priv" style="opacity:.4;pointer-events:none"></button></div>
-    <p class="hint" id="cap">4 spots left on this slot.</p>
+    <p class="hint" id="cap" hidden></p>
   </section>
 </main>
 
 <div class="cta-bar">
-  <div class="grow"><div class="price" id="total">RM 385</div><div class="xs muted" id="sub">2 adults, 1 child · before service fee</div></div>
+  <div class="grow"><div class="price" id="total">RM 385</div><div class="xs muted" id="sub">before service fee</div></div>
   <button class="btn btn--primary" id="go">Go to checkout</button>
 </div>
   <script>
@@ -74,7 +72,7 @@ for (var d = 1; d <= 31; d++) {
 }
 cal.innerHTML = h;
 var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-cal.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) return; cal.querySelectorAll('.active').forEach(function (x) { x.classList.remove('active'); }); b.classList.add('active'); var n = +b.textContent; document.getElementById('dlabel').textContent = days[n % 7] + ', ' + n + ' Dec'; document.getElementById('sumdate').textContent = days[n % 7] + ', ' + n + ' Dec'; morning(n); });
+cal.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.disabled) return; cal.querySelectorAll('.active').forEach(function (x) { x.classList.remove('active'); }); b.classList.add('active'); var n = +b.textContent; morning(n); });
 /* weekend mornings only; 6 Dec morning is full (private group) */
 function morning(n) {
   var am = document.getElementById('am'), wk = n % 7 === 5 || n % 7 === 6, full = n === 6;
@@ -87,12 +85,12 @@ function calc() {
   var a = +document.querySelector('#ad output').textContent, c = +document.querySelector('#ch output').textContent, p = document.getElementById('priv').getAttribute('aria-checked') === 'true';
   var E = L.exp[L.curExp()]; var t = p ? E.priv : a * E.price + c * E.child;
   document.getElementById('total').textContent = L.rm(t);
-  document.getElementById('sub').textContent = (p ? 'Private boat · ' : '') + a + ' adult' + (a > 1 ? 's' : '') + (c ? ', ' + c + ' child' + (c > 1 ? 'ren' : '') : '') + ' · before service fee';
+  document.getElementById('sub').textContent = (p ? 'Private boat · ' : '') + 'before service fee';   /* guests show in the counters above (DUPE) */
   var ad = document.getElementById('ad'), ch = document.getElementById('ch');
   ad.setAttribute('data-max', p ? 10 - c : 4); ch.setAttribute('data-max', p ? 10 - a : 3);
   ad.querySelector('[data-inc]').disabled = a >= +ad.getAttribute('data-max'); ch.querySelector('[data-inc]').disabled = c >= +ch.getAttribute('data-max');
   var over = !p && a + c > 4, cap = document.getElementById('cap');
-  cap.textContent = p ? 'The whole boat is reserved for your group.' : over ? 'Only 4 spots left. Remove a guest or book privately.' : 'You are taking ' + (a + c) + ' of the 4 spots left.';
+  cap.textContent = over ? 'Only 4 spots left. Remove a guest or book privately.' : ''; cap.hidden = !over;   /* only the error; "4 spots left" is on the time slot (DUPE) */
   var pmLeft = document.querySelector('#slots [data-value="pm"] .left'); if (pmLeft) pmLeft.textContent = p ? 'Whole boat' : '4 spots left';
   cap.className = over ? 'error-text' : 'hint'; document.getElementById('go').disabled = over;
   var act = cal.querySelector('.active'), slot = document.querySelector('#slots .active');

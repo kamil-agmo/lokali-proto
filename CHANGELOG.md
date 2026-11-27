@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.34.0 · 2026-11-27
+- MIMS on the last guest screens:
+  - Choose date: cut the Date summary row (the calendar marks the day), "Full slots close automatically. Prices in MYR.", the date after "Time", "You are taking 3 of the 4 spots left" (the slot says it; the line now shows only the over-capacity error) and the guest count in the bottom bar. Time and Guests titles 18/700.
+  - All reviews: cut the star bars (124 of 128 are 5 stars) and the Families / Host replied filters (not in the brief). Sort and With photos as Home-style pills; 24 px margins.
+  - Email: Confirmation / Reminder as pills. Fixed: the email header showed a white logo and reference on white (an old Canopy rule in guest.css); now green logo, grey reference (guest and host emails).
+  - Corporate enquiry: plain grey icons on the three benefit lines (no green tiles); Work email and Phone on their own rows (the hint was cut off); Group and Interests titles 18/700; "—" → "·". Extra fields recorded as suggestion Q17.
+  - Sign in: no change.
+
 ## 0.33.4 · 2026-11-27
 - Fixed: opened from disk (index.html / admin.html as a file), the left menu stayed on the first screen while you tapped through the phone. The screens labelled their "I'm on this page" message with the wrong prefix and the shell rejected file:// messages; both fixed (js/shared/embed.js, js/shell/prototype.js, js/pages/lock.js). Checked on all 38 app screens, from disk and from a server.
 

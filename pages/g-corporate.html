@@ -17,7 +17,10 @@
   <script src="../js/data.js"></script>
   <style>
 .whys { display: flex; flex-direction: column; gap: 12px; }
-.whys div { display: flex; gap: 12px; font-size: 15px; line-height: 20px; } .whys .ph { color: var(--primary); font-size: 22px; flex: none; }
+.whys div { display: flex; gap: 12px; font-size: 15px; line-height: 20px; }
+/* Airy (27 Nov): plain grey row icons, no green tiles */
+body.m .whys div > .ph { width: 24px; height: 20px; border-radius: 0; background: none; color: var(--muted); font-size: 20px; flex: none; }
+body.m .whys div { align-items: flex-start; }
 </style>
 </head>
 <body class="m">
@@ -31,7 +34,7 @@
   <h1 class="t2">Team days that give back</h1>
   <div class="whys">
     <div><i class="ph ph-users-three" aria-hidden="true"></i><span><b>11 to 200 people</b>, split across hosts if needed</span></div>
-    <div><i class="ph ph-plant" aria-hidden="true"></i><span><b>Real CSR impact</b> — tree planting, reef and beach work, with a report after</span></div>
+    <div><i class="ph ph-plant" aria-hidden="true"></i><span><b>Real CSR impact</b> · tree planting, reef and beach work, with a report after</span></div>
     <div><i class="ph ph-receipt" aria-hidden="true"></i><span><b>One quote, one invoice</b> within 2 working days</span></div>
   </div>
 
@@ -39,14 +42,12 @@
     <h2 class="is-h3" id="co-h">Company</h2>
     <div class="field"><label for="c1">Company name <span class="req" style="color:var(--danger)">*</span></label><input class="input" id="c1" placeholder="Greenline Logistics Sdn Bhd"></div>
     <div class="field"><label for="c2">Contact name <span style="color:var(--danger)">*</span></label><input class="input" id="c2" placeholder="Farah Ismail"></div>
-    <div class="grid-2">
-      <div class="field"><label for="c3">Work email <span style="color:var(--danger)">*</span></label><input class="input" id="c3" type="email" placeholder="farah@example.com"></div>
-      <div class="field"><label for="c4">Phone</label><input class="input" id="c4" type="tel" placeholder="+60 12-345 6789"></div>
-    </div>
+    <div class="field"><label for="c3">Work email <span style="color:var(--danger)">*</span></label><input class="input" id="c3" type="email" placeholder="farah@example.com"></div>
+    <div class="field"><label for="c4">Phone</label><input class="input" id="c4" type="tel" placeholder="+60 12-345 6789"></div>
   </section>
 
   <section class="form-sec" aria-labelledby="ev-h">
-    <h3 id="ev-h" class="sec-h">Group</h3>
+    <h2 id="ev-h" class="is-h3">Group</h2>
     <div class="guest-row" style="padding:0"><div><b>Group size <span style="color:var(--danger)">*</span></b><small>People taking part</small></div>
       <div class="stepper" data-stepper data-min="11" data-max="200"><button data-dec aria-label="Fewer people"><i class="ph ph-minus" aria-hidden="true"></i></button><output>40</output><button data-inc aria-label="More people"><i class="ph ph-plus" aria-hidden="true"></i></button></div></div>
     <div class="grid-2">
@@ -59,7 +60,7 @@
   </section>
 
   <section class="form-sec" aria-labelledby="in-h">
-    <h3 id="in-h" class="sec-h">Interests</h3>
+    <h2 id="in-h" class="is-h3">Interests</h2>
     <div class="chips wrap" data-group data-multi>
       <button class="chip chip--soft">Tree planting</button><button class="chip chip--soft">Beach clean-up</button><button class="chip chip--soft">Cooking together</button><button class="chip chip--soft">Craft workshop</button><button class="chip chip--soft">Wildlife</button><button class="chip chip--soft">Overnight retreat</button>
     </div>

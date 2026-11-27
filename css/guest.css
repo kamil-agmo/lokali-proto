@@ -190,9 +190,6 @@ details.faq p { padding: 0 0 16px; color: var(--muted); font-size: 15px; line-he
 /* sign-in focal card */
 .signin-hero { padding: 24px 16px; border-radius: 24px; background-color: var(--deep); color: #fff; }
 .signin-hero .wordmark { color: #fff; } .signin-hero h1 { color: #fff; } .signin-hero .muted, .signin-hero p { color: rgba(255,255,255,.78) !important; }
-/* email header in brand */
-.mail__head { background-color: var(--deep); padding: 16px 20px !important; }
-.mail__head .wordmark { color: #fff !important; } .mail__head .small { color: rgba(255,255,255,.72) !important; }
 .signin-hero b, .signin-hero strong, .focus-hero b, .done-hero.deep b { color: #fff; }
 
 /* ===== Screen headers (25 Nov): only Home keeps a hero ===== */

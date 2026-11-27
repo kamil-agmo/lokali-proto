@@ -214,6 +214,7 @@ Tags: **Stated** (with source) · **Inferred** (from which items) · **Suggested
 | Q14 | Show platform impact totals on Home? Not in the brief ("impact tracking" is Won't for MVP). | Suggested: an "Impact so far" band (money to hosts, mangroves replanted). Numbers in the prototype are samples; confirm the source (admin-entered or computed). |
 | Q15 | A public host profile page? Not in the brief; the listing has "Meet your guide". | Suggested: host profile (photo of their place, round profile photo, Message, guests hosted, rating, reply time, what guests say about them, Q&A), opened from the Guide row on the listing. Trust signal; confirm scope. |
 | Q16 | Boat or equipment rental on its own? Not in the brief (only experiences, with a private option). | Not designed. Would need a different booking model (by hour/day, per item, deposit, pick-up/return). |
+| Q17 | Corporate enquiry: extra fields beyond the brief (company, group size, dates, budget, interests)? | Suggested: Preferred area, Experience (optional, filled in when coming from a listing) and Anything else, to make the quote faster. Confirm scope. |
 
 ## 11. Sources
 

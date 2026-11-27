@@ -16,8 +16,10 @@
   <script src="../js/art.js"></script>
   <script src="../js/data.js"></script>
   <style>
-.mailbar { display: flex; justify-content: center; padding: 12px var(--s4) 8px; }
-.mailbar .segmented { width: 100%; }
+/* Airy (27 Nov): Home-style pills like My bookings */
+.mailbar { display: flex; gap: 8px; padding: 12px 24px 8px; }
+.mailbar button { min-height: 36px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font: 500 13px/1 var(--font); color: var(--ink); cursor: pointer; }
+.mailbar button.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 .mail .btn { min-height: 44px; }
   </style>
 </head>
@@ -27,7 +29,7 @@
   <div class="appbar__title">Inbox</div>
   <button class="icon-btn" aria-label="Archive"><i class="ph ph-archive" aria-hidden="true"></i></button>
 </header>
-<div class="mailbar"><div class="segmented" data-group><button class="active" data-panel="#m1">Confirmation</button><button data-panel="#m2">Reminder</button></div></div>
+<div class="mailbar" data-group><button class="active" data-panel="#m1">Confirmation</button><button data-panel="#m2">Reminder</button></div>
 
 <section id="m1">
   <div class="mail-meta"><b>Lokali</b> &lt;bookings@lokali.my&gt;<br>To: aina.rahman@gmail.com · Wed, 2 Dec, 10:14 AM<br><b>You're booked: Mangrove &amp; fireflies, Sun 6 Dec</b></div>
