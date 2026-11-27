@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.46.5 · 2026-11-27
+- Sign in: "New to Lokali? Create an account" sits under the red Sign in button in the docked bar (same pattern as Back to bookings under the main button); it still switches the form to Create account and back. The PDPA line stays in the page.
+
 ## 0.46.4 · 2026-11-27
 - Text under a curved photo edge starts at least 16 px below it (it touched the curve):
   - Host profile, Account, host Menu: the name and its lines sit 18 px lower beside the round photo (the photo still overlaps the cover), with the usual 20 px before the button below.

@@ -4,7 +4,7 @@
 window.SHELL = {
   name: "Lokali",
   tag: "by The Habitat Group · Prototype",                      // the subtitle under the logo (or the name) in the left card; '' hides it
-  version: "0.46.4",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
+  version: "0.46.5",                    // the prototype's version, shown under the tag and linked to CHANGELOG.md: +0.0.1 small fix, +0.1 medium (layout, new screen), +1.0 large (redesign, new flow); bump it on every deploy
   logo: "assets/brand/lockup-humanist-green.svg",                    // path to the logo shown at the top of the left card, relative to this file; null shows the name as text
   logoLock: "assets/brand/lockup-humanist-white.svg",           // logo for the lock screen's dark background (a light or white version); null uses `logo`
   password: null,
@@ -54,7 +54,7 @@ window.SHELL = {
     'g-book': { group: 'Guest', title: 'Choose date & guests', src: 'pages/g-book.html', desc: 'Pick a date, a time slot, adults and children, and whether to book privately. Full slots cannot be chosen.',
       parts: ['Month calendar with available days', 'Time slots with spots left / Full', 'Adults + children counters (error only when over the spots left)', 'Book privately switch', 'Total before service fee + Go to checkout'] },
     'g-signin': { group: 'Guest', title: 'Sign in to book', src: 'pages/g-signin.html', desc: 'Sign-in appears only when the guest books, not while browsing. Google, Apple or email.',
-      parts: ['Continue with Apple / Google', 'Email + password', 'Create account link', 'PDPA consent note'] },
+      parts: ['Continue with Apple / Google', 'Email + password', 'PDPA consent note', 'Docked bar: Sign in + Create an account'] },
     'g-checkout': { group: 'Guest', title: 'Checkout', src: 'pages/g-checkout.html', desc: 'Everything before paying: the booking, the price with the guest service fee as its own line, the cancellation policy and the payment method (card, FPX, e-wallet).',
       parts: ['Ticket: experience, date, time, guests + Edit; price breakdown incl. service fee and total', 'Impact line', 'Free cancellation date + policy line', 'Payment method: card / FPX / e-wallet', 'Dietary needs & allergies (None / Vegetarian / Halal / Allergy + who and what)', 'Message for the host (questions)', 'Pay RM … bar'] },
     'g-confirmed': { group: 'Guest', title: 'Booking confirmed', src: 'pages/g-confirmed.html', desc: 'Instant confirmation after payment, with what happens next.',
