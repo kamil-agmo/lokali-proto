@@ -39,6 +39,13 @@
 
   .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 14px; } .sh h3 { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #1C522C; }
 
+  .float.imp { padding: 16px 18px; }
+  .float.imp .k { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #1C522C; margin-bottom: 6px; }
+  .float.imp .nums { display: flex; align-items: flex-end; gap: 28px; } .float.imp b { display: block; font-size: 28px; line-height: 32px; font-weight: 800; color: #222; } .float.imp b sup { font-size: 13px; vertical-align: 12px; margin-right: 2px; } .float.imp small { display: block; font-size: 12px; color: #6A6A6A; }
+  .float.imp .chev { margin-left: auto; color: #B0B0B0; width: 16px; height: 16px; align-self: center; }
+  .det { margin-top: 14px; padding-top: 14px; border-top: 1px solid #EBEBEB; }
+  .det .r1 { display: flex; align-items: center; gap: 12px; } .det b { display: block; font-size: 16px; line-height: 21px; } .det small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; }
+  .det .faces { border-top: 0; padding-top: 0; margin-top: 8px; }
   /* B: coming up strip */
   .week { display: flex; gap: 10px; overflow: hidden; margin-right: -24px; }
   .wk { flex: none; width: 78px; padding: 12px 8px 10px; border-radius: 18px; border: 1px solid #EBEBEB; text-align: center; }
@@ -89,11 +96,11 @@
       <div class="cover js-cover">
         <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:15px;height:15px"><use href="#i-swap"/></svg>Switch to guest</span></div>
         <h2>Selamat pagi, Aina</h2>
-        <p>Next experience in 3 days</p>
+        <p>Your next experience is in 3 days</p>
       </div>
-      <div class="float">
-        <div class="r1"><div><b>Sat, 5 Dec · 9:00 AM</b><small>6 of 8 guests</small></div><span class="go">Guest list</span></div>
-        <div class="faces"><span class="js-face1"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div>
+      <div class="float imp">
+        <span class="k">Your impact so far</span>
+        <div class="nums"><div><b><sup>RM</sup>90</b><small>given back through your listing</small></div><div><b>11</b><small>guests hosted</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
       </div>
       <div class="in">
         <div class="sh"><h3>Coming up</h3><a>Calendar</a></div>
@@ -104,10 +111,9 @@
           <div class="wk"><small>Sun</small><b>20</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
           <div class="wk off"><small>Sat</small><b><s>26</s></b><div class="bar"></div><em>Blocked</em></div>
         </div>
-      </div>
-      <div class="band js-band">
-        <span class="k">Your impact so far</span>
-        <div class="nums"><div><b><sup>RM</sup>90</b><small>given back through your listing</small></div><div><b>11</b><small>guests hosted</small></div></div>
+        <div class="det">
+          <div class="r1"><div><b>Sat, 5 Dec · 9:00 – 11:30 AM</b><div class="faces"><span class="js-face1"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div></div><span class="go">Guest list</span></div>
+        </div>
       </div>
       <div class="in">
         <div class="sh"><h3>To do</h3></div>
@@ -120,28 +126,13 @@
   </div>
 
   <div class="notes">
-    <h2>What's on it, and why (MIMS)</h2>
-    <h3>From A</h3>
+    <h2>MIMS on this version</h2>
     <ul>
-      <li><b>Cover photo</b> = the host's own listing photo (any category). Greeting + "Next experience in 3 days" on it.</li>
-      <li><b>Next experience floats on the cover edge</b>, like Home's search bar: date, time, booked / capacity, Guest list.</li>
-    </ul>
-    <h3>From B</h3>
-    <ul>
-      <li><b>Guest faces</b> in that card: who's coming; dietary or access flags as a count ("1 allergy"), detail on the guest list.</li>
-      <li><b>Coming up</b>: next dates with fill bars, taps to Calendar (capacity per slot, H8). Works for any schedule (weekly, one-off, retreats).</li>
-      <li><b>To do</b>, after the impact band: new bookings, reviews to answer, payout on the way (H14). Urgent items already reach the host another way (booking email, Inbox badge), so the band can lead.</li>
-      <li><b>Impact band</b>, same pattern as guest Home: money given back through the listing + guests hosted. Every listing has an impact share, so it's true for all hosts.</li>
-    </ul>
-    <h3>General wording</h3>
-    <ul>
-      <li>"Experience", "guests", "given back" everywhere; no class, meals, trees or kuih on Today.</li>
-      <li>RM 90 = 10% of her RM 905 from November's 2 experiences (sample).</li>
-    </ul>
-    <h3>Duplicates checked</h3>
-    <ul>
-      <li>"6 of 8" once (floating card; the strip shows 6 / 8 as a bar for the same date: kept, it's the strip's first tile, selected).</li>
-      <li>Payout once (To do), Earnings keeps the detail.</li>
+      <li><b>Floating card = impact</b> ("RM 90 given back · 11 guests hosted", opens her profile). It's what Lokali stands for, so it gets the top spot; the cover photo already brings the warmth the old band photo gave.</li>
+      <li><b>Next experience lives in Coming up:</b> the selected date's details sit under the strip (time, booked / capacity, guest faces, flags, Guest list). Tapping another date shows that date. Sat 5 Dec now appears once (was in the card and the strip); "in 3 days" stays on the cover, "6 / 8" on the tile.</li>
+      <li><b>To do</b> moves up into view: new booking, review to answer, payout on the way.</li>
+      <li><b>General wording:</b> experience, guests, given back; no category-specific words.</li>
+      <li><b>Trade-off:</b> the impact card isn't an action like Home's search bar; it still leads somewhere (her profile).</li>
     </ul>
   </div>
 </div>
