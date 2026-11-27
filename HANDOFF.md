@@ -11,6 +11,9 @@ State as of 27 Nov 2026, version **0.38.0** (see `CHANGELOG.md` for every change
 
 ## The story to follow
 
+Firebase (prepared 27 Nov): firebase.json serves app + admin as one site, agm394-lokali-app in project agmo-desing-2 (/ = app, /admin = admin). .github/workflows/firebase-hosting.yml deploys on every push to main once the repo secret FIREBASE_SERVICE_ACCOUNT exists.
+
+
 Live link: https://kamil-agmo.github.io/lokali-proto/ (repo kamil-agmo/lokali-proto; push main, GitHub Pages deploys in ~1 min; run tools/stamp-version.py after each version bump).
 
 Host mode (since 0.37.0): Aina is also a host, of "Forest-edge farm walk & kuih morning" on her grandmother's farm in Hulu Langat (no listing is set in a city); switch with the Hosting pill on guest Home (approved hosts) or Switch to guest on host Today. Pak Rahim stays the admin's assisted-onboarding host.

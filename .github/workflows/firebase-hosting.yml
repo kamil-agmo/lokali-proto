@@ -1,0 +1,22 @@
+# Deploys the prototype (app + admin, one site) to Firebase Hosting on every push to main.
+# Needs one repository secret: FIREBASE_SERVICE_ACCOUNT (the JSON key of a service account with the
+# "Firebase Hosting Admin" role in project agmo-desing-2).
+name: Deploy to Firebase Hosting
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}   # skip quietly until the secret is added
+    steps:
+      - uses: actions/checkout@v4
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        if: env.HAS_KEY == 'true'
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: agmo-desing-2
+          channelId: live

@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "site": "agm394-lokali-app",
+    "public": ".",
+    "cleanUrls": true,
+    "ignore": ["firebase.json", ".firebaserc", "**/.*", "**/node_modules/**", ".claude/**", "tools/**", ".github/**"],
+    "headers": [{ "source": "**/*.@(html|js|css)", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }]
+  }
+}
