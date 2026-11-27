@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokali · Host Today: A + B</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 400 14px/20px Inter, system-ui, -apple-system, sans-serif; color: #222; background: #F3F3F1; padding: 24px; }
+  h1 { font-size: 20px; line-height: 26px; } .sub { color: #6A6A6A; margin: 4px 0 24px; max-width: 980px; }
+  .wrap { display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap; }
+  .col { width: 402px; flex: none; } .col > b { display: block; font-size: 15px; } .col > p { font-size: 13px; line-height: 18px; color: #6A6A6A; margin: 4px 0 12px; }
+  .notes { width: 460px; background: #fff; border-radius: 16px; padding: 18px 20px; } .notes h2 { font-size: 16px; margin-bottom: 8px; }
+  .notes li { margin: 5px 0 5px 18px; font-size: 13px; line-height: 19px; } .notes h3 { font-size: 14px; margin: 14px 0 4px; }
+
+  .ph { position: relative; width: 402px; background: #fff; border-radius: 40px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.12); border: 7px solid #111; padding-bottom: 96px; }
+  .sb { position: absolute; z-index: 5; top: 0; left: 0; right: 0; height: 48px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; font-size: 15px; font-weight: 600; color: #fff; }
+  .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .in { padding: 0 24px; }
+
+  /* A: cover with greeting */
+  .cover { position: relative; height: 340px; background: #7f9a82 center / cover; color: #fff; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.4), transparent 30%, transparent 45%, rgba(0,0,0,.6)); }
+  .cover > * { position: relative; z-index: 1; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 60px 24px 0; }
+  .mode { font-size: 13px; font-weight: 600; }
+  .sw { height: 36px; padding: 0 14px; border-radius: 999px; background: #fff; color: #222; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  .cover h2 { position: absolute; left: 24px; right: 24px; bottom: 64px; font-size: 28px; line-height: 33px; font-weight: 700; letter-spacing: -.02em; }
+  .cover p { position: absolute; left: 24px; bottom: 42px; font-size: 15px; opacity: .92; }
+
+  /* next experience floats on the cover edge (like Home's search bar) */
+  .float { position: relative; z-index: 3; margin: -28px 16px 0; padding: 14px 14px 14px 16px; border-radius: 24px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 6px 20px rgba(0,0,0,.08); }
+  .float .r1 { display: flex; align-items: center; gap: 12px; }
+  .float b { display: block; font-size: 16px; line-height: 21px; } .float small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; }
+  .go { margin-left: auto; height: 40px; padding: 0 16px; border-radius: 999px; background: #D7263D; color: #fff; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; flex: none; }
+  .faces { display: flex; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid #EBEBEB; }
+  .faces > span { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; margin-left: -8px; background: #F2F2F2 center / cover; display: grid; place-items: center; font-size: 11px; font-weight: 600; color: #3D3D3D; }
+  .faces > span:first-child { margin-left: 0; } .faces em { font-style: normal; font-size: 13px; color: #6A6A6A; margin-left: 10px; white-space: nowrap; } .alert { color: #B42318; }
+
+  .sh { display: flex; justify-content: space-between; align-items: baseline; margin: 40px 0 14px; } .sh h3 { font-size: 18px; line-height: 24px; font-weight: 700; } .sh a { font-size: 14px; font-weight: 600; color: #1C522C; }
+
+  /* B: coming up strip */
+  .week { display: flex; gap: 10px; overflow: hidden; margin-right: -24px; }
+  .wk { flex: none; width: 78px; padding: 12px 8px 10px; border-radius: 18px; border: 1px solid #EBEBEB; text-align: center; }
+  .wk.on { border-color: #222; } .wk small { display: block; font-size: 12px; color: #6A6A6A; } .wk b { display: block; font-size: 18px; line-height: 24px; margin: 2px 0 8px; }
+  .bar { height: 4px; border-radius: 2px; background: #EBEBEB; overflow: hidden; margin: 0 6px; } .bar i { display: block; height: 100%; background: #222; }
+  .wk em { display: block; font-style: normal; font-size: 12px; color: #6A6A6A; margin-top: 6px; }
+  .wk.off { opacity: .5; }
+
+  /* B: to do */
+  .row { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-top: 1px solid #EBEBEB; } .row:first-of-type { border-top: 0; padding-top: 0; }
+  .row b { display: block; font-size: 15px; line-height: 21px; font-weight: 600; } .row small { display: block; font-size: 13px; line-height: 18px; color: #6A6A6A; } .row .ic { color: #6A6A6A; }
+  .row .chev { margin-left: auto; color: #B0B0B0; width: 16px; height: 16px; }
+
+  /* B: impact band, same pattern as guest Home */
+  .band { position: relative; margin-top: 40px; height: 200px; background: #6f8b74 center / cover; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 24px; }
+  .band::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,1) 0, rgba(255,255,255,0) 22%, transparent 40%, rgba(0,0,0,.62)); }
+  .band > * { position: relative; } .band .k { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .9; margin-bottom: 6px; }
+  .band .nums { display: flex; gap: 28px; } .band b { display: block; font-size: 30px; line-height: 34px; font-weight: 800; } .band b sup { font-size: 14px; vertical-align: 12px; margin-right: 2px; } .band small { font-size: 12px; font-weight: 500; }
+
+  .tabs { position: absolute; z-index: 4; left: 14px; right: 14px; bottom: 18px; height: 62px; border-radius: 999px; background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,.1); display: flex; align-items: center; justify-content: space-around; }
+  .tabs span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; font-weight: 600; color: #6A6A6A; padding: 6px 10px; border-radius: 999px; position: relative; }
+  .tabs span.on { color: #D7263D; background: #FDECEE; } .tabs .bd { position: absolute; top: 0; right: 4px; min-width: 15px; height: 15px; border-radius: 8px; background: #D7263D; color: #fff; font-size: 9px; line-height: 15px; text-align: center; font-style: normal; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-swap" viewBox="0 0 256 256"><path d="M176 40l40 40-40 40M216 80H40M80 216l-40-40 40-40M40 176h176"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 256 256"><path d="M32 88a32 32 0 0 0 0 80v32h192v-32a32 32 0 0 1 0-80V56H32z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 256 256"><path d="M128 24l31 66 72 8-54 49 15 71-64-37-64 37 15-71-54-49 72-8z"/></symbol>
+  <symbol id="i-money" viewBox="0 0 256 256"><rect x="24" y="64" width="208" height="128" rx="12"/><circle cx="128" cy="128" r="28"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 256 256"><path d="M96 48l80 80-80 80"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 256 256"><path d="M24 176h208M64 176a64 64 0 0 1 128 0M128 64V40M70 90 54 74M186 90l16-16"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 256 256"><rect x="40" y="48" width="176" height="168" rx="12"/><path d="M40 96h176M88 32v32M168 32v32"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 256 256"><rect x="48" y="48" width="64" height="64" rx="8"/><rect x="144" y="48" width="64" height="64" rx="8"/><rect x="48" y="144" width="64" height="64" rx="8"/><rect x="144" y="144" width="64" height="64" rx="8"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 256 256"><path d="M128 32a96 96 0 0 0-84 142l-12 42 42-12A96 96 0 1 0 128 32z"/></symbol>
+  <symbol id="i-list" viewBox="0 0 256 256"><path d="M40 64h176M40 128h176M40 192h176"/></symbol>
+</svg>
+
+<h1>Host Today: A's cover + B's sections</h1>
+<p class="sub">Your pick from explore/host-feel.html. All wording is general, so the same screen works for a boat trip, a craft session, a farm day or a multi-day retreat: "experience", not "class"; impact as money given back, not a listing-specific item.</p>
+
+<div class="wrap">
+  <div class="col">
+    <b>Today (host home), full length</b>
+    <p>Drawn at the real 402 px width; the phone shows the whole scroll.</p>
+    <div class="ph">
+      <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+      <div class="cover js-cover">
+        <div class="top"><span class="mode">Hosting · Wed, 2 Dec</span><span class="sw"><svg class="ic" style="width:15px;height:15px"><use href="#i-swap"/></svg>Switch to guest</span></div>
+        <h2>Selamat pagi, Aina</h2>
+        <p>Next experience in 3 days</p>
+      </div>
+      <div class="float">
+        <div class="r1"><div><b>Sat, 5 Dec · 9:00 AM</b><small>6 of 8 guests</small></div><span class="go">Guest list</span></div>
+        <div class="faces"><span class="js-face1"></span><span>PN</span><span>HI</span><em>3 bookings · <span class="alert">1 allergy</span></em></div>
+      </div>
+      <div class="in">
+        <div class="sh"><h3>Coming up</h3><a>Calendar</a></div>
+        <div class="week">
+          <div class="wk on"><small>Sat</small><b>5</b><div class="bar"><i style="width:75%"></i></div><em>6 / 8</em></div>
+          <div class="wk"><small>Sat</small><b>12</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
+          <div class="wk"><small>Sat</small><b>19</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
+          <div class="wk"><small>Sun</small><b>20</b><div class="bar"><i style="width:0"></i></div><em>0 / 8</em></div>
+          <div class="wk off"><small>Sat</small><b><s>26</s></b><div class="bar"></div><em>Blocked</em></div>
+        </div>
+        <div class="sh"><h3>To do</h3></div>
+        <div class="row"><svg class="ic"><use href="#i-ticket"/></svg><div><b>New booking from Hafiz Ismail</b><small>Sat, 5 Dec · 1 guest</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
+        <div class="row"><svg class="ic"><use href="#i-star"/></svg><div><b>Reply to Daniel's review</b><small>Replies show on your listing</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
+        <div class="row"><svg class="ic"><use href="#i-money"/></svg><div><b>RM 408.00 on the way</b><small>Paid Sun, 6 Dec · CIMB •• 3307</small></div><svg class="ic chev"><use href="#i-chev"/></svg></div>
+      </div>
+      <div class="band js-band">
+        <span class="k">Your impact so far</span>
+        <div class="nums"><div><b><sup>RM</sup>90</b><small>given back through your listing</small></div><div><b>11</b><small>guests hosted</small></div></div>
+      </div>
+      <div class="tabs"><span class="on"><svg class="ic"><use href="#i-sun"/></svg>Today</span><span><svg class="ic"><use href="#i-cal"/></svg>Calendar</span><span><svg class="ic"><use href="#i-grid"/></svg>Listings</span><span><svg class="ic"><use href="#i-chat"/></svg>Inbox<i class="bd">1</i></span><span><svg class="ic"><use href="#i-list"/></svg>Menu</span></div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h2>What's on it, and why (MIMS)</h2>
+    <h3>From A</h3>
+    <ul>
+      <li><b>Cover photo</b> = the host's own listing photo (any category). Greeting + "Next experience in 3 days" on it.</li>
+      <li><b>Next experience floats on the cover edge</b>, like Home's search bar: date, time, booked / capacity, Guest list.</li>
+    </ul>
+    <h3>From B</h3>
+    <ul>
+      <li><b>Guest faces</b> in that card: who's coming; dietary or access flags as a count ("1 allergy"), detail on the guest list.</li>
+      <li><b>Coming up</b>: next dates with fill bars, taps to Calendar (capacity per slot, H8). Works for any schedule (weekly, one-off, retreats).</li>
+      <li><b>To do</b>: new bookings, reviews to answer, payout on the way (H14). The payout became a to-do row, so it isn't a separate section.</li>
+      <li><b>Impact band</b>, same pattern as guest Home: money given back through the listing + guests hosted. Every listing has an impact share, so it's true for all hosts.</li>
+    </ul>
+    <h3>General wording</h3>
+    <ul>
+      <li>"Experience", "guests", "given back" everywhere; no class, meals, trees or kuih on Today.</li>
+      <li>RM 90 = 10% of her RM 905 from November's 2 experiences (sample).</li>
+    </ul>
+    <h3>Duplicates checked</h3>
+    <ul>
+      <li>"6 of 8" once (floating card; the strip shows 6 / 8 as a bar for the same date: kept, it's the strip's first tile, selected).</li>
+      <li>Payout once (To do), Earnings keeps the detail.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  var u = function (id, w) { return 'https://images.unsplash.com/photo-' + id + '?w=' + w + '&q=70&auto=format&fit=crop'; };
+  function bg(sel, id, w) { document.querySelectorAll(sel).forEach(function (e) { e.style.backgroundImage = 'url(' + u(id, w) + ')'; }); }
+  bg('.js-cover', '1505471768190-275e2ad7b3f9', 900);
+  bg('.js-band', '1530507629858-e4977d30e9e0', 900);
+  bg('.js-face1', '1613447895817-e617a4093f50', 80);
+</script>
+</body>
+</html>
